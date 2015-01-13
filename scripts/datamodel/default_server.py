@@ -3,9 +3,10 @@
 # Login Information
 #
 #
-server_URL = 'URL'
-server_username = 'username'
-server_password = 'password'
+server_name = '[server]'
+server_URL = '[URL]'
+server_username = '[username]'
+server_password = '[password]'
 # server_proxy_URL format is 'http://USERNAME:PASSWORD@URL:PORTNUMBER'
 #   example is 'http://admin:adminPass@myProxy.com:80'
 server_proxy_URL = ''
@@ -18,7 +19,7 @@ server_proxy_URL = ''
 #
 
 # Data Schema Version to test
-server_schema_version = '1.4.1.0'
+server_schema_version = '1.4.1.1'
 
 # Server Capabilities
 

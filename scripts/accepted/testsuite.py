@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 from wtl.witsml import *
 
-test_suite("Certification test suite version 1.0")
+test_suite("Certification - test plan version 1.0")
 
 run('test1a')
 
@@ -9,7 +9,7 @@ if (get('server_supports_numAPI')):
     run('test1b')
 if (get('server_supports_numGovt')):
     run('test1c')
-	
+
 run('test2')
 run('test3')
 run('test4')
@@ -85,5 +85,5 @@ run('test94e')
 
 
 
-# Execute end() to generate result report
-end(1)
+# Generate result report
+produce_and_reset_results()
