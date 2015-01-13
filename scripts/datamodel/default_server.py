@@ -38,6 +38,8 @@ server_w1_wb1_log1_curves = ['BDEP', 'CURVE1', 'CURVE2', 'CURVE3']
 server_w1_wb1_traj1_uid = 'Energistics-w1-wb1-trajectory-0001'
 server_w1_wb1_traj2_uid = 'Energistics-w1-wb1-trajectory-0002'
 
+server_w1_wb2_uid = 'Energistics-w1-wellbore-0002'
+
 # Well 2
 server_w2_uid = 'Energistics-well-0002'
 server_w2_wb1_uid = 'Energistics-w2-wellbore-0001'

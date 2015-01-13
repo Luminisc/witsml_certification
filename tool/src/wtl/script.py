@@ -393,6 +393,13 @@ class Script:
         self.sub_scripts.append(new_script)
     
     @staticmethod
+    def reset_statistics(): 
+        Script.pass_number = 0
+        Script.fail_number = 0
+        Script.skip_number = 0;
+        Script.inconclusive_number = 0
+    
+    @staticmethod
     def last_test_result():
         """ Return the result of the last script run """
         

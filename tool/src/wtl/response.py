@@ -30,6 +30,7 @@ import sys
 import wtl.testlog
 import wtl.control_prim
 import wtl.utils
+import wtl.config
 from sets import Set 
 from functools import wraps
 from wsvt.SchemaValidator import WITSMLSchemaValidator;
@@ -1901,7 +1902,11 @@ class XMLValue:
         processed_object_string =  self.get_object_name()
         
         document = self.get_original_value()
-        validator = WITSMLSchemaValidator(os.path.join(sys.modules['wsvt'].__path__[0],'schemas'))
+        if (wtl.config.WITSML_files_directory == ''):
+            files_path = sys.modules['wsvt'].__path__[0]
+        else:
+            files_path = wtl.config.WITSML_files_directory
+        validator = WITSMLSchemaValidator(os.path.join(files_path,'schemas'))
         is_valid, message =  validator.validateXMLAgainstWriteSchema(processed_version_string, processed_object_string, document)
         
         if (is_valid):

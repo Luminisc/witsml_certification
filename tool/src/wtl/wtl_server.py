@@ -26,6 +26,7 @@
 # Login Information
 #
 #
+server_name = ''
 server_URL = ''
 server_username = ''
 server_password = ''

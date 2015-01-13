@@ -108,12 +108,13 @@ def write_script_results(output_file, script_list, indent):
                  
         write_script_results(output_file, current_script.sub_scripts, indent+1)
 
-def produce_results():
+def produce_and_reset_results():
     """
     Generate the results obtained in the execution, including the known server
     information, the result for each script file and the summary of tests
     passed and failed.
     Results are stored in the file provided in the WTL configuration 
+    Results are then reset
     
     Parameters:
       Nothing
@@ -140,3 +141,5 @@ def produce_results():
     output_file.write("Skipped     %5d\n" %(wtl.script.Script.skip_number))
       
     output_file.close()
+    
+    wtl.script.Script.reset_statistics()

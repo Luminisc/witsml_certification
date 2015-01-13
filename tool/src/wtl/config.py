@@ -24,9 +24,19 @@
 import sys
 import os
      
-# Load configuration form the WTL module's master file
-master_config_file = os.path.join(sys.modules['wtl'].__path__[0],'wtl_cfg.py')
-execfile(master_config_file)
+#Default configuration
+server_file_directory = '.'
+server_file_name = 'default_server'
+script_directories = ['.']
+result_directory = '.\\results'
+result_filename = "witsml_result.txt"
+log_responses = True
+log_requests = False
+enable_schema_validation = False
+result_format = 'text'
+stop_on_failure = False    
+WITSML_files_directory = ''
+auto_start = True
 
 # If a local configuration file exists, overwrite configuration parameters from there
 local_config_file = os.path.join(os.getcwd(),'wtl_cfg.py')
@@ -42,6 +52,10 @@ sys.path.insert(0,server_file_directory)
 for option in sys.argv:
     if (option[:2] == '-s'):
         server_file_name = option[2:]
+    elif (option == '-a'):
+        auto_start = True
+    elif (option == '-A'):
+        auto_start = False
     elif (option == '-l'):
         log_responses = True
     elif (option == '-L'):

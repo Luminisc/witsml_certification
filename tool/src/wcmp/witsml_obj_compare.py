@@ -406,7 +406,8 @@ def doesCollectionItemsHaveUIDKey( col1, col2 ):
         if not ( "uid" in i.attrib ):
             return False;
     return True;
-
+    
+    
 def doesCollectionItemsHaveKey( col1, col2 , key ):
     """
     summary: 
@@ -428,7 +429,18 @@ def doesCollectionItemsHaveKey( col1, col2 , key ):
         if not ( key in i.__dict__ ):
             return False;
     return True;
-        
+    
+def orderCollectionSimple( col ):
+    nd = {}
+    for c in col:
+        nd[c.text] = c;
+    rez = [];
+    for k,v in sorted(dict.iteritems(nd)):
+        rez.append(v);
+    return rez;
+    
+    
+    
 def orderCollection( tp , unordered_original ,unordered_inspected , report, space , diff_only , current_path  ):
     """
     summary: 
@@ -451,18 +463,31 @@ def orderCollection( tp , unordered_original ,unordered_inspected , report, spac
     key = None; 
     if ( doesCollectionItemsHaveUIDKey( unordered_original , unordered_inspected ) ):
         key = "uid";
-    #
-    #
+
     rez_original = [];
     rez_inspected = [];
     #
     if key is None:    
         #
-        for k in unordered_original:
-            rez_original.append(k);
-        #
-        for k in unordered_inspected:
-            rez_inspected.append(k);
+        if tp._IsSimpleTypeContent():
+            
+            
+            rez_original = orderCollectionSimple(unordered_original);
+            rez_inspected = orderCollectionSimple(unordered_inspected);
+            """
+            for k in unordered_original:
+                print k.text;
+            
+            for k in unordered_inspected:
+                rez_inspected.append(k);
+            """
+            
+        else:
+            for k in unordered_original:
+                rez_original.append(k);
+            #
+            for k in unordered_inspected:
+                rez_inspected.append(k);
         #
         #
     else:        

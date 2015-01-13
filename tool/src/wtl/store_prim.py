@@ -34,6 +34,7 @@ import testlog
 import response
 import wtl.capability
 import wtl.globals
+import wtl.config
 import log_verify
 from wsvt.SchemaValidator import WITSMLSchemaValidator;
 
@@ -120,7 +121,11 @@ class WITSMLServer:
                            example: 'http://userName:passworkd@myProxy.com:80'
         """
 
-        wsdl_file = os.path.join(sys.modules['wtl'].__path__[0], "WMLS.WSDL")
+        if (wtl.config.WITSML_files_directory == ''):
+            files_path = sys.modules['wtl'].__path__[0]
+        else:
+            files_path = wtl.config.WITSML_files_directory
+        wsdl_file = os.path.join(files_path, "WMLS.WSDL")
         t = HttpAuthenticated(username=username, password=password)
         WITSMLServer.client = Client("file:" + wsdl_file, transport=t, location=url)
         WITSMLServer.client.set_options(headers={'User-Agent':'WITSML-Test-Library/1.0'})
@@ -491,20 +496,19 @@ class WITSMLServer:
         return True
 
     @staticmethod
-    def init():
+    def start_server_session():
         """
-        Initialize the WITSML store interface by connecting to the WITSML
-        server and retrieving the schema versions supported (via 
+        Connects to the WITSML
+        server and retrieves the schema versions supported (via 
         WMLS_GetVersion) and the server capabilities for all the schema 
         versions supported (via WMLS_GetCap)
         
         The server information retrieved is saved in global variables       
-        """
 
-        if (wtl.config.enable_schema_validation):
-            global validator
-            validator = WITSMLSchemaValidator(os.path.join(sys.modules['wsvt'].__path__[0],'schemas'))
-        
+        Returns:
+          False if it cannot retrieve the server schema versions supported
+          True otherwise
+        """
         WITSMLServer.connect(utils.get_variable_value('server_URL'),
                 utils.get_variable_value('server_username'),
                 utils.get_variable_value('server_password'),
@@ -519,7 +523,7 @@ class WITSMLServer:
             wtl.globals.set(wtl.globals.GBL_SERVER_SCHEMA_VERSIONS, WITSMLServer.result.get().split(','))
         else:
             testlog.wtl_log("!!!Fatal Error - Cannot get schema versions supported by the server")
-            exit(1);
+            return False
 
         # Save the server capabilities
         schema_version = wtl.utils.get_variable_value('server_schema_version')
@@ -530,4 +534,23 @@ class WITSMLServer:
                 testlog.wtl_log("!!!WARNING - Cannot get capabilities from the server for schema version %s" %(schema_version))
         else:
             testlog.wtl_log("!!!WARNING - Schema version for testing IS NOT supported by the server")
-            
+
+        return True
+    
+    @staticmethod
+    def init():
+        """
+        Initialize the WITSML store by creating a schema validator and 
+        starting a session with the server       
+        """
+
+        global validator
+        if (wtl.config.WITSML_files_directory == ''):
+            files_path = sys.modules['wsvt'].__path__[0]
+        else:
+            files_path = wtl.config.WITSML_files_directory
+        validator = WITSMLSchemaValidator(os.path.join(files_path,'schemas'))
+        
+        if (wtl.config.auto_start):
+            if (not WITSMLServer.start_server_session()):
+                exit(1);

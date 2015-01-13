@@ -311,6 +311,7 @@ get_ElapseTimeInSeconds_float = store_prim.WITSMLServer.elapse_time_in_seconds.g
 #############################
 
 get_capability = wtl.globals.get_capability
+is_function_supported_for_object = wtl.globals.is_function_object_supported
 
 #####################
 #                   #
@@ -376,7 +377,7 @@ pause_for_growingTimeoutPeriod = control_prim.pause_growingTimeoutPeriod
 run = control_prim.run
 get_last_test_result = control_prim.get_last_test_result
 end = control_prim.end
-
+produce_and_reset_results = results.produce_and_reset_results
 
 #######################
 #                     #
@@ -390,6 +391,9 @@ logging_on = testlog.logging_on
 logging_off = testlog.logging_off
 log = testlog.log
 log_variable = utils.log_variable_value
+
 def log_server_info():
     testlog.wtl_log(results.get_server_info_string())
 new_object_created = utils.new_object  
+
+start_session = store_prim.WITSMLServer.start_server_session

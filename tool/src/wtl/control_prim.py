@@ -40,9 +40,8 @@ def end(code):
       code: Exit code to use when terminating program execution
     """
     
-    wtl.results.produce_results()
     sys.exit(code)
-
+    
 def test(purpose, reference, reference_text, parameters=[]):
     """
     Set the Test Script information
@@ -114,8 +113,6 @@ def fail(fail_string):
     """
     
     wtl.script.Script.get_current_script().fail(fail_string)
-    if (wtl.config.stop_on_failure):
-        end(-1)
         
 def partial_success(success_string):
     """
