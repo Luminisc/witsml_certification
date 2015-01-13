@@ -262,7 +262,7 @@ set('log_xml',"""
         <logCurveInfo uid="lci-16">
             <mnemonic>Pump p avg</mnemonic>
             <classWitsml>pressure at pump (average)</classWitsml>
-            <unit>galUS/min</unit>
+            <unit>lbf/in2</unit>
             <mnemAlias>presPumpAv</mnemAlias>
             <nullValue>-999.25</nullValue>
             <minIndex uom="m">499</minIndex>
@@ -314,7 +314,7 @@ set('log_xml',"""
         <logCurveInfo uid="lci-20">
             <mnemonic>DXC</mnemonic>
             <classWitsml>drilling exponent (corrected)</classWitsml>
-            <unit>unitless</unit>
+            <unit>Euc</unit>
             <mnemAlias>dxc</mnemAlias>
             <nullValue>-999.25</nullValue>
             <minIndex uom="m">499</minIndex>
@@ -339,7 +339,7 @@ set('log_xml',"""
         </logCurveInfo>
         <logData>
             <mnemonicList>Mdepth,Vdepth,Bit Dist,TQ on btm,TQ off btm,ROP,WOP,HKLD,Surf RPM,Mtr RPM,Avg TQ,Max TQ,Min TQ,MaxMin TQ1,MaxMin TQ2,Pump p avg,Mud D avg,Mud Temp avg,Bit RPM,DXC,ECD</mnemonicList>
-            <unitList>m,m,m,kft.lbf,kft.lbf,m/h,klbf,klbf,rpm,rpm,kft.lbf,kft.lbf,kft.lbf,kft.lbf,galUS/min,galUS/min,g/cm3,degC,rpm,,g/cm3</unitList>
+            <unitList>m,m,m,kft.lbf,kft.lbf,m/h,klbf,klbf,rpm,rpm,kft.lbf,kft.lbf,kft.lbf,kft.lbf,galUS/min,lbf/in2,g/cm3,degC,rpm,Euc,g/cm3</unitList>
             <data>499,498.99,1.25,0,1.45,3.67,11.02,187.66,0.29,116.24,0.01,0.05,0.01,0,886.03,1089.99,1.11,14.67,0.29,1.12,1.11</data>
             <data>500.01,500,1.9,0.01,1.42,9.94,11.32,185.7,0.29,116.24,0.01,0.01,0.01,0,795.19,973.48,1.11,14.67,0.29,0.95,1.11</data>
             <data>501.03,501.02,2.92,0.02,1.41,20.46,11.62,184.23,0.29,120,0.01,0.01,0.01,0,796.68,956.25,1.11,14.67,0.29,0.83,1.11</data>
