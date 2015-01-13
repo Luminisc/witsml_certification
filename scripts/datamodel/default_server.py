@@ -1,32 +1,31 @@
 #
-# SERVER PARAMETERS
 #
-
-# Server identification
-
-server_name = 'Generic Server'
-
 # Login Information
-
+#
+#
 server_URL = 'URL'
 server_username = 'username'
 server_password = 'password'
+# server_proxy_URL format is 'http://USERNAME:PASSWORD@URL:PORTNUMBER'
+#   example is 'http://admin:adminPass@myProxy.com:80'
+server_proxy_URL = ''
 
 
-# Server capabilities
-
-server_supports_numAPI = True
-server_supports_numGovt = True
+#
+#
+# Server Parameters
+#
+#
 
 # Data Schema Version to test
 server_schema_version = '1.4.1.0'
 
-#If True, outputs response for GetVersion(), GetCap(), and GetFromStore()
-#log_responses = True
+# Server Capabilities
 
-#
-# WITSML DATA
-#
+server_supports_numAPI = True
+server_supports_numGovt = True
+
+# Data Model
 
 # Well 1
 server_w1_uid = 'Energistics-well-0001'

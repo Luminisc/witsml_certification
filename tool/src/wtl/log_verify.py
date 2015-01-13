@@ -65,6 +65,9 @@ class LogVerify:
             Parameters:
               verbose: output messages 
               strict:  if true, run extra validation, false if not        
+
+            Returns:
+              True if all pass, or False otherwise        
         """   
         self._test_full_log_private(verbose, strict)  
     
@@ -73,6 +76,9 @@ class LogVerify:
             Parameters:
               verbose: output messages 
               strict:  if true, run extra validation, false if not             
+                     
+           Returns:
+              True if all pass, or False otherwise          
         """   
         self._test_header_only_log(verbose, strict)         
      
@@ -83,6 +89,9 @@ class LogVerify:
               numberOfExpectedValues: expected number of values
               verbose: output messages 
               strict:  if true, run extra validation, false if not        
+
+           Returns:
+              True if all pass, or False otherwise          
         """   
         self._test_requestLatestValues_full_log_private(numberOfExpectedValues, verbose, strict)    
      
@@ -260,14 +269,34 @@ class LogVerify:
             _set( 'indexType', self._get_XMLout_Element_String('logs/log[$logIndex$]/indexType'))
             
             if self._isTimeBasedLog(_get( 'indexType')) == False:
-               _set( 'startIndex', float(self._get_XMLout_Element_String('logs/log[$logIndex$]/startIndex')))
-               _set( 'startIndexUom', self._get_XMLout_Attribute_String( 'logs/log[$logIndex$]/startIndex', 'uom' ) )
-               _set( 'endIndex', float(self._get_XMLout_Element_String('logs/log[$logIndex$]/endIndex')))
-               _set( 'endIndexUom', self._get_XMLout_Attribute_String( 'logs/log[$logIndex$]/endIndex', 'uom' ) )
+               startIndexString = self._get_XMLout_Element_String('logs/log[$logIndex$]/startIndex')
+               if ( startIndexString is not None ):
+                   _set( 'startIndex', float(startIndexString))
+                   _set( 'startIndexUom', self._get_XMLout_Attribute_String( 'logs/log[$logIndex$]/startIndex', 'uom' ) )
+               else:
+                   self._Fail("setup", "startIndex is not defined")
+                   return False
+               endIndexString = self._get_XMLout_Element_String('logs/log[$logIndex$]/endIndex')
+               if ( endIndexString is not None ):
+                   _set( 'endIndex', float(endIndexString))
+                   _set( 'endIndexUom', self._get_XMLout_Attribute_String( 'logs/log[$logIndex$]/endIndex', 'uom' ) )
+               else:
+                   self._Fail("setup", "endIndex is not defined")  
+                   return False                   
                _set( 'stepIncrement', self._get_XMLout_Element_String( 'logs/log[$logIndex$]/stepIncrement') )
             else:
-               _set( 'startDateTimeIndex', self._get_XMLout_Element_String('logs/log[$logIndex$]/startDateTimeIndex'))
-               _set( 'endDateTimeIndex', self._get_XMLout_Element_String('logs/log[$logIndex$]/endDateTimeIndex'))
+               startIndexString = self._get_XMLout_Element_String('logs/log[$logIndex$]/startDateTimeIndex')
+               if ( startIndexString is not None ):                
+                   _set( 'startDateTimeIndex', startIndexString)
+               else:
+                   self._Fail("setup", "startDateTimeIndex is not defined")
+                   return False                         
+               endIndexString = self._get_XMLout_Element_String('logs/log[$logIndex$]/endDateTimeIndex')   
+               if ( endIndexString is not None ):                               
+                   _set( 'endDateTimeIndex', endIndexString)
+               else:
+                   self._Fail("setup", "endDateTimeIndex is not defined")
+                   return False                                   
                 
             _set( 'direction', self._get_XMLout_Element_String('logs/log[$logIndex$]/direction'))
             if _get('direction') is None:

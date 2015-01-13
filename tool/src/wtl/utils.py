@@ -555,9 +555,16 @@ def datetime_to_iso(date_time, preserve_timezone=True):
 
 def new_object(object_type, uid, uidWellbore="", uidWell=""):
     """
-    Temp holding function
-    This function will log the addition of objects to the server so they can be cleaned up
-    For now just print
+    logs the addition of objects to the server so they can be cleaned up. For now, just print.
+        
+    Parameters:
+      object_type : The WITSML object type. Eg: WMLTYPEIN_LOG
+      uid         : The new object's unique identifier
+      uidwellbore : If object is a child of a wellbore, the wellbore's unique identifier
+      uidWell     : If object is a child of a well, the well's unique identifier
+          
+    Return:
+      Nothing.
     """
     wtl.testlog.wtl_log('ADDED OBJECT ' + object_type + ': uid=' + process_string(uid) + " ", force=True,  no_new_line=True)
     if uidWellbore:

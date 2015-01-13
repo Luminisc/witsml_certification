@@ -38,6 +38,57 @@ from wsvt.SchemaValidator import WITSMLSchemaValidator;
 
 validator = None
 
+
+
+
+
+#******************************************************************************
+#
+# Helper Functions
+#
+def formatHTTPError( exception_instance ):
+    """
+    formats HTTP exception as string error code and message 
+    
+    Parameters:
+        Exception Instance that been raised by suds call
+      
+    Return:
+        String representation of exception 
+    """
+    
+    code, status = exception_instance[0];
+    return " HTTP ERROR #"+str(code)+" '"+str( status )+"'"
+
+def formatUserFriendlyHTTPError( exception_instance ):
+    """
+    formats HTTP exception in used friendly way
+    
+    Parameters:
+        Exception Instance that been raised by suds call
+      
+    Return:
+        User Friendly string representation of exception 
+    """
+    
+    try:
+        code, status = exception_instance[0];
+    except:
+        return "Unhandled Exception Occured :" + str(exception_instance) ;
+    if   ( code == 400 ): return "Bad Request :" + formatHTTPError(exception_instance) 
+    elif ( code == 401 ): return "Unauthorized (Invalid Store Credentials?) :" + formatHTTPError(exception_instance) 
+    elif ( code == 402 ): return "Payment Required :" + formatHTTPError(exception_instance) ;
+    elif ( code == 403 ): return "Forbidden (Invalid Store Credentials?) :" + formatHTTPError(exception_instance) ;
+    elif ( code == 404 ): return "Not Found (Invalid WITSML Store URL?) :" + formatHTTPError(exception_instance) ;
+    elif ( code == 405 ): return "Method Not Allowed (Is it a WITSML Store URL?) :" + formatHTTPError(exception_instance) ;
+    elif ( code == 406 ): return "Not Acceptable :" + formatHTTPError(exception_instance) ;
+    elif ( code == 407 ): return "Proxy Authentication Required :" + formatHTTPError(exception_instance) ;
+    elif ( code == 408 ): return "Request Timeout :" + formatHTTPError(exception_instance) ;
+    elif ( code == 409 ): return "Conflict :" + formatHTTPError(exception_instance) ;
+    else : "HTTP Error Occurred :" + formatHTTPError(exception_instance) ;
+
+
+
 #******************************************************************************
 #
 # WITSML server interface
@@ -119,9 +170,13 @@ class WITSMLServer:
         versions = None
         try:
             versions = WITSMLServer.client.service.WMLS_GetVersion()
-        except:
-            WITSMLServer.log_store_result('Failed')
+        except Exception, exception_instance:
+            WITSMLServer.log_store_result('Failed - '+str(formatUserFriendlyHTTPError(exception_instance)))
             return False
+        except:
+            WITSMLServer.log_store_result('Failed - unhandled exception occurred '+str(sys.exc_info()[0]))
+            return False
+        
 
         WITSMLServer.log_store_result('Response received')
         WITSMLServer.result.set(versions, log='Return Result')
@@ -146,8 +201,11 @@ class WITSMLServer:
         WITSMLServer.clear_response()
         try:
             reply = WITSMLServer.client.service.WMLS_GetCap(utils.encode_options_in(OptionsIn))
+        except Exception, exception_instance:
+            WITSMLServer.log_store_result('Failed - '+str(formatUserFriendlyHTTPError(exception_instance)))
+            return False
         except:
-            WITSMLServer.log_store_result('Failed')
+            WITSMLServer.log_store_result('Failed - unhandled exception occurred '+str(sys.exc_info()[0]))
             return False
         if reply:
             WITSMLServer.log_store_result("Response received")
@@ -193,8 +251,11 @@ class WITSMLServer:
         WITSMLServer.clear_response()
         try:
             reply = WITSMLServer.client.service.WMLS_AddToStore(WMLtypeIn, utils.process_string(XMLin), utils.encode_options_in(OptionsIn), CapabilitiesIn)
+        except Exception, exception_instance:
+            WITSMLServer.log_store_result('Failed - '+str(formatUserFriendlyHTTPError(exception_instance)))
+            return False
         except:
-            WITSMLServer.log_store_result('Failed')
+            WITSMLServer.log_store_result('Failed - unhandled exception occurred '+str(sys.exc_info()[0]))
             return False
         if reply:
             WITSMLServer.log_store_result("Response received")
@@ -239,8 +300,11 @@ class WITSMLServer:
         WITSMLServer.clear_response()
         try:
             reply = WITSMLServer.client.service.WMLS_DeleteFromStore(WMLtypeIn, utils.process_string(QueryIn), utils.encode_options_in(OptionsIn), CapabilitiesIn)
+        except Exception, exception_instance:
+            WITSMLServer.log_store_result('Failed - '+str(formatUserFriendlyHTTPError(exception_instance)))
+            return False
         except:
-            WITSMLServer.log_store_result('Failed')
+            WITSMLServer.log_store_result('Failed - unhandled exception occurred '+str(sys.exc_info()[0]))
             return False
         if reply:
             WITSMLServer.log_store_result("Response received")
@@ -284,8 +348,11 @@ class WITSMLServer:
         WITSMLServer.clear_response()
         try:
             reply = WITSMLServer.client.service.WMLS_GetFromStore(WMLtypeIn, utils.process_string(QueryIn), utils.encode_options_in(OptionsIn), CapabilitiesIn)
+        except Exception, exception_instance:
+            WITSMLServer.log_store_result('Failed - '+str(formatUserFriendlyHTTPError(exception_instance)))
+            return False
         except:
-            WITSMLServer.log_store_result('Failed')
+            WITSMLServer.log_store_result('Failed - unhandled exception occurred '+str(sys.exc_info()[0]))
             return False
         if reply:
             WITSMLServer.log_store_result("Response received")
@@ -347,8 +414,11 @@ class WITSMLServer:
         WITSMLServer.clear_response()
         try:
             reply = WITSMLServer.client.service.WMLS_UpdateInStore(WMLtypeIn, utils.process_string(XMLin), utils.encode_options_in(OptionsIn), CapabilitiesIn)
+        except Exception, exception_instance:
+            WITSMLServer.log_store_result('Failed - '+str(formatUserFriendlyHTTPError(exception_instance)))
+            return False
         except:
-            WITSMLServer.log_store_result('Failed')
+            WITSMLServer.log_store_result('Failed - unhandled exception occured '+str(sys.exc_info()[0]))
             return False
         if reply:
             WITSMLServer.log_store_result("Response received")
@@ -379,8 +449,11 @@ class WITSMLServer:
         WITSMLServer.clear_response()
         try:
             message = WITSMLServer.client.service.WMLS_GetBaseMsg(ReturnValueIn)
+        except Exception, exception_instance:
+            WITSMLServer.log_store_result('Failed - '+str(formatUserFriendlyHTTPError(exception_instance)))
+            return False
         except:
-            WITSMLServer.log_store_result('Failed')
+            WITSMLServer.log_store_result('Failed - unhandled exception occurred '+str(sys.exc_info()[0]))
             return False
     
         WITSMLServer.log_store_result("Response received")
@@ -415,7 +488,8 @@ class WITSMLServer:
         if (WITSMLServer.get_version()):
             wtl.globals.set(wtl.globals.GBL_SERVER_SCHEMA_VERSIONS, WITSMLServer.result.get().split(','))
         else:
-            testlog.wtl_log("!!!WARNING - Cannot get schema versions supported by the server")
+            testlog.wtl_log("!!!Fatal Error - Cannot get schema versions supported by the server")
+            exit(1);
 
         # Save the server capabilities
         schema_version = wtl.utils.get_variable_value('server_schema_version')

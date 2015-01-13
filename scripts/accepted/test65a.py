@@ -31,7 +31,6 @@ WMLS_GetFromStore(WMLTYPEIN_WELL,"""
                   """,OptionsIn={'returnElements':'all'})  
 check_ReturnValue_Success()
 set ("dTim", get_XMLout_Element_String("dTimCreation"))
-set("dTimLastChange", get_XMLout_Element_String("dTimLastChange"))
 
 ##Use UpdateInStore to update the well object's dTimCreation to 5 seconds greater than the original.
 set('st', timestamp_add_seconds(get('dTim'), 5))
@@ -56,9 +55,6 @@ check_ReturnValue_Success()
 
 ##Verify the dTimCreation has not changed between the two standard queries.
 check_XMLout_ElementValue("dTimCreation","$dTim$")
-
-##Verify the dTimLastChange has not changed between the two standard queries.
-check_XMLout_ElementValue("dTimLastChange","$dTimLastChange$")
 
 partial_success("Server ignored attempt to change dTimCreation.")
 log('Script test procedure end')

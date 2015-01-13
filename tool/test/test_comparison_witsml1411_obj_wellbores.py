@@ -395,6 +395,10 @@ class Test(unittest.TestCase):
         self.assertFalse( result );
         
     def test_witsml_wellbore_removed_element(self):
+        result, report = witsml_obj_compare.witsml1411_compare_obj_wellbores( XML_WELLBORE , XML_WELLBORE_REMOVED_ELEMENT, True ) 
+        print ">>>>>>>>>>"
+        print report;
+        print "---"
         result, report = witsml_obj_compare.witsml1411_compare_obj_wellbores( XML_WELLBORE , XML_WELLBORE_REMOVED_ELEMENT ) 
         f = open("reports/wellbore/repo_wellbore_removed_element.html","w") ; 
         f.write(report);

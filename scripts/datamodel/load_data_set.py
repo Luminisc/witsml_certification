@@ -51,6 +51,19 @@ WMLS_AddToStore(WMLTYPEIN_WELL, """<?xml version="1.0" encoding="utf-8"?>
                                          <purposeWell>exploration</purposeWell>
                                          <dTimSpud>2001-05-31T08:15:00Z</dTimSpud>
                                          <dTimPa>2001-07-15T15:30:00Z</dTimPa>
+                                         <wellCRS uid="proj1">
+                                             <name>ED50 / UTM Zone 31N</name>
+                                             <mapProjection>
+                                                 <nameCRS namingSystem="epsg">ED50 / UTM Zone 31N</nameCRS>
+                                                 <NADType>unknown</NADType>
+                                             </mapProjection>
+                                         </wellCRS>
+                                         <wellCRS uid="geog1">
+                                            <name>ED50</name>
+                                            <geographic>
+                                                <nameCRS namingSystem="epsg">ED50</nameCRS>
+                                            </geographic>
+                                         </wellCRS>
                                       </well>
                                    </wells>""")  
 check_ReturnValue_Success()
@@ -253,7 +266,7 @@ WMLS_AddToStore(WMLTYPEIN_TRAJECTORY, """<?xml version="1.0" encoding="UTF-8"?>
     </trajectory>
 </trajectorys>
 """)
-
+check_ReturnValue_Success()
 
 partial_success("Added server_w1_wb1_traj1_uid successfully")
 
@@ -274,7 +287,7 @@ WMLS_AddToStore(WMLTYPEIN_TRAJECTORY, """<?xml version="1.0" encoding="UTF-8"?>
         <aziVertSect uom="dega">82.700</aziVertSect>
         <dispNsVertSectOrig uom="ft">0</dispNsVertSectOrig>
         <dispEwVertSectOrig uom="ft">0</dispEwVertSectOrig>
-        <definitive>true</definitive>
+        <definitive>false</definitive>
         <memory>true</memory>
         <finalTraj>true</finalTraj>
         <aziRef>grid north</aziRef>
@@ -359,7 +372,7 @@ WMLS_AddToStore(WMLTYPEIN_TRAJECTORY, """<?xml version="1.0" encoding="UTF-8"?>
     </trajectory>
 </trajectorys>
 """)
-
+check_ReturnValue_Success()
 partial_success("Added server_w1_wb1_traj2_uid successfully")
 
 # server_w1_wb2_uid

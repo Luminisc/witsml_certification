@@ -243,6 +243,7 @@ check_CapabilitiesOut_AttributeValueIsContained = store_prim.WITSMLServer.capabi
 check_XMLout_String = store_prim.WITSMLServer.xml_out.check_string
 check_XMLout_DoesNotContain = store_prim.WITSMLServer.xml_out.check_string_does_not_contain
 check_XMLout_XMLString = store_prim.WITSMLServer.xml_out.check_xml_string
+check_XMLout_XMLNormalizedString = store_prim.WITSMLServer.xml_out.check_xml_normalized_string
 check_XMLout_ElementIncluded = store_prim.WITSMLServer.xml_out.check_element_included
 check_XMLout_ElementNotIncluded = store_prim.WITSMLServer.xml_out.check_element_not_included
 check_XMLout_ElementValue = store_prim.WITSMLServer.xml_out.check_element_value

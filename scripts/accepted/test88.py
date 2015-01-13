@@ -58,12 +58,17 @@ WMLS_AddToStore(WMLTYPEIN_LOG, """<?xml version="1.0" encoding="UTF-8"?>
                                            <unit>m/h</unit>
                                            <typeLogData>int</typeLogData>
                                          </logCurveInfo>
+                                         <logCurveInfo uid='CURVE288'>
+                                           <mnemonic>CURVE288</mnemonic>
+                                           <unit>m/h</unit>
+                                           <typeLogData>int</typeLogData>
+                                         </logCurveInfo>
                                          <logData>
-                                           <mnemonicList>BDEP88,CURVE188</mnemonicList>
-                                           <unitList>m,m/h</unitList>
-                                           <data>100,10</data>
-                                           <data>200,20</data>
-                                           <data>300,30</data>
+                                           <mnemonicList>BDEP88,CURVE188,CURVE288</mnemonicList>
+                                           <unitList>m,m/h,m/h</unitList>
+                                           <data>100,10,40</data>
+                                           <data>200,20,50</data>
+                                           <data>300,30,60</data>
                                          </logData>
                                        </log>
                                      </logs>
@@ -84,7 +89,7 @@ WMLS_GetFromStore(WMLTYPEIN_LOG,
                   """ ,OptionsIn={'returnElements':'all'} )
 check_ReturnValue_Success()
 
-check_XMLout_RecurringElementValue('logs/log/logCurveInfo/mnemonic', ['CURVE188','BDEP88'])
+check_XMLout_RecurringElementValue('logs/log/logCurveInfo/mnemonic', ['CURVE188','CURVE288','BDEP88'])
 partial_success("GetFromStore contains a log with all the expected curves.")
 
 #Use DeleteFromStore specifying a curve mnemonic to be deleted
@@ -107,7 +112,7 @@ WMLS_GetFromStore(WMLTYPEIN_LOG,
                   """ ,OptionsIn={'returnElements':'all'} )
 check_ReturnValue_Success()
 
-check_XMLout_RecurringElementValue('logs/log/logCurveInfo/mnemonic', ['BDEP88'])
+check_XMLout_RecurringElementValue('logs/log/logCurveInfo/mnemonic', ['BDEP88','CURVE288'])
 partial_success("GetFromStore contains a log without deleted curve.")
 
 #Check the log integrity

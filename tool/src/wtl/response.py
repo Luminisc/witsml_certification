@@ -30,6 +30,7 @@ import wtl.control_prim
 import wtl.utils
 from sets import Set 
 from functools import wraps
+import wcmp.witsml_obj_compare
 
 #******************************************************************************
 #
@@ -41,8 +42,9 @@ def remove_spaces_from_xml_string(s):
     
     Paramaters:
       s: String to be processed
+      
     Return:
-      String after removing balnk spaces
+      String after removing blank spaces
     """
 
     parser = etree.XMLParser(remove_blank_text=True)
@@ -173,10 +175,13 @@ class ReturnValue:
         
     def check_value(self, expected_value):
         """
-        Compare the stored values with the expected value
+        Check the stored value matches the expected value
         
         Parameters:
           expected_value: Return value to compare against.
+                          This string can contain variable substitutions ($...$),
+                          file substitutions (#...#) and  conditional substitutions
+                          (^...?...:...^)
         
         Return:
           Nothing. Fail control primitive is called if check fails
@@ -196,11 +201,13 @@ class ReturnValue:
 
     def check_string(self, expected_string):
         """
-        Compare the stored values with the expected string
+        Check the stored value matches the expected string
         
         Parameters:
           expected_string: String to compare against.
-          String can contain regular expressions and special WTL constructs
+                           This string can contain variable substitutions ($...$),
+                           file substitutions (#...#) and  conditional substitutions
+                           (^...?...:...^)
         
         Return:
           Nothing. Fail control primitive is called if check fails
@@ -214,7 +221,9 @@ class ReturnValue:
         
         Parameters:
           expected_substring: String segment to search in the value
-          Substring can contain regular expressions and special WTL constructs
+          					  This string can contain variable substitutions ($...$),
+                              file substitutions (#...#) and  conditional substitutions
+                              (^...?...:...^)
         
         Return:
           Nothing. Fail control primitive is called if check fails
@@ -487,14 +496,15 @@ class XMLValue:
         """
         Get a list of the the text of all the recurring elements from the XML
         tree with the corresponding tag, keyTag and desiredTag.
-        The first recurring element list  in the document with the tag is
+        The first recurring element list in the document with the tag is
         returned
         
         Parameters:
-          tag:     The element's tag
-          keyList: The list of key values that will determine the order of the return desired values
-          keyTag:  The key that represents the keyList
-          desiredTag  the column name that will determine the values returned
+          tag       : The element's tag
+          keyList   : The list of key values that will determine the order of the returned desired values
+          keyTag    : The key that represents the keyList
+          desiredTag: The column name that will determine the values returned
+          
         Return:
           A list with the text of all elements with the tag if found,
           otherwise 'None'
@@ -516,9 +526,9 @@ class XMLValue:
     
     def get_recurring_element_list(self, tag, _object_index=None):
         """
-        Get a list of the the text of all the recurring elements from the XML
+        Get a list of the text of all the recurring elements from the XML
         tree with the corresponding tag.
-        The first recurring element list  in the document with the tag is
+        The first recurring element list in the document with the tag is
         returned
         
         Parameters:
@@ -559,7 +569,6 @@ class XMLValue:
             
         return len(self.root)
 
-
     def get_latest_dTimChange(self):
         """
         Get the dTimChange of the changeHistory element with the latest dTimChange
@@ -591,11 +600,24 @@ class XMLValue:
             response_fail("Cannot check Result")
 
     def check_string(self, expected_xml_string):           
+        """
+        Check the stored value contains the substring
+        
+        Parameters:
+          expected_xml_string: String segment to determine as present in value
+          expected_xml_string cannot contain regex 
+          expected_xml_string can contain variable substitutions ($...$),
+            file substitutions (#...#) and  conditional substitutions
+            (^...?...:...^)
+        
+        Return:
+          Nothing. Fail control primitive is called if check fails
+        """
         self.check_value_is_set()
 
         processed_expected_xml_string = wtl.utils.process_string(expected_xml_string)
         if (not processed_expected_xml_string):
-            response_fail("Bad expected sting in check primitive")
+            response_fail("Bad expected string in check primitive")
      
         log_response_action("verifying value against '%s'" %(processed_expected_xml_string))
     
@@ -605,20 +627,22 @@ class XMLValue:
             log_response_result("Not Ok")
             log_response_message("Expected: %s\n    Received: %s" % (processed_expected_xml_string, self.value))
             response_fail("Bad value received")
-                  
-        
+         
     def check_string_does_not_contain(self, unexpected_substring):
         """
         Check the stored value does not contain the substring
         
         Parameters:
           unexpected_substring: String segment to determine as not present in value
-          Substring cannot contain regex 
-          Substring can contain special WTL constructs
+          unexpected_substring cannot contain regex 
+          unexpected_substring can contain variable substitutions ($...$),
+            file substitutions (#...#) and  conditional substitutions
+            (^...?...:...^)
         
         Return:
           Nothing. Fail control primitive is called if check fails
         """
+        
         self.check_value_is_set()
             
         processed_substring = wtl.utils.process_string(unexpected_substring)
@@ -633,6 +657,20 @@ class XMLValue:
             
 
     def check_xml_string(self, expected_xml_string):
+        """
+        Check the stored value contains the expected string
+        
+        Parameters:
+          expected_xml_string: XML string segment to determine as present in value
+          expected_xml_string cannot contain regex 
+          expected_xml_string can contain variable substitutions ($...$),
+            file substitutions (#...#) and  conditional substitutions
+            (^...?...:...^)
+        
+        Return:
+          Nothing. Fail control primitive is called if check fails
+        """
+        
         self.check_value_is_set()
             
         processed_expected_xml_string = wtl.utils.process_string(expected_xml_string)
@@ -649,8 +687,51 @@ class XMLValue:
             log_response_message("Expected: %s\n    Received: %s" % (processed_expected_xml_string, self.value))
             response_fail("Bad value received")
 
+    def check_xml_normalized_string(self, object, expected_xml_string, diff_only=True):
+        """
+        Check the returned object from GetFromStore matches the expected_xml_string
+        
+        Parameters:
+          object: String name of the object ( i.e. well, wellbore )
+          expected_xml_string: representation of the object to compare with
+          diff_only: if true, log text differences, false will log html differences
+        
+        Return:
+          Nothing. Fail control primitive is called if check fails
+        """        
+        self.check_value_is_set()
+            
+        processed_object = wtl.utils.process_string(object)
+        processed_expected_xml_string = wtl.utils.process_string(expected_xml_string)
+        if (not processed_expected_xml_string):
+            response_fail("Bad expected sting in check primitive")
+ 
+        log_response_action("verifying normalized value value against object sent")
+        
+        result, report = wcmp.witsml_obj_compare.compareWITSMLObject(self.version, processed_object , processed_expected_xml_string, self.value, diff_only)
+        
+        log_response_message(report)
+
+        if (result):
+            log_response_result("Ok")
+        else:
+            log_response_result("Not Ok")
+            log_response_result("Differences: " + report)
+            log_response_message("Expected: %s\n    Received: %s" % (processed_expected_xml_string, self.value))
+            response_fail("Bad value received")
+
     @objectLoop
     def check_element_included(self, tag, _object_index=None):
+        """
+        Check the stored value contains the expected element
+        
+        Parameters:
+          tag:     The element's tag
+        
+        Return:
+          Nothing. Fail control primitive is called if check fails
+        """
+        
         self.check_value_is_set()
 
         tag = wtl.utils.process_string(tag)
@@ -664,6 +745,16 @@ class XMLValue:
                
     @objectLoop
     def check_element_not_included(self, tag, _object_index=None):
+        """
+        Check the stored value does not contain the expected element
+        
+        Parameters:
+          tag:     The element's tag
+        
+        Return:
+          Nothing. Fail control primitive is called if check fails
+        """
+        
         self.check_value_is_set()
 
         tag = wtl.utils.process_string(tag)
@@ -677,6 +768,16 @@ class XMLValue:
 
     @objectLoop
     def check_element_value(self, tag, expected_value, _object_index=None):
+        """
+        Check the stored value matches the expected value
+        
+        Parameters: 
+          tag:            The element's tag
+          expected_value: Value to be compared against
+        
+        Return:
+          Nothing. Fail control primitive is called if check fails
+        """
         self.check_value_is_set()
 
         tag = wtl.utils.process_string(tag)
@@ -699,11 +800,11 @@ class XMLValue:
     @objectLoop
     def check_element_value_greaterthan(self, tag, value, _object_index=None):
         """
-        Check the corresponding element in the XML document is greater than the
-        provided value. Float comparison is used
+        Check the stored value is greater than the provided value
+        Float comparison is used
         
         Parameters: 
-          tag: Element name of XPath expression 
+          tag:   The element's tag
           value: Int or float number to be compared against
         
         Return:
@@ -731,11 +832,11 @@ class XMLValue:
     @objectLoop
     def check_element_value_lessthan(self, tag, value, _object_index=None):
         """
-        Check the corresponding element in the XML document is less than the
-        provided value. Float comparison is used
+        Check the stored value is less than the provided value
+        Float comparison is used
         
         Parameters: 
-          tag: Element name of XPath expression 
+          tag:   The element's tag
           value: Int or float number to be compared against
         
         Return:
@@ -763,11 +864,14 @@ class XMLValue:
     @objectLoop
     def check_recurring_element_value_contains(self, tag, expected_value_list, _object_index=None):
         """
-        Check the recurring elements in the XML document contains the provided list
+        Check the recurring elements in the XPath tag contain the provided value list
         
         Parameters: 
-          tag: Element name of XPath expression 
-          expected_value_list: list of names
+          tag:                 The element's tag
+          expected_value_list: list of values
+        
+        Example:
+          check_recurring_element_value_contains('logs/log/logCurveInfo/mnemonic', ['DEPTH', 'GR', 'CALI', 'RHOB'])
         
         Return:
           Nothing. Fail control primitive is called if check fails
@@ -801,12 +905,15 @@ class XMLValue:
     @objectLoop
     def check_recurring_element_value(self, tag, expected_value_list, _object_index=None):
         """
-        Check the recurring elements in the XML document match the provided list
+        Check the recurring elements in the XPath tag match the provided value list
         
         Parameters: 
-          tag: Element name of XPath expression 
+          tag:                 The element's tag
           expected_value_list: list of names
-        
+          
+        Example:
+          check_recurring_element_value('logs/log/logCurveInfo/mnemonic', ['DEPTH', 'GR', 'CALI', 'RHOB'])
+
         Return:
           Nothing. Fail control primitive is called if check fails
         """        
@@ -829,6 +936,21 @@ class XMLValue:
  
     @objectLoop
     def check_element_value_contains(self, tag, expected_substring, _object_index=None):
+        """
+        Check the tag value contains the expected substring
+        
+        Parameters: 
+          tag:                The element's tag
+          expected_substring: String to search in the tag value
+          expected_substring cannot contain regex 
+          expected_substring can contain variable substitutions ($...$),
+            file substitutions (#...#) and  conditional substitutions
+            (^...?...:...^)
+        
+        Return:
+          Nothing. Fail control primitive is called if check fails
+        """        
+
         self.check_value_is_set()
 
         tag = wtl.utils.process_string(tag)
@@ -850,16 +972,15 @@ class XMLValue:
 
     def get_attribute(self, tag, attribute, _object_index=None):
         """
-        Get the text of an attribute from the XML tree with the corresponding
-        name for the given element.
-        The first element in the document with the tag is used
+        Get the value of the given attribute in the given tag
+        The first element with the tag is used
         
         Parameters:
           tag:       The element's tag
-          attribute: The attributes name
+          attribute: The attribute's name
         
         Return:
-          The attributes value if found, otherwise 'None'
+          The attribute's value if found, otherwise 'None'
         """
 
         tag = wtl.utils.process_string(tag)
@@ -872,14 +993,14 @@ class XMLValue:
 
     def get_log_data(self):
         """
-        Retrieves the logData as a list of rows of data.
+        Retrieve the logData as a list of rows of data.
         Each row is a list of strings corresponding to the data values.
         
         Parameters:
           none
         
         Return:
-          A list logData rows
+          A list of logData rows
         """
         log_data = []
         num_points = 0
@@ -908,7 +1029,7 @@ class XMLValue:
         
     def get_mnemonics_list(self):
         """
-        Builds a list of mnemonics from the mnemonicList attribute split by ","
+        Build a list of mnemonics from the mnemonicList attribute delimited by ","
         
         Parameters:
           none
@@ -948,7 +1069,7 @@ class XMLValue:
     
     def get_units_list(self):
         """
-        Retrieves a unit list from the unitsList attribute split by ","
+        Retrieve a unit list from the unitsList attribute delimited by ","
         
         Parameters:
           none
@@ -986,9 +1107,9 @@ class XMLValue:
             
     def get_index_curve_list(self):
         """
-        Retrieves a list of booleans representing whether each curve stored in 
+        Retrieve a list of booleans representing whether each curve stored in 
         the log_data structure is the index curve or not.  True represents
-        the index curve, False is not an index curve.  
+        the index curve, False if not an index curve.  
         
         Note: this is mostly useful for 1.3.1.1 support.
         
@@ -1025,6 +1146,15 @@ class XMLValue:
     
         
     def get_log_data_index_value(self, n):
+        """
+        Return the index value of the nth row of the log data
+        
+        Parameters:
+          n: The row number of the value
+          
+        Return:
+          The index value if found, otherwise 'None'
+        """
         if (self.log_data == None):
             return None
         elif (n < len(self.log_data)):
@@ -1035,6 +1165,16 @@ class XMLValue:
         return None
         
     def get_log_data_data_value(self, n, mnemonic):
+        """
+        Return the value of the nth row of the log data for the given mnemonic curve
+        
+        Parameters:
+          n       : The row number of the value
+          mnemonic: String representing the logCurve 
+          
+        Return:
+          The value if found, otherwise 'None'
+        """
         if (self.log_data == None):
             return None
         elif (n < len(self.log_data)):
@@ -1067,12 +1207,30 @@ class XMLValue:
             return 1        
         
     def get_log_data_number_of_nodes(self):
+        """
+        Return the number of logData rows
+        
+        Parameters:
+          None
+          
+        Return:
+          The number of logData rows
+        """
         if (self.log_data):
             return len(self.log_data)
         
         return 0
         
     def get_log_data_number_of_points(self):
+        """
+        Return the number of logData rows multiplied by the number of curves
+        
+        Parameters:
+          None
+          
+        Return:
+          The number of logData rows multiplied by the number of curves
+        """
         index_curves = self.get_index_curve_list()
         if (self.log_data):
             return (len(self.log_data)) * (len(index_curves))
@@ -1080,6 +1238,20 @@ class XMLValue:
         return 0
 
     def check_log_data_index_value(self, n, value, error_margin=0):
+        """
+        Compare the value against the index of the nth row of the log data
+        
+        Parameters:
+          n           : The row number with the value being checked
+          value       : Value to compare against
+                        This string can contain variable substitutions ($...$),
+                        file substitutions (#...#) and  conditional substitutions
+                        (^...?...:...^)
+          error_margin: Acceptable percent deviation from the value 
+          
+        Return:
+          Nothing. Fail control primitive is called if check fails
+        """
         self.check_value_is_set()
 
         actual_value = self.get_log_data_index_value(n)
@@ -1104,15 +1276,20 @@ class XMLValue:
         
     def check_log_data_data_value(self, n, mnemonic, value, error_margin=0):
         """
-        Check the data value of a desired curve
+        Compare the value against the nth row of the log data for the given mnemonic curve
         
         Parameters:
-          n: row index
-          mnemonic:  curve mnemonic
-          value: value to compare against. 
-          error_margin:   allowable tolerance
+          n           : The row number with the value being checked
+          mnemonic    : String representing the logCurve 
+          value       : Value to compare against
+                        This string can contain variable substitutions ($...$),
+                        file substitutions (#...#) and  conditional substitutions
+                        (^...?...:...^)
+           error_margin: Acceptable percent deviation from the value 
           
-        Note: Only works against scalar float values.
+        Return:
+          Nothing. Fail control primitive is called if check fails
+        
         """        
         self.check_value_is_set()
 
@@ -1141,7 +1318,7 @@ class XMLValue:
         Check all the data values received in the logData
         
         Parameters:
-          data_array: Array with all the data value to check againt. The array is formated as follows
+          data_array: Array with all the data values to check against. The array is formatted as follows
                        [(value00, value01, value02,...value0n),
                         (value10, value11, value12,...value1n),
                         ...
@@ -1161,8 +1338,7 @@ class XMLValue:
             None
             Script will fail if comparison fails
         """
-
-        
+                
         self.check_value_is_set()
 
         if (len(array) != self.get_log_data_number_of_nodes()):
@@ -1187,6 +1363,15 @@ class XMLValue:
                 self.check_log_data_data_value(index, mnemonics[value_index+1], array[index][value_index+1], error_margin)
 
     def check_log_data_number_of_nodes(self, n):
+        """
+        Check n against the number of logData rows returned
+        
+        Parameters:
+          n : The number of logData rows expected
+          
+        Return:
+          Nothing. Fail control primitive is called if check fails
+        """
         self.check_value_is_set()
 
         log_response_action("verifying <logData> has %d data nodes" %(n))
@@ -1199,6 +1384,15 @@ class XMLValue:
             response_fail("Bad number of data nodes received")
         
     def check_log_data_number_of_points(self, n):
+        """
+        Check n against the number of logData rows multiplied by the number of curves returned
+        
+        Parameters:
+          n : The number of logData rows multiplied by the number of curves expected
+          
+        Return:
+          Nothing. Fail control primitive is called if check fails
+        """
         self.check_value_is_set()
 
         log_response_action("verifying <logData> has %d data points" %(n))
@@ -1213,6 +1407,16 @@ class XMLValue:
 
     @objectLoop
     def check_attribute_included(self, tag, attribute, _object_index=None):
+        """
+        Check the stored value contains the expected attribute in the tag
+        
+        Parameters:
+          tag:       The attribute's tag
+          attribute: The name of the attribute being checked if included
+        
+        Return:
+          Nothing. Fail control primitive is called if check fails
+        """
         self.check_value_is_set()
 
         log_response_action("verifying element '%s' has attribute '%s'" %(tag, attribute))
@@ -1224,6 +1428,16 @@ class XMLValue:
 
     @objectLoop
     def check_attribute_not_included(self, tag, attribute, _object_index=None):
+        """
+        Check the stored value does not contain the expected attribute in the tag
+        
+        Parameters:
+          tag:       The attribute's tag
+          attribute: The name of the attribute being checked if not included
+        
+        Return:
+          Nothing. Fail control primitive is called if check fails
+        """
         self.check_value_is_set()
 
         log_response_action("verifying element '%s' does not have attribute '%s'" %(tag, attribute))
@@ -1235,6 +1449,17 @@ class XMLValue:
 
     @objectLoop
     def check_attribute_value(self, tag, attribute, expected_value, _object_index=None):
+        """
+        Check the stored value contains the expected attribute in the tag
+        
+        Parameters:
+          tag:            The attribute's tag
+          attribute:      The attribute whose value is being checked
+          expected_value: The value that the attribute is expected to have
+        
+        Return:
+          Nothing. Fail control primitive is called if check fails
+        """
         self.check_value_is_set()
 
         processed_value_string = wtl.utils.process_string(str(expected_value))
@@ -1253,6 +1478,17 @@ class XMLValue:
 
     @objectLoop
     def check_attribute_value_is_contained(self, tag, attribute, expected_superstring, _object_index=None):
+        """
+        Check the stored value contains the expected string in the attribute
+        
+        Parameters:
+          tag:                  The attribute's tag
+          attribute:            The attribute whose value is being checked
+          expected_superstring: The value that the attribute is expected to contain
+        
+        Return:
+          Nothing. Fail control primitive is called if check fails
+        """
         self.check_value_is_set()
 
         processed_value_string = wtl.utils.process_string(str(expected_superstring))
@@ -1274,7 +1510,7 @@ class XMLValue:
         Check the number of objects matches the number provided
         
         Parameters: 
-          num: Expected number objects 
+          num: Expected number of objects 
         
         Return:
           Nothing. Fail control primitive is called if check fails
@@ -1330,14 +1566,13 @@ class XMLValue:
             response_fail("Wrong number of objects received")
 
     def build_elements_list(self):
-        """
-        summary: 
-          build list representing nodes and attributes in form of xxx[zzz]
+        """ 
+        Build list representing nodes and attributes in form of xxx[zzz]
         
-        parameters:
+        Parameters:
           root_node - root node
         
-        returns:
+        Return:
           list of elements, and attributes 
         """
         root_node = etree.fromstring(self.value);
@@ -1353,10 +1588,16 @@ class XMLValue:
     
     def check_only_included(self,elements):
         """
-        summary:
-          check that only listed , exists in xml  elements set in form [ 'elm[attr]', 'elm[attr]' ]
-        returns: 
-          true if only given set exists 
+		Check the stored value contains only the provided element[attribute] list
+       
+        Parameters:
+          elements: The element[attribute] list to match against
+                    Elements set in form [ 'elm[attr]', 'elm[attr]' ]
+                    Example: ['trajectorys', 'trajectorys[version]','trajectory', 'trajectory[uidWell]' , 'trajectory[uidWellbore]', 'trajectory[uid]','nameWell', 'nameWellbore', 'name' ]
+        
+        Return:
+          Nothing. Fail control primitive is called if check fails
+
         """
         log_response_action("verifying that only items are included in XML " + str(elements) + " ...");
         available = self.build_elements_list();
@@ -1381,13 +1622,15 @@ class XMLValue:
             
     def check_valid_witsml_versions(self, version_str):
         """
-        summary:
-          Check that string consists of WITSML versions in order from oldest to newest
-          Does basic checking on WITSML version string, but does not validate string against actual 
-          versions of the specification (i.e. does not check for 1.3.1, 1.4.1.1 explicitly)      
-        returns: 
-          true if version string is in order from oldest to newest
-          false otherwise
+        Check that string consists of WITSML versions in order from oldest to newest
+        Does basic checking on WITSML version string, but does not validate string against actual 
+          versions of the specification (i.e. does not check for 1.3.1, 1.4.1.1 explicitly)
+             
+        Parameters:
+          version_str: String of version numbers being validated
+        
+        Return:
+          Nothing. Fail control primitive is called if check fails
         """
         
         version_list = version_str.split(',')

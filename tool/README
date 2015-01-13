@@ -1,5 +1,5 @@
 #******************************************************************************
-# Copyright (c) 2011 Pason Systems Corp.
+# Copyright (c) 2013 Energistics.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -20,216 +20,38 @@
 #
 #******************************************************************************
 
-1    Installation
-This README file explains how to install, setup, and run the WITSML CERTIFICATION TEST TOOL.
-Instructions are provided for both Windows and Linux. 
+1. Introduction
 
-MoRe information on how to use the WITSML CERTIFICATION TEST TOOL and the WITSML Test Libraries
-can be found in the document "WITSML Certification Testing Tool: Installation and User Guide "  
+This README file lists:
 
+* The more "dynamic" information related to installation and setup of the
+  WITSML Certification Testing Tool (Testing Tool). 
 
-1.1   Install and Set Up Python Components.
-To run the WITSML CERTIFICATION TESTING TOOL, you must have a python interpreter and
-specific python utilities installed on your machine.
+* Release notes associated with the Testing Tool. 
 
-1.1.1 Install For Windows (Windows 7 64 bit)
-The 32-bit version of python has been used for both 32-bit and 64-bit Windows machines.
-
-To install the 32-bit version of python, follow these steps:
-
-  1.  If not already installed, install a Python interpreter.
-      Use these instructions to install the Python interpreter 2.7.2
-      from www.python.org:
-      
-      a.  From http://www.python.org/download, download and install the Python 2.7.3 interpreter
-          using the proper download format for your machine.
-
-          For example, click on "Python 2.7.3 Windows Installer (x86 32 bit MSI Installer) and
-          then click Run. Follow the installation instructions.
-      
-      b.  Add the Python directory to your path.
-          i.   From the desktop, left-click the Start button and Select Control Panel, then System.
-          ii.  In the System Properties window, click on the Advanced tab.
-          iii. In the Advanced section, click the Environment Variables button. 
-          iv.  Finally, in the Environment Variables window,in the Systems Variable section, 
-               highlight the Path variable and click the Edit button. 
-          v.   Add or modify the path lines with the paths you wish the computer to access. 
-	       Each different directory is separated with a semicolon (e.g., add "C:\Python27;" to the
-               beginning of the path)
-          vi.  For the environment variable changes to take place, You may need to restart any 
-               open command window. In some cases, you may need to reboot the computer.
-
-  2.  If not already installed, install setuptools.
-      a.  Just in case, first remove all setuptools.pth, setuptools*.egg and
-          setuptools*.egg-info files.
-      b.  From: http://pypi.python.org/pypi/setuptools#downloads, 
-          download and run "setuptools-0.6c11.win32-py2.7.exe (md5)"
-
-  3.  If not already installed, install the lxml python library.
-      a.  In your python directory, find the subdirectory with the easy_install script 
-          (e.g., c:\Python27\Scripts). 
-      b.  In a command window, navigate to this subdirectory and run  easy_install lxml
-              > c:
-              > cd \Python27\Scripts
-              > easy_install lxml==2.3
-			  
-	NOTE: If you have a problem with step a, you might need to configure your IE with a Proxy. 
-        (For IE8, select Tools > Internet Options Connections > LAN Settings, Modify Proxy server settings.)
-
-  4.  If not already installed, install the suds python library:
-      a.  In your python directory, find the subdirectory with the easy_install script
-          (e.g. c:\Python27\Scripts). 
-      b.  In a command window, navigate to this subdirectory and run  easy_install suds
-              > c:
-              > cd \Python27\Scripts
-              > easy_install suds==0.4
-              
-  5.  If not already installed, install the python-dateutil python library. 
-      a.  In your python directory, find the subdirectory with the easy_install script
-          (e.g. c:\Python27\Scripts). 
-      b.  In a command window, navigate to this subdirectory and run easy_install python-dateutil
-              > c:
-              > cd \Python27\Scripts
-              > easy_install python-dateutil==2.1
-              
-  6.  If not already installed, install the pytz python library.
-      a.  In your python directory, find the subdirectory with the easy_install script
-          (e.g. c:\Python27\Scripts). 
-      b. In a command window, navigigate to this subdirectory and and run  easy_install pytz
-              > c:
-              > cd \Python27\Scripts
-              > easy_install pytz==2012d                             
-
-1.1.2 Install for Linux
-
-To install python interpreter and utilties for Linus, follow these steps.
-
-Note: This was tested in a machine with CentOS release 5.2.
-
-  1.  If not already installed, install the python interpreter version 2.7.2 
-      a.  Download the Gzipped source tar ball from http://www.python.org/download/releases/2.7.2/.
-
-      b.  Extract it and add to your PATH. (export PATH=<dir>/Python-2.7/bin:$PATH )
-      
-  2.  If not already installed, install the lxml python library version 2.3
-              > easy_install lxml==2.3
-
-  3.  If not already installed, install the suds python library version 0.4
-              > easy_install suds==0.4
-              
-  4.  If not already installed, install the python-dateutil python library version 2.1
-              > easy_install python-dateutil==2.1
-  
-  5.  If not already installed, install the pytz python library version 2012d
-              > easy_install pytz==2012d
+For detailed instructions on how to download, install, configure and use the Testing Tool, see
+the "WITSML Certification Testing Tool: Installation and User Guide", which can be downloaded
+from http://www.energistics.org/<ADD LINK WHEN WE GET IT>.
 
 
-1.2   WITSML CERTIFICATION TEST TOOL Installation and Setup
+2. Testing Tool Information 
 
-  1.  To install the tool, go to the trunk directory where you downloaded the WITSML CERTIFICAITON TEST TOOL software
-      and install it with setup.py as follows:
-              > python setup.py install
-			  
-      
-     The following directories are added under C:\Python27\Lib\site-packages
-	            wtl, wsvt, wtools
+2.1 Python Utilities
 
+To install and run the Testing Tool, you must install and configure Python, which includes
+some key Python utilities.The specific utilities required may change with different versions
+of the Testing Tool. 
  
-  2.  Setup
+Here is the most current list (as of 8 May 2013) of required Python utilities: 
 
-  To setup the WITSML CERTIFICATION TEST TOOL, follow these steps:
+*  lxml version 2.3
+*  suds version 0.4
+*  python-dateutil version 2.1
+*  pytz version 2012d
 
-     a.  Create a server file using the template wtl_server.py (found in the trunck/src/wtl directory).
-       
+For instructions on how to insall these utilities, see the Installation and User Guide (link above). 
 
-     b.  Give it a DIFFERENT name (any name you want) with the .py extension.
-         Make sure you place the created file in a directory that IS NOT under the <installation directory>
-         Example:
-         <LINUX>
-            cd /witsml 
-            cp <installation directory>/trunk/src/wtl/wtl_server.py my_server.py
-
-         <WINDOWS>
-	    c:
-	    cd \witsml 
-	    copy <installation directory>\trunk\src\wtl\wtl_server.py my_server.py
-
-     c.  Edit the server file server.py to set the correct login information and
-         server parameters for the server you want to test. 
-
-         NOTE: Server parameters vary depending on the test suite being used.
-         The WITSML certification script suite provides a template server file
-         in <installation directory>/trunk_scripts/datamodel named default_server.py
-
-     d.  Create a directory from which to run the WITSML scripts. 
-         Example:
-           <LINUX>
-               /witsml/scripts
-           <WINDOWS>
-               c:\witsml\scripts
-			
-     e.  Create a directory to output the results of executing the tests. 
-         Example:
-           <LINUX>
-            /witsml/results
-           <WINDOWS>
-            c:\witsml\results		
-
-     f.  In the directory where WITSML scripts will be run, create a configuration file
-         with the SAME name ‘wtl_cfg.py’ and format as the configuration file provided in 
-         the src/wtl directory.
-         For example with the sample directories above:
-         <LINUX>
-             cd /witsml/scripts 
-             cp <installation directory>/trunk/src/wtl/wtl_cfg.py .
-         <WINDOWS>
-             c:
-             cd \witsml\scripts 
-             copy <installation directory>\trunk\src\wtl\wtl_cfg.py .
-
-     g.  To set the correct server file and paths in step 1. above, edit the created configuration file wtl_cfg.py.
-         For example with the sample directories above:
-	     <LINUX>
-           # WITSML TEST LIBRARY CONFIGURATION
-        
-           # Server file
-           server_file_directory = '/witsml'
-           server_file_name = 'my_server'
-
-           # List of directories containing the test scripts and test suites
-           script_directories = [
-                              '/witsml/scripts'
-                             ]
-
-           # Output directory
-           result_directory = ‘/witsml/results’
-
-         <WINDOWS>
-           # WITSML TEST LIBRARY CONFIGURATION
-
-           # Server file
-           server_file_directory = 'c:\\witsml'
-           server_file_name = 'my_server'
-
-           # List of directories containing the test scripts and test suites
-           script_directories = [
-                               'c:\\witsml\\scripts'
-                             ]
-
-           # Output directory
-           result_directory = 'c:\\witsml\\results'
-
-          NOTES: 1) The server file name does not include the .py extension
-	         2) Make sure the result directory exists.
-
-				
-   3.    Run the WITSML CERTIFICATION TEST TOOL.
-
-	   a. copy desired test scripts from <installation directory>\trunk_scripts\accepted
-           <LINUX>
-            /witsml/scripts
-           <WINDOWS>
-               c:\witsml\scripts	
-		
-	   b. To run, go to the scripts directory and type "python testScriptName.py" ( i.e., python test1a.py ) 
-
+3. Release Notes
+	
+Release Version 0.8.1 Release Date: 24 April, 2013
+1. This is the release that was verified at the WITSML SIG Meeting (April 2013, Oslo) by the Certification Team to validate the installation process.
