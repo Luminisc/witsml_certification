@@ -63,7 +63,7 @@ set('trajectory_xml',"""
         <trajectoryStation uid="1">
             <dTimStn>2001-10-21T08:15:00.000Z</dTimStn>
             <typeTrajStation>tie in point</typeTrajStation>
-            <typeSurveyTool>xx</typeSurveyTool>
+            <typeSurveyTool>magnetic MWD</typeSurveyTool>
             <md uom="ft">0</md>
             <tvd uom="ft">0</tvd>
             <incl uom="dega">0</incl>

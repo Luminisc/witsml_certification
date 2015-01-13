@@ -101,7 +101,7 @@ set('mudLog_xml',"""
             <ecdTdAv uom="lbm/ft3">10.6</ecdTdAv>
             <dxcAv>0.95</dxcAv>
             <lithology uid="00001">
-                <type>Sandstone</type>
+                <type>sandstone</type>
                 <description>Sandstone: vf-f, clr-frost, mod srt, gd vis por</description>
                 <color>frosted</color>
                 <texture>friable</texture>
@@ -109,7 +109,7 @@ set('mudLog_xml',"""
                 <sizeGrain>fine sand</sizeGrain>
                 <roundness>well rounded</roundness>
                 <sorting>well sorted</sorting>
-                <matrixCement>Calcite</matrixCement>
+                <matrixCement>calcite</matrixCement>
                 <porosityVisible>moderate</porosityVisible>
                 <permeability>fairly permeable</permeability>
                 <densShale uom="g/cm3">2.6</densShale>

@@ -1761,8 +1761,48 @@ class ResponseTest(unittest.TestCase, mocking.MockingTestMixin):
         data = [(1.1,2.1,3.1,4.1),
                 (5,6,7,8),
                 (9,10,11,12)]
-        x.check_log_data_all(data,index_error_margin=1, error_margin=1)
+        x.check_log_data_all(data, ['M1','M2','M3','M4'], index_error_margin=1, error_margin=1)
         self.assertFalse(wtl.control_prim.fail.called)
+   
+    def test_check_log_data_all_different_order(self):
+        x = wtl.response.XMLValue("""<?xml version="1.0" encoding="UTF-8"?>
+              <logs xmlns="http://www.witsml.org/schemas/131" version="1.4.1.0">
+                <log uidWell='w1' uidWellbore='wb1' uid='l1'>
+                  <indexCurve>M1</indexCurve>
+                  <logData>                        
+                    <mnemonicList>M1,M2,M3,M4</mnemonicList>
+                    <unitList>m,m,ft,ft</unitList>
+                    <data>1.1,2.1,3.1,4.1</data>
+                    <data>5,6,7,8</data>
+                    <data>9,10,11,12</data>
+                  </logData>
+                </log>
+              </logs>""")  
+        data = [(1.1,4.1,2.1,3.1),
+                (5,8,6,7),
+                (9,12,10,11)]
+        x.check_log_data_all(data, ['M1','M4','M2','M3'], index_error_margin=1, error_margin=1)
+        self.assertFalse(wtl.control_prim.fail.called)
+   
+    def test_check_log_data_all_bad_mnemonic_list(self):
+        x = wtl.response.XMLValue("""<?xml version="1.0" encoding="UTF-8"?>
+              <logs xmlns="http://www.witsml.org/schemas/131" version="1.4.1.0">
+                <log uidWell='w1' uidWellbore='wb1' uid='l1'>
+                  <indexCurve>M1</indexCurve>
+                  <logData>                        
+                    <mnemonicList>M1,M2,M3,M4</mnemonicList>
+                    <unitList>m,m,ft,ft</unitList>
+                    <data>1.1,2.1,3.1,4.1</data>
+                    <data>5,6,7,8</data>
+                    <data>9,10,11,12</data>
+                  </logData>
+                </log>
+              </logs>""")  
+        data = [(1.1,2.1,3.1,4.1),
+                (5,6,7,8),
+                (9,10,11,12)]
+        x.check_log_data_all(data, ['M1','M2','M3'], index_error_margin=1, error_margin=1)
+        self.assertTrue(wtl.control_prim.fail.called)
    
     def test_check_log_data_all_bad_index(self):
         x = wtl.response.XMLValue("""<?xml version="1.0" encoding="UTF-8"?>
@@ -1781,7 +1821,7 @@ class ResponseTest(unittest.TestCase, mocking.MockingTestMixin):
         data = [(1.1,2.1,3.1,4.1),
                 (5,6,7,8),
                 (9.95,10,11,12)]
-        x.check_log_data_all(data,index_error_margin=10, error_margin=1)
+        x.check_log_data_all(data, ['M1','M2','M3','M4'], index_error_margin=10, error_margin=1)
         self.assertTrue(wtl.control_prim.fail.called)
 
     def test_check_log_data_all_bad_value(self):
@@ -1801,7 +1841,7 @@ class ResponseTest(unittest.TestCase, mocking.MockingTestMixin):
         data = [(1.1,2.1,3.1,4.1),
                 (5,6,7,8),
                 (9,11.5,11,12)]
-        x.check_log_data_all(data,index_error_margin=1, error_margin=10)
+        x.check_log_data_all(data, ['M1','M2','M3','M4'], index_error_margin=1, error_margin=10)
         self.assertTrue(wtl.control_prim.fail.called)
 
     def test_check_log_data_all_bad_number_of_nodes(self):
@@ -1822,7 +1862,7 @@ class ResponseTest(unittest.TestCase, mocking.MockingTestMixin):
         data = [(1.1,2.1,3.1,4.1),
                 (5,6,7,8),
                 (9,10,11,12)]
-        x.check_log_data_all(data,index_error_margin=1, error_margin=10)
+        x.check_log_data_all(data, ['M1','M2','M3','M4'], index_error_margin=1, error_margin=10)
         self.assertTrue(wtl.control_prim.fail.called)
 
     def test_check_log_data_all_bad_number_of_points(self):
@@ -1842,8 +1882,28 @@ class ResponseTest(unittest.TestCase, mocking.MockingTestMixin):
         data = [(1.1,2.1,3.1,4.1),
                 (5,6,7,8),
                 (9,10,11,12)]
-        x.check_log_data_all(data,index_error_margin=1, error_margin=10)
+        x.check_log_data_all(data, ['M1','M2','M3','M4','M5'], index_error_margin=1, error_margin=10)
         self.assertTrue(wtl.control_prim.fail.called)
+        
+    def test_check_log_data_bad_number_of_rows(self):
+        x = wtl.response.XMLValue("""<?xml version="1.0" encoding="UTF-8"?>
+              <logs xmlns="http://www.witsml.org/schemas/131" version="1.4.1.0">
+                <log uidWell='w1' uidWellbore='wb1' uid='l1'>
+                  <indexCurve>M1</indexCurve>
+                  <logData>                        
+                    <mnemonicList>M1,M2,M3,M4</mnemonicList>
+                    <unitList>m,m,ft,ft</unitList>
+                    <data>1.1,2.1,3.1,4.1</data>
+                    <data>5,6,7,8</data>
+                    <data>9,10,11,12</data>
+                  </logData>
+                </log>
+              </logs>""")  
+        data = [(1.1,2.1,3.1,4.1),
+                (5,6,7,8)]
+        x.check_log_data_all(data, ['M1','M2','M3','M4'], index_error_margin=1, error_margin=1)
+        self.assertTrue(wtl.control_prim.fail.called)
+
 
     def test_get_log_data_index_value(self):
         # Test log data index value properly populated

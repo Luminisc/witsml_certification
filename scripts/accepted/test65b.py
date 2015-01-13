@@ -26,7 +26,7 @@ log('Script test procedure start')
 ##Use SQ-003 (Get details for a Well) to obtain the well.
 WMLS_GetFromStore(WMLTYPEIN_WELL,"""
                   <wells xmlns='http://www.witsml.org/schemas/1series' version='$server_schema_version$'>
-                        <well uid='$server_w1_uid$'/>
+                        <well uid='$server_w2_uid$'/>
                   </wells>
                   """,OptionsIn={'returnElements':'all'})  
 check_ReturnValue_Success()
@@ -35,7 +35,7 @@ set ("dTim", get_XMLout_Element_String("dTimCreation"))
 ##Use UpdateInStore to update the well object's name.
 set ("new_field", now())
 WMLS_UpdateInStore(WMLTYPEIN_WELL, """<wells xmlns='http://www.witsml.org/schemas/1series' version='$server_schema_version$'>
-                                        <well uid='$server_w1_uid$'>
+                                        <well uid='$server_w2_uid$'>
                                             <field>$new_field$</field>
                                         </well>
                                       </wells>
@@ -46,7 +46,7 @@ check_ReturnValue_Success()
 ##Use SQ-003 (Get details for a Well) to obtain the well.
 WMLS_GetFromStore(WMLTYPEIN_WELL,"""
                   <wells xmlns='http://www.witsml.org/schemas/1series' version='$server_schema_version$'>
-                        <well uid='$server_w1_uid$'/>
+                        <well uid='$server_w2_uid$'/>
                   </wells>
                   """,OptionsIn={'returnElements':'all'})  
 check_ReturnValue_Success()

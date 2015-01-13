@@ -1415,7 +1415,7 @@ class XMLValue:
                 log_response_message("Expected: %s\n    Received: %s" % (value, actual_value))
                 response_fail("Bad %d data value received for %s"% (n, mnemonic))
         
-    def check_log_data_all(self, array, index_error_margin=0, error_margin=0):
+    def check_log_data_all(self, array, mnemonics_list, index_error_margin=0, error_margin=0):
         """
         Check all the data values received in the logData
         
@@ -1426,10 +1426,13 @@ class XMLValue:
                         ...
                         (valuem0, valuem1, valuem2,...valuemn)]
                        Notes:
+                       - Index data has to be in the first column
                        - No null values can be in the data
                        - Index can be datatime or a floating point number
                        - Data values can be only floating point numbers
 
+          mnemonics_list:  Mnemonic list for the array provided
+          
           index_error_margin (optional): Error margin to apply to the index comparison
                                          Must be set to zero or not included for index datatime
                                          Must be set to non-zero for depth index
@@ -1449,20 +1452,29 @@ class XMLValue:
             log_response_message("Expected %d nodes" % (len(array)))
             log_response_message("Received %d nodes" % (self.get_log_data_number_of_nodes()))
             response_fail("Unexpected number of nodes in logData")
-
+            return
+        
         if ((len(array)*len(array[0])) != self.get_log_data_number_of_points()):
             log_response_action("verifying number of points in logData")
             log_response_result("Not Ok")
             log_response_message("Expected %d points" % (len(array)*len(array[0])))
             log_response_message("Received %d points" % (self.get_log_data_number_of_points()))
             response_fail("Unexpected number of node=s in logData")
+            return
              
-        mnemonics = self.get_mnemonics_list()
+        if (len(array[0]) != len(mnemonics_list)):
+            log_response_action("verifying length of mnemonic list")
+            log_response_result("Not Ok")
+            log_response_message("Expected %d entries" % (len(array[0])))
+            log_response_message("Received %d entries" % (len(mnemonics_list)))
+            response_fail("Unexpected number of mnemonics provided")
+            return
+             
         log_response_message("verifying all logData values:")
         for index in range(len(array)):
             self.check_log_data_index_value(index, array[index][0], index_error_margin)
             for value_index in range(len(array[index]) - 1):            
-                self.check_log_data_data_value(index, mnemonics[value_index+1], array[index][value_index+1], error_margin)
+                self.check_log_data_data_value(index, mnemonics_list[value_index+1], array[index][value_index+1], error_margin)
 
     def check_log_data_number_of_nodes(self, n):
         """
