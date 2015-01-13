@@ -25,7 +25,7 @@ log('Script procedure start')
 # get the list of wellbores for the choosen well, i.e. SQ-007
 WMLS_GetFromStore(WMLTYPEIN_WELLBORE, """<?xml version="1.0"?>
                                      <wellbores version="$server_schema_version$" xmlns="http://www.witsml.org/schemas/1series">
-                                         <wellbore uidWell="$server_w1_uid$" uid="">
+                                         <wellbore uidWell="$server_w1_uid$">
                                          </wellbore>
                                      </wellbores>
                                   """, OptionsIn={'returnElements':'all'})  

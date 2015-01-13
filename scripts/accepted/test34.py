@@ -225,7 +225,7 @@ set('mudLog_xml',"""
             <dTimCreation>2011-09-14T19:26:42.129Z</dTimCreation>
             <dTimLastChange>2011-09-15T16:15:33.591Z</dTimLastChange>
             <itemState>actual</itemState>
-            <defaultDatum>KB</defaultDatum>
+            <defaultDatum uidRef="KB">Kelly Bushing</defaultDatum>
         </commonData>
     </mudLog>
 </mudLogs>""")  

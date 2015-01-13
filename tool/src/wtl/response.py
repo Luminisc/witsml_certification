@@ -1263,10 +1263,22 @@ class XMLValue:
         self.check_value_is_set()
 
         actual_value = self.get_log_data_index_value(n)
-        if (error_margin):
+        if actual_value is None:
+            log_response_action("verifying index %d" %(n))
+            log_response_result("Not Ok")
+            log_response_message("No index %d received" % (n))
+            response_fail("Bad index value received: %d"% (n))
+        elif (error_margin):
             log_response_action("verifying index: %d is equal to %s (+/-%.0f" %(n, value, error_margin) +'%)')
-            min_val = float(actual_value) * (100 - error_margin) /100
-            max_val = float(actual_value) * (100 + error_margin) /100
+            try:
+                min_val = float(actual_value) * (100 - error_margin) /100
+                max_val = float(actual_value) * (100 + error_margin) /100
+            except:
+                #if error margin is provided the values must be able to be converted to float
+                log_response_result("Not Ok")
+                log_response_message("Cannot convert index value %d to float" % (n))
+                response_fail("Bad index value received: %d"% (n))
+                return
             if ((float(value) >= min_val) and (float(value) <= max_val)):
                 log_response_result("Ok")
             else:
@@ -1302,10 +1314,22 @@ class XMLValue:
         self.check_value_is_set()
 
         actual_value = self.get_log_data_data_value(n, mnemonic)
-        if (error_margin):
+        if actual_value is None:
+            log_response_action("verifying value %d of '%s'" %(n, mnemonic))
+            log_response_result("Not Ok")
+            log_response_message("No value %d for '%s' received" % (n, mnemonic))
+            response_fail("Bad %d data value received for %s"% (n, mnemonic))            
+        elif (error_margin):
             log_response_action("verifying value %d of '%s' is equal to %s (+/-%.0f" %(n, mnemonic, value, error_margin) +'%)')
-            min_val = float(actual_value) * (100 - error_margin) /100
-            max_val = float(actual_value) * (100 + error_margin) /100
+            try:
+                min_val = float(actual_value) * (100 - error_margin) /100
+                max_val = float(actual_value) * (100 + error_margin) /100
+            except:
+                #if error margin is provided the values must be able to be converted to float
+                log_response_result("Not Ok")
+                log_response_message("Cannot convert data value %d for '%s' to float" % (n, mnemonic))
+                response_fail("Bad %d data value received for %s"% (n, mnemonic))
+                return
             if ((float(value) >= min_val) and (float(value) <= max_val)):
                 log_response_result("Ok")
             else:

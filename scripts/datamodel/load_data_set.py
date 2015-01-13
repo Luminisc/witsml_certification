@@ -170,215 +170,217 @@ check_ReturnValue_Success()
 partial_success("Added server_w1_wb1_log2_uid successfully")
 
 # server_w1_wb1_traj1_uid
-WMLS_AddToStore(WMLTYPEIN_TRAJECTORY, """<?xml version="1.0" encoding="UTF-8"?>
-<trajectorys xmlns="http://www.witsml.org/schemas/1series" version="$server_schema_version$">
-    <trajectory uidWell="Energistics-well-0001" uidWellbore="Energistics-w1-wellbore-0001" uid="Energistics-w1-wb1-trajectory-0001">
-        <nameWell>Energistics Certification Well 1</nameWell>
-        <nameWellbore>Energistics Certification Well 1 Wellbore 1</nameWellbore>
-        <name>Energistics Certification Well 1 Wellbore 1 Trajectory 1</name>
-        <dTimTrajStart>2001-10-31T08:15:00.000Z</dTimTrajStart>
-        <dTimTrajEnd>2001-11-03T16:30:00.000Z</dTimTrajEnd>
-        <mdMn uom="ft">0</mdMn>
-        <mdMx uom="ft">14089.3</mdMx>
-        <serviceCompany>Anadrill</serviceCompany>
-        <magDeclUsed uom="dega">-4.038</magDeclUsed>
-        <gridCorUsed uom="dega">0.99961</gridCorUsed>
-        <aziVertSect uom="dega">82.700</aziVertSect>
-        <dispNsVertSectOrig uom="ft">0</dispNsVertSectOrig>
-        <dispEwVertSectOrig uom="ft">0</dispEwVertSectOrig>
-        <definitive>true</definitive>
-        <memory>true</memory>
-        <finalTraj>true</finalTraj>
-        <aziRef>grid north</aziRef>
-        <trajectoryStation uid="34ht5">
-            <dTimStn>2001-10-21T08:15:00.000Z</dTimStn>
-            <typeTrajStation>tie in point</typeTrajStation>
-            <md uom="ft">0</md>
-            <tvd uom="ft">0</tvd>
-            <incl uom="dega">0</incl>
-            <azi uom="dega">47.3</azi>
-            <mtf uom="dega">47.3</mtf>
-            <gtf uom="dega">0</gtf>
-            <dispNs uom="ft">0</dispNs>
-            <dispEw uom="ft">0</dispEw>
-            <vertSect uom="ft">0</vertSect>
-            <dls uom="dega/ft">0</dls>
-            <rateTurn uom="dega/ft">0</rateTurn>
-            <rateBuild uom="dega/ft">0</rateBuild>
-            <mdDelta uom="ft">0</mdDelta>
-            <tvdDelta uom="ft">0</tvdDelta>
-            <modelToolError>good gyro</modelToolError>
-            <gravTotalUncert uom="m/s2">0</gravTotalUncert>
-            <dipAngleUncert uom="dega">0</dipAngleUncert>
-            <magTotalUncert uom="nT">0</magTotalUncert>
-            <gravAccelCorUsed>false</gravAccelCorUsed>
-            <magXAxialCorUsed>false</magXAxialCorUsed>
-            <sagCorUsed>false</sagCorUsed>
-            <magDrlstrCorUsed>false</magDrlstrCorUsed>
-            <statusTrajStation>position</statusTrajStation>
-            <rawData>
-                <gravAxialRaw uom="ft/s2">0.116</gravAxialRaw>
-                <gravTran1Raw uom="ft/s2">-0.168</gravTran1Raw>
-                <gravTran2Raw uom="ft/s2">-1654</gravTran2Raw>
-                <magAxialRaw uom="nT">22.77</magAxialRaw>
-                <magTran1Raw uom="nT">22.5</magTran1Raw>
-                <magTran2Raw uom="nT">27.05</magTran2Raw>
-            </rawData>
-            <corUsed>
-                <gravAxialAccelCor uom="ft/s2">0.11</gravAxialAccelCor>
-                <gravTran1AccelCor uom="ft/s2">0.14</gravTran1AccelCor>
-                <gravTran2AccelCor uom="ft/s2">0.13</gravTran2AccelCor>
-                <magAxialDrlstrCor uom="nT">0.17</magAxialDrlstrCor>
-                <magTran1DrlstrCor uom="nT">0.16</magTran1DrlstrCor>
-                <magTran2DrlstrCor uom="nT">0.24</magTran2DrlstrCor>
-                <sagIncCor uom="dega">0</sagIncCor>
-                <sagAziCor uom="dega">0</sagAziCor>
-                <stnMagDeclUsed uom="dega">-4.038</stnMagDeclUsed>
-                <stnGridCorUsed uom="dega">-0.4917</stnGridCorUsed>
-                <dirSensorOffset uom="ft">48.3</dirSensorOffset>
-            </corUsed>
-            <valid>
-                <magTotalFieldCalc uom="nT">51.19</magTotalFieldCalc>
-                <magDipAngleCalc uom="dega">41.5</magDipAngleCalc>
-                <gravTotalFieldCalc uom="ft/s2">0.999</gravTotalFieldCalc>
-            </valid>
-            <matrixCov>
-                <varianceNN uom="ft2">0.005236</varianceNN>
-                <varianceNE uom="ft2">0.005236</varianceNE>
-                <varianceNVert uom="ft2">2.356194</varianceNVert>
-                <varianceEE uom="ft2">0.005236</varianceEE>
-                <varianceEVert uom="ft2">0.005236</varianceEVert>
-                <varianceVertVert uom="ft2">0.785398</varianceVertVert>
-                <biasN uom="ft">0</biasN>
-                <biasE uom="ft">0</biasE>
-                <biasVert uom="ft">0</biasVert>
-            </matrixCov>
-            <location uid="loc-1">
-                <wellCRS uidRef="geog1">ED50</wellCRS>
-                <latitude uom="dega">59.755300</latitude>
-                <longitude uom="dega">1.71347417</longitude>
-            </location>
-            <location uid="loc-2">
-                <wellCRS uidRef="proj1">ED50 / UTM Zone 31N</wellCRS>
-                <easting uom="m">427710.69</easting>
-                <northing uom="m">6625015.54</northing>
-            </location>
-        </trajectoryStation>
-        <commonData>
-            <itemState>plan</itemState>
-            <comments>These are the comments associated with the trajectory data object.</comments>
-        </commonData>
-    </trajectory>
-</trajectorys>
-""")
-check_ReturnValue_Success()
-
-partial_success("Added server_w1_wb1_traj1_uid successfully")
+if (wtl.globals.is_function_object_supported('WMLS_AddToStore' , WMLTYPEIN_TRAJECTORY) == True):
+    WMLS_AddToStore(WMLTYPEIN_TRAJECTORY, """<?xml version="1.0" encoding="UTF-8"?>
+    <trajectorys xmlns="http://www.witsml.org/schemas/1series" version="$server_schema_version$">
+        <trajectory uidWell="Energistics-well-0001" uidWellbore="Energistics-w1-wellbore-0001" uid="Energistics-w1-wb1-trajectory-0001">
+            <nameWell>Energistics Certification Well 1</nameWell>
+            <nameWellbore>Energistics Certification Well 1 Wellbore 1</nameWellbore>
+            <name>Energistics Certification Well 1 Wellbore 1 Trajectory 1</name>
+            <dTimTrajStart>2001-10-31T08:15:00.000Z</dTimTrajStart>
+            <dTimTrajEnd>2001-11-03T16:30:00.000Z</dTimTrajEnd>
+            <mdMn uom="ft">0</mdMn>
+            <mdMx uom="ft">14089.3</mdMx>
+            <serviceCompany>Anadrill</serviceCompany>
+            <magDeclUsed uom="dega">-4.038</magDeclUsed>
+            <gridCorUsed uom="dega">0.99961</gridCorUsed>
+            <aziVertSect uom="dega">82.700</aziVertSect>
+            <dispNsVertSectOrig uom="ft">0</dispNsVertSectOrig>
+            <dispEwVertSectOrig uom="ft">0</dispEwVertSectOrig>
+            <definitive>true</definitive>
+            <memory>true</memory>
+            <finalTraj>true</finalTraj>
+            <aziRef>grid north</aziRef>
+            <trajectoryStation uid="34ht5">
+                <dTimStn>2001-10-21T08:15:00.000Z</dTimStn>
+                <typeTrajStation>tie in point</typeTrajStation>
+                <md uom="ft">0</md>
+                <tvd uom="ft">0</tvd>
+                <incl uom="dega">0</incl>
+                <azi uom="dega">47.3</azi>
+                <mtf uom="dega">47.3</mtf>
+                <gtf uom="dega">0</gtf>
+                <dispNs uom="ft">0</dispNs>
+                <dispEw uom="ft">0</dispEw>
+                <vertSect uom="ft">0</vertSect>
+                <dls uom="dega/ft">0</dls>
+                <rateTurn uom="dega/ft">0</rateTurn>
+                <rateBuild uom="dega/ft">0</rateBuild>
+                <mdDelta uom="ft">0</mdDelta>
+                <tvdDelta uom="ft">0</tvdDelta>
+                <modelToolError>good gyro</modelToolError>
+                <gravTotalUncert uom="m/s2">0</gravTotalUncert>
+                <dipAngleUncert uom="dega">0</dipAngleUncert>
+                <magTotalUncert uom="nT">0</magTotalUncert>
+                <gravAccelCorUsed>false</gravAccelCorUsed>
+                <magXAxialCorUsed>false</magXAxialCorUsed>
+                <sagCorUsed>false</sagCorUsed>
+                <magDrlstrCorUsed>false</magDrlstrCorUsed>
+                <statusTrajStation>position</statusTrajStation>
+                <rawData>
+                    <gravAxialRaw uom="ft/s2">0.116</gravAxialRaw>
+                    <gravTran1Raw uom="ft/s2">-0.168</gravTran1Raw>
+                    <gravTran2Raw uom="ft/s2">-1654</gravTran2Raw>
+                    <magAxialRaw uom="nT">22.77</magAxialRaw>
+                    <magTran1Raw uom="nT">22.5</magTran1Raw>
+                    <magTran2Raw uom="nT">27.05</magTran2Raw>
+                </rawData>
+                <corUsed>
+                    <gravAxialAccelCor uom="ft/s2">0.11</gravAxialAccelCor>
+                    <gravTran1AccelCor uom="ft/s2">0.14</gravTran1AccelCor>
+                    <gravTran2AccelCor uom="ft/s2">0.13</gravTran2AccelCor>
+                    <magAxialDrlstrCor uom="nT">0.17</magAxialDrlstrCor>
+                    <magTran1DrlstrCor uom="nT">0.16</magTran1DrlstrCor>
+                    <magTran2DrlstrCor uom="nT">0.24</magTran2DrlstrCor>
+                    <sagIncCor uom="dega">0</sagIncCor>
+                    <sagAziCor uom="dega">0</sagAziCor>
+                    <stnMagDeclUsed uom="dega">-4.038</stnMagDeclUsed>
+                    <stnGridCorUsed uom="dega">-0.4917</stnGridCorUsed>
+                    <dirSensorOffset uom="ft">48.3</dirSensorOffset>
+                </corUsed>
+                <valid>
+                    <magTotalFieldCalc uom="nT">51.19</magTotalFieldCalc>
+                    <magDipAngleCalc uom="dega">41.5</magDipAngleCalc>
+                    <gravTotalFieldCalc uom="ft/s2">0.999</gravTotalFieldCalc>
+                </valid>
+                <matrixCov>
+                    <varianceNN uom="ft2">0.005236</varianceNN>
+                    <varianceNE uom="ft2">0.005236</varianceNE>
+                    <varianceNVert uom="ft2">2.356194</varianceNVert>
+                    <varianceEE uom="ft2">0.005236</varianceEE>
+                    <varianceEVert uom="ft2">0.005236</varianceEVert>
+                    <varianceVertVert uom="ft2">0.785398</varianceVertVert>
+                    <biasN uom="ft">0</biasN>
+                    <biasE uom="ft">0</biasE>
+                    <biasVert uom="ft">0</biasVert>
+                </matrixCov>
+                <location uid="loc-1">
+                    <wellCRS uidRef="geog1">ED50</wellCRS>
+                    <latitude uom="dega">59.755300</latitude>
+                    <longitude uom="dega">1.71347417</longitude>
+                </location>
+                <location uid="loc-2">
+                    <wellCRS uidRef="proj1">ED50 / UTM Zone 31N</wellCRS>
+                    <easting uom="m">427710.69</easting>
+                    <northing uom="m">6625015.54</northing>
+                </location>
+            </trajectoryStation>
+            <commonData>
+                <itemState>plan</itemState>
+                <comments>These are the comments associated with the trajectory data object.</comments>
+            </commonData>
+        </trajectory>
+    </trajectorys>
+    """)
+    check_ReturnValue_Success()
+    
+    partial_success("Added server_w1_wb1_traj1_uid successfully")
 
 # server_w1_wb1_traj2_uid
-WMLS_AddToStore(WMLTYPEIN_TRAJECTORY, """<?xml version="1.0" encoding="UTF-8"?>
-<trajectorys xmlns="http://www.witsml.org/schemas/1series" version="$server_schema_version$">
-    <trajectory uidWell="Energistics-well-0001" uidWellbore="Energistics-w1-wellbore-0001" uid="Energistics-w1-wb1-trajectory-0002">
-        <nameWell>Energistics Certification Well 1</nameWell>
-        <nameWellbore>Energistics Certification Well 1 Wellbore 1</nameWellbore>
-        <name>Energistics Certification Well 1 Wellbore 1 Trajectory 2</name>
-        <dTimTrajStart>2001-10-31T08:15:00.000Z</dTimTrajStart>
-        <dTimTrajEnd>2001-11-03T16:30:00.000Z</dTimTrajEnd>
-        <mdMn uom="ft">0</mdMn>
-        <mdMx uom="ft">14089.3</mdMx>
-        <serviceCompany>Anadrill</serviceCompany>
-        <magDeclUsed uom="dega">-4.038</magDeclUsed>
-        <gridCorUsed uom="dega">0.99961</gridCorUsed>
-        <aziVertSect uom="dega">82.700</aziVertSect>
-        <dispNsVertSectOrig uom="ft">0</dispNsVertSectOrig>
-        <dispEwVertSectOrig uom="ft">0</dispEwVertSectOrig>
-        <definitive>false</definitive>
-        <memory>true</memory>
-        <finalTraj>true</finalTraj>
-        <aziRef>grid north</aziRef>
-        <trajectoryStation uid="34ht5">
-            <dTimStn>2001-10-21T08:15:00.000Z</dTimStn>
-            <typeTrajStation>tie in point</typeTrajStation>
-            <md uom="ft">0</md>
-            <tvd uom="ft">0</tvd>
-            <incl uom="dega">0</incl>
-            <azi uom="dega">47.3</azi>
-            <mtf uom="dega">47.3</mtf>
-            <gtf uom="dega">0</gtf>
-            <dispNs uom="ft">0</dispNs>
-            <dispEw uom="ft">0</dispEw>
-            <vertSect uom="ft">0</vertSect>
-            <dls uom="dega/ft">0</dls>
-            <rateTurn uom="dega/ft">0</rateTurn>
-            <rateBuild uom="dega/ft">0</rateBuild>
-            <mdDelta uom="ft">0</mdDelta>
-            <tvdDelta uom="ft">0</tvdDelta>
-            <modelToolError>good gyro</modelToolError>
-            <gravTotalUncert uom="m/s2">0</gravTotalUncert>
-            <dipAngleUncert uom="dega">0</dipAngleUncert>
-            <magTotalUncert uom="nT">0</magTotalUncert>
-            <gravAccelCorUsed>false</gravAccelCorUsed>
-            <magXAxialCorUsed>false</magXAxialCorUsed>
-            <sagCorUsed>false</sagCorUsed>
-            <magDrlstrCorUsed>false</magDrlstrCorUsed>
-            <statusTrajStation>position</statusTrajStation>
-            <rawData>
-                <gravAxialRaw uom="ft/s2">0.116</gravAxialRaw>
-                <gravTran1Raw uom="ft/s2">-0.168</gravTran1Raw>
-                <gravTran2Raw uom="ft/s2">-1654</gravTran2Raw>
-                <magAxialRaw uom="nT">22.77</magAxialRaw>
-                <magTran1Raw uom="nT">22.5</magTran1Raw>
-                <magTran2Raw uom="nT">27.05</magTran2Raw>
-            </rawData>
-            <corUsed>
-                <gravAxialAccelCor uom="ft/s2">0.11</gravAxialAccelCor>
-                <gravTran1AccelCor uom="ft/s2">0.14</gravTran1AccelCor>
-                <gravTran2AccelCor uom="ft/s2">0.13</gravTran2AccelCor>
-                <magAxialDrlstrCor uom="nT">0.17</magAxialDrlstrCor>
-                <magTran1DrlstrCor uom="nT">0.16</magTran1DrlstrCor>
-                <magTran2DrlstrCor uom="nT">0.24</magTran2DrlstrCor>
-                <sagIncCor uom="dega">0</sagIncCor>
-                <sagAziCor uom="dega">0</sagAziCor>
-                <stnMagDeclUsed uom="dega">-4.038</stnMagDeclUsed>
-                <stnGridCorUsed uom="dega">-0.4917</stnGridCorUsed>
-                <dirSensorOffset uom="ft">48.3</dirSensorOffset>
-            </corUsed>
-            <valid>
-                <magTotalFieldCalc uom="nT">51.19</magTotalFieldCalc>
-                <magDipAngleCalc uom="dega">41.5</magDipAngleCalc>
-                <gravTotalFieldCalc uom="ft/s2">0.999</gravTotalFieldCalc>
-            </valid>
-            <matrixCov>
-                <varianceNN uom="ft2">0.005236</varianceNN>
-                <varianceNE uom="ft2">0.005236</varianceNE>
-                <varianceNVert uom="ft2">2.356194</varianceNVert>
-                <varianceEE uom="ft2">0.005236</varianceEE>
-                <varianceEVert uom="ft2">0.005236</varianceEVert>
-                <varianceVertVert uom="ft2">0.785398</varianceVertVert>
-                <biasN uom="ft">0</biasN>
-                <biasE uom="ft">0</biasE>
-                <biasVert uom="ft">0</biasVert>
-            </matrixCov>
-            <location uid="loc-1">
-                <wellCRS uidRef="geog1">ED50</wellCRS>
-                <latitude uom="dega">59.755300</latitude>
-                <longitude uom="dega">1.71347417</longitude>
-            </location>
-            <location uid="loc-2">
-                <wellCRS uidRef="proj1">ED50 / UTM Zone 31N</wellCRS>
-                <easting uom="m">427710.69</easting>
-                <northing uom="m">6625015.54</northing>
-            </location>
-        </trajectoryStation>
-        <commonData>
-            <itemState>plan</itemState>
-            <comments>These are the comments associated with the trajectory data object.</comments>
-        </commonData>
-    </trajectory>
-</trajectorys>
-""")
-check_ReturnValue_Success()
-partial_success("Added server_w1_wb1_traj2_uid successfully")
+if (wtl.globals.is_function_object_supported('WMLS_AddToStore' , WMLTYPEIN_TRAJECTORY) == True):
+    WMLS_AddToStore(WMLTYPEIN_TRAJECTORY, """<?xml version="1.0" encoding="UTF-8"?>
+    <trajectorys xmlns="http://www.witsml.org/schemas/1series" version="$server_schema_version$">
+        <trajectory uidWell="Energistics-well-0001" uidWellbore="Energistics-w1-wellbore-0001" uid="Energistics-w1-wb1-trajectory-0002">
+            <nameWell>Energistics Certification Well 1</nameWell>
+            <nameWellbore>Energistics Certification Well 1 Wellbore 1</nameWellbore>
+            <name>Energistics Certification Well 1 Wellbore 1 Trajectory 2</name>
+            <dTimTrajStart>2001-10-31T08:15:00.000Z</dTimTrajStart>
+            <dTimTrajEnd>2001-11-03T16:30:00.000Z</dTimTrajEnd>
+            <mdMn uom="ft">0</mdMn>
+            <mdMx uom="ft">14089.3</mdMx>
+            <serviceCompany>Anadrill</serviceCompany>
+            <magDeclUsed uom="dega">-4.038</magDeclUsed>
+            <gridCorUsed uom="dega">0.99961</gridCorUsed>
+            <aziVertSect uom="dega">82.700</aziVertSect>
+            <dispNsVertSectOrig uom="ft">0</dispNsVertSectOrig>
+            <dispEwVertSectOrig uom="ft">0</dispEwVertSectOrig>
+            <definitive>false</definitive>
+            <memory>true</memory>
+            <finalTraj>true</finalTraj>
+            <aziRef>grid north</aziRef>
+            <trajectoryStation uid="34ht5">
+                <dTimStn>2001-10-21T08:15:00.000Z</dTimStn>
+                <typeTrajStation>tie in point</typeTrajStation>
+                <md uom="ft">0</md>
+                <tvd uom="ft">0</tvd>
+                <incl uom="dega">0</incl>
+                <azi uom="dega">47.3</azi>
+                <mtf uom="dega">47.3</mtf>
+                <gtf uom="dega">0</gtf>
+                <dispNs uom="ft">0</dispNs>
+                <dispEw uom="ft">0</dispEw>
+                <vertSect uom="ft">0</vertSect>
+                <dls uom="dega/ft">0</dls>
+                <rateTurn uom="dega/ft">0</rateTurn>
+                <rateBuild uom="dega/ft">0</rateBuild>
+                <mdDelta uom="ft">0</mdDelta>
+                <tvdDelta uom="ft">0</tvdDelta>
+                <modelToolError>good gyro</modelToolError>
+                <gravTotalUncert uom="m/s2">0</gravTotalUncert>
+                <dipAngleUncert uom="dega">0</dipAngleUncert>
+                <magTotalUncert uom="nT">0</magTotalUncert>
+                <gravAccelCorUsed>false</gravAccelCorUsed>
+                <magXAxialCorUsed>false</magXAxialCorUsed>
+                <sagCorUsed>false</sagCorUsed>
+                <magDrlstrCorUsed>false</magDrlstrCorUsed>
+                <statusTrajStation>position</statusTrajStation>
+                <rawData>
+                    <gravAxialRaw uom="ft/s2">0.116</gravAxialRaw>
+                    <gravTran1Raw uom="ft/s2">-0.168</gravTran1Raw>
+                    <gravTran2Raw uom="ft/s2">-1654</gravTran2Raw>
+                    <magAxialRaw uom="nT">22.77</magAxialRaw>
+                    <magTran1Raw uom="nT">22.5</magTran1Raw>
+                    <magTran2Raw uom="nT">27.05</magTran2Raw>
+                </rawData>
+                <corUsed>
+                    <gravAxialAccelCor uom="ft/s2">0.11</gravAxialAccelCor>
+                    <gravTran1AccelCor uom="ft/s2">0.14</gravTran1AccelCor>
+                    <gravTran2AccelCor uom="ft/s2">0.13</gravTran2AccelCor>
+                    <magAxialDrlstrCor uom="nT">0.17</magAxialDrlstrCor>
+                    <magTran1DrlstrCor uom="nT">0.16</magTran1DrlstrCor>
+                    <magTran2DrlstrCor uom="nT">0.24</magTran2DrlstrCor>
+                    <sagIncCor uom="dega">0</sagIncCor>
+                    <sagAziCor uom="dega">0</sagAziCor>
+                    <stnMagDeclUsed uom="dega">-4.038</stnMagDeclUsed>
+                    <stnGridCorUsed uom="dega">-0.4917</stnGridCorUsed>
+                    <dirSensorOffset uom="ft">48.3</dirSensorOffset>
+                </corUsed>
+                <valid>
+                    <magTotalFieldCalc uom="nT">51.19</magTotalFieldCalc>
+                    <magDipAngleCalc uom="dega">41.5</magDipAngleCalc>
+                    <gravTotalFieldCalc uom="ft/s2">0.999</gravTotalFieldCalc>
+                </valid>
+                <matrixCov>
+                    <varianceNN uom="ft2">0.005236</varianceNN>
+                    <varianceNE uom="ft2">0.005236</varianceNE>
+                    <varianceNVert uom="ft2">2.356194</varianceNVert>
+                    <varianceEE uom="ft2">0.005236</varianceEE>
+                    <varianceEVert uom="ft2">0.005236</varianceEVert>
+                    <varianceVertVert uom="ft2">0.785398</varianceVertVert>
+                    <biasN uom="ft">0</biasN>
+                    <biasE uom="ft">0</biasE>
+                    <biasVert uom="ft">0</biasVert>
+                </matrixCov>
+                <location uid="loc-1">
+                    <wellCRS uidRef="geog1">ED50</wellCRS>
+                    <latitude uom="dega">59.755300</latitude>
+                    <longitude uom="dega">1.71347417</longitude>
+                </location>
+                <location uid="loc-2">
+                    <wellCRS uidRef="proj1">ED50 / UTM Zone 31N</wellCRS>
+                    <easting uom="m">427710.69</easting>
+                    <northing uom="m">6625015.54</northing>
+                </location>
+            </trajectoryStation>
+            <commonData>
+                <itemState>plan</itemState>
+                <comments>These are the comments associated with the trajectory data object.</comments>
+            </commonData>
+        </trajectory>
+    </trajectorys>
+    """)
+    check_ReturnValue_Success()
+    partial_success("Added server_w1_wb1_traj2_uid successfully")
 
 # server_w1_wb2_uid
 WMLS_AddToStore(WMLTYPEIN_WELLBORE, """<?xml version="1.0" encoding="utf-8"?>

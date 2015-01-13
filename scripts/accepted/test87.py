@@ -54,7 +54,6 @@ new_object_created(WMLTYPEIN_WELL, "$uid$", uidWell="$uid$")
 WMLS_GetFromStore(WMLTYPEIN_WELL, """<?xml version="1.0" encoding="utf-8"?>
                                    <wells xmlns="http://www.witsml.org/schemas/1series" version="$server_schema_version$">
                                      <well uid="$uid$">
-                                       <name/>
                                      </well>
                                    </wells>
                                 """,OptionsIn={'returnElements':'all'})
@@ -87,7 +86,6 @@ check_ReturnValue_Success()
 WMLS_GetFromStore(WMLTYPEIN_WELL, """<?xml version="1.0" encoding="utf-8"?>
                                    <wells xmlns="http://www.witsml.org/schemas/1series" version="$server_schema_version$">
                                      <well uid="$uid$">
-                                       <name/>
                                      </well>
                                    </wells>
                                 """,OptionsIn={'returnElements':'all'})

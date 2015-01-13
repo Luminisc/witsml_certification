@@ -25,8 +25,7 @@ log('Script procedure start')
 # Use SQ-010 (Get Header for one Growing Data-object) for the log.
 WMLS_GetFromStore(WMLTYPEIN_LOG, """<?xml version="1.0" encoding="UTF-8"?>
                                       <logs xmlns="http://www.witsml.org/schemas/1series" version="$server_schema_version$">
-                                        <log uidWell="$server_w1_uid$" uidWellbore="$server_w1_wb1_uid$" uid="$server_w1_wb1_log1_uid$">  
-                                            <logCurveInfo><mnemonic/></logCurveInfo>                    
+                                        <log uidWell="$server_w1_uid$" uidWellbore="$server_w1_wb1_uid$" uid="$server_w1_wb1_log1_uid$">                  
                                         </log>
                                       </logs>
                                   """,

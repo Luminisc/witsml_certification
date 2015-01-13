@@ -61,7 +61,7 @@ partial_success("Selection by 'uid' succeeded")
 # Use Standard Query #1 (Get ID of all Wells) including the name element with the first well's name.
 WMLS_GetFromStore(WMLTYPEIN_WELL, """<?xml version="1.0" encoding="UTF-8"?>
                                      <wells xmlns="http://www.witsml.org/schemas/1series" version="$server_schema_version$">
-                                       <well uid=''>                         
+                                       <well>                         
                                            <name>$well_1_name$</name>
                                        </well>                         
                                      </wells>
@@ -80,7 +80,7 @@ partial_success("Selection by 'name' succeeded")
 # For simplicity we use well 1's dTimLastChange which should not be included in the response.
 WMLS_GetFromStore(WMLTYPEIN_WELL, """<?xml version="1.0" encoding="UTF-8"?>
                                      <wells xmlns="http://www.witsml.org/schemas/1series" version="$server_schema_version$">
-                                       <well uid=''>
+                                       <well>
                                         <commonData>
                                          <dTimLastChange>$well_1_dTimLastChange$</dTimLastChange>
                                         </commonData>

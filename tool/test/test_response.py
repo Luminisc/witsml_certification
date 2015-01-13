@@ -1203,6 +1203,72 @@ class ResponseTest(unittest.TestCase, mocking.MockingTestMixin):
         x.check_string_does_not_contain("$foundTestString$")
         self.assertTrue(wtl.control_prim.fail.called)
 
+    def test_check_log_data_index_value(self):
+        # Test log data index value properly populated
+        x = wtl.response.XMLValue(XML_LOG_1410)
+        x.check_log_data_index_value(0, 1, error_margin=1)
+        x.check_log_data_index_value(1, '2')
+        x.check_log_data_index_value(2, 3, error_margin=1)
+        x.check_log_data_index_value(3, 4.1, error_margin=10)
+        x.check_log_data_index_value(4, 4.9, error_margin=10)             
+        self.assertFalse(wtl.control_prim.fail.called)
+
+    def test_check_log_data_index_value_index_too_high(self):
+        x = wtl.response.XMLValue(XML_LOG_1410)
+        x.check_log_data_index_value(7, 3, error_margin=99)
+        self.assertTrue(wtl.control_prim.fail.called)
+
+    def test_check_log_data_index_value_no_float_value_received(self):
+        XML_TIMELOG =  """<?xml version="1.0" encoding="UTF-8"?>
+              <logs xmlns="http://www.witsml.org/schemas/131" version="1.4.1.1">
+                <log uidWell='w1' uidWellbore='wb1' uid='l1'>
+                  <indexCurve>M1</indexCurve>
+                  <logCurveInfo>
+                    <mnemonic>M1</mnemonic>
+                    <unit>datetime</unit>
+                  </logCurveInfo>
+                  <logCurveInfo>
+                    <mnemonic>M2</mnemonic>
+                    <unit>m</unit>
+                  </logCurveInfo>
+                  <logData>                        
+                    <mnemonicList>M1,M2</mnemonicList>
+                    <unitList>datetime,m</unitList>
+                    <data>2003-11-24T08:15:00.000Z,2</data>
+                    <data>2003-11-24T08:15:01.000Z,0</data>
+                  </logData>
+                </log>
+              </logs>"""
+        x = wtl.response.XMLValue(XML_TIMELOG)
+        x.check_log_data_index_value(0, 3, error_margin=99)
+        self.assertTrue(wtl.control_prim.fail.called)
+  
+    def test_check_log_data_data_value(self):
+        # Test log data data value properly populated
+        x = wtl.response.XMLValue(XML_LOG_1410)
+        x.check_log_data_data_value(0,'M1', 1, error_margin=1)
+        x.check_log_data_data_value(1,'M1', '2')
+        x.check_log_data_data_value(2,'M1', 3, error_margin=1)
+        x.check_log_data_data_value(3,'M1', 4.1, error_margin=10)
+        x.check_log_data_data_value(4,'M1', 4.9, error_margin=10)             
+        x.check_log_data_data_value(4,'M2', '')
+        self.assertFalse(wtl.control_prim.fail.called)
+
+    def test_check_log_data_data_value_index_too_high(self):
+        x = wtl.response.XMLValue(XML_LOG_1410)
+        x.check_log_data_data_value(7,'M1', 3, error_margin=99)
+        self.assertTrue(wtl.control_prim.fail.called)
+
+    def test_check_log_data_data_value_bad_mnemonic(self):
+        x = wtl.response.XMLValue(XML_LOG_1410)
+        x.check_log_data_data_value(0,'M7', 3, error_margin=99)
+        self.assertTrue(wtl.control_prim.fail.called)
+
+    def test_check_log_data_data_value_no_value_received(self):
+        x = wtl.response.XMLValue(XML_LOG_1410)
+        x.check_log_data_data_value(4,'M2', 3, error_margin=99)
+        self.assertTrue(wtl.control_prim.fail.called)
+  
     def test_check_log_data_all(self):
         x = wtl.response.XMLValue("""<?xml version="1.0" encoding="UTF-8"?>
               <logs xmlns="http://www.witsml.org/schemas/131" version="1.4.1.0">

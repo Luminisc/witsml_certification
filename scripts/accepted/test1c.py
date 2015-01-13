@@ -39,7 +39,7 @@ log('')
 # Use Standard Query #1 (Get ID of all Wells) including the numGovt with the first well's numGovt
 WMLS_GetFromStore(WMLTYPEIN_WELL, """<?xml version="1.0" encoding="UTF-8"?>
                                      <wells xmlns="http://www.witsml.org/schemas/1series" version="$server_schema_version$">
-                                       <well uid=''>                         
+                                       <well>                         
                                            <numGovt>$well_1_numGovt$</numGovt>
                                        </well>                         
                                      </wells>

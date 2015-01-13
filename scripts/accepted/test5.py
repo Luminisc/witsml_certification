@@ -40,7 +40,7 @@ log('')
 #Verify server returns 1 well that matches provided name in lower case
 WMLS_GetFromStore(WMLTYPEIN_WELL, """<?xml version="1.0" encoding="UTF-8"?>
                                      <wells xmlns="http://www.witsml.org/schemas/1series" version="$server_schema_version$">
-                                         <well uid="">
+                                         <well>
                                              <name>$name_lower$</name>
                                          </well>
                                      </wells>
