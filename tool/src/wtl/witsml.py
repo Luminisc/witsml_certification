@@ -35,6 +35,8 @@ import wtl.script as script
 import wtl.utils as utils
 import wtl.results as results
 import wtl.globals
+import unitDict.unitDictUtility as unitDictUtility 
+
 exec("import %s" %(config.server_file_name))
     
 
@@ -260,6 +262,9 @@ check_XMLout_NumberOfObjects = store_prim.WITSMLServer.xml_out.check_number_of_o
 check_XMLout_NumberOfObjects_Greaterthan = store_prim.WITSMLServer.xml_out.check_number_of_objects_greaterthan
 check_XMLout_NumberOfObjects_Lessthan = store_prim.WITSMLServer.xml_out.check_number_of_objects_lessthan
 check_XMLout_OnlyIncluded = store_prim.WITSMLServer.xml_out.check_only_included
+check_XMLout_ValidWriteSchema = store_prim.WITSMLServer.xml_out.check_valid_write_schema
+check_XMLout_ElementAttributesAndChildren = store_prim.WITSMLServer.xml_out.check_element_attribute_and_children_list
+
 check_Version = store_prim.WITSMLServer.xml_out.check_valid_witsml_versions
 
 check_logData_IndexValue = store_prim.WITSMLServer.xml_out.check_log_data_index_value
@@ -268,7 +273,7 @@ check_logData_AllData = store_prim.WITSMLServer.xml_out.check_log_data_all
 check_logData_NumberOfNodes = store_prim.WITSMLServer.xml_out.check_log_data_number_of_nodes
 check_logData_NumberOfPoints = store_prim.WITSMLServer.xml_out.check_log_data_number_of_points
 
-
+check_ElapseTimeInSeconds_Lessthan = store_prim.WITSMLServer.elapse_time_in_seconds.check_value_less_than
 #######################
 #                     #
 #  Parse Primitives   #
@@ -297,6 +302,7 @@ get_logData_DataValue_String = store_prim.WITSMLServer.xml_out.get_log_data_data
 get_logData_NumberOfNodes_Int = store_prim.WITSMLServer.xml_out.get_log_data_number_of_nodes
 get_logData_NumberOfPoints_Int = store_prim.WITSMLServer.xml_out.get_log_data_number_of_points
 
+get_ElapseTimeInSeconds_float = store_prim.WITSMLServer.elapse_time_in_seconds.get
 
 #############################
 #                           #
@@ -333,6 +339,20 @@ timestamp_subtract_seconds = time_prim.subtract_seconds_to_timestamp
 log_verify_check_log_header_and_data = store_prim.WITSMLServer.log_verify_object.test_full_log
 log_verify_check_log_header_only = store_prim.WITSMLServer.log_verify_object.test_header_only_log
 log_verify_check_requestLatestValue_header_and_data = store_prim.WITSMLServer.log_verify_object.test_requestLatestValues_full_log
+log_verify_check_requestLatestValue_header_and_data_max = store_prim.WITSMLServer.log_verify_object.test_requestLatestValues_full_log_max
+log_verify_check_data_only = store_prim.WITSMLServer.log_verify_object.test_dataOnly_log
+log_verify_check_data_only_extended = store_prim.WITSMLServer.log_verify_object.test_dataOnly_log_extended
+log_verify_get_curve_info_dictionary = store_prim.WITSMLServer.log_verify_object.get_CurveInfo_Dictionary
+
+####################
+#                   #
+#  unit Dictionary  #
+#                   #
+#####################
+
+
+convert_units = unitDictUtility.convert_to_unit
+
 
 ##################################
 #                                #

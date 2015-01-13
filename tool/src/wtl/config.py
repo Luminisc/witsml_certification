@@ -46,6 +46,10 @@ for option in sys.argv:
         log_responses = True
     elif (option == '-L'):
         log_responses = False
+    elif (option == '-r'):
+        log_requests = True
+    elif (option == '-R'):
+        log_requests = False        
     elif (option == '-v'):
         enable_schema_validation = True
     elif (option == '-V'):

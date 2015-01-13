@@ -82,6 +82,16 @@ try:
           package_dir = {'wcmp': 'src/wcmp'},
           package_data={'wcmp': ["witsml1411/*.py" ] }
           )
+		  
+    setup(name='UnitDict',
+          version='1.0',
+          description='WITSML Unit Dictionary',
+          author='Bill Riegel',
+          author_email='briegel@lgc.com',
+          url='http://www.hallibutom.com',      
+          packages=['unitDict'],
+          package_dir = {'unitDict': 'src/unitDict'},
+          )		  
     
 except SystemExit, msg:
     print "Installation Failed: Error: %s" % msg

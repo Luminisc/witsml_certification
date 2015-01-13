@@ -267,7 +267,105 @@ XML_1410_WITH_ARRAY_CURVE = """<?xml version="1.0" encoding="UTF-8"?>
                 </commonData>                
               </log>
         </logs>        
-        """                      
+        """   
+
+XML_WELLBORE = """<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="./stylesheets/generic.xsl" type="text/xsl" media="screen"?>
+<!--           Example of Wellbore data     -->
+<wellbores 
+    xmlns="http://www.witsml.org/schemas/1series" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://www.witsml.org/schemas/1series  ../xsd_schemas/obj_wellbore.xsd" 
+    version="1.4.1.1">
+<!-- 
+These examples are only intended to demonstrate the type of data that can be exchanged.
+They totally artificial and are not intended to demonstrate best practices. 
+-->
+    <documentInfo>
+        <documentName>wellbore</documentName>
+        <fileCreationInformation>
+            <fileCreationDate>2001-10-31T08:15:00.000Z</fileCreationDate> 
+            <fileCreator>John Smith</fileCreator>
+        </fileCreationInformation>
+    </documentInfo>
+    <wellbore uidWell="W-12" uid="B-01">
+        <nameWell>6507/7-A-42</nameWell>
+        <name>A-42</name>
+        <number>1234-0987</number>
+        <suffixAPI>02</suffixAPI>
+        <numGovt>Govt001</numGovt>
+        <statusWellbore>active</statusWellbore>
+        <purposeWellbore>exploration</purposeWellbore>
+        <typeWellbore>initial</typeWellbore>
+        <shape>horizontal</shape>
+        <dTimKickoff>2001-03-15T13:20:00.000Z</dTimKickoff>
+        <md uom="ft">0</md>
+        <tvd uom="ft">0</tvd>
+        <mdKickoff uom="ft">0</mdKickoff>
+        <tvdKickoff uom="ft">0</tvdKickoff>
+        <mdPlanned uom="ft">15800</mdPlanned>
+        <tvdPlanned uom="ft">12567</tvdPlanned>
+        <mdSubSeaPlanned uom="ft">12800</mdSubSeaPlanned>
+        <tvdSubSeaPlanned uom="ft">9567</tvdSubSeaPlanned>
+        <dayTarget uom="d">128</dayTarget>
+        <commonData>
+            <dTimCreation>2001-04-30T08:15:00.000Z</dTimCreation>
+            <dTimLastChange>2001-05-31T08:15:00.000Z</dTimLastChange>
+            <itemState>plan</itemState>
+            <comments>These are the comments associated with the Wellbore data object.</comments>
+        </commonData>
+    </wellbore>
+    <wellbore uidWell="W-12" uid="B-02">
+        <nameWell>6507/7-A-42</nameWell>
+        <name>A-43</name>
+        <parentWellbore uidRef="B-01">A-42</parentWellbore>
+        <number>Wellbore Number 2</number>
+        <suffixAPI>03</suffixAPI>
+        <numGovt>Govt Number 12345</numGovt>
+        <statusWellbore>drilling</statusWellbore>
+        <purposeWellbore>exploration</purposeWellbore>
+        <typeWellbore>sidetrack</typeWellbore>
+        <shape>horizontal</shape>
+        <dTimKickoff>2001-04-14T09:25:00.000Z</dTimKickoff>
+        <md uom="ft">10760</md>
+        <tvd uom="ft">9230</tvd>
+        <mdKickoff uom="ft">10760</mdKickoff>
+        <tvdKickoff uom="ft">9230</tvdKickoff>
+        <mdPlanned uom="ft">15800</mdPlanned>
+        <tvdPlanned uom="ft">12567</tvdPlanned>
+        <mdSubSeaPlanned uom="ft">12900</mdSubSeaPlanned>
+        <tvdSubSeaPlanned uom="ft">9567</tvdSubSeaPlanned>
+        <dayTarget uom="d">35</dayTarget>
+        <commonData>
+            <dTimCreation>2001-04-30T08:15:00.000Z</dTimCreation>
+            <dTimLastChange>2001-05-31T08:15:00.000Z</dTimLastChange>
+            <itemState>plan</itemState>
+            <comments>These are the comments associated with the Wellbore data object.</comments>
+        </commonData>
+    </wellbore>
+</wellbores>
+"""        
+#<statusWellbore>active2</statusWellbore> should be <statusWellbore>active</statusWellbore>
+XML_WELLBORE_BAD = """<?xml version="1.0" encoding="UTF-8"?>
+<wellbores 
+    xmlns="http://www.witsml.org/schemas/1series" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://www.witsml.org/schemas/1series  ../xsd_schemas/obj_wellbore.xsd" 
+    version="1.4.1.1">
+    <wellbore uidWell="W-12" uid="B-01">
+        <nameWell>6507/7-A-42</nameWell>
+        <name>A-42</name>
+        <statusWellbore>active2</statusWellbore>
+        <commonData>
+            <dTimCreation>2001-04-30T08:15:00.000Z</dTimCreation>
+            <dTimLastChange>2001-05-31T08:15:00.000Z</dTimLastChange>
+            <itemState>plan</itemState>
+            <comments>These are the comments associated with the Wellbore data object.</comments>
+        </commonData>
+    </wellbore>
+</wellbores>
+"""
+                           
 
 class ResponseTest(unittest.TestCase, mocking.MockingTestMixin):
     def setUp(self):
@@ -1051,6 +1149,383 @@ class ResponseTest(unittest.TestCase, mocking.MockingTestMixin):
                                      <logs xmlns="http://www.witsml.org/schemas/131" version="1.3.1.1"/>""")
         elements = x.build_elements_list();
         self.assertTrue( elements == ['logs', 'logs[version]'] ) 
+
+
+    def test_build_attribute_and_child_elements_list(self):
+        x = wtl.response.XMLValue("""<?xml version="1.0" encoding="UTF-8"?>
+              <logs xmlns="http://www.witsml.org/schemas/131" version="1.4.1.0">
+                <log attrib1='a1' attrib2='a2' attrib3='a3'>
+                  <element1>elem1</element1>
+                  <element2>elem2</element2>
+                  <element3>elem3</element3>
+                </log>
+                <log attrib4='a4'>
+                  <element4 attrib5='a5'>
+                      <element5 attrib7='a7'>elem5</element5>                      
+                  </element4>
+                </log>
+                <log attrib6='a6'/>
+                <log/>
+                <log>
+                  <element6>elem6</element6>
+                  <element7>
+                      <element8>elem8</element8>
+                  </element7>    
+                  <element7/>
+                  <element6>elem6</element6>
+                </log>
+              </logs>""") 
+        
+        
+        element = x.get_element("log")
+        self.assertTrue(x.build_attribute_and_child_elements_list(None)== [])
+        self.assertTrue(x.build_attribute_and_child_elements_list(element[0])== ['log[attrib1]' , 'log[attrib2]', 'log[attrib3]', 'element1', 'element2', 'element3' ])
+        self.assertTrue(x.build_attribute_and_child_elements_list(element[1])== ['log[attrib4]', 'element4'])
+        self.assertTrue(x.build_attribute_and_child_elements_list(element[2])== ['log[attrib6]'])
+        self.assertTrue(x.build_attribute_and_child_elements_list(element[3])== [])
+        self.assertTrue(x.build_attribute_and_child_elements_list(element[4])== ['element6','element7'])
+
+    def test_check_element_attribute_and_children_list_matchExact(self):
+        x = wtl.response.XMLValue("""<?xml version="1.0" encoding="UTF-8"?>
+            <wellbores>
+                <wellbore uidWell="W-12" uid="B-01">
+                    <nameWell>6507/7-A-42</nameWell>
+                    <name>A-41</name>
+                </wellbore>
+                <wellbore uidWell="W-12" uid="B-02">
+                    <nameWell>6507/7-A-42</nameWell>
+                    <name>A-42</name>
+                </wellbore>
+                <wellbore uidWell="W-13" uid="C-01">
+                    <nameWell>6507/7-A-43</nameWell>
+                    <name>B-41</name>
+                </wellbore>
+            </wellbores>""") 
+        x.check_element_attribute_and_children_list('wellbore',['wellbore[uidWell]', 'wellbore[uid]', 'name', 'nameWell'],
+                                                    match='exact')
+        self.assertFalse(wtl.control_prim.fail.called)
+        
+    def test_check_element_attribute_and_children_list_matchExact_missingAttribute(self):
+        x = wtl.response.XMLValue("""<?xml version="1.0" encoding="UTF-8"?>
+            <wellbores>
+                <wellbore uidWell="W-12" uid="B-01">
+                    <nameWell>6507/7-A-42</nameWell>
+                    <name>A-41</name>
+                </wellbore>
+                <wellbore uidWell="W-12">
+                    <nameWell>6507/7-A-42</nameWell>
+                    <name>A-42</name>
+                </wellbore>
+                <wellbore uidWell="W-13" uid="C-01">
+                    <nameWell>6507/7-A-43</nameWell>
+                    <name>B-41</name>
+                </wellbore>
+            </wellbores>""") 
+        x.check_element_attribute_and_children_list('wellbore',['wellbore[uidWell]', 'wellbore[uid]', 'name', 'nameWell'],
+                                                    match='exact')
+        self.assertTrue(wtl.control_prim.fail.called)
+        
+    def test_check_element_attribute_and_children_list_matchExact_missingChild(self):
+        x = wtl.response.XMLValue("""<?xml version="1.0" encoding="UTF-8"?>
+            <wellbores>
+                <wellbore uidWell="W-12" uid="B-01">
+                    <nameWell>6507/7-A-42</nameWell>
+                    <name>A-41</name>
+                </wellbore>
+                <wellbore uidWell="W-12" uid="B-02">
+                    <nameWell>6507/7-A-42</nameWell>
+                    <name>A-42</name>
+                </wellbore>
+                <wellbore uidWell="W-13" uid="C-01">
+                    <name>B-41</name>
+                </wellbore>
+            </wellbores>""") 
+        x.check_element_attribute_and_children_list('wellbore',['wellbore[uidWell]', 'wellbore[uid]', 'name', 'nameWell'],
+                                                    match='exact')
+        self.assertTrue(wtl.control_prim.fail.called)
+        
+    def test_check_element_attribute_and_children_list_matchExact_extraAttribute(self):
+        x = wtl.response.XMLValue("""<?xml version="1.0" encoding="UTF-8"?>
+            <wellbores>
+                <wellbore uidWell="W-12" uid="B-01" extra="extra">
+                    <nameWell>6507/7-A-42</nameWell>
+                    <name>A-41</name>
+                </wellbore>
+                <wellbore uidWell="W-12" uid="B-02">
+                    <nameWell>6507/7-A-42</nameWell>
+                    <name>A-42</name>
+                </wellbore>
+                <wellbore uidWell="W-13" uid="C-01">
+                    <nameWell>6507/7-A-43</nameWell>
+                    <name>B-41</name>
+                </wellbore>
+            </wellbores>""")  
+        x.check_element_attribute_and_children_list('wellbore',['wellbore[uidWell]', 'wellbore[uid]', 'name', 'nameWell'],
+                                                    match='exact')
+        self.assertTrue(wtl.control_prim.fail.called)
+        
+    def test_check_element_attribute_and_children_list_matchExact_extraChild(self):
+        x = wtl.response.XMLValue("""<?xml version="1.0" encoding="UTF-8"?>
+            <wellbores>
+                <wellbore uidWell="W-12" uid="B-01">
+                    <nameWell>6507/7-A-42</nameWell>
+                    <name>A-41</name>
+                </wellbore>
+                <wellbore uidWell="W-12" uid="B-02">
+                    <nameWell>6507/7-A-42</nameWell>
+                    <extra/>
+                    <name>A-42</name>
+                </wellbore>
+                <wellbore uidWell="W-13" uid="C-01">
+                    <nameWell>6507/7-A-43</nameWell>
+                    <name>B-41</name>
+                </wellbore>
+            </wellbores>""")  
+        x.check_element_attribute_and_children_list('wellbore',['wellbore[uidWell]', 'wellbore[uid]', 'name', 'nameWell'],
+                                                    match='exact')
+        self.assertTrue(wtl.control_prim.fail.called)
+        
+    def test_check_element_attribute_and_children_list_matchExact_missing_element_in_List(self):
+        x = wtl.response.XMLValue("""<?xml version="1.0" encoding="UTF-8"?>
+            <wellbores>
+                <wellbore uidWell="W-12" uid="B-01">
+                    <nameWell>6507/7-A-42</nameWell>
+                    <name>A-41</name>
+                </wellbore>
+                <wellbore uidWell="W-12" uid="B-02">
+                    <nameWell>6507/7-A-42</nameWell>
+                    <name>A-42</name>
+                </wellbore>
+                <wellbore uidWell="W-13" uid="C-01">
+                    <nameWell>6507/7-A-43</nameWell>
+                    <name>B-41</name>
+                </wellbore>
+            </wellbores>""") 
+        x.check_element_attribute_and_children_list('wellbore',['wellbore[uidWell]', 'wellbore[uid]', 'nameWell'],
+                                                    match='exact')
+        self.assertTrue(wtl.control_prim.fail.called)        
+        
+    def test_check_element_attribute_and_children_list_matchExact_missing_attribute_in_List(self):
+        x = wtl.response.XMLValue("""<?xml version="1.0" encoding="UTF-8"?>
+            <wellbores>
+                <wellbore uidWell="W-12" uid="B-01">
+                    <nameWell>6507/7-A-42</nameWell>
+                    <name>A-41</name>
+                </wellbore>
+                <wellbore uidWell="W-12" uid="B-02">
+                    <nameWell>6507/7-A-42</nameWell>
+                    <name>A-42</name>
+                </wellbore>
+                <wellbore uidWell="W-13" uid="C-01">
+                    <nameWell>6507/7-A-43</nameWell>
+                    <name>B-41</name>
+                </wellbore>
+            </wellbores>""") 
+        x.check_element_attribute_and_children_list('wellbore',['wellbore[uidWell]', 'name', 'nameWell'],
+                                                    match='exact')
+        self.assertTrue(wtl.control_prim.fail.called)           
+        
+    def test_check_element_attribute_and_children_list_matchExact_subElement_well(self):        
+        x = wtl.response.XMLValue("""<?xml version="1.0" encoding="utf-8"?>
+                                   <wells xmlns="http://www.witsml.org/schemas/1series" version="$server_schema_version$">
+                                      <well uid="Energistics-well-0001">
+                                         <name>Energistics Certification Well 1</name>
+                                         <wellDatum uid="KB">
+                                             <name>Kelly Bushing</name>
+                                             <code>KB</code>
+                                             <elevation uom="ft">78.5</elevation>
+                                         </wellDatum>
+                                         <wellCRS uid="proj1">
+                                             <name>ED50 / UTM Zone 31N</name>
+                                             <mapProjection>
+                                                 <nameCRS namingSystem="epsg">ED50 / UTM Zone 31N</nameCRS>
+                                                 <NADType>unknown</NADType>
+                                             </mapProjection>
+                                         </wellCRS>
+                                         <wellCRS uid="geog1">
+                                            <name>ED50</name>
+                                            <geographic>
+                                                <nameCRS namingSystem="epsg">ED50</nameCRS>
+                                            </geographic>
+                                         </wellCRS>
+                                      </well>
+                                   </wells>""")
+        x.check_element_attribute_and_children_list('well/wellCRS/mapProjection',['nameCRS', 'NADType'],
+                                                    match='exact')
+        self.assertFalse(wtl.control_prim.fail.called)        
+
+    def test_check_element_attribute_and_children_list_matchExact_subElement_trajectory(self):        
+        x = wtl.response.XMLValue("""<?xml version="1.0" encoding="UTF-8"?>
+    <trajectorys xmlns="http://www.witsml.org/schemas/1series" version="$server_schema_version$">
+        <trajectory uidWell="Energistics-well-0001" uidWellbore="Energistics-w1-wellbore-0001" uid="Energistics-w1-wb1-trajectory-0001">
+            <nameWell>Energistics Certification Well 1</nameWell>
+            <nameWellbore>Energistics Certification Well 1 Wellbore 1</nameWellbore>
+            <name>Energistics Certification Well 1 Wellbore 1 Trajectory 1</name>
+            <trajectoryStation uid="1">
+                <typeTrajStation>tie in point</typeTrajStation>
+                <md uom="ft">0</md>
+            </trajectoryStation>
+            <trajectoryStation uid="2">
+                <typeTrajStation>tie in point</typeTrajStation>
+                <md uom="ft">0</md>
+            </trajectoryStation>            
+            <commonData>
+                <itemState>plan</itemState>
+                <comments>These are the comments associated with the trajectory data object.</comments>
+            </commonData>
+        </trajectory>
+    </trajectorys>
+    """)
+        x.check_element_attribute_and_children_list('trajectory/trajectoryStation',['trajectoryStation[uid]', 'typeTrajStation', 'md'],
+                                                    match='exact')
+        self.assertFalse(wtl.control_prim.fail.called)                 
+        
+    def test_check_element_attribute_and_children_list_matchExact_subElement_extraElement_trajectory(self):        
+        x = wtl.response.XMLValue("""<?xml version="1.0" encoding="UTF-8"?>
+    <trajectorys xmlns="http://www.witsml.org/schemas/1series" version="$server_schema_version$">
+        <trajectory uidWell="Energistics-well-0001" uidWellbore="Energistics-w1-wellbore-0001" uid="Energistics-w1-wb1-trajectory-0001">
+            <nameWell>Energistics Certification Well 1</nameWell>
+            <nameWellbore>Energistics Certification Well 1 Wellbore 1</nameWellbore>
+            <name>Energistics Certification Well 1 Wellbore 1 Trajectory 1</name>
+            <trajectoryStation uid="1">
+                <typeTrajStation>tie in point</typeTrajStation>
+                <md uom="ft">0</md>
+            </trajectoryStation>
+            <trajectoryStation uid="2">
+                <typeTrajStation>tie in point</typeTrajStation>
+                <md uom="ft">0</md>
+                <extra/>
+            </trajectoryStation>  
+            <commonData>
+                <itemState>plan</itemState>
+                <comments>These are the comments associated with the trajectory data object.</comments>
+            </commonData>
+        </trajectory>
+    </trajectorys>
+    """)
+        x.check_element_attribute_and_children_list('trajectory/trajectoryStation',['trajectoryStation[uid]', 'typeTrajStation', 'md'],
+                                                    match='exact')
+        self.assertTrue(wtl.control_prim.fail.called)         
+        
+    def test_check_element_attribute_and_children_list_matchAtleast(self):
+        x = wtl.response.XMLValue("""<?xml version="1.0" encoding="UTF-8"?>
+            <wellbores xmlns="http://www.witsml.org/schemas/1series" 
+                       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+                       xsi:schemaLocation="http://www.witsml.org/schemas/1series  ../xsd_schemas/obj_wellbore.xsd" 
+                       version="1.4.1.1">
+                <wellbore uidWell="W-12" uid="B-01">
+                    <nameWell>6507/7-A-42</nameWell>
+                    <name>A-41</name>
+                    <extra>blah</extra>
+                </wellbore>
+                <wellbore uidWell="W-12" uid="B-02" attrib="extra">
+                    <nameWell>6507/7-A-42</nameWell>
+                    <name>A-42</name>
+                </wellbore>
+                <wellbore uidWell="W-13" uid="C-01" attrib="extra">
+                    <nameWell>6507/7-A-43</nameWell>
+                <name>B-41</name>
+                    <extra>blah</extra>
+                </wellbore>
+            </wellbores>""") 
+        x.check_element_attribute_and_children_list('wellbore',['wellbore[uidWell]', 'wellbore[uid]', 'name', 'nameWell'],
+                                                    match='at-least')
+        self.assertFalse(wtl.control_prim.fail.called)
+
+    def test_check_element_attribute_and_children_list_matchAtleast_missingAttribute(self):
+        x = wtl.response.XMLValue("""<?xml version="1.0" encoding="UTF-8"?>
+            <wellbores>
+                <wellbore uidWell="W-12" uid="B-01">
+                    <nameWell>6507/7-A-42</nameWell>
+                    <name>A-41</name>
+                    <extra>blah</extra>
+                </wellbore>
+                <wellbore uidWell="W-12" uid="B-02" attrib="extra">
+                    <nameWell>6507/7-A-42</nameWell>
+                    <name>A-42</name>
+                </wellbore>
+                <wellbore uid="C-01" attrib="extra">
+                    <nameWell>6507/7-A-43</nameWell>
+                <name>B-41</name>
+                    <extra>blah</extra>
+                </wellbore>
+            </wellbores>""") 
+        x.check_element_attribute_and_children_list('wellbore',['wellbore[uidWell]', 'wellbore[uid]', 'name', 'nameWell'],
+                                                    match='at-least')
+        self.assertTrue(wtl.control_prim.fail.called)
+
+    def test_check_element_attribute_and_children_list_matchAtleast_missingChild(self):
+        x = wtl.response.XMLValue("""<?xml version="1.0" encoding="UTF-8"?>
+            <wellbores>
+                <wellbore uidWell="W-12" uid="B-01">
+                    <nameWell>6507/7-A-42</nameWell>
+                    <extra>blah</extra>
+                </wellbore>
+                <wellbore uidWell="W-12" uid="B-02" attrib="extra">
+                    <nameWell>6507/7-A-42</nameWell>
+                    <name>A-42</name>
+                </wellbore>
+                <wellbore uidWell="W-13" uid="C-01" attrib="extra">
+                    <nameWell>6507/7-A-43</nameWell>
+                <name>B-41</name>
+                    <extra>blah</extra>
+                </wellbore>
+            </wellbores>""") 
+        x.check_element_attribute_and_children_list('wellbore',['wellbore[uidWell]', 'wellbore[uid]', 'name', 'nameWell'],
+                                                    match='at-least')
+        self.assertTrue(wtl.control_prim.fail.called)
+
+    def test_check_element_attribute_and_children_list_matchAtMost(self):
+        x = wtl.response.XMLValue("""<?xml version="1.0" encoding="UTF-8"?>
+            <wellbores xmlns="http://www.witsml.org/schemas/1series" 
+                       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+                       xsi:schemaLocation="http://www.witsml.org/schemas/1series  ../xsd_schemas/obj_wellbore.xsd" 
+                       version="1.4.1.1">
+                <wellbore uidWell="W-12">
+                    <nameWell>6507/7-A-42</nameWell>
+                    <name>A-41</name>
+                </wellbore>
+                <wellbore uidWell="W-12" uid="B-02">
+                    <name>A-42</name>
+                </wellbore>
+                <wellbore/>
+            </wellbores>""") 
+        x.check_element_attribute_and_children_list('wellbore',['wellbore[uidWell]', 'wellbore[uid]', 'name', 'nameWell'],
+                                                    match='at-most')
+        self.assertFalse(wtl.control_prim.fail.called)
+
+    def test_check_element_attribute_and_children_list_matchAtMost_extraAttribute(self):
+        x = wtl.response.XMLValue("""<?xml version="1.0" encoding="UTF-8"?>
+            <wellbores>
+                <wellbore uidWell="W-12">
+                    <nameWell>6507/7-A-42</nameWell>
+                    <name>A-41</name>
+                </wellbore>
+                <wellbore/>
+                <wellbore uidWell="W-12" uid="B-02" extra="extra">
+                    <name>A-42</name>
+                </wellbore>
+            </wellbores>""") 
+        x.check_element_attribute_and_children_list('wellbore',['wellbore[uidWell]', 'wellbore[uid]', 'name', 'nameWell'],
+                                                    match='at-most')
+        self.assertTrue(wtl.control_prim.fail.called)
+
+    def test_check_element_attribute_and_children_list_matchAtMost_extraChild(self):
+        x = wtl.response.XMLValue("""<?xml version="1.0" encoding="UTF-8"?>
+            <wellbores>
+                <wellbore uidWell="W-12">
+                    <nameWell>6507/7-A-42</nameWell>
+                    <name>A-41</name>
+                </wellbore>
+                <wellbore uidWell="W-12" uid="B-02">
+                    <name>A-42</name>
+                    <extra/>
+                </wellbore>
+                <wellbore/>
+            </wellbores>""") 
+        x.check_element_attribute_and_children_list('wellbore',['wellbore[uidWell]', 'wellbore[uid]', 'name', 'nameWell'],
+                                                    match='at-most')
+        self.assertTrue(wtl.control_prim.fail.called)
 
     def test_check_only_included(self):
         # Test build_elements_list method
@@ -2051,6 +2526,41 @@ class ResponseTest(unittest.TestCase, mocking.MockingTestMixin):
         list = x.get_recurring_element_list_via_key("BadlogCurveInfo", ['DEPTH','GR','DRHO','CALI','RHOB'], 'mnemonic','minIndex')        
         self.assertTrue(list == [None, None, None, None, None])                
         
+    def test_check_valid_write_schema_1410_log(self):
+        # tests that validation passes for 1.4.1.0 log object which complies with write schema
+        x = wtl.response.XMLValue(XML_1410_WITH_ARRAY_CURVE)      
+        self.assertTrue(x.check_valid_write_schema())
+        
+    def test_check_invalid_write_schema_1410_log(self):
+        # tests that validation fails for 1.4.1.0 log object which does not comply with write schema (only read schema)
+        x = wtl.response.XMLValue(XML_LOG_1410)  
+        x.check_valid_write_schema()
+        self.assertTrue(wtl.control_prim.fail.called)  
+        
+    def test_check_invalid_write_schema_1311_log(self):
+        # tests that validation fails for 1.3.1.1 log object which does not comply with write schema
+        x = wtl.response.XMLValue(XML_LOG_1311)  
+        x.check_valid_write_schema()
+        self.assertTrue(wtl.control_prim.fail.called)     
+         
+    def test_check_valid_write_schema_1411_wellbore(self):
+        # tests that validation passes for 1.4.1.1 wellbore object which complies with write schema
+        x = wtl.response.XMLValue(XML_WELLBORE)  
+        self.assertTrue(x.check_valid_write_schema())
+        
+    def test_check_invalid_write_schema_1411_2_wellbore(self):
+        # tests that validation fails for 1.4.1.1 wellbore object which does not comply with 1.3.1.1 wellbore write schema
+        x = wtl.response.XMLValue(XML_WELLBORE)  
+        x.check_valid_write_schema()
+        self.assertFalse(wtl.control_prim.fail.called)     
+
+    def test_check_invalid_write_schema_1411_bad_wellbore(self):
+        # tests that validation fails for 1.4.1.1 wellbore object which does not comply with 1.3.1.1 wellbore write schema
+        x = wtl.response.XMLValue(XML_WELLBORE_BAD)  
+        x.check_valid_write_schema()
+        self.assertTrue(wtl.control_prim.fail.called) 
+
+
         
 if __name__ == '__main__':
     unittest.main()

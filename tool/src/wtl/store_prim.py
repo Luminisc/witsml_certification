@@ -25,6 +25,7 @@ import os
 import sys
 from suds.client import Client
 from suds.transport.http import HttpAuthenticated
+from datetime import datetime
 
 # Application imports
 import script
@@ -104,6 +105,7 @@ class WITSMLServer:
     capabilities_out = response.XMLValue(None)
     xml_out =  response.XMLValue(None)
     supp_msg_out = response.ReturnValue(None)
+    elapse_time_in_seconds = response.ElapseTimeInSecondsValue(None)
 
     log_verify_object = log_verify.LogVerify(xml_out)
 
@@ -250,7 +252,14 @@ class WITSMLServer:
         WITSMLServer.log_store_action("sending WMLS_AddToStore request")
         WITSMLServer.clear_response()
         try:
-            reply = WITSMLServer.client.service.WMLS_AddToStore(WMLtypeIn, utils.process_string(XMLin), utils.encode_options_in(OptionsIn), CapabilitiesIn)
+            queryString = utils.process_string(XMLin)
+            optionsInString = utils.encode_options_in(OptionsIn)
+            testlog.wtl_log_server_query("WMLtypeIn", WMLtypeIn, "XMLin", queryString, "OptionsIn", optionsInString, "CapabilitiesIn", CapabilitiesIn)
+            before = datetime.now()            
+            reply = WITSMLServer.client.service.WMLS_AddToStore(WMLtypeIn, queryString,optionsInString, CapabilitiesIn)
+            after = datetime.now()
+            duration_in_seconds = (after - before).total_seconds()
+            WITSMLServer.elapse_time_in_seconds.set(duration_in_seconds, log='Elapse Time in Seconds')            
         except Exception, exception_instance:
             WITSMLServer.log_store_result('Failed - '+str(formatUserFriendlyHTTPError(exception_instance)))
             return False
@@ -299,7 +308,14 @@ class WITSMLServer:
         WITSMLServer.log_store_action("sending WMLS_DeleteFromStore request")
         WITSMLServer.clear_response()
         try:
-            reply = WITSMLServer.client.service.WMLS_DeleteFromStore(WMLtypeIn, utils.process_string(QueryIn), utils.encode_options_in(OptionsIn), CapabilitiesIn)
+            queryString = utils.process_string(QueryIn)
+            optionsInString = utils.encode_options_in(OptionsIn)
+            testlog.wtl_log_server_query("WMLtypeIn", WMLtypeIn, "QueryIn", queryString, "OptionsIn", optionsInString, "CapabilitiesIn", CapabilitiesIn)
+            before = datetime.now()             
+            reply = WITSMLServer.client.service.WMLS_DeleteFromStore(WMLtypeIn,queryString, optionsInString, CapabilitiesIn)
+            after = datetime.now()
+            duration_in_seconds = (after - before).total_seconds()
+            WITSMLServer.elapse_time_in_seconds.set(duration_in_seconds, log='Elapse Time in Seconds') 
         except Exception, exception_instance:
             WITSMLServer.log_store_result('Failed - '+str(formatUserFriendlyHTTPError(exception_instance)))
             return False
@@ -347,7 +363,14 @@ class WITSMLServer:
         WITSMLServer.log_store_action("sending WMLS_GetFromStore request")
         WITSMLServer.clear_response()
         try:
-            reply = WITSMLServer.client.service.WMLS_GetFromStore(WMLtypeIn, utils.process_string(QueryIn), utils.encode_options_in(OptionsIn), CapabilitiesIn)
+            queryString = utils.process_string(QueryIn)
+            optionsInString = utils.encode_options_in(OptionsIn)
+            testlog.wtl_log_server_query("WMLtypeIn", WMLtypeIn, "Query", queryString, "OptionsIn", optionsInString, "CapabilitiesIn", CapabilitiesIn)
+            before = datetime.now()
+            reply = WITSMLServer.client.service.WMLS_GetFromStore(WMLtypeIn, queryString, optionsInString, CapabilitiesIn)
+            after = datetime.now()
+            duration_in_seconds = (after - before).total_seconds()
+            WITSMLServer.elapse_time_in_seconds.set(duration_in_seconds, log='Elapse Time in Seconds')
         except Exception, exception_instance:
             WITSMLServer.log_store_result('Failed - '+str(formatUserFriendlyHTTPError(exception_instance)))
             return False
@@ -380,7 +403,7 @@ class WITSMLServer:
             return False
     
         return True
-    
+        
     @staticmethod
     def update_in_store(WMLtypeIn, XMLin, OptionsIn={}, CapabilitiesIn =""):
         """
@@ -413,7 +436,14 @@ class WITSMLServer:
         WITSMLServer.log_store_action("sending WMLS_UpdateInStore request")
         WITSMLServer.clear_response()
         try:
-            reply = WITSMLServer.client.service.WMLS_UpdateInStore(WMLtypeIn, utils.process_string(XMLin), utils.encode_options_in(OptionsIn), CapabilitiesIn)
+            queryString = utils.process_string(XMLin)
+            optionsInString = utils.encode_options_in(OptionsIn)
+            testlog.wtl_log_server_query("WMLtypeIn", WMLtypeIn, "XMLin", queryString, "OptionsIn", optionsInString, "CapabilitiesIn", CapabilitiesIn)
+            before = datetime.now()                        
+            reply = WITSMLServer.client.service.WMLS_UpdateInStore(WMLtypeIn, queryString, optionsInString, CapabilitiesIn)
+            after = datetime.now()
+            duration_in_seconds = (after - before).total_seconds()
+            WITSMLServer.elapse_time_in_seconds.set(duration_in_seconds, log='Elapse Time in Seconds') 
         except Exception, exception_instance:
             WITSMLServer.log_store_result('Failed - '+str(formatUserFriendlyHTTPError(exception_instance)))
             return False

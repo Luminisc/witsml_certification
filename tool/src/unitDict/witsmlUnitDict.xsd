@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<xs:schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.posc.org/schemas" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="UnitOfMeasureDictionary">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="DocumentInformation">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="DocumentName">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="Name" type="xs:string" />
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="DocumentDate" type="xs:date" />
+              <xs:element name="FileCreationInformation">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="FileCreationDate" type="xs:date" />
+                    <xs:element name="FileCreator" type="xs:string" />
+                    <xs:element name="Comment" type="xs:string" />
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="Disclaimer" type="xs:string" />
+              <xs:element name="AuditTrail">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element maxOccurs="unbounded" name="Event">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="EventDate" type="xs:date" />
+                          <xs:element name="ResponsiblePartyID" type="xs:string" />
+                          <xs:element name="Comment" type="xs:string" />
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="DataOwnerID" type="xs:string" />
+              <xs:element name="Comment" type="xs:string" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="UnitsDefinition">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element maxOccurs="unbounded" name="UnitOfMeasure">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:choice maxOccurs="unbounded">
+                      <xs:element name="Name" type="xs:string" />
+                      <xs:element maxOccurs="unbounded" name="QuantityType" type="xs:string" />
+                      <xs:element name="DimensionalClass" type="xs:string" />
+                      <xs:element maxOccurs="unbounded" name="SameUnit">
+                        <xs:complexType>
+                          <xs:attribute name="uom" type="xs:string" use="required" />
+                          <xs:attribute name="namingSystem" type="xs:string" use="required" />
+                        </xs:complexType>
+                      </xs:element>
+                      <xs:element name="CatalogName" type="xs:string" />
+                      <xs:element name="CatalogSymbol">
+                        <xs:complexType>
+                          <xs:simpleContent>
+                            <xs:extension base="xs:string">
+                              <xs:attribute name="isExplicit" type="xs:boolean" use="required" />
+                            </xs:extension>
+                          </xs:simpleContent>
+                        </xs:complexType>
+                      </xs:element>
+                      <xs:element name="ConversionToBaseUnit">
+                        <xs:complexType>
+                          <xs:sequence>
+                            <xs:element minOccurs="0" name="Formula">
+                              <xs:complexType>
+                                <xs:sequence>
+                                  <xs:element name="A" type="xs:decimal" />
+                                  <xs:element name="B" type="xs:decimal" />
+                                  <xs:element name="C" type="xs:decimal" />
+                                  <xs:element name="D" type="xs:unsignedByte" />
+                                </xs:sequence>
+                              </xs:complexType>
+                            </xs:element>
+                            <xs:element minOccurs="0" name="Fraction">
+                              <xs:complexType>
+                                <xs:sequence>
+                                  <xs:element name="Numerator" type="xs:double" />
+                                  <xs:element name="Denominator" type="xs:decimal" />
+                                </xs:sequence>
+                              </xs:complexType>
+                            </xs:element>
+                            <xs:element minOccurs="0" name="Factor" type="xs:double" />
+                          </xs:sequence>
+                          <xs:attribute name="baseUnit" type="xs:string" use="required" />
+                        </xs:complexType>
+                      </xs:element>
+                      <xs:element name="Deprecated" type="xs:decimal" />
+                      <xs:element name="BaseUnit">
+                        <xs:complexType>
+                          <xs:sequence minOccurs="0">
+                            <xs:element minOccurs="0" name="Description" type="xs:string" />
+                            <xs:element minOccurs="0" name="BasicAuthority" type="xs:string" />
+                          </xs:sequence>
+                        </xs:complexType>
+                      </xs:element>
+                    </xs:choice>
+                  </xs:sequence>
+                  <xs:attribute name="id" type="xs:string" use="required" />
+                  <xs:attribute name="annotation" type="xs:string" use="required" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="version" type="xs:decimal" use="required" />
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

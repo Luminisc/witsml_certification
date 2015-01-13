@@ -23,6 +23,8 @@
 # System imports
 from lxml import etree
 import re
+import os
+import sys
 
 # Application imports
 import wtl.testlog
@@ -30,6 +32,7 @@ import wtl.control_prim
 import wtl.utils
 from sets import Set 
 from functools import wraps
+from wsvt.SchemaValidator import WITSMLSchemaValidator;
 import wcmp.witsml_obj_compare
 
 #******************************************************************************
@@ -107,6 +110,73 @@ def objectLoop(function_to_decorate):
                    
     return loopbjectControl
     
+#******************************************************************************
+#
+# Measure the elapse time of a server api 
+#
+#
+class ElapseTimeInSecondsValue:
+    """ Elapse Time of a Server API """
+
+    def __init__(self, value=None):
+        """
+        Initialization of the elapse time 
+        
+        Parameters:
+          value:  Value to be used for the elapse time 
+        """
+
+        self.set(value)
+
+    def clear(self):
+        """ Remove the stored value """
+         
+        self.value = None
+
+    def set(self, value, log=None):
+        """ Set the elapse time """
+        
+        self.value = value
+
+        # Output responses to log
+        if log is not None and wtl.config.log_responses:
+            wtl.testlog.wtl_log_server_response(log, self.value)            
+
+    def get(self):
+        """ Return the elapse time in seconds"""
+        return self.value
+        
+    def check_value_is_set(self):
+        """
+        Utility function to check value is set before doing other actions
+        This will cause the script to stop
+        """
+
+        if (self.value == None):
+            log_response_message("Cannot verify value because it is not set")
+            response_fail("Cannot check Result")
+
+    def check_value_less_than(self, expected_value):
+        """
+        Check the stored value is less than the expected value
+        
+        Parameters:
+          expected_value: Return value to compare against.
+        
+        Return:
+          Nothing. Fail control primitive is called if check fails
+        """
+        
+        self.check_value_is_set()
+        
+        actual_elapse_time = self.value;
+        if ( actual_elapse_time > expected_value ):
+            log_response_result("Not Ok")
+            log_response_message("Elapse Time: %f\n > Expected: %f" % (actual_elapse_time, expected_value))
+            response_fail("Fail: Actual Time exceeds Expected.")
+        else:                 
+            log_response_result("Elapse time Ok")
+                
 #******************************************************************************
 #
 # Return value from WITSML server that is not a XML documents 
@@ -1618,7 +1688,112 @@ class XMLValue:
                         rez_list.append( str(node.xpath('local-name()'))+"["+attrib_i+"]" );
         return rez_list;
     
+    def build_attribute_and_child_elements_list(self, node):
+        """ 
+        Utility function to build a list of the provided node's attribute names
+        in the form node[attribute] and the node's child element tags.
+        Only a single child element is included for recurring child elements
+        E.g. for <node attrib1='a1' attrib2='a2'>
+                  <childelement1 attrib3='a3'>elem1-a</childelement1>
+                  <childelement1 attrib4='a4'>elem1-b</childelement1>
+                  <childelement2>
+                     <grandchildelement3/>
+                  </childelement2>
+                 </node> 
+        The list returned is
+          ['node[attrib1]' , 'node[attrib2]', 'childelement1', 'childelement2']
+        Note:
+           - recurring child elements are included only once in the list
+           - grandchildren elements are not included
+           - Only node attributes are included
+           
+        Parameters:
+          node - node for which the attributes and child elements are listed
+        
+        Return:
+          list of attributes and child elements of the given node 
+        """
+             
+        rez_list = [];
+        
+        if (node is None):
+            return rez_list
+            
+        for attrib_i in node.attrib:
+            if (attrib_i.find("{") == -1):
+                rez_list.append( str(node.xpath('local-name()'))+"["+attrib_i+"]" );
+        for child in node:
+            if (child.tag not in rez_list):
+                rez_list.append(child.tag);
+
+        return rez_list
     
+    def check_element_attribute_and_children_list(self, xpath_string, expected_list, match='exact', enable_regex=False,):
+        """
+        This function will find all elements matching the given xpath and check their
+        list of attributes and child elements against the list provided based on the match parameter type.
+          match='exact'     - All the attributes and child element tags in the expected list
+                              are contained in all matching elements.
+                              No additional attributes or child elements in the matching elements
+          match='at-least'  - All the attributes and child element tags in the expected list
+                              are contained in all matching elements.
+                              Additional attributes or child elements may exist in the matching elements
+          match='at-most'   - The attributes and child element tags in the expected list
+                              may be contained in all matching elements.
+                              No additional attributes or child elements in the matching elements
+        
+        Parameters:
+          xpath_string:  Element name or element's xpath without namespace
+          expected_list: The list of expected attribute names and child element tags expected
+                         Attributes are given in the form elementName[attributeName]
+                         Example ['wellbore[uid]', 'wellbore[uidWell]', 'name', 'nameWell']
+          match:         Match type. One of 'exact', 'at-least' or 'at-most'
+          enable_regex:  Flag to enable regex comparison
+        
+        Return:
+          Nothing. Fail control primitive is called if check fails
+        """
+
+        log_response_message("verifying attributes and child elements of '%s'. Match=%s" %(xpath_string, match))
+        element = self.get_element(xpath_string)        
+        if (element is None):
+            log_response_result("Not Ok")
+            response_fail("Did not receive any %s" %(xpath_string))
+            return False
+            
+        for i in range(len(element)):
+            log_response_message("verifying instance %d" %(i+1))
+            attrib_childelement_list = self.build_attribute_and_child_elements_list(element[i]) 
+            
+            copy_list = attrib_childelement_list[:]
+            for expected_value in expected_list:
+                processed_value_string = wtl.utils.process_string(str(expected_value))
+                log_response_action("  verifying '%s' was received" %(processed_value_string))
+                found = False
+                for value_str in copy_list[:]:                  
+                    if (wtl.utils.compare_strings(processed_value_string, value_str, enable_regex)):
+                        log_response_result("Received")
+                        found = True
+                        copy_list.remove(value_str) 
+                        break
+                if (not found):
+                    log_response_result("Not received")
+                    if (match != 'at-most'):
+                        # The value must be there
+                        log_response_message("Expected: %s not received in node instance %d" % (processed_value_string, i+1))
+                        response_fail("Missing attribute or child element expected")
+                        return False
+
+            log_response_action("verifying if there are additional values received")
+            if (len(copy_list) == 0):
+                log_response_result("No additional received")
+            else:
+                log_response_result("Additional received")
+                if (match != 'at-least'):                
+                    log_response_message("Expected: %s" %(str(expected_list)))
+                    log_response_message("Received: %s" %(attrib_childelement_list))
+                    response_fail("Received additonal attribute or child element not expected")
+          
     def check_only_included(self,elements):
         """
 		Check the stored value contains only the provided element[attribute] list
@@ -1701,4 +1876,25 @@ class XMLValue:
         # handle fall through, valid formatting, but out of order
         response_fail("Invalid version formatting contained in list: " + version_str)
         return False   
+
+    def check_valid_write_schema(self):        
+        """
+        Check that the object specified validates against the specified version's write schema.
+             
+        Return:
+          True if object validates against write schema version
+          False if object does not validate against write schema version. Fail control primitive is called if check fails
+        """
+        processed_version_string = self.get_version()
+        processed_object_string =  self.get_object_name()
+        
+        document = self.get_original_value()
+        validator = WITSMLSchemaValidator(os.path.join(sys.modules['wsvt'].__path__[0],'schemas'))
+        is_valid, message =  validator.validateXMLAgainstWriteSchema(processed_version_string, processed_object_string, document)
+        
+        if (is_valid):
+            return True
+        else:
+            response_fail(message)
+            return False
                 

@@ -144,6 +144,7 @@ XML_LOG_1410_OK =  """<logs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance
       <classWitsml>unknown</classWitsml>
       <unit>min</unit>
       <mnemAlias namingSystem="EWXT">EWXT</mnemAlias>
+      <nullValue>-999.25</nullValue>
       <minIndex uom="ft">1627</minIndex>
       <maxIndex uom="ft">1634</maxIndex>
       <curveDescription>EWXT</curveDescription>
@@ -174,6 +175,7 @@ XML_LOG_1410_OK =  """<logs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance
       <classWitsml>unknown</classWitsml>
       <unit>mmho/m</unit>
       <mnemAlias namingSystem="C39P">C39P</mnemAlias>
+      <nullValue>-888.88</nullValue>
       <minIndex uom="ft">1627</minIndex>
       <maxIndex uom="ft">1634</maxIndex>
       <curveDescription>C39P</curveDescription>
@@ -846,6 +848,74 @@ XML_LOG_REQUESTLATEST_VALUE_1411_DEPTH_OK =  """
     </log>
 </logs> 
 """
+
+XML_LOG_HEADER_1411_DATA_ONLY =  """<logs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" version="1.4.1.0">
+  <log uidWell="wellUid" uidWellbore="wellboreUid" uid="uid">
+    <logData>
+      <mnemonicList>DEP,EWXT,R39P,R15P,C39P,DTEMP,DGRC</mnemonicList>
+      <unitList>ft,min,ohm.m,ohm.m,mmho/m,degF,gAPI</unitList>
+      <data>1627,0,10,20,30,40,50</data>
+      <data>1628,1,11,21,31,41,51</data>
+      <data>1629,2,12,22,32,42,52</data>
+      <data>1630,3,13,23,33,43,53</data>
+      <data>1631,4,14,24,34,44,54</data>
+      <data>1632,5,15,25,35,45,55</data>
+      <data>1633,6,16,26,36,46,56</data>
+      <data>1634,7,17,27,37,47,57</data>
+    </logData>
+  </log>
+</logs>"""
+
+XML_LOG_HEADER_1411_DATA_ONLY_NO_INDEX =  """<logs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" version="1.4.1.0">
+  <log uidWell="wellUid" uidWellbore="wellboreUid" uid="uid">
+    <logData>
+      <mnemonicList>EWXT,R39P,R15P,C39P,DTEMP,DGRC</mnemonicList>
+      <unitList>min,ohm.m,ohm.m,mmho/m,degF,gAPI</unitList>
+      <data>0,10,20,30,40,50</data>
+      <data>1,11,21,31,41,51</data>
+      <data>2,12,22,32,42,52</data>
+      <data>3,13,23,33,43,53</data>
+      <data>4,14,24,34,44,54</data>
+      <data>5,15,25,35,45,55</data>
+      <data>6,16,26,36,46,56</data>
+      <data>7,17,27,37,47,57</data>
+    </logData>
+  </log>
+</logs>"""
+
+XML_LOG_HEADER_1411_DATA_ONLY_NULL_IN_INDEX =  """<logs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" version="1.4.1.0">
+  <log uidWell="wellUid" uidWellbore="wellboreUid" uid="uid">
+    <logData>
+      <mnemonicList>DEP,EWXT,R39P,R15P,C39P,DTEMP,DGRC</mnemonicList>
+      <unitList>ft,min,ohm.m,ohm.m,mmho/m,degF,gAPI</unitList>
+      <data>1627,0,10,20,30,40,50</data>
+      <data>1628,1,11,21,31,41,51</data>
+      <data>,2,12,22,32,42,52</data>
+      <data>1630,3,13,23,33,43,53</data>
+      <data>1631,4,14,24,34,44,54</data>
+      <data>1632,5,15,25,35,45,55</data>
+      <data>1633,6,16,26,36,46,56</data>
+      <data>1634,7,17,27,37,47,57</data>
+    </logData>
+  </log>
+</logs>"""
+
+XML_LOG_HEADER_1411_DATA_ONLY_INVALID_DATA_TYPE =  """<logs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" version="1.4.1.0">
+  <log uidWell="wellUid" uidWellbore="wellboreUid" uid="uid">
+    <logData>
+      <mnemonicList>DEP,EWXT,R39P,R15P,C39P,DTEMP,DGRC</mnemonicList>
+      <unitList>ft,min,ohm.m,ohm.m,mmho/m,degF,gAPI</unitList>
+      <data>1627,0,10,20,30,40,2012-10-04T13:21:46-05:00</data>
+      <data>1628,1,11,21,31,41,2012-10-04T13:21:46-05:00</data>
+      <data>1629,2,12,22,32,42,2012-10-04T13:21:46-05:00</data>
+      <data>1630,3,13,23,33,43,2012-10-04T13:21:46-05:00</data>
+      <data>1631,4,14,24,34,44,2012-10-04T13:21:46-05:00</data>
+      <data>1632,5,15,25,35,45,2012-10-04T13:21:46-05:00</data>
+      <data>1633,6,16,26,36,46,2012-10-04T13:21:46-05:00</data>
+      <data>1634,7,17,27,37,47,2012-10-04T13:21:46-05:00</data>
+    </logData>
+  </log>
+</logs>"""
 
 class LogVerifyest(unittest.TestCase, mocking.MockingTestMixin):
     
@@ -1879,8 +1949,9 @@ class LogVerifyest(unittest.TestCase, mocking.MockingTestMixin):
                   <defaultDatum uidRef="DF">Derrick Floor</defaultDatum>
                 </commonData>
               </log>
-            </logs>""")        
-        self.logVerify._test_get_dataContainsCorrectDataType(True) 
+            </logs>""")
+        curveListDict = self.logVerify.get_CurveInfo_Dictionary()      
+        self.logVerify._test_get_dataContainsCorrectDataType(True,curveListDict) 
         self.assertTrue(wtl.control_prim.fail.called)          
         
        
@@ -2763,6 +2834,249 @@ class LogVerifyest(unittest.TestCase, mocking.MockingTestMixin):
         wtl.store_prim.WITSMLServer.xml_out.set(XML_LOG_1410_ARRAY_OK)        
         self.logVerify.test_log_curve_array_header(verbose=True)
         self.assertFalse(wtl.control_prim.fail.called)             
+
+    def test_log_curve_array_header_badAxisOrder(self):
+        # axisDefinition order(s) are both 1        
+        wtl.store_prim.WITSMLServer.xml_out.set("""
+<logs xmlns="http://www.witsml.org/schemas/1series" version="1.4.1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.witsml.org/schemas/1series ..\Users\hbl4152\Downloads\witsml\witsml.1.4.1.RTM\data\witsml_v1.4.1_data\generated_write_schemas\obj_log.xsd">
+    <log uidWell="W-12" uidWellbore="B-01" uid="f34a">
+        <nameWell>6507/7-A-42</nameWell>
+        <nameWellbore>A-42</nameWellbore>
+        <name>L001</name>
+        <indexType>measured depth</indexType>
+        <startIndex uom="m">499</startIndex>
+        <endIndex uom="m">509.01</endIndex>
+        <stepIncrement uom="m">0</stepIncrement>
+        <direction>increasing</direction>
+        <indexCurve>Mdepth</indexCurve>
+        <nullValue>-999.25</nullValue>
+        <logCurveInfo uid="lci-1">
+            <mnemonic>Mdepth</mnemonic>
+            <classWitsml>measured depth of hole</classWitsml>
+            <unit>m</unit>
+            <mnemAlias>md</mnemAlias>
+            <nullValue>-999.25</nullValue>
+            <minIndex uom="m">499</minIndex>
+            <maxIndex uom="m">509.01</maxIndex>
+            <curveDescription>Measured depth</curveDescription>
+            <sensorOffset uom="m">0</sensorOffset>
+            <traceState>raw</traceState>
+            <typeLogData>double</typeLogData>
+        </logCurveInfo>
+        <logCurveInfo uid="lci-2">
+            <mnemonic>Vdepth</mnemonic>
+            <classWitsml>TVD of hole</classWitsml>
+            <unit>m</unit>
+            <mnemAlias>tvd</mnemAlias>
+            <nullValue>-999.25</nullValue>
+            <minIndex uom="m">499</minIndex>
+            <maxIndex uom="m">509.01</maxIndex>
+            <curveDescription>Vertical depth</curveDescription>
+            <sensorOffset uom="m">0</sensorOffset>
+            <traceState>raw</traceState>
+            <typeLogData>double</typeLogData>
+        </logCurveInfo>
+        <logCurveInfo uid="lci-3">
+            <mnemonic>Array</mnemonic>
+            <unit>ft</unit>
+            <mnemAlias>array</mnemAlias>
+            <nullValue>-999.25</nullValue>
+            <minIndex uom="m">500.01</minIndex>
+            <maxIndex uom="m">508.01</maxIndex>
+            <curveDescription>example of an array</curveDescription>
+            <sensorOffset uom="m">0</sensorOffset>
+            <traceState>raw</traceState>
+            <typeLogData>double</typeLogData>
+            <axisDefinition uid="axis1">
+                <order>1</order>
+                <count>3</count>
+                <name>axis1</name>
+                <propertyType>length</propertyType>
+                <uom>ft</uom>                
+                <doubleValues>1 2 3</doubleValues>
+            </axisDefinition>
+            <axisDefinition uid="axis2">
+                <order>1</order>
+                <count>2</count>
+                <name>axis2</name>
+                <propertyType>length</propertyType>
+                <uom>ft</uom>
+                <doubleValues>1 2</doubleValues>
+            </axisDefinition>
+        </logCurveInfo>        
+        <logCurveInfo uid="lci-4">
+            <mnemonic>Bit Dist</mnemonic>
+            <classWitsml>measured depth of DST bottom</classWitsml>
+            <unit>m</unit>
+            <mnemAlias>distBit</mnemAlias>
+            <nullValue>-999.25</nullValue>
+            <minIndex uom="m">499</minIndex>
+            <maxIndex uom="m">509.01</maxIndex>
+            <curveDescription>Distance drilled by bit</curveDescription>
+            <sensorOffset uom="m">0</sensorOffset>
+            <traceState>raw</traceState>
+            <typeLogData>double</typeLogData>
+        </logCurveInfo>
+        <logCurveInfo uid="lci-5">
+            <mnemonic>Array2</mnemonic>
+            <unit>ft</unit>
+            <mnemAlias>array</mnemAlias>
+            <nullValue>-999.25</nullValue>
+            <minIndex uom="m">500.01</minIndex>
+            <maxIndex uom="m">508.01</maxIndex>
+            <curveDescription>example of an array</curveDescription>
+            <sensorOffset uom="m">0</sensorOffset>
+            <traceState>raw</traceState>
+            <typeLogData>double</typeLogData>
+            <axisDefinition uid="axis1">
+                <order>1</order>
+                <count>3</count>
+                <name>axis1</name>
+                <propertyType>length</propertyType>
+                <uom>ft</uom>                
+                <doubleValues>1 2 3</doubleValues>
+            </axisDefinition>
+            <axisDefinition uid="axis2">
+                <order>2</order>
+                <count>2</count>
+                <name>axis2</name>
+                <propertyType>length</propertyType>
+                <uom>ft</uom>
+                <doubleValues>1 2</doubleValues>
+            </axisDefinition>
+        </logCurveInfo>                
+        <commonData>
+            <dTimCreation>2003-11-24T08:15:00.000Z</dTimCreation>
+            <dTimLastChange>2003-11-24T08:17:00.000Z</dTimLastChange>
+            <itemState>plan</itemState>
+            <comments>These are the comments associated with the log object.</comments>
+        </commonData>
+    </log>
+</logs>""")
+        self.logVerify.test_log_curve_array_header(verbose=True)
+        self.assertTrue(wtl.control_prim.fail.called) 
+
+    def test_2_log_curve_array_header(self):
+        # axisDefinition order(s) are both 1        
+        wtl.store_prim.WITSMLServer.xml_out.set("""
+<logs xmlns="http://www.witsml.org/schemas/1series" version="1.4.1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.witsml.org/schemas/1series ..\Users\hbl4152\Downloads\witsml\witsml.1.4.1.RTM\data\witsml_v1.4.1_data\generated_write_schemas\obj_log.xsd">
+    <log uidWell="W-12" uidWellbore="B-01" uid="f34a">
+        <nameWell>6507/7-A-42</nameWell>
+        <nameWellbore>A-42</nameWellbore>
+        <name>L001</name>
+        <indexType>measured depth</indexType>
+        <startIndex uom="m">499</startIndex>
+        <endIndex uom="m">509.01</endIndex>
+        <stepIncrement uom="m">0</stepIncrement>
+        <direction>increasing</direction>
+        <indexCurve>Mdepth</indexCurve>
+        <nullValue>-999.25</nullValue>
+        <logCurveInfo uid="lci-1">
+            <mnemonic>Mdepth</mnemonic>
+            <classWitsml>measured depth of hole</classWitsml>
+            <unit>m</unit>
+            <mnemAlias>md</mnemAlias>
+            <nullValue>-999.25</nullValue>
+            <minIndex uom="m">499</minIndex>
+            <maxIndex uom="m">509.01</maxIndex>
+            <curveDescription>Measured depth</curveDescription>
+            <sensorOffset uom="m">0</sensorOffset>
+            <traceState>raw</traceState>
+            <typeLogData>double</typeLogData>
+        </logCurveInfo>
+        <logCurveInfo uid="lci-2">
+            <mnemonic>Vdepth</mnemonic>
+            <classWitsml>TVD of hole</classWitsml>
+            <unit>m</unit>
+            <mnemAlias>tvd</mnemAlias>
+            <nullValue>-999.25</nullValue>
+            <minIndex uom="m">499</minIndex>
+            <maxIndex uom="m">509.01</maxIndex>
+            <curveDescription>Vertical depth</curveDescription>
+            <sensorOffset uom="m">0</sensorOffset>
+            <traceState>raw</traceState>
+            <typeLogData>double</typeLogData>
+        </logCurveInfo>
+        <logCurveInfo uid="lci-3">
+            <mnemonic>Array</mnemonic>
+            <unit>ft</unit>
+            <mnemAlias>array</mnemAlias>
+            <nullValue>-999.25</nullValue>
+            <minIndex uom="m">500.01</minIndex>
+            <maxIndex uom="m">508.01</maxIndex>
+            <curveDescription>example of an array</curveDescription>
+            <sensorOffset uom="m">0</sensorOffset>
+            <traceState>raw</traceState>
+            <typeLogData>double</typeLogData>
+            <axisDefinition uid="axis1">
+                <order>2</order>
+                <count>3</count>
+                <name>axis1</name>
+                <propertyType>length</propertyType>
+                <uom>ft</uom>                
+                <doubleValues>1 2 3</doubleValues>
+            </axisDefinition>
+            <axisDefinition uid="axis2">
+                <order>1</order>
+                <count>2</count>
+                <name>axis2</name>
+                <propertyType>length</propertyType>
+                <uom>ft</uom>
+                <doubleValues>1 2</doubleValues>
+            </axisDefinition>
+        </logCurveInfo>        
+        <logCurveInfo uid="lci-4">
+            <mnemonic>Bit Dist</mnemonic>
+            <classWitsml>measured depth of DST bottom</classWitsml>
+            <unit>m</unit>
+            <mnemAlias>distBit</mnemAlias>
+            <nullValue>-999.25</nullValue>
+            <minIndex uom="m">499</minIndex>
+            <maxIndex uom="m">509.01</maxIndex>
+            <curveDescription>Distance drilled by bit</curveDescription>
+            <sensorOffset uom="m">0</sensorOffset>
+            <traceState>raw</traceState>
+            <typeLogData>double</typeLogData>
+        </logCurveInfo>
+        <logCurveInfo uid="lci-5">
+            <mnemonic>Array2</mnemonic>
+            <unit>ft</unit>
+            <mnemAlias>array</mnemAlias>
+            <nullValue>-999.25</nullValue>
+            <minIndex uom="m">500.01</minIndex>
+            <maxIndex uom="m">508.01</maxIndex>
+            <curveDescription>example of an array</curveDescription>
+            <sensorOffset uom="m">0</sensorOffset>
+            <traceState>raw</traceState>
+            <typeLogData>double</typeLogData>
+            <axisDefinition uid="axis1">
+                <order>1</order>
+                <count>3</count>
+                <name>axis1</name>
+                <propertyType>length</propertyType>
+                <uom>ft</uom>                
+                <doubleValues>1 2 3</doubleValues>
+            </axisDefinition>
+            <axisDefinition uid="axis2">
+                <order>2</order>
+                <count>2</count>
+                <name>axis2</name>
+                <propertyType>length</propertyType>
+                <uom>ft</uom>
+                <doubleValues>1 2</doubleValues>
+            </axisDefinition>
+        </logCurveInfo>        
+        <commonData>
+            <dTimCreation>2003-11-24T08:15:00.000Z</dTimCreation>
+            <dTimLastChange>2003-11-24T08:17:00.000Z</dTimLastChange>
+            <itemState>plan</itemState>
+            <comments>These are the comments associated with the log object.</comments>
+        </commonData>
+    </log>
+</logs>""")
+        self.logVerify.test_log_curve_array_header(verbose=True)
+        self.assertFalse(wtl.control_prim.fail.called) 
+
         
     def test_get_direction_of_data_matches_header_time(self): 
         wtl.store_prim.WITSMLServer.xml_out.set(XML_LOG_1410_TIME_OK)
@@ -2875,6 +3189,18 @@ class LogVerifyest(unittest.TestCase, mocking.MockingTestMixin):
         self.logVerify.test_requestLatestValues_full_log()
         self.assertFalse(wtl.control_prim.fail.called)            
         
+    def test_test_requestLatestValues_full_log_max5(self): 
+        #dataset only has 3 values, we ask for 5, should allow to expect equal to or less than 5
+        wtl.store_prim.WITSMLServer.xml_out.set(XML_LOG_REQUESTLATEST_VALUE_1411_DEPTH_OK)
+        self.logVerify.test_requestLatestValues_full_log_max(numberOfExpectedValues=5,verbose=True)
+        self.assertFalse(wtl.control_prim.fail.called)          
+        
+    def test_test_requestLatestValues_full_log_check5(self): 
+        #dataset only has 3 values, we ask for 5, should fail if expect != actual
+        wtl.store_prim.WITSMLServer.xml_out.set(XML_LOG_REQUESTLATEST_VALUE_1411_DEPTH_OK)
+        self.logVerify.test_requestLatestValues_full_log(numberOfExpectedValues=5,verbose=True)
+        self.assertTrue(wtl.control_prim.fail.called)
+                
     # ok, all values on one row
     def test_test_requestLatestValues_full_log_2(self): 
         wtl.store_prim.WITSMLServer.xml_out.set("""
@@ -3718,7 +4044,121 @@ class LogVerifyest(unittest.TestCase, mocking.MockingTestMixin):
     </log>
 </logs>""")
         self.logVerify.test_full_log(verbose=True)
-        self.assertFalse(wtl.control_prim.fail.called)   
+        self.assertFalse(wtl.control_prim.fail.called)  
         
+    def test_dataOnly_test1(self): 
+        wtl.store_prim.WITSMLServer.xml_out.set(XML_LOG_HEADER_1411_DATA_ONLY)
+        self.logVerify.test_dataOnly_log(verbose=True)
+        self.assertFalse(wtl.control_prim.fail.called)  
+   
+    def test_dataOnly_test2(self): 
+        wtl.store_prim.WITSMLServer.xml_out.set(XML_LOG_HEADER_1411_DATA_ONLY_NULL_IN_INDEX)
+        self.logVerify.test_dataOnly_log(verbose=True)
+        self.assertFalse(wtl.control_prim.fail.called)          
+
+        
+    def test_dataOnly_test_bad_dupMnemonics(self): 
+        wtl.store_prim.WITSMLServer.xml_out.set("""<logs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" version="1.4.1.0">
+  <log uidWell="wellUid" uidWellbore="wellboreUid" uid="uid">
+    <logData>
+      <mnemonicList>DEP,EWXT,R39P,R39P,C39P,DTEMP,DGRC</mnemonicList>
+      <unitList>ft,min,ohm.m,ohm.m,mmho/m,degF,gAPI</unitList>
+      <data>1627,0,10,20,30,40,50</data>
+      <data>1628,1,11,21,31,41,51</data>
+      <data>1629,2,12,22,32,42,52</data>
+      <data>1630,3,13,23,33,43,53</data>
+      <data>1631,4,14,24,34,44,54</data>
+      <data>1632,5,15,25,35,45,55</data>
+      <data>1633,6,16,26,36,46,56</data>
+      <data>1634,7,17,27,37,47,57</data>
+    </logData>
+  </log>
+</logs>""")
+        self.logVerify.test_dataOnly_log(verbose=True)
+        self.assertTrue(wtl.control_prim.fail.called)  
+
+    def test_dataOnly_test_bad_DEP_all_Nulls(self): 
+        wtl.store_prim.WITSMLServer.xml_out.set("""<logs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" version="1.4.1.0">
+  <log uidWell="wellUid" uidWellbore="wellboreUid" uid="uid">
+    <logData>
+      <mnemonicList>DEP,EWXT,R39P,R19P,C39P,DTEMP,DGRC</mnemonicList>
+      <unitList>ft,min,ohm.m,ohm.m,mmho/m,degF,gAPI</unitList>
+      <data>,0,10,20,30,40,50</data>
+      <data>,1,11,21,31,41,51</data>
+      <data>,2,12,22,32,42,52</data>
+      <data>,3,13,23,33,43,53</data>
+      <data>,4,14,24,34,44,54</data>
+      <data>,5,15,25,35,45,55</data>
+      <data>,6,16,26,36,46,56</data>
+      <data>,7,17,27,37,47,57</data>
+    </logData>
+  </log>
+</logs>""")
+        self.logVerify.test_dataOnly_log(verbose=True)
+        self.assertTrue(wtl.control_prim.fail.called)  
+                 
+
+    def test_dataOnly_test_bad_numberOfUnits(self): 
+        wtl.store_prim.WITSMLServer.xml_out.set("""<logs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" version="1.4.1.0">
+  <log uidWell="wellUid" uidWellbore="wellboreUid" uid="uid">
+    <logData>
+      <mnemonicList>DEP,EWXT,R39P,R19P,C39P,DTEMP,DGRC</mnemonicList>
+      <unitList>ft,min,ohm.m,ohm.m,mmho/m,degF</unitList>
+      <data>1627,0,10,20,30,40,50</data>
+      <data>1628,1,11,21,31,41,51</data>
+      <data>1629,2,12,22,32,42,52</data>
+      <data>1630,3,13,23,33,43,53</data>
+      <data>1631,4,14,24,34,44,54</data>
+      <data>1632,5,15,25,35,45,55</data>
+      <data>1633,6,16,26,36,46,56</data>
+      <data>1634,7,17,27,37,47,57</data>
+    </logData>
+  </log>
+</logs>""")
+        self.logVerify.test_dataOnly_log(verbose=True)
+        self.assertTrue(wtl.control_prim.fail.called)
+
+    def test_getCurveInfoDict_test1(self):
+        wtl.store_prim.WITSMLServer.xml_out.set(XML_LOG_1410_OK);
+        curveListDict = self.logVerify.get_CurveInfo_Dictionary(True)
+        self.assertTrue(curveListDict is not None)
+        self.assertTrue(len(curveListDict.keys())==7)
+        self.assertTrue(curveListDict.keys().sort() == ['DEP','EWXT','R39P','R15P','C39P','DTEMP','DGRC'].sort())
+        self.assertTrue(curveListDict['R39P'].keys().sort() == ['Mnemonic','LogNullName','CurveNullName','CurveDataType','CurveArrayDim','IsIndexCurve'].sort())          
+           
+       
+    def test_dataOnlyExtended_test1(self):
+        wtl.store_prim.WITSMLServer.xml_out.set(XML_LOG_1410_OK);
+        curveListDict = self.logVerify.get_CurveInfo_Dictionary(True)
+        self.assertTrue(curveListDict is not None)         
+        wtl.store_prim.WITSMLServer.xml_out.set(XML_LOG_HEADER_1411_DATA_ONLY)
+        self.logVerify.test_dataOnly_log_extended(curveListDict, verbose=True)
+        self.assertFalse(wtl.control_prim.fail.called)          
+              
+    def test_dataOnlyExtended_test2(self):
+        wtl.store_prim.WITSMLServer.xml_out.set(XML_LOG_1410_OK);
+        curveListDict = self.logVerify.get_CurveInfo_Dictionary(True)
+        self.assertTrue(curveListDict is not None)         
+        wtl.store_prim.WITSMLServer.xml_out.set(XML_LOG_HEADER_1411_DATA_ONLY_NULL_IN_INDEX)
+        self.logVerify.test_dataOnly_log_extended(curveListDict, verbose=True)
+        self.assertTrue(wtl.control_prim.fail.called)             
+
+    def test_dataOnlyExtended_test3(self):
+        wtl.store_prim.WITSMLServer.xml_out.set(XML_LOG_1410_OK);
+        curveListDict = self.logVerify.get_CurveInfo_Dictionary(True)
+        self.assertTrue(curveListDict is not None)         
+        wtl.store_prim.WITSMLServer.xml_out.set(XML_LOG_HEADER_1411_DATA_ONLY_INVALID_DATA_TYPE)
+        self.logVerify.test_dataOnly_log_extended(curveListDict, verbose=True)
+        self.assertTrue(wtl.control_prim.fail.called)             
+
+    def test_dataOnlyExtended_test4(self):
+        wtl.store_prim.WITSMLServer.xml_out.set(XML_LOG_1410_OK);
+        curveListDict = self.logVerify.get_CurveInfo_Dictionary(True)
+        self.assertTrue(curveListDict is not None)         
+        wtl.store_prim.WITSMLServer.xml_out.set(XML_LOG_HEADER_1411_DATA_ONLY_NO_INDEX)
+        self.logVerify.test_dataOnly_log_extended(curveListDict, verbose=True)
+        self.assertFalse(wtl.control_prim.fail.called)                         
+                        
+                       
 if __name__ == '__main__':
     unittest.main()

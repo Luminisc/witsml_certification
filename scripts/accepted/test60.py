@@ -106,8 +106,8 @@ check_ReturnValue_Success()
 WMLS_DeleteFromStore(WMLTYPEIN_LOG, """<?xml version="1.0" encoding="utf-8"?>
                                    <logs xmlns="http://www.witsml.org/schemas/1series"  version="$server_schema_version$">
                                       <log  uidWell="$server_w1_uid$" uidWellbore="$server_w1_wb1_uid$" uid="$log_uid$">
-                                         <startIndex>2</startIndex>
-                                         <endIndex>2</endIndex>
+                                         <startIndex uom="m">2</startIndex>
+                                         <endIndex uom="m">2</endIndex>
                                          <logCurveInfo>
                                            <mnemonic>CURVE2</mnemonic>
                                          </logCurveInfo>

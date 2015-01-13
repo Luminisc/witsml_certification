@@ -47,6 +47,13 @@ class LogVerify:
     
     setupFlag = False
     
+    MNEMONIC_NAME = "Mnemonic"
+    LOG_NULL_NAME = 'LogNullName'
+    CURVE_NULL_NAME = 'CurveNullName'
+    CURVE_DATA_TYPE_NAME = "CurveDataType"
+    CURVE_ARRAY_DIM_NAME = "CurveArrayDim"
+    IS_INDEX_CURVE = "IsIndexCurve"
+    
     def __init__(self, value=None):
         """
         Initialization of the returned value 
@@ -68,7 +75,8 @@ class LogVerify:
 
             Returns:
               True if all pass, or False otherwise        
-        """   
+        """
+        self.setupFlag = False   
         self._test_full_log_private(verbose, strict)  
     
     def test_header_only_log(self, verbose=False, strict=False):
@@ -79,7 +87,8 @@ class LogVerify:
                      
            Returns:
               True if all pass, or False otherwise          
-        """   
+        """
+        self.setupFlag = False            
         self._test_header_only_log(verbose, strict)         
      
     def test_requestLatestValues_full_log(self, numberOfExpectedValues=1, verbose=False, strict=False):
@@ -92,8 +101,73 @@ class LogVerify:
 
            Returns:
               True if all pass, or False otherwise          
-        """   
-        self._test_requestLatestValues_full_log_private(numberOfExpectedValues, verbose, strict)    
+        """
+        self.setupFlag = False            
+        self._test_requestLatestValues_full_log_private(numberOfExpectedValues, False, verbose, strict)  
+        
+    def test_requestLatestValues_full_log_max(self, numberOfExpectedValues=1, verbose=False, strict=False):
+        """ Expecting a log acquired from returnElements=all and requestLatestValues<=numberOfExpectedValues, if a failure occurs, we quit 
+         
+            Parameters:
+              numberOfExpectedValues: expected number of values
+              verbose: output messages 
+              strict:  if true, run extra validation, false if not        
+
+           Returns:
+              True if all pass, or False otherwise          
+        """ 
+        self.setupFlag = False           
+        self._test_requestLatestValues_full_log_private(numberOfExpectedValues, True, verbose, strict)           
+     
+    def test_dataOnly_log(self, verbose=False, strict=False):
+        """ Expecting a log acquired from returnElements=data-only, if a failure occurs, we quit 
+         
+            Parameters:
+              verbose: output messages 
+              strict:  if true, run extra validation, false if not        
+
+            Returns:
+              True if all pass, or False otherwise        
+        """
+        self.setupFlag = False            
+        self._test_dataOnly_log_private(verbose, strict) 
+     
+    def test_dataOnly_log_extended(self, curveListDict, verbose=False, strict=False):
+        """ Expecting a log acquired from returnElements=data-only, if a failure occurs, we quit.
+            This method relies on the caller to supply addition info ( i.e. above what is in the content of a data-only return
+            to provide more robust checks.) that is obtained via get_CurveInfo_Dictionary()
+         
+            Parameters:
+              curveListDict:  curve info dictionary
+              verbose: output messages 
+              strict:  if true, run extra validation, false if not        
+
+            Returns:
+              True if all pass, or False otherwise        
+        """
+        self.setupFlag = False            
+        self._test_dataOnly_log_private(verbose, strict, curveListDict)      
+     
+    def get_CurveInfo_Dictionary(self, verbose=None, strict=False): 
+        """ Access the current Log and return a dictionary of info of it's logCurveInfo data
+         
+            Parameters:
+              verbose: output messages 
+              strict:  if true, run extra validation, false if not        
+
+            Returns:
+              Dictionary of logCurveInfo          
+        
+        """
+        self.setupFlag = False
+        # make sure the current log passes at least the header only tests
+        passFail = self._test_header_only_log(verbose, strict)
+        if not(passFail):  return None
+       
+        curveListDict = self._test_get_CurveInfo_Dictionary(verbose)
+        return curveListDict    
+
+             
      
     # start usage of other library methods
     def _get_XMLout_Element_String(self, tag, startElement=None):
@@ -114,6 +188,9 @@ class LogVerify:
     def _get_logData_DataValue_String(self, n, mnemonic):
         return self.xmlValue.get_log_data_data_value(n,mnemonic)   
     
+    def _get_log_data(self):
+        return self.xmlValue.get_log_data();
+    
     def _get_log_curve_array_length(self, mnemonic):
         return self.xmlValue.get_log_curve_array_length(mnemonic) 
        
@@ -125,6 +202,57 @@ class LogVerify:
         xpath_string = wtl.utils.process_string(xpath_string)
         elements = self.xmlValue.get_element(xpath_string, object_index)
         return elements
+    
+    def _getLogNullValue(self):
+        return self._get_XMLout_Element_String('/logs/log[$logIndex$]/nullValue')
+    
+    def _getCurveNullValue(self, mnemonic ):
+        _set('mnemonicVar', mnemonic)
+        return self._get_XMLout_Element_String('/logs/log[$logIndex$]/logCurveInfo[mnemonic="$mnemonicVar$"]/nullValue')
+    
+    def _getCurveDataType(self, mnemonic):
+       _set('mnemonicVar', mnemonic)
+       return self._get_XMLout_Element_String('/logs/log[$logIndex$]/logCurveInfo[mnemonic="$mnemonicVar$"]/typeLogData')
+   
+    def _getIndexCurveNameFromCurveListDict(self, curveListDict):
+        """Get the Index curve name from the curveListDict """
+        for mnemonic in curveListDict:
+            curveInfoDict = curveListDict[mnemonic]
+            if ( curveInfoDict[self.IS_INDEX_CURVE] ):
+                return curveInfoDict[self.MNEMONIC_NAME]
+        return None
+               
+    def _getCurveNullFromCurveListDict(self, callersMnemonic, curveListDict):
+        """Get the Curve Null from the curveListDict """
+        for mnemonic in curveListDict:
+            if ( mnemonic == callersMnemonic):
+                curveInfoDict = curveListDict[mnemonic]
+                return curveInfoDict[self.CURVE_NULL_NAME]
+        return None
+    
+    def _getCurveDataTypeFromCurveListDict(self, callersMnemonic, curveListDict):
+        """Get the Curve Data Type from the curveListDict """
+        for mnemonic in curveListDict:
+            if ( mnemonic == callersMnemonic):
+                curveInfoDict = curveListDict[mnemonic]
+                return curveInfoDict[self.CURVE_DATA_TYPE_NAME]
+        return None  
+    
+    def _getCurveArrayLengthFromCurveListDict(self, callersMnemonic, curveListDict):
+        """Get the Curve Data Type from the curveListDict """
+        for mnemonic in curveListDict:
+            if ( mnemonic == callersMnemonic):
+                curveInfoDict = curveListDict[mnemonic]
+                return curveInfoDict[self.CURVE_ARRAY_DIM_NAME]
+        return None       
+    
+    def _getLogNullFromCurveListDict(self, callersMnemonic, curveListDict):
+        """Get the Log Null from the curveListDict """
+        for mnemonic in curveListDict:
+            if ( mnemonic == callersMnemonic):
+                curveInfoDict = curveListDict[mnemonic]
+                return curveInfoDict[self.LOG_NULL_NAME]
+        return None                    
     # end usage of other library methods   
    
             
@@ -145,10 +273,79 @@ class LogVerify:
         else:
             return False       
       
+    def _test_get_CurveInfo_Dictionary(self, verbose):  
+        """ Access the current Log and return a dictionary of info of it's logCurveInfo data """
+        # make sure the current log passes at least the header only tests
+        # look thru all log curves to see if they are defined in the mnemonic List
+        logCurveInfoMnemonics = _get('logCurveInfoMnemonicList')
+        logNullValue = self._getLogNullValue()
+        curveListDict = {}        
+        for mnemonic in logCurveInfoMnemonics:
+            curveInfoDict = {}
+            curveInfoDict[self.MNEMONIC_NAME] = mnemonic
+            curveInfoDict[self.LOG_NULL_NAME] = logNullValue
+            curveNullValue = self._getCurveNullValue(mnemonic)
+            curveInfoDict[self.CURVE_NULL_NAME] = curveNullValue
+            curveDataType = self._getCurveDataType(mnemonic)
+            curveInfoDict[self.CURVE_DATA_TYPE_NAME] = curveDataType
+            curveArrayDim = self._get_log_curve_array_length(mnemonic)
+            curveInfoDict[self.CURVE_ARRAY_DIM_NAME] = curveArrayDim
+            isIndexCurve = mnemonic == _get('indexCurve')
+            curveInfoDict[self.IS_INDEX_CURVE] = isIndexCurve
+            curveListDict[mnemonic] = curveInfoDict
+            
+        return curveListDict
+    
+    
+    
+    def _test_dataOnly_log_private(self, verbose, strict, curveListDict=None):
+        """ Expect a data-only log, i.e. with only logData"""
+              
+        """ non expected header info ?? """
+        test = '_test_dataOnly_log_private:'
+        passFail = self._setup(False,verbose)
+        if not(passFail):  return False
+        
+        passFail = self._test_mnemonicsAreUnique(verbose)                    
+        if not(passFail):  return False  
+        
+        passFail = self._log_dataOnly_numberOfCurve_Test(verbose)
+        if not(passFail):  return False      
+        
+        indexCurveMnemonic = None
+        if ( curveListDict is not None ):
+            indexCurveMnemonicTemp = self._getIndexCurveNameFromCurveListDict(curveListDict)          
+            if ( indexCurveMnemonicTemp is None ):
+                self._Fail("setup", "IndexCurve is not defined")
+                return False
+            else:
+                """data-only may not have the index curve. """                
+                mnList = _get('mnenmonicList').split(",")                 
+                if ( indexCurveMnemonicTemp in mnList ):
+                    indexCurveMnemonic = indexCurveMnemonicTemp
+                else:
+                    if verbose:
+                        _log(test + ' index curve ' +  indexCurveMnemonicTemp + ' is not defined in mnemonicList')                                  
+        
+        if ( indexCurveMnemonic is not None ):
+            _set("indexCurve",indexCurveMnemonic)
+            _set("logCurveInfoMnemonicList", _get( 'mnenmonicList'))
+            passFail = self.test_index_curve(verbose)
+            if not(passFail):  return False
+                   
+            
+        passFail = self._log_dataOnly_checkNullValues_Test(verbose,indexCurveMnemonic)
+        if not(passFail):  return False
+        
+        if ( curveListDict is not None ):
+            passFail = self._test_get_dataContainsCorrectDataType(verbose, curveListDict) 
+            if not(passFail):  return False
+        
+        return True;        
+      
     def _test_full_log_private(self, verbose, strict):
         """ Expect a full log, i.e. with logCurveInfo and logData"""
-        self.setupFlag = False
-        passFail = self._setup(verbose)
+        passFail = self._setup(True,verbose)
         if not(passFail):  return False
         
         if self._isTimeBasedLog(_get( 'indexType')) == False:
@@ -198,7 +395,9 @@ class LogVerify:
         passFail = self._test_do_log_curve_info_mnemonics_match_mnemonicList(verbose)
         if not(passFail):  return False
         
-        passFail = self._test_get_dataContainsCorrectDataType(verbose)
+        curveListDict = self._test_get_CurveInfo_Dictionary(verbose)
+        
+        passFail = self._test_get_dataContainsCorrectDataType(verbose, curveListDict)
         if not(passFail):  return False
         
         passFail = self._test_mnemonicsAreUnique(verbose)
@@ -207,27 +406,26 @@ class LogVerify:
         return True
         
      
-    def _test_requestLatestValues_full_log_private(self, numberOfExpectedValues, verbose, strict):
+    def _test_requestLatestValues_full_log_private(self, numberOfExpectedValues, isMax, verbose, strict):
         """ Expect a full log, i.e. with logCurveInfo and logData in a requestLatestValue mode"""
-        self.setupFlag = False
-        passFail = self._setup(verbose)
+        passFail = self._setup(True, verbose)
         
         # log should still pass normal log requirements
         passFail = self._test_full_log_private(verbose, strict) 
         if not(passFail):  return False 
         
         # verify there are the correct number of values
-        passFail = self._log_check_requestLatestValue(numberOfExpectedValues, verbose, strict)
+        passFail = self._log_check_requestLatestValue(numberOfExpectedValues, isMax, verbose, strict)
         if not(passFail):  return False 
  
         return True
                     
+    
                 
     def _test_header_only_log(self, verbose, strict ):
         """ Expect a header only log, i.e. with logCurveInfo and no logData"""
-        self.setupFlag = False
         passFail = True
-        passFail = self._setup(verbose)
+        passFail = self._setup(True, verbose)
         if not(passFail):  return False
    
         passFail = self.test_index_curve(verbose)
@@ -257,7 +455,7 @@ class LogVerify:
         return True
              
         
-    def _setup(self, verbose):
+    def _setup(self, headerShouldExists, verbose):
         """ Initialize all variables for all tests"""
         if self.setupFlag == False:
             logsNode = self._getGlobalElementNode('logs')
@@ -266,69 +464,142 @@ class LogVerify:
                 return False
                 
             _set( 'logIndex', '1')
-            _set( 'indexType', self._get_XMLout_Element_String('logs/log[$logIndex$]/indexType'))
             
-            if self._isTimeBasedLog(_get( 'indexType')) == False:
-               startIndexString = self._get_XMLout_Element_String('logs/log[$logIndex$]/startIndex')
-               if ( startIndexString is not None ):
-                   _set( 'startIndex', float(startIndexString))
-                   _set( 'startIndexUom', self._get_XMLout_Attribute_String( 'logs/log[$logIndex$]/startIndex', 'uom' ) )
-               else:
-                   self._Fail("setup", "startIndex is not defined")
-                   return False
-               endIndexString = self._get_XMLout_Element_String('logs/log[$logIndex$]/endIndex')
-               if ( endIndexString is not None ):
-                   _set( 'endIndex', float(endIndexString))
-                   _set( 'endIndexUom', self._get_XMLout_Attribute_String( 'logs/log[$logIndex$]/endIndex', 'uom' ) )
-               else:
-                   self._Fail("setup", "endIndex is not defined")  
-                   return False                   
-               _set( 'stepIncrement', self._get_XMLout_Element_String( 'logs/log[$logIndex$]/stepIncrement') )
-            else:
-               startIndexString = self._get_XMLout_Element_String('logs/log[$logIndex$]/startDateTimeIndex')
-               if ( startIndexString is not None ):                
-                   _set( 'startDateTimeIndex', startIndexString)
-               else:
-                   self._Fail("setup", "startDateTimeIndex is not defined")
-                   return False                         
-               endIndexString = self._get_XMLout_Element_String('logs/log[$logIndex$]/endDateTimeIndex')   
-               if ( endIndexString is not None ):                               
-                   _set( 'endDateTimeIndex', endIndexString)
-               else:
-                   self._Fail("setup", "endDateTimeIndex is not defined")
-                   return False                                   
+            if ( headerShouldExists == True ):
                 
-            _set( 'direction', self._get_XMLout_Element_String('logs/log[$logIndex$]/direction'))
-            if _get('direction') is None:
-                if verbose:
-                    _log('direction is not defined, which means its assumed to be increasing')
-                _set( 'direction', 'increasing')
-                                  
+                _set( 'indexType', self._get_XMLout_Element_String('logs/log[$logIndex$]/indexType'))
+                
+                if self._isTimeBasedLog(_get( 'indexType')) == False:
+                   startIndexString = self._get_XMLout_Element_String('logs/log[$logIndex$]/startIndex')
+                   if ( startIndexString is not None ):
+                       _set( 'startIndex', float(startIndexString))
+                       _set( 'startIndexUom', self._get_XMLout_Attribute_String( 'logs/log[$logIndex$]/startIndex', 'uom' ) )
+                   else:
+                       self._Fail("setup", "startIndex is not defined")
+                       return False
+                   endIndexString = self._get_XMLout_Element_String('logs/log[$logIndex$]/endIndex')
+                   if ( endIndexString is not None ):
+                       _set( 'endIndex', float(endIndexString))
+                       _set( 'endIndexUom', self._get_XMLout_Attribute_String( 'logs/log[$logIndex$]/endIndex', 'uom' ) )
+                   else:
+                       self._Fail("setup", "endIndex is not defined")  
+                       return False                   
+                   _set( 'stepIncrement', self._get_XMLout_Element_String( 'logs/log[$logIndex$]/stepIncrement') )
+                else:
+                   startIndexString = self._get_XMLout_Element_String('logs/log[$logIndex$]/startDateTimeIndex')
+                   if ( startIndexString is not None ):                
+                       _set( 'startDateTimeIndex', startIndexString)
+                   else:
+                       self._Fail("setup", "startDateTimeIndex is not defined")
+                       return False                         
+                   endIndexString = self._get_XMLout_Element_String('logs/log[$logIndex$]/endDateTimeIndex')   
+                   if ( endIndexString is not None ):                               
+                       _set( 'endDateTimeIndex', endIndexString)
+                   else:
+                       self._Fail("setup", "endDateTimeIndex is not defined")
+                       return False                                   
+                    
+                _set( 'direction', self._get_XMLout_Element_String('logs/log[$logIndex$]/direction'))
+                if _get('direction') is None:
+                    if verbose:
+                        _log('direction is not defined, which means its assumed to be increasing')
+                    _set( 'direction', 'increasing')
+                                      
+                _set( 'indexCurve', self._get_XMLout_Element_String('logs/log[$logIndex$]/indexCurve'))     
+                _set( 'logCurveInfoMnemonicList', self._get_XMLout_RecurringElement_List('logs/log[$logIndex$]/logCurveInfo/mnemonic'))
+            
             _set( 'mnenmonicList', self._get_XMLout_Element_String('mnemonicList'))   
             _set( 'unitList', self._get_XMLout_Element_String('unitList'))
-            _set( 'indexCurve', self._get_XMLout_Element_String('logs/log[$logIndex$]/indexCurve'))     
-            _set( 'logCurveInfoMnemonicList', self._get_XMLout_RecurringElement_List('logs/log[$logIndex$]/logCurveInfo/mnemonic'))
+
             logDataNodes = self._getGlobalElementNode('logs/log[$logIndex$]/logData')
             if logDataNodes is not None and len(logDataNodes) > 0:
-               _set( 'logData' ,  self._getGlobalElementNode('logs/log[$logIndex$]/logData'))
-               _set( 'numberOfDataRows', self._get_logData_NumberOfNodes_Int())
+                _set( 'logData' ,  self._getGlobalElementNode('logs/log[$logIndex$]/logData'))
+                _set( 'numberOfDataRows', self._get_logData_NumberOfNodes_Int())
             else:
-               _set( 'logData' , list())
-               _set( 'numberOfDataRows', 0) 
+                _set( 'logData' , list())
+                _set( 'numberOfDataRows', 0) 
                
         self.setupFlag = True
         return True
         
-    def _log_check_requestLatestValue(self, numberOfExpectedValues, verbose, strict):  
+    def _log_dataOnly_numberOfCurve_Test(self, verbose):
+        """ Do the number of mnemonics, units and values per row match """
+        test = '_log_dataOnly_numberOfCurve_Test' 
+        if len(_get('logData')) > 0: 
+            # are the same number of entries 
+            mnList = _get('mnenmonicList').split(",")
+            unitList = _get('unitList').split(",")
+            numberOfCurves = len(mnList)
+            numberofUnits = len(unitList)
+            if ( numberOfCurves != numberofUnits ):
+                self._Fail(test, "Number of mnemonics " + str(numberOfCurves) + " != number of units " + str(numberofUnits))
+                return False
+            
+            logData = self._get_log_data()
+            numberOfValuesInEachRow = len(logData[0])
+            if ( numberOfCurves != numberOfValuesInEachRow ):
+                self._Fail(test, "Number of mnemonics " + str(numberOfCurves) + " != number of values " + str(numberOfValuesInEachRow))
+                return False
+                       
+        return True        
+      
+    def _log_dataOnly_checkNullValues_Test(self, verbose, indexCurveMnemonic=None):
+        """ Do each curve have a least one non null value.
+        
+            Parameters:
+              verbose: output messages 
+              indexCurveName:  indexCurveName           
+        
+        """
+        test = '_log_dataOnly_checkNullValues_Test' 
+        if len(_get('logData')) > 0: 
+            mnList = _get('mnenmonicList').split(",")
+            
+            #check index curve has all non null values
+            if ( indexCurveMnemonic is not None ):
+                for row in range(_get("numberOfDataRows")):
+                    valueString = self._get_logData_DataValue_String(row,indexCurveMnemonic)
+                    isNull = self._isCurveValueNullPrivate(valueString, None, None, None )
+                    if ( isNull == True ):
+                        self._Fail(test, "Index curve is null at row " + str(row) )
+                        return False                    
+            
+            # see if all curves have at least one value
+            for mnemonic in mnList:
+                foundValue = False
+                for row in range(_get("numberOfDataRows")):
+                   valueString = self._get_logData_DataValue_String(row, mnemonic)
+                   isNull = self._isCurveValueNullPrivate(valueString, None, None, None )
+                   if ( isNull == False ):
+                       foundValue= True
+                       break
+                if ( foundValue == False):
+                   self._Fail(test, "Curve " + mnemonic + " has all null values "  )
+                   return False                      
+                
+        return True       
+        
+    def _log_check_requestLatestValue(self, numberOfExpectedValues, isMax, verbose, strict): 
+        """ _log_check_requestLatestValue 
+         
+            Parameters:
+              numberOfExpectedValues: expected number of values
+              verbose: output messages 
+              isMax:   if true, very number of values <= numberOfExpectedValues, if false, expect number == numberOfExpectedValues
+              strict:  if true, run extra validation, false if not        
+
+           Returns:
+              True if all pass, or False otherwise          
+        """          
         test = '_log_check_requestLatestValue'   
-        passFail = self._setup(verbose)
+        passFail = self._setup(True, verbose)
         if not(passFail):  return False
                 
         # find index of curve first non null value
         numberOfRows = self._get_logData_NumberOfNodes_Int(); 
             
         mnList = _get('mnenmonicList').split(",")
-        logNullValue =  self._get_XMLout_Element_String('/logs/log[$logIndex$]/nullValue')       
+        logNullValue = self._getLogNullValue()       
         indexCurveName = _get('indexCurve') 
         
         # what is the expected number of non-index curves            
@@ -340,19 +611,23 @@ class LogVerify:
         maxExpectedRows = numberOfCurves * numberOfExpectedValues
         if numberOfRows <= maxExpectedRows:    
             for mnemonic in mnList:    
-                if ( indexCurveName != mnemonic ):                           
-                    curveNullValue = self._get_XMLout_Element_String('/logs/log[$logIndex$]/logCurveInfo[mnemonic="$mnemonicVar$"]/nullValue')
-                    curveDataType = self._get_XMLout_Element_String('/logs/log[$logIndex$]/logCurveInfo[mnemonic="$mnemonicVar$"]/typeLogData')                   
+                if ( indexCurveName != mnemonic ): 
+                    curveNullValue = self._getCurveNullValue(mnemonic)                          
+                    curveDataType = self._getCurveDataType(mnemonic)                 
                     valueCount = 0 
                     for row in range(numberOfRows):                                
                         value = self._get_logData_DataValue_String(row,mnemonic)
                         curve_array_length = self._get_log_curve_array_length(mnemonic)
                         if self._isCurveValueNull(value,curveDataType,curveNullValue,logNullValue,curve_array_length) == False: 
                              valueCount += 1         
-                             
-                    if valueCount != numberOfExpectedValues:
-                        self._Fail(test, "Curve " + mnemonic + " number of values is " + str(valueCount) + " but expecting " + str(numberOfExpectedValues))
-                        return False
+                    if ( isMax ):        
+                        if valueCount > numberOfExpectedValues:
+                            self._Fail(test, "Curve " + mnemonic + " number of values is " + str(valueCount) + " but expecting " + str(numberOfExpectedValues))
+                            return False
+                    else:
+                        if valueCount != numberOfExpectedValues:
+                            self._Fail(test, "Curve " + mnemonic + " number of values is " + str(valueCount) + " but expecting " + str(numberOfExpectedValues))
+                            return False                        
                 
         else:
             self._Fail(test, "With " + str(numberOfCurves) + " non index curves, numberOfRows " + str(numberOfRows) + " exceeds max expected rows " + str(maxExpectedRows))
@@ -363,7 +638,7 @@ class LogVerify:
     def _log_Datum_defined(self, verbose ):
         """ Is the Datum of the depth based log defined""" 
         test = '_log_Datum_defined'   
-        passFail = self._setup(verbose)
+        passFail = self._setup(True, verbose)
         if not(passFail):  return False
         
         if verbose:
@@ -384,7 +659,7 @@ class LogVerify:
     def _log_validate_start_end_index_depth(self, verbose):
         """ Are the indexes of a depth based log correct""" 
         test = '_log_validate_start_end_index_depth'
-        passFail = self._setup(verbose)
+        passFail = self._setup(True, verbose)
         if not(passFail):  return False
        
         if verbose:
@@ -449,7 +724,7 @@ class LogVerify:
     def _log_validate_start_end_index_time(self, verbose):
         """ Are the indexes of a time based log correct""" 
         test = '_log_validate_start_end_index_time'
-        passFail = self._setup(verbose)
+        passFail = self._setup(True, verbose)
         if not(passFail):  return False
        
         if verbose:
@@ -505,7 +780,7 @@ class LogVerify:
     def _test_do_log_curve_info_mnemonics_match_mnemonicList(self, verbose):
         """ Do the logCurveInfo.mnemonics match the mnemonicList"""
         test = '_test_do_log_curve_info_mnemonics_match_mnemonicList'
-        passFail = self._setup(verbose)
+        passFail = self._setup(True, verbose)
         if not(passFail):  return False
         
         if len(_get('logData')) > 0:
@@ -551,7 +826,7 @@ class LogVerify:
     def test_index_curve(self, verbose):
         """ Does the Index curve exist in the logCurveInfo.mnemonics and mnemonicList"""
         test = 'test_index_curve'
-        passFail = self._setup(verbose)
+        passFail = self._setup(True, verbose)
         if not(passFail):  return False
         
         if verbose:
@@ -563,13 +838,6 @@ class LogVerify:
              self._Fail(test,"log.indexCurve is not defined " )
              return False
                      
-        # see if defined in logCurveInfo
-        logCurveInfoMnemonicList = _get('logCurveInfoMnemonicList')
-        try:
-            indexOfCurve = logCurveInfoMnemonicList.index(indexCurveName)
-        except ValueError:
-             self._Fail(test,"log.indexCurve does not exist in logCurveInfo set " + indexCurveName )
-             return False
         
         if len(_get('logData')) > 0:
             # see if is first curve in mnemonicList
@@ -577,6 +845,14 @@ class LogVerify:
             if indexCurveName != mnList[0]:
                  self._Fail(test,"log.indexCurve is not the first mnemonic in logData.mnemonicList" + indexCurveName )
                  return False            
+        
+        # see if defined in logCurveInfo
+        logCurveInfoMnemonicList = _get('logCurveInfoMnemonicList')
+        try:
+            indexOfCurve = logCurveInfoMnemonicList.index(indexCurveName)
+        except ValueError:
+             self._Fail(test,"log.indexCurve does not exist in logCurveInfo set " + indexCurveName )
+             return False        
         
         if verbose:
             _partial_success('passed ' + test)  
@@ -586,7 +862,7 @@ class LogVerify:
     def test_log_curve_info_min_max_depth(self, verbose):
         """ Are the LogCurveInfo minIndex and maxIndex within the log startIndex and endIndex"""
         test = 'test_log_curve_info_min_max_depth'
-        passFail = self._setup(verbose)
+        passFail = self._setup(True, verbose)
         if not(passFail):  return False
  
         if self._isDirectionUnknown(_get('direction')) == False:
@@ -637,23 +913,23 @@ class LogVerify:
     def test_log_curve_first_last_value_depth(self, verbose):
         """ Are the LogCurveInfo minIndex and maxIndex matching with the actual first and last value """
         test = 'test_log_curve_first_last_value_depth'
-        passFail = self._setup(verbose)
+        passFail = self._setup(True, verbose)
         if not(passFail):  return False
  
         if self._isDirectionUnknown(_get('direction')) == False:
             if verbose:
                 _log('doing ' + test )
              
-            logCurveInfoMnemonics = _get('logCurveInfoMnemonicList')                
-            logNullValue =  self._get_XMLout_Element_String('/logs/log[$logIndex$]/nullValue')
+            logCurveInfoMnemonics = _get('logCurveInfoMnemonicList')
+            logNullValue = self._getLogNullValue()                
                     
             # look thru all log curves to see if their start end index match the actual first and last non null value
             for mnemonic in logCurveInfoMnemonics:
                 _set('mnemonicVar', mnemonic)
                 minIndex = float(self._get_XMLout_Element_String('/logs/log[$logIndex$]/logCurveInfo[mnemonic="$mnemonicVar$"]/minIndex'))
                 maxIndex = float(self._get_XMLout_Element_String('/logs/log[$logIndex$]/logCurveInfo[mnemonic="$mnemonicVar$"]/maxIndex'))
-                curveNullValue = self._get_XMLout_Element_String('/logs/log[$logIndex$]/logCurveInfo[mnemonic="$mnemonicVar$"]/nullValue')
-                curveDataType = self._get_XMLout_Element_String('/logs/log[$logIndex$]/logCurveInfo[mnemonic="$mnemonicVar$"]/typeLogData')
+                curveNullValue = self._getCurveNullValue(mnemonic)
+                curveDataType = self._getCurveDataType(mnemonic)
                 
                 # find index of curve first non null value
                 numberOfRows = self._get_logData_NumberOfNodes_Int(); 
@@ -708,7 +984,7 @@ class LogVerify:
     def test_log_curve_first_last_value_time(self, verbose):
         """ Are the LogCurveInfo minDateTimeIndex and maxDateTimeIndex matching with the actual first and last value """
         test = 'test_log_curve_first_last_value_time'
-        passFail = self._setup(verbose)
+        passFail = self._setup(True, verbose)
         if not(passFail):  return False
  
         if self._isDirectionUnknown(_get('direction')) == False: 
@@ -717,16 +993,16 @@ class LogVerify:
                 _log('doing ' + test )
              
             logCurveInfoMnemonics = _get('logCurveInfoMnemonicList')                
-                    
-            logNullValue =  self._get_XMLout_Element_String('/logs/log[$logIndex$]/nullValue')
+                  
+            logNullValue = self._getLogNullValue()        
                             
             # look thru all log curves to see if their start end index match the actual first and last non null value
             for mnemonic in logCurveInfoMnemonics:
                 _set('mnemonicVar', mnemonic)
                 minIndex = wtl.utils.iso_to_utc(self._get_XMLout_Element_String('/logs/log[$logIndex$]/logCurveInfo[mnemonic="$mnemonicVar$"]/minDateTimeIndex'))
                 maxIndex = wtl.utils.iso_to_utc(self._get_XMLout_Element_String('/logs/log[$logIndex$]/logCurveInfo[mnemonic="$mnemonicVar$"]/maxDateTimeIndex'))
-                curveNullValue = self._get_XMLout_Element_String('/logs/log[$logIndex$]/logCurveInfo[mnemonic="$mnemonicVar$"]/nullValue')
-                curveDataType = self._get_XMLout_Element_String('/logs/log[$logIndex$]/logCurveInfo[mnemonic="$mnemonicVar$"]/typeLogData')
+                curveNullValue = self._getCurveNullValue(mnemonic)
+                curveDataType = self._getCurveDataType(mnemonic)
                             
                 # find index of curve first non null value
                 numberOfRows = self._get_logData_NumberOfNodes_Int(); 
@@ -780,15 +1056,16 @@ class LogVerify:
     def test_log_curve_array_header(self, verbose):
         """Verify all array type curves headers are correct"""
         test = 'test_log_curve_array_header'
-        passFail = self._setup(verbose)
+        passFail = self._setup(True, verbose)
         if not(passFail):  return False         
         logCurveInfoNodes = self._getGlobalElementNode('logs/log/logCurveInfo')
         
-        orderList = []
+
         for curveIndex in range(len(logCurveInfoNodes)):
             mnemonic = self._get_XMLout_Element_String('logs/log[$logIndex$]/logCurveInfo[%d]/mnemonic'%(curveIndex+1))
             axises = self._get_XMLout_RecurringElement_List('logs/log[$logIndex$]/logCurveInfo[%d]/axisDefinition'%(curveIndex+1))
             if ( axises is not None and len(axises)>0):
+                orderList = []                
                 for axisIndex in range(len(axises)):
                     axisCount = self._get_XMLout_Element_String('logs/log[$logIndex$]/logCurveInfo[%d]/axisDefinition[%d]/count'%((curveIndex+1),(axisIndex+1)))
                     if ( axisCount is not None ):
@@ -826,16 +1103,16 @@ class LogVerify:
                              self._Fail(test,"mnemonic %s axis.doubleList length incorrect, is %d expecting %s value %s"%(mnemonic,len(doubleList),axisCount,stringValues))
                              return False  
                          
-        if ( len(orderList) ):
-            uniqueOrderList = Set(orderList)
-            if ( len(uniqueOrderList) != len(orderList) ):
-                self._Fail(test,"Duplicate order in axisDefinition %s"%(str(orderList)))
-                return False                                       
-            orderList.sort()
-            for orderIndex in range(len(orderList)):
-                if ( (orderIndex+1) != int(orderList[orderIndex])):
-                    self._Fail(test,"Incorrect orders in axisDefinition %s"%(str(orderList)))
-                    return False                          
+                if ( len(orderList) ):
+                    uniqueOrderList = Set(orderList)
+                    if ( len(uniqueOrderList) != len(orderList) ):
+                        self._Fail(test,"Duplicate order in axisDefinition %s"%(str(orderList)))
+                        return False                                       
+                    orderList.sort()
+                    for orderIndex in range(len(orderList)):
+                        if ( (orderIndex+1) != int(orderList[orderIndex])):
+                            self._Fail(test,"Incorrect orders in axisDefinition %s"%(str(orderList)))
+                            return False                          
                 
         if verbose:                      
             _partial_success('passed ' + test) 
@@ -844,7 +1121,7 @@ class LogVerify:
     def test_log_curve_array_data(self, verbose):
         """Verify all array type curves have the correct number of indexes"""
         test = 'test_log_curve_array_data'
-        passFail = self._setup(verbose)
+        passFail = self._setup(True, verbose)
         if not(passFail):  return False        
         numberOfRows = self._get_logData_NumberOfNodes_Int(); 
         logCurveInfoMnemonics = _get('logCurveInfoMnemonicList')
@@ -870,7 +1147,7 @@ class LogVerify:
     def test_log_curve_info_min_max_time(self, verbose):
         """ Are the LogCurveInfo minDateTimeIndex and maxDateTimeIndex within the log startDateTimeIndex and endDateTimeIndex"""
         test = 'test_log_curve_info_min_max_time'
-        passFail = self._setup(verbose)
+        passFail = self._setup(True, verbose)
         if not(passFail):  return False
  
         if self._isDirectionUnknown(_get('direction')) == False: 
@@ -927,7 +1204,7 @@ class LogVerify:
     def test_log_curve_info_min_max_depth_uom(self, verbose):
         """ Are the LogCurveInfo minIndex uom and maxIndex uom the same as the log startIndex uom and endIndex uom"""        
         test = 'test_log_curve_info_min_max_depth_uom'  
-        passFail = self._setup(verbose)
+        passFail = self._setup(True, verbose)
         if not(passFail):  return False
         
         if verbose:
@@ -952,16 +1229,18 @@ class LogVerify:
         return True    
            
      
-    def _test_get_dataContainsCorrectDataType(self, verbose):
-        """ Do each of the data rows have data that matches the Log Curve datatype"""
+    def _test_get_dataContainsCorrectDataType(self, verbose, curveListDict):
+        """ Do each of the data rows have data that matches the Log Curve datatype 
+            Parameters:
+                      verbose:  extended logging output
+                      curveListDict:  dictionary of logCurveInfo details        
+        """
         test = '_test_get_dataContainsCorrectDataType'
-        passFail = self._setup(verbose)
+        passFail = self._setup(True, verbose)
         if not(passFail):  return False
         
         if verbose:
             _log('doing ' + test )
-        
-        logNullValue =  self._get_XMLout_Element_String('/logs/log[$logIndex$]/nullValue')
         
         mnList = _get('mnenmonicList').split(",")
         
@@ -970,9 +1249,10 @@ class LogVerify:
             for mnemonic in mnList:
                 _set('mnemonicVar', mnemonic)
                 value = self._get_logData_DataValue_String(row,mnemonic)
-                curveNullValue = self._get_XMLout_Element_String('/logs/log[$logIndex$]/logCurveInfo[mnemonic="$mnemonicVar$"]/nullValue')
-                curveDataType = self._get_XMLout_Element_String('/logs/log[$logIndex$]/logCurveInfo[mnemonic="$mnemonicVar$"]/typeLogData') 
-                curve_array_length = self._get_log_curve_array_length(mnemonic)               
+                logNullValue = self._getLogNullFromCurveListDict(mnemonic, curveListDict)
+                curveNullValue = self._getCurveNullFromCurveListDict(mnemonic, curveListDict)
+                curveDataType = self._getCurveDataTypeFromCurveListDict(mnemonic, curveListDict) 
+                curve_array_length = self._getCurveArrayLengthFromCurveListDict(mnemonic, curveListDict)               
                 if self._isCurveValueNull(value,curveDataType,curveNullValue,logNullValue,curve_array_length) == False:
                     if curve_array_length > 1:
                         curveValueList = value.split(' ')
@@ -1010,7 +1290,7 @@ class LogVerify:
     def _test_get_direction_of_data_matches_header_depth(self, verbose ):
         """ Does the data indexing match the direction"""
         test = '_test_get_direction_of_data_matches_header_depth'
-        passFail = self._setup(verbose)
+        passFail = self._setup(True, verbose)
         if not(passFail):  return False
         
         if verbose:
@@ -1053,7 +1333,7 @@ class LogVerify:
     def _test_get_direction_of_data_matches_header_time(self, verbose ):
         """ Does the data indexing match the direction"""
         test = '_test_get_direction_of_data_matches_header_time'
-        passFail = self._setup(verbose)
+        passFail = self._setup(True, verbose)
         if not(passFail):  return False
         
         if verbose:
@@ -1091,7 +1371,7 @@ class LogVerify:
     def _test_mnemonicsAreUnique(self, verbose):
         """ Are the mnemonics unique in the mnemonisList"""
         test = '_test_mnemonicsAreUnique'
-        passFail = self._setup(verbose)
+        passFail = self._setup(True, verbose)
         if not(passFail):  return False
  
         if verbose:

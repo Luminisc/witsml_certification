@@ -111,7 +111,30 @@ def wtl_log_server_response(label, response):
     if ((response is not None) and wtl.config.log_responses):
         wtl_log(str(response), prefix='[' + label + ']\n')    
      
+def wtl_log_server_query(labelWitsmlType, wmlTypeIn, labelQuery, query, labelOptionsIn, optionsIn, labelCapsIn, capsIn):
+    """
+    Log server queries if enabled
 
+    Parameters:
+      labelWitsmlType: Label to add to the log
+      wmlTypeIn:  Server witsml data type to log      
+      labelQuery:     Label to add to the log
+      query:  Server query to log  
+      labelOptionsIn:     Label to add to the log
+      optionsIn:  Server query to log  
+      labelCapsIn:     Label to add to the log
+      capsIn:  Server capsIn to log                    
+        """
+    if ( wtl.config.log_requests ):
+        if (wmlTypeIn is not None):
+            wtl_log(str(wmlTypeIn), prefix='\n[' + labelWitsmlType + ']\n')                  
+        if (optionsIn is not None):
+            wtl_log(str(optionsIn), prefix='\n[' + labelOptionsIn + ']\n')           
+        if (query is not None):
+            wtl_log(str(query), prefix='[' + labelQuery + ']\n') 
+        if (capsIn is not None):
+            wtl_log(str(capsIn), prefix='[' + labelCapsIn + ']\n')           
+        
 def log(log_string, force=False, no_new_line=False, prefix=''):
     """
     Log test primitive. Uses the internal log function and prepends the "#"
