@@ -15,6 +15,7 @@ test(
 # SETUP #
 #########
 
+
 log('Script setup start')
 
 log("Retrieving well 1 'name' and 'dTimLastChange'")
@@ -95,11 +96,11 @@ if ( get_XMLout_NumberOfObjects_Int() < 1):
 partial_success("Selection by 'dTimLastChange' succeeded")
     
 # confirm well 2 is included in results
-check_XMLout_String(".*well uid=\"$server_w2_uid$\".*")
+check_XMLout_ElementIncluded("/wells/well[@uid='$server_w2_uid$']")
 partial_success("Newer well included in results of query by dTimLastChange")
 
 #confirm well 1 is not included in results
-check_XMLout_DoesNotContain('well uid=\"$server_w1_uid$\"')
+check_XMLout_ElementNotIncluded("/wells/well[@uid='$server_w1_uid$']")
 partial_success("Older well not included in results of query by dTimLastChange")
 
 success()

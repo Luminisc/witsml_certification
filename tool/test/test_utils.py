@@ -47,34 +47,43 @@ class UtilsTest(unittest.TestCase):
         self.assertFalse(wtl.utils.compare_strings('123', '321'))
         self.assertFalse(wtl.utils.compare_strings('123', 'a123'))
         self.assertFalse(wtl.utils.compare_strings('123', ''))
-
+        self.assertFalse(wtl.utils.compare_strings('1.3', '1x3', enable_regex=False))
+        self.assertFalse(wtl.utils.compare_strings('1.3', '13', enable_regex=True))
+        self.assertFalse(wtl.utils.compare_strings('1*3', '1245', enable_regex=True))
+        self.assertFalse(wtl.utils.compare_strings('123+4', '123+4', enable_regex=True))
+        self.assertFalse(wtl.utils.compare_strings('123(4)', '123(4)', enable_regex=True))
+        
     def test_encode_compare_strings_same(self):
         self.assertTrue(wtl.utils.compare_strings('123', '123'))
-        self.assertTrue(wtl.utils.compare_strings('1.3', '1x3'))
-        self.assertTrue(wtl.utils.compare_strings('1.*3', '13'))
-        self.assertTrue(wtl.utils.compare_strings('1.*3', '1abcdf3'))
-        self.assertTrue(wtl.utils.compare_strings('.*', ''))
-        self.assertTrue(wtl.utils.compare_strings('.*', 'jdjuhgeununbdufg'))
-        self.assertTrue(wtl.utils.compare_strings('1*3', '111111111111113'))
+        self.assertTrue(wtl.utils.compare_strings('123', '123', enable_regex=True))
+        self.assertTrue(wtl.utils.compare_strings('1.3', '1x3', enable_regex=True))
+        self.assertTrue(wtl.utils.compare_strings('1.*3', '13', enable_regex=True))
+        self.assertTrue(wtl.utils.compare_strings('1.*3', '1abcdf3', enable_regex=True))
+        self.assertTrue(wtl.utils.compare_strings('.*', '', enable_regex=True))
+        self.assertTrue(wtl.utils.compare_strings('.*', 'jdjuhgeununbdufg', enable_regex=True))
+        self.assertTrue(wtl.utils.compare_strings('1*3', '111111111111113', enable_regex=True))
+        self.assertTrue(wtl.utils.compare_strings('2013-02-21T17:23:46.2494363+11:00', '2013-02-21T17:23:46.2494363+11:00'))
+        self.assertTrue(wtl.utils.compare_strings('123+4', '123+4'))
+        self.assertTrue(wtl.utils.compare_strings('123(4)', '123(4)'))
 
     def test_encode_compare_strings30(self):
-        self.assertTrue(wtl.utils.compare_strings('1&x&3', '1abcd3'))
+        self.assertTrue(wtl.utils.compare_strings('1&x&3', '1abcd3', enable_regex=True))
         self.assertTrue('abcd' == wtl.utils.get_variable_value('x'))
 
     def test_encode_compare_strings31(self):
-        self.assertTrue(wtl.utils.compare_strings('&wwwww&1234&x&56789&y&0&zzz&', 'w1234x56789y0z'))
+        self.assertTrue(wtl.utils.compare_strings('&wwwww&1234&x&56789&y&0&zzz&', 'w1234x56789y0z', enable_regex=True))
         self.assertTrue('w' == wtl.utils.get_variable_value('wwwww'))
         self.assertTrue('x' == wtl.utils.get_variable_value('x'))
         self.assertTrue('y' == wtl.utils.get_variable_value('y'))
         self.assertTrue('z' == wtl.utils.get_variable_value('zzz'))
 
     def test_encode_compare_strings32(self):
-        self.assertTrue(wtl.utils.compare_strings('&x&1.*2&y&', 'x1878787878787878782y'))
+        self.assertTrue(wtl.utils.compare_strings('&x&1.*2&y&', 'x1878787878787878782y', enable_regex=True))
         self.assertTrue('x' == wtl.utils.get_variable_value('x'))
         self.assertTrue('y' == wtl.utils.get_variable_value('y'))
 
     def test_encode_compare_strings33(self):
-        self.assertTrue(wtl.utils.compare_strings('name&xx&xname123name&yy&xname','nameAAAxname123nameBBBxname'))
+        self.assertTrue(wtl.utils.compare_strings('name&xx&xname123name&yy&xname','nameAAAxname123nameBBBxname', enable_regex=True))
         self.assertTrue('AAA' == wtl.utils.get_variable_value('xx'))
         self.assertTrue('BBB' == wtl.utils.get_variable_value('yy'))
 

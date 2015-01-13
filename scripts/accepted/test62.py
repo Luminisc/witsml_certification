@@ -27,7 +27,7 @@ WMLS_GetCap(OptionsIn={'dataVersion':get('server_schema_version')})
 check_ReturnValue_Success()
 
 #Check the growingTimeoutPeriod is defined in the GetCap response for log
-check_CapabilitiesOut_String('.*<growingTimeoutPeriod dataObject="log">.*')
+check_CapabilitiesOut_ElementIncluded("/capServers/capServer/growingTimeoutPeriod[@dataObject='log']")
 
 partial_success("growingTimeoutPeriod is defined in the GetCap response for log")
 log('Script end')

@@ -403,7 +403,7 @@ def process_string(s):
         
     return s
 
-def compare_strings(expected_string, received_string):
+def compare_strings_regex_and_var(expected_string, received_string):
     """
     Compare two strings with the following 2 special processing rules
         1. Use regular expressions in expected string
@@ -458,6 +458,26 @@ def compare_strings(expected_string, received_string):
     
     return True
     
+def compare_strings(expected_string, received_string, enable_regex=False):
+    """
+    Compare two strings depending on the flag enable_regex
+    If enable_regex is True, use the compare_strings_regex_and_var function. 
+    Otherwise do a straight string comparison  
+    Parameters:
+      expected_string:  String to be compared against. Maybe containing regular
+                        expressions and '&' constructs if enable_regex=True
+      received_string:  String to be compared
+      enable_regex:     Flag (True or False) to indicate the type of comparison to be used
+      
+    Return:
+      'True' if the strings match, or 'False' otherwise    
+    """
+    
+    if (enable_regex):
+        return compare_strings_regex_and_var(expected_string, received_string) 
+
+    return (expected_string == received_string)
+ 
 def encode_options_in(options_in):
     """
     Utility function to encode the options in provided as a dictionary into the

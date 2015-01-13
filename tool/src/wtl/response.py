@@ -173,7 +173,7 @@ class ReturnValue:
         
             return self.value[0:index]
         
-    def check_value(self, expected_value):
+    def check_value(self, expected_value, enable_regex=False):
         """
         Check the stored value matches the expected value
         
@@ -182,6 +182,7 @@ class ReturnValue:
                           This string can contain variable substitutions ($...$),
                           file substitutions (#...#) and  conditional substitutions
                           (^...?...:...^)
+          enable_regex:   Flag to enable regex comparison
         
         Return:
           Nothing. Fail control primitive is called if check fails
@@ -192,14 +193,14 @@ class ReturnValue:
         processed_value_string = wtl.utils.process_string(str(expected_value))
         log_response_action("verifying return value is equal to '%s'" %(processed_value_string))
         value_str = str(self.value)
-        if (wtl.utils.compare_strings(processed_value_string, value_str)):
+        if (wtl.utils.compare_strings(processed_value_string, value_str, enable_regex)):
             log_response_result("Ok")
         else:
             log_response_result("Not Ok")
             log_response_message("Expected: %s\n    Received: %s" % (processed_value_string, value_str))
             response_fail("Bad value received")
 
-    def check_string(self, expected_string):
+    def check_string(self, expected_string, enable_regex=False):
         """
         Check the stored value matches the expected string
         
@@ -208,12 +209,13 @@ class ReturnValue:
                            This string can contain variable substitutions ($...$),
                            file substitutions (#...#) and  conditional substitutions
                            (^...?...:...^)
+          enable_regex:   Flag to enable regex comparison
         
         Return:
           Nothing. Fail control primitive is called if check fails
         """
         
-        self.check_value(expected_string)
+        self.check_value(expected_string, enable_regex)
         
     def check_value_contains(self, expected_substring):
         """
@@ -563,11 +565,11 @@ class XMLValue:
         if (self.value == None):
             return None
         
-        if len(self.root):
-            if (self.get_element('documentInfo')):
-                return len(self.root) - 1
+        obj = self.get_element(self.get_object_name())
+        if obj:
+            return len(obj)
             
-        return len(self.root)
+        return 0
 
     def get_latest_dTimChange(self):
         """
@@ -599,16 +601,17 @@ class XMLValue:
             log_response_message("Cannot verify value because it is not set")
             response_fail("Cannot check Result")
 
-    def check_string(self, expected_xml_string):           
+    def check_string(self, expected_xml_string, enable_regex=False):           
         """
         Check the stored value contains the substring
         
         Parameters:
           expected_xml_string: String segment to determine as present in value
-          expected_xml_string cannot contain regex 
-          expected_xml_string can contain variable substitutions ($...$),
-            file substitutions (#...#) and  conditional substitutions
-            (^...?...:...^)
+                               expected_xml_string cannot contain regex if enable_regex is False 
+                               expected_xml_string can contain variable substitutions ($...$),
+                               file substitutions (#...#) and  conditional substitutions
+                               (^...?...:...^)
+          enable_regex:   Flag to enable regex comparison
         
         Return:
           Nothing. Fail control primitive is called if check fails
@@ -621,7 +624,7 @@ class XMLValue:
      
         log_response_action("verifying value against '%s'" %(processed_expected_xml_string))
     
-        if (wtl.utils.compare_strings(processed_expected_xml_string, self.value)):
+        if (wtl.utils.compare_strings(processed_expected_xml_string, self.value, enable_regex)):
             log_response_result("Ok")
         else:
             log_response_result("Not Ok")
@@ -656,16 +659,17 @@ class XMLValue:
             log_response_result("Ok")        
             
 
-    def check_xml_string(self, expected_xml_string):
+    def check_xml_string(self, expected_xml_string, enable_regex=False):
         """
         Check the stored value contains the expected string
         
         Parameters:
           expected_xml_string: XML string segment to determine as present in value
-          expected_xml_string cannot contain regex 
-          expected_xml_string can contain variable substitutions ($...$),
-            file substitutions (#...#) and  conditional substitutions
-            (^...?...:...^)
+                               expected_xml_string cannot contain regex if enable_regex is False 
+                               expected_xml_string can contain variable substitutions ($...$),
+                               file substitutions (#...#) and  conditional substitutions
+                               (^...?...:...^)
+          enable_regex:   Flag to enable regex comparison
         
         Return:
           Nothing. Fail control primitive is called if check fails
@@ -680,7 +684,7 @@ class XMLValue:
         processed_expected_xml_string = remove_spaces_from_xml_string(processed_expected_xml_string)
         log_response_action("verifying value value against '%s'" %(processed_expected_xml_string))
     
-        if (wtl.utils.compare_strings(processed_expected_xml_string, self.value)):
+        if (wtl.utils.compare_strings(processed_expected_xml_string, self.value, enable_regex)):
             log_response_result("Ok")
         else:
             log_response_result("Not Ok")
@@ -767,13 +771,14 @@ class XMLValue:
             log_response_result("Ok")
 
     @objectLoop
-    def check_element_value(self, tag, expected_value, _object_index=None):
+    def check_element_value(self, tag, expected_value, enable_regex=False, _object_index=None):
         """
         Check the stored value matches the expected value
         
         Parameters: 
           tag:            The element's tag
           expected_value: Value to be compared against
+          enable_regex:   Flag to enable regex comparison
         
         Return:
           Nothing. Fail control primitive is called if check fails
@@ -787,7 +792,7 @@ class XMLValue:
         element = self.get_element(tag, _object_index)
         if (element):
             value_str = element[0].text 
-            if (wtl.utils.compare_strings(processed_value_string, value_str)):
+            if (wtl.utils.compare_strings(processed_value_string, value_str, enable_regex)):
                 log_response_result("Ok")
             else:
                 log_response_result("Not Ok")
@@ -862,14 +867,15 @@ class XMLValue:
             response_fail("Missing expected element")
 
     @objectLoop
-    def check_recurring_element_value_contains(self, tag, expected_value_list, _object_index=None):
+    def check_recurring_element_value_contains(self, tag, expected_value_list, enable_regex=False, _object_index=None):
         """
         Check the recurring elements in the XPath tag contain the provided value list
         
         Parameters: 
           tag:                 The element's tag
           expected_value_list: list of values
-        
+          enable_regex:   Flag to enable regex comparison
+                  
         Example:
           check_recurring_element_value_contains('logs/log/logCurveInfo/mnemonic', ['DEPTH', 'GR', 'CALI', 'RHOB'])
         
@@ -889,7 +895,7 @@ class XMLValue:
                 found = False
                 for instance in element[:]:
                     value_str = instance.text 
-                    if (wtl.utils.compare_strings(processed_value_string, value_str)):
+                    if (wtl.utils.compare_strings(processed_value_string, value_str, enable_regex)):
                         log_response_result("Ok")
                         found = True
                         element.remove(instance)
@@ -903,13 +909,15 @@ class XMLValue:
                 response_fail("Missing expected recurring element")
 
     @objectLoop
-    def check_recurring_element_value(self, tag, expected_value_list, _object_index=None):
+    def check_recurring_element_value(self, tag, expected_value_list, enable_regex=False, _object_index=None):
         """
         Check the recurring elements in the XPath tag match the provided value list
         
         Parameters: 
           tag:                 The element's tag
           expected_value_list: list of names
+          enable_regex:   Flag to enable regex comparison
+        
           
         Example:
           check_recurring_element_value('logs/log/logCurveInfo/mnemonic', ['DEPTH', 'GR', 'CALI', 'RHOB'])
@@ -921,7 +929,7 @@ class XMLValue:
         tag = wtl.utils.process_string(tag)
        
         # Check all element in the list are included
-        self.check_recurring_element_value_contains(tag, expected_value_list, _object_index)
+        self.check_recurring_element_value_contains(tag, expected_value_list, enable_regex, _object_index)
         
         #Check that that is all elements
         log_response_action("verifying there are no more <%s> values not in the provided list" %tag)
@@ -1448,7 +1456,7 @@ class XMLValue:
             log_response_result("Ok")
 
     @objectLoop
-    def check_attribute_value(self, tag, attribute, expected_value, _object_index=None):
+    def check_attribute_value(self, tag, attribute, expected_value, enable_regex=False, _object_index=None):
         """
         Check the stored value contains the expected attribute in the tag
         
@@ -1456,6 +1464,7 @@ class XMLValue:
           tag:            The attribute's tag
           attribute:      The attribute whose value is being checked
           expected_value: The value that the attribute is expected to have
+          enable_regex:   Flag to enable regex comparison
         
         Return:
           Nothing. Fail control primitive is called if check fails
@@ -1466,7 +1475,7 @@ class XMLValue:
         log_response_action("verifying '%s' attribute of <%s> has value equal to %s" %(attribute, tag, processed_value_string))
         value_str = self.get_attribute(tag, attribute, _object_index)
         if (value_str != None):
-            if (wtl.utils.compare_strings(processed_value_string, value_str)):
+            if (wtl.utils.compare_strings(processed_value_string, value_str, enable_regex)):
                 log_response_result("Ok")
             else:
                 log_response_result("Not Ok")
@@ -1495,7 +1504,7 @@ class XMLValue:
         log_response_action("verifying '%s' attribute of <%s> is included in '%s'" %(attribute, tag, processed_value_string))
         value_str = self.get_attribute(tag, attribute, _object_index)
         if (value_str != None):
-            if (wtl.utils.compare_strings('.*' + value_str + '.*', processed_value_string)):
+            if value_str in processed_value_string:
                 log_response_result("Ok")
             else:
                 log_response_result("Not Ok")

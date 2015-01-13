@@ -82,6 +82,7 @@ if (get_XMLout_NumberOfObjects_Int() == 0):
             <indexCurve>Mdepth</indexCurve>
             <logCurveInfo uid="lci-Test22">
                 <mnemonic>Mdepth</mnemonic>
+                <unit>m</unit>
                 <typeLogData>double</typeLogData>
             </logCurveInfo>
         </log>

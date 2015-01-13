@@ -56,7 +56,7 @@ set('trajectory_xml',"""
         <aziVertSect uom="dega">82.700</aziVertSect>
         <dispNsVertSectOrig uom="ft">0</dispNsVertSectOrig>
         <dispEwVertSectOrig uom="ft">0</dispEwVertSectOrig>
-        <definitive>true</definitive>
+        <definitive>false</definitive>
         <memory>true</memory>
         <finalTraj>true</finalTraj>
         <aziRef>grid north</aziRef>

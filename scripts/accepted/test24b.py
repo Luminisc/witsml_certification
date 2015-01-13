@@ -33,8 +33,6 @@ WMLS_GetFromStore(WMLTYPEIN_LOG, """<?xml version="1.0" encoding="UTF-8"?>
 check_ReturnValue_Success()
 
 # get the min and max index for the non-index curve
-# note: minIndex is recurs for each mnemonic.  Use regex to match the non-index curve's minIndex and maxIndex and 
-#       test tool's '&' operator to store it in a variable.  Also note, requires regex '?' to return first match
 set('firstMinIndex',get_XMLout_Element_String('/logs/log/logCurveInfo[mnemonic="$server_w2_wb1_log1_mnemonic_1$"]/minIndex'))
 log_variable('firstMinIndex')
 set('firstMaxIndex',get_XMLout_Element_String('/logs/log/logCurveInfo[mnemonic="$server_w2_wb1_log1_mnemonic_1$"]/maxIndex'))
@@ -56,8 +54,8 @@ check_ReturnValue_Success()
 
 if (get('firstMinIndex') <> get_XMLout_Element_String('/logs/log/logCurveInfo[mnemonic="$server_w2_wb1_log1_mnemonic_1$"]/minIndex')):
     fail('minIndex is different from both queries')
-if (get('firstMinIndex') <> get_XMLout_Element_String('/logs/log/logCurveInfo[mnemonic="$server_w2_wb1_log1_mnemonic_1$"]/minIndex')):
-    fail('minIndex is different from both queries')
+if (get('firstMaxIndex') <> get_XMLout_Element_String('/logs/log/logCurveInfo[mnemonic="$server_w2_wb1_log1_mnemonic_1$"]/maxIndex')):
+    fail('maxIndex is different from both queries')
 partial_success('minIndex and maxIndex match from both queries')    
 
 # compare first and last index values in second response with minIndex and maxIndex

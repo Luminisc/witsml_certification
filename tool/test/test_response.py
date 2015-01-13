@@ -38,6 +38,7 @@ XMLBASE = """<?xml version="1.0" ?>
 XML_ENCODING = '<?xml version="1.0" encoding="%s"?>\n<wells xmlns="http://www.witsml.org/schemas/131">%s</wells>'
 XMLBODY = '\n\t\n<well uid="tuid123">\n\t\n <name>Test Well</name>\t<numAPI>testAPI</numAPI>\n\n</well>'
 XML1 = XMLBASE %(XMLBODY)
+XMLWITHPLUS = XMLBASE %('\n\t\n<well uid="tuid+123">\n\t\n <name>Test Well</name>\t<numAPI>testAPI</numAPI>\n\n</well>')
 
 XML_LOG_1311 =  """<?xml version="1.0" encoding="UTF-8"?>
               <logs xmlns="http://www.witsml.org/schemas/131" version="1.3.1.1">
@@ -358,12 +359,12 @@ class ResponseTest(unittest.TestCase, mocking.MockingTestMixin):
     
     def test_ReturnValue_check_value_matchAnything(self):
         x = wtl.response.ReturnValue(18)
-        x.check_value('.*')
+        x.check_value('.*', enable_regex=True)
         self.assertFalse(wtl.control_prim.fail.called)
     
     def test_ReturnValue_check_value_matchRegex(self):
         x = wtl.response.ReturnValue(167)
-        x.check_value('.*6.*')
+        x.check_value('.*6.*', enable_regex=True)
         self.assertFalse(wtl.control_prim.fail.called)
     
     def test_ReturnValue_check_string_noValue(self):
@@ -373,14 +374,29 @@ class ResponseTest(unittest.TestCase, mocking.MockingTestMixin):
     
     def test_ReturnValue_check_string_noMatch(self):
         x = wtl.response.ReturnValue('12')
-        x.check_string('3')
+        x.check_string('3', enable_regex=False)
         self.assertTrue(wtl.control_prim.fail.called)
     
+    def test_ReturnValue_check_string_noMatch_regex(self):
+        x = wtl.response.ReturnValue('1+2')
+        x.check_string('1+2', enable_regex=True)
+        self.assertTrue(wtl.control_prim.fail.called)
+
     def test_ReturnValue_check_string_match(self):
-        x = wtl.response.ReturnValue('12')
-        x.check_string('12')
+        x = wtl.response.ReturnValue('1+2')
+        x.check_string('1+2', enable_regex=False)
         self.assertFalse(wtl.control_prim.fail.called)
     
+    def test_ReturnValue_check_xml_string_noMatch_regex(self):
+        x = wtl.response.ReturnValue('1+2')
+        x.check_string('1+2', enable_regex=True)
+        self.assertTrue(wtl.control_prim.fail.called)
+
+    def test_ReturnValue_check_xml_string_match_regex(self):
+        x = wtl.response.ReturnValue('1+2')
+        x.check_string('1\+2', enable_regex=True)
+        self.assertFalse(wtl.control_prim.fail.called)
+
     def test_ReturnValue_check_value_contains_noValue(self):
         x = wtl.response.ReturnValue()
         x.check_value_contains('1')
@@ -687,6 +703,16 @@ class ResponseTest(unittest.TestCase, mocking.MockingTestMixin):
         x.check_element_value('name', 'Test Well')
         self.assertFalse(wtl.control_prim.fail.called)
 
+    def test_check_element_failIfDoesntMatch_regex(self):
+        x = wtl.response.XMLValue(XML1)
+        x.check_element_value('name', 'Tes.*dell', enable_regex=True)
+        self.assertTrue(wtl.control_prim.fail.called)
+
+    def test_check_element_value_successIfMatch_regex(self):
+        x = wtl.response.XMLValue(XML1)
+        x.check_element_value('name', 'Tes.*ell', enable_regex=True)
+        self.assertFalse(wtl.control_prim.fail.called)
+
     def test_check_element_value_caseSensitive(self):
         x = wtl.response.XMLValue(XML1)
         x.check_element_value('name', 'test Well')
@@ -790,6 +816,16 @@ class ResponseTest(unittest.TestCase, mocking.MockingTestMixin):
         x.check_attribute_value('well', 'uid', 'tuid123')
         self.assertFalse(wtl.control_prim.fail.called)
 
+    def test_check_attribute_value_failIfDoesntMatch_regex(self):
+        x = wtl.response.XMLValue(XMLWITHPLUS)
+        x.check_attribute_value('well', 'uid', 'tuid+123', enable_regex=True)
+        self.assertTrue(wtl.control_prim.fail.called)
+
+    def test_check_attribute_value_successIfMatch_regex(self):
+        x = wtl.response.XMLValue(XMLWITHPLUS)
+        x.check_attribute_value('well', 'uid', 't.id\+1.3', enable_regex=True)
+        self.assertFalse(wtl.control_prim.fail.called)
+
     def test_check_attribute_value_all_objects_success(self):
         x = wtl.response.XMLValue("""<?xml version="1.0" encoding="UTF-8"?>
               <logs xmlns="http://www.witsml.org/schemas/131" version="1.4.1.0">
@@ -834,13 +870,22 @@ class ResponseTest(unittest.TestCase, mocking.MockingTestMixin):
         self.assertTrue(wtl.control_prim.fail.called)
 
     def test_check_attribute_value_is_contained_successIfContains(self):
-        x = wtl.response.XMLValue(XML1)
-        x.check_attribute_value_is_contained('well', 'uid', 'Ztuid123Z')
+        x = wtl.response.XMLValue(XMLWITHPLUS)
+        x.check_attribute_value_is_contained('well', 'uid', 'Ztuid+123Z')
         self.assertFalse(wtl.control_prim.fail.called)
 
     def test_check_number_of_objects_successIfCorrect(self):
         x = wtl.response.XMLValue(XML1)
         x.check_number_of_objects(1)
+        self.assertFalse(wtl.control_prim.fail.called)
+
+    def test_check_number_of_objects_successIfCorrectNoObjects(self):
+        XML_DOC = """<?xml version="1.0" encoding="UTF-8"?>
+                     <wells 
+                         xmlns="http://www.witsml.org/schemas/1series" version="1.4.1.1">
+                     </wells>"""
+        x = wtl.response.XMLValue(XML_DOC)
+        x.check_number_of_objects(0)
         self.assertFalse(wtl.control_prim.fail.called)
 
     def test_check_number_of_objects_successIfCorrectWithDocumentInfo(self):
@@ -862,6 +907,20 @@ class ResponseTest(unittest.TestCase, mocking.MockingTestMixin):
         x.check_number_of_objects(1)
         self.assertFalse(wtl.control_prim.fail.called)
 
+    def test_check_number_of_objects_successIfCorrectWithComments(self):
+        XML_DOC = """<?xml version="1.0" encoding="UTF-8"?>
+                     <wells 
+                         xmlns="http://www.witsml.org/schemas/1series" version="1.4.1.1">
+                         <!-- comment 1 -->
+                         <!-- comment 2 -->
+                         <well uid="w-12">
+                             <name>6507/7-A-42</name>
+                         </well>
+                     </wells>"""
+        x = wtl.response.XMLValue(XML_DOC)
+        x.check_number_of_objects(1)
+        self.assertFalse(wtl.control_prim.fail.called)
+ 
     def test_check_number_of_objects_failIfIncorrect(self):
         x = wtl.response.XMLValue(XML1)
         x.check_number_of_objects(2)
@@ -1125,7 +1184,7 @@ class ResponseTest(unittest.TestCase, mocking.MockingTestMixin):
         
         x.check_string_does_not_contain("STRING_NOT_TO_BE_FOUND")
         self.assertFalse(wtl.control_prim.fail.called)
-            
+
         x.check_string_does_not_contain(".*M1.*")
         self.assertFalse(wtl.control_prim.fail.called)
                     
@@ -1735,18 +1794,44 @@ class ResponseTest(unittest.TestCase, mocking.MockingTestMixin):
                       <mnemonic>CALI</mnemonic>
                     </logCurveInfo>
                     <logCurveInfo uid="4">
-                      <mnemonic>DRHO</mnemonic>
+                      <mnemonic>DR+HO</mnemonic>
                     </logCurveInfo>
                     <logCurveInfo uid="5">
                       <mnemonic>RHOB</mnemonic>
                     </logCurveInfo>
                   </log>
               </logs>""")  
-        x.check_recurring_element_value('logs/log/logCurveInfo/mnemonic', ['DEPTH', 'CALI', 'GR', 'RHOB', 'DRHO'])
+        x.check_recurring_element_value('logs/log/logCurveInfo/mnemonic', ['DEPTH', 'CALI', 'GR', 'RHOB', 'DR+HO'])
         self.assertFalse(wtl.control_prim.fail.called)     
         x.check_recurring_element_value('logs/log/logCurveInfo/mnemonic', ['DEPTH', 'GR', 'CALI', 'RHOB'])
         self.assertTrue(wtl.control_prim.fail.called)            
         
+    def test_check_recurring_element_value_regex(self):        
+        x = wtl.response.XMLValue("""<?xml version="1.0" encoding="UTF-8"?>  
+            <logs xmlns="http://www.witsml.org/schemas/131" version="1.4.1.0">
+                  <log uidWell='w1' uidWellbore='wb1' uid='l1'>
+                    <logCurveInfo uid="1">
+                      <mnemonic>DEPTH</mnemonic>
+                    </logCurveInfo>
+                    <logCurveInfo uid="2">
+                      <mnemonic>GR</mnemonic>
+                    </logCurveInfo>
+                    <logCurveInfo uid="3">
+                      <mnemonic>CALI</mnemonic>
+                    </logCurveInfo>
+                    <logCurveInfo uid="4">
+                      <mnemonic>DR+HO</mnemonic>
+                    </logCurveInfo>
+                    <logCurveInfo uid="5">
+                      <mnemonic>RHOB</mnemonic>
+                    </logCurveInfo>
+                  </log>
+              </logs>""")  
+        x.check_recurring_element_value('logs/log/logCurveInfo/mnemonic', ['D.*H', 'CA.I', 'GR', 'RHOB', 'DR\+HO'], enable_regex=True)
+        self.assertFalse(wtl.control_prim.fail.called)     
+        x.check_recurring_element_value('logs/log/logCurveInfo/mnemonic', ['DEPTH', 'CALI', 'GR', 'RHOB', 'DR+HO'], enable_regex=True)
+        self.assertTrue(wtl.control_prim.fail.called)            
+
     def test_check_recurring_element_value_repeating_value(self):        
         x = wtl.response.XMLValue("""<?xml version="1.0" encoding="UTF-8"?>  
             <logs xmlns="http://www.witsml.org/schemas/131" version="1.4.1.0">
@@ -1787,20 +1872,50 @@ class ResponseTest(unittest.TestCase, mocking.MockingTestMixin):
                       <mnemonic>CALI</mnemonic>
                     </logCurveInfo>
                     <logCurveInfo uid="4">
-                      <mnemonic>DRHO</mnemonic>
+                      <mnemonic>DR+HO</mnemonic>
                     </logCurveInfo>
                     <logCurveInfo uid="5">
                       <mnemonic>RHOB</mnemonic>
                     </logCurveInfo>
                   </log>
               </logs>""")  
-        x.check_recurring_element_value_contains('logs/log/logCurveInfo/mnemonic', ['DEPTH', 'GR', 'CALI', 'RHOB', 'DRHO'])
+        x.check_recurring_element_value_contains('logs/log/logCurveInfo/mnemonic', ['DEPTH', 'GR', 'CALI', 'RHOB', 'DR+HO'])
         self.assertFalse(wtl.control_prim.fail.called)     
         x.check_recurring_element_value_contains('logs/log/logCurveInfo/mnemonic', ['DEPTH', 'GR', 'CALI', 'RHOB'])
         self.assertFalse(wtl.control_prim.fail.called) 
         x.check_recurring_element_value_contains('logs/log/logCurveInfo/mnemonic', [])
         self.assertFalse(wtl.control_prim.fail.called)          
         x.check_recurring_element_value_contains('logs/log/logCurveInfo/mnemonic', ['DEPTH', 'GR', 'CALI', 'RHOB2'])
+        self.assertTrue(wtl.control_prim.fail.called)
+                      
+    def test_check_recurring_element_value_contains_regex(self):        
+        x = wtl.response.XMLValue("""<?xml version="1.0" encoding="UTF-8"?>  
+            <logs xmlns="http://www.witsml.org/schemas/131" version="1.4.1.0">
+                  <log uidWell='w1' uidWellbore='wb1' uid='l1'>
+                    <logCurveInfo uid="1">
+                      <mnemonic>DEPTH</mnemonic>
+                    </logCurveInfo>
+                    <logCurveInfo uid="2">
+                      <mnemonic>GR</mnemonic>
+                    </logCurveInfo>
+                    <logCurveInfo uid="3">
+                      <mnemonic>CALI</mnemonic>
+                    </logCurveInfo>
+                    <logCurveInfo uid="4">
+                      <mnemonic>DR+HO</mnemonic>
+                    </logCurveInfo>
+                    <logCurveInfo uid="5">
+                      <mnemonic>RHOB</mnemonic>
+                    </logCurveInfo>
+                  </log>
+              </logs>""")  
+        x.check_recurring_element_value_contains('logs/log/logCurveInfo/mnemonic', ['DEPTH', 'GR', 'CALI', 'RHOB'], enable_regex=True)
+        self.assertFalse(wtl.control_prim.fail.called) 
+        x.check_recurring_element_value_contains('logs/log/logCurveInfo/mnemonic', ['D.*H', 'GR', 'C.LI', 'RHOB'], enable_regex=True)
+        self.assertFalse(wtl.control_prim.fail.called) 
+        x.check_recurring_element_value_contains('logs/log/logCurveInfo/mnemonic', [], enable_regex=True)
+        self.assertFalse(wtl.control_prim.fail.called)          
+        x.check_recurring_element_value_contains('logs/log/logCurveInfo/mnemonic', ['DEPTH', 'GR', 'CALI', 'DR+HO'], enable_regex=True)
         self.assertTrue(wtl.control_prim.fail.called)
                       
     def test_check_recurring_element_value_contains_repeating_value(self):        

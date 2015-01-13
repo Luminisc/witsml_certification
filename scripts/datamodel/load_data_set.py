@@ -51,6 +51,11 @@ WMLS_AddToStore(WMLTYPEIN_WELL, """<?xml version="1.0" encoding="utf-8"?>
                                          <purposeWell>exploration</purposeWell>
                                          <dTimSpud>2001-05-31T08:15:00Z</dTimSpud>
                                          <dTimPa>2001-07-15T15:30:00Z</dTimPa>
+                                         <wellDatum uid="KB">
+                                             <name>Kelly Bushing</name>
+                                             <code>KB</code>
+                                             <elevation uom="ft">78.5</elevation>
+                                         </wellDatum>
                                          <wellCRS uid="proj1">
                                              <name>ED50 / UTM Zone 31N</name>
                                              <mapProjection>

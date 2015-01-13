@@ -23,7 +23,7 @@ log('No setup is needed for this test.')
 WMLS_GetVersion()
 
 # Check that "1.4.1.x" exists in the returned string (where x is a number from 0-9)
-check_ReturnValue_String('.*1\.4\.1\.[0-9]')
+check_ReturnValue_String('.*1\.4\.1\.[0-9].*', enable_regex=True)
 
 partial_success("'1.4.1.x' exists in the returned string")
 success()

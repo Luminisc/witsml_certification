@@ -37,8 +37,6 @@ log('Script procedure start')
 WMLS_GetFromStore(WMLTYPEIN_LOG,
                   """<logs xmlns='http://www.witsml.org/schemas/1series' version="$server_schema_version$">
                          <log uidWell='$server_w1_uid$' uidWellbore='$server_w1_wb1_uid$' uid='$server_w1_wb1_log1_uid$'>
-                         <startIndex/>
-                         <endIndex/>
                          <logData>
                              <mnemonicList>$mn$</mnemonicList>
                          </logData>
