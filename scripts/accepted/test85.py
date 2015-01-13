@@ -54,7 +54,7 @@ WMLS_AddToStore(WMLTYPEIN_LOG, """<?xml version="1.0" encoding="utf-8"?>
                                          <logCurveInfo uid='CHANNELA'>
                                            <mnemonic>CHANNELA</mnemonic>
                                            <unit>unitless</unit>
-                                           <typeLogData>int</typeLogData>
+                                           <typeLogData>float</typeLogData>
                                          </logCurveInfo>
                                          <logCurveInfo uid='CHANNELB'>
                                            <mnemonic>CHANNELB</mnemonic>
@@ -123,7 +123,7 @@ check_XMLout_NumberOfObjects(1)
 data = [(index0,2.5,7),
         (index1,23.1,1),
         (index2,5,54)]
-check_logData_AllData(data, index_error_margin=1, error_margin=1)
+check_logData_AllData(data, ['BDEP', 'CHANNELA', 'CHANNELB'], index_error_margin=1, error_margin=1)
 partial_success("Data received after the update is correct")
 
 log('Script procedure end')
