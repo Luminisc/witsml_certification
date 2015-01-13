@@ -48,6 +48,7 @@ Here is the most current list (as of 8 May 2013) of required Python utilities:
 *  suds version 0.4
 *  python-dateutil version 2.1
 *  pytz version 2012d
+*  iso8601 version 0.1.4 
 
 For instructions on how to insall these utilities, see the Installation and User Guide (link above). 
 
@@ -55,3 +56,6 @@ For instructions on how to insall these utilities, see the Installation and User
 	
 Release Version 0.8.1 Release Date: 24 April, 2013
 1. This is the release that was verified at the WITSML SIG Meeting (April 2013, Oslo) by the Certification Team to validate the installation process.
+
+Release Version 0.9.1 Release Date: 15 July, 2013
+1. This is the release that specifies iso8601 utility is required by the tool.

@@ -95,7 +95,7 @@ WMLS_AddToStore(WMLTYPEIN_LOG, """<?xml version="1.0" encoding="utf-8"?>
                                          <logCurveInfo uid='BDEP'>
                                            <mnemonic>BDEP</mnemonic>
                                            <unit>m</unit>
-                                           <typeLogData>int</typeLogData>
+                                           <typeLogData>double</typeLogData>
                                          </logCurveInfo>
                                          <logCurveInfo uid='CURVE1'>
                                            <mnemonic>CURVE1</mnemonic>
