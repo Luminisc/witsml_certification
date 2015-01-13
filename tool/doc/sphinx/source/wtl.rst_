@@ -1,0 +1,261 @@
+
+
+
+This package doing actual job
+
+witsml.py
+^^^^^^^^^
+The witsml.py file is the interface to the WITSML Test Library (WTL). It defines the script commands and other parameters to be used by the Test Scripts and Test Suites.
+The witsml.py file includes:
+
+- WITSML constant definitions
+
+- Script commands
+
+Key specified values in the API and schema specification are defined in witsml.py to simplify the writing of the Test Scripts and to make them more readable. These constant definitions should not be changed by the Test Scripts.
+Constants names are mostly uppercase (case is preserved for names in the WITSML specification) with multiple words separated by underscores.
+The following are examples of constant definitions:
+
+.. code-block:: python
+
+   
+   ###############################################################################
+   #                                                                             #
+   #                                CONSTANT DEFINITIONS                         #
+   #                                                                             #
+   ###############################################################################
+   
+   
+   # Key Return Values
+   # See WITSML STORE Application Program Interface (API) v1.4.1 - Appendix A
+   RETURNVALUE_FUNCTION_COMPLETED_SUCCESSFULLY    = 1 
+   RETURNVALUE_PARTIAL_SUCCESS                    = 2
+   
+   
+   # Default values for object selection query
+   # See WITSML STORE Application Program Interface (API) v1.4.1 - Appendix B 
+   DEF_Boolen                                = '0'
+   DEF_string                                = 'abc'
+   DEF_date                                  = '1900-01-01'
+   DEF_dateTime                              = '1900-01-01T00:00:00.000Z'
+   DEF_timeZone                              = 'Z'
+   DEF_number                                = '1'
+   DEF_calendarYear                          = '1000'
+   DEF_iadcBearingWearCode                   = 'E'
+   DEF_geodeticZoneString                    = '60N'
+   DEF_sectionNumber                         = '36'
+   DEF_publicLandSurveySystemQuarterTownship = 'NE'
+   DEF_publicLandSurveySystemQuarterSection  = 'NE'
+   
+   
+   # WMLtypeIn
+   # See WITSML STORE Application Program Interface (API) v1.4.1 - Appendix C
+   WMLTYPEIN_ATTACHMENT = 'attachment'
+   WMLTYPEIN_BHARUN = 'bhaRun'
+   WMLTYPEIN_CEMENTJOB = 'cementJob'
+   WMLTYPEIN_CHANGELOG = 'changeLog'
+   WMLTYPEIN_CONVCORE = 'convCore'
+   WMLTYPEIN_COORDINATEREFERENCESYSTEM = 'coordinateReferenceSystem'
+   WMLTYPEIN_DRILLREPORT = 'drillReport'
+   WMLTYPEIN_FLUIDSREPORT = 'fluidsReport'
+   WMLTYPEIN_FORMATIONMARKER = 'formationMarker'
+   WMLTYPEIN_LOG = 'log'
+   WMLTYPEIN_MESSAGE = 'message'
+   WMLTYPEIN_MUDLOG = 'mudLog'
+   WMLTYPEIN_OBJECTGROUP = 'objectGroup'
+   WMLTYPEIN_OPSREPORT = 'opsReport'
+   WMLTYPEIN_RIG = 'rig'
+   WMLTYPEIN_RISK = 'risk'
+   WMLTYPEIN_SIDEWALLCORE = 'sidewallCore'
+   WMLTYPEIN_STIMJOB = 'stimJob'
+   WMLTYPEIN_SURVEYPROGRAM = 'surveyProgram'
+   WMLTYPEIN_TARGET = 'target'
+   WMLTYPEIN_TOOLERRORMODEL = 'toolErrorModel'
+   WMLTYPEIN_TOOLERRORTERSET = 'toolErrorTermSet'
+   WMLTYPEIN_TRAJECTORY = 'trajectory'
+   WMLTYPEIN_TUBULAR = 'tubular'
+   WMLTYPEIN_WBGEOMETRY = 'wbGeometry'
+   WMLTYPEIN_WELL = 'well'
+   WMLTYPEIN_WELLBORE = 'wellbore'
+   
+   
+   # Test Script result codes
+   NONE = script.SCRIPT_RESULT_NONE
+   PASS = script.SCRIPT_RESULT_PASS 
+   FAIL = script.SCRIPT_RESULT_FAIL
+   INCONCLUSIVE = script.SCRIPT_RESULT_INCONCLUSIVE
+   
+   CAP_name = wtl.capability.CAP_name 
+   CAP_vendor = wtl.capability.CAP_vendor
+   CAP_version = wtl.capability.CAP_version
+   CAP_changeDetectionPeriod = wtl.capability.CAP_changeDetectionPeriod
+   CAP_cascadedDelete = wtl.capability.CAP_cascadedDelete
+   CAP_compressionMethod = wtl.capability.CAP_compressionMethod
+   CAP_GET_LOG_maxDataNodes = wtl.capability.CAP_GET_LOG_maxDataNodes
+   CAP_ADD_LOG_maxDataNodes = wtl.capability.CAP_ADD_LOG_maxDataNodes
+   CAP_UPDATE_LOG_maxDataNodes = wtl.capability.CAP_UPDATE_LOG_maxDataNodes
+   CAP_GET_TRAJECTORY_maxDataNodes = wtl.capability.CAP_GET_TRAJECTORY_maxDataNodes
+   CAP_ADD_TRAJECTORY_maxDataNodes = wtl.capability.CAP_ADD_TRAJECTORY_maxDataNodes
+   CAP_UPDATE_TRAJECTORY_maxDataNodes = wtl.capability.CAP_UPDATE_TRAJECTORY_maxDataNodes
+   CAP_GET_LOG_maxDataPoints = wtl.capability.CAP_GET_LOG_maxDataPoints
+   CAP_ADD_LOG_maxDataPoints = wtl.capability.CAP_ADD_LOG_maxDataPoints
+   CAP_UPDATE_LOG_maxDataPoints = wtl.capability.CAP_UPDATE_LOG_maxDataPoints
+   CAP_GET_TRAJECTORY_maxDataPoints = wtl.capability.CAP_GET_TRAJECTORY_maxDataPoints
+   CAP_ADD_TRAJECTORY_maxDataPoints = wtl.capability.CAP_ADD_TRAJECTORY_maxDataPoints
+   CAP_UPDATE_TRAJECTORY_maxDataPoints = wtl.capability.CAP_UPDATE_TRAJECTORY_maxDataPoints
+   CAP_LOG_growingTimeoutPeriod = wtl.capability.CAP_LOG_growingTimeoutPeriod 
+   CAP_TRAJECTORY_growingTimeoutPeriod = wtl.capability.CAP_TRAJECTORY_growingTimeoutPeriod
+   CAP_MUDLOG_growingTimeoutPeriod = wtl.capability.CAP_MUDLOG_growingTimeoutPeriod
+   CAP_OBJECTGROUP_growingTimeoutPeriod = wtl.capability.CAP_OBJECTGROUP_growingTimeoutPeriod
+   
+The witsml.py file defines a set of functions to be used as script commands. They define a minimum set of test primitives required to implement the WITSML server functional testing.
+Although the Test Scripts could use any Python code and any of the WTL functionality directly, it is recommended that the Test Scripts limit themselves for the most part to the use of the script commands defined in witsml.py and very basic Python constructs such as ‘if’, 'for’, etc. This simplifies the test development, the readability of the Test Scripts and the maintenance of the tests. 
+The script commands defined in witsml.py execute functionality implemented in the WTL, which automatically performs actions specified in the WITSML specification, thus relieving the Test Scripts from having to do this. The automated functionality implemented within WTL includes:
+
+
+
+WITSML Store Primitives
+***********************
+
+.. autofunction:: witsml.WMLS_AddToStore
+.. autofunction:: witsml.WMLS_DeleteFromStore
+.. autofunction:: witsml.WMLS_GetBaseMsg
+.. autofunction:: witsml.WMLS_GetCap
+.. autofunction:: witsml.WMLS_GetFromStore
+.. autofunction:: witsml.WMLS_GetVersion
+.. autofunction:: witsml.WMLS_UpdateInStore
+
+
+Verify Primitives
+*****************
+
+.. autofunction:: witsml.check_ReturnValue_Success
+.. autofunction:: witsml.check_ReturnValue_Failure
+.. autofunction:: witsml.check_ReturnValue_Value
+.. autofunction:: witsml.check_ReturnValue_String
+.. autofunction:: witsml.check_ReturnValue_Contains
+.. autofunction:: witsml.check_SuppMsgOut_Contains
+.. autofunction:: witsml.check_CapabilitiesOut_String
+.. autofunction:: witsml.check_CapabilitiesOut_XMLString
+.. autofunction:: witsml.check_CapabilitiesOut_ElementIncluded
+.. autofunction:: witsml.check_CapabilitiesOut_ElementNotIncluded
+.. autofunction:: witsml.check_CapabilitiesOut_ElementValue
+.. autofunction:: witsml.check_CapabilitiesOut_ElementValue_Greaterthan
+.. autofunction:: witsml.check_CapabilitiesOut_ElementValue_Lessthan
+.. autofunction:: witsml.check_CapabilitiesOut_RecurringElementValue
+.. autofunction:: witsml.check_CapabilitiesOut_RecurringElementValueContains
+.. autofunction:: witsml.check_CapabilitiesOut_ElementValueContains
+.. autofunction:: witsml.check_CapabilitiesOut_AttributeIncluded
+.. autofunction:: witsml.check_CapabilitiesOut_AttributeNotIncluded
+.. autofunction:: witsml.check_CapabilitiesOut_AttributeValue
+.. autofunction:: witsml.check_CapabilitiesOut_AttributeValueIsContained
+.. autofunction:: witsml.check_XMLout_String
+.. autofunction:: witsml.check_XMLout_DoesNotContain
+.. autofunction:: witsml.check_XMLout_XMLString
+.. autofunction:: witsml.check_XMLout_ElementIncluded
+.. autofunction:: witsml.check_XMLout_ElementNotIncluded
+.. autofunction:: witsml.check_XMLout_ElementValue
+.. autofunction:: witsml.check_XMLout_ElementValue_Greaterthan
+.. autofunction:: witsml.check_XMLout_ElementValue_Lessthan
+.. autofunction:: witsml.check_XMLout_RecurringElementValue
+.. autofunction:: witsml.check_XMLout_RecurringElementValueContains
+.. autofunction:: witsml.check_XMLout_ElementValueContains
+.. autofunction:: witsml.check_XMLout_AttributeIncluded
+.. autofunction:: witsml.check_XMLout_AttributeNotIncluded
+.. autofunction:: witsml.check_XMLout_AttributeValue
+.. autofunction:: witsml.check_XMLout_AttributeValueIsContained
+.. autofunction:: witsml.check_XMLout_NumberOfObjects
+.. autofunction:: witsml.check_XMLout_NumberOfObjects_Greaterthan
+.. autofunction:: witsml.check_XMLout_NumberOfObjects_Lessthan
+.. autofunction:: witsml.check_XMLout_OnlyIncluded
+.. autofunction:: witsml.check_Version
+.. autofunction:: witsml.check_logData_IndexValue
+.. autofunction:: witsml.check_logData_DataValue
+.. autofunction:: witsml.check_logData_AllData
+.. autofunction:: witsml.check_logData_NumberOfNodes
+.. autofunction:: witsml.check_logData_NumberOfPoints
+
+
+
+Parse Primitives
+****************
+
+.. autofunction:: witsml.get_ReturnValue
+.. autofunction:: witsml.get_SuppMsgOut_String
+.. autofunction:: witsml.get_SuppMsgOut_uid_String
+.. autofunction:: witsml.get_CapabilitiesOut_Element_String
+.. autofunction:: witsml.get_CapabilitiesOut_RecurringElement_List
+.. autofunction:: witsml.get_XMLout_Element_String
+.. autofunction:: witsml.get_XMLout_Attribute_String
+.. autofunction:: witsml.get_XMLout_RecurringElement_List
+.. autofunction:: witsml.get_XMLout_NumberOfObjects_Int
+.. autofunction:: witsml.get_XMLout_Mnemonics_List
+.. autofunction:: witsml.get_XMLout_Units_List
+.. autofunction:: witsml.get_XMLout_LatestdTimChange_String
+.. autofunction:: witsml.get_logData_IndexValue_String
+.. autofunction:: witsml.get_logData_DataValue_String
+.. autofunction:: witsml.get_logData_NumberOfNodes_Int
+.. autofunction:: witsml.get_logData_NumberOfPoints_Int
+
+
+
+Capabilities Primitives
+***********************
+
+.. autofunction:: witsml.get_capability
+
+
+Time Primitives
+***************
+
+.. autofunction:: witsml.now
+.. autofunction:: witsml.check_timestamp_Equals
+.. autofunction:: witsml.check_timestamp_Lessthan
+.. autofunction:: witsml.check_timestamp_LessthanEquals
+.. autofunction:: witsml.check_timestamp_Greaterthan      
+.. autofunction:: witsml.check_timestamp_GreaterthanEquals
+
+timestamp_add_seconds
+timestamp_subtract_seconds
+
+
+log verify
+**********
+
+
+.. autofunction:: witsml.log_verify_check_log_header_and_data
+.. autofunction:: witsml.log_verify_check_log_header_only
+
+
+
+Execution Control Primitives
+****************************
+ 
+.. autofunction:: witsml.fail
+.. autofunction:: witsml.partial_success
+.. autofunction:: witsml.success
+.. autofunction:: witsml.stop
+.. autofunction:: witsml.error
+.. autofunction:: witsml.run_script
+.. autofunction:: witsml.pause
+.. autofunction:: witsml.pause_for_changeDetectionPeriod
+.. autofunction:: witsml.pause_for_growingTimeoutPeriod
+
+
+
+.. autofunction:: witsml.run
+.. autofunction:: witsml.get_last_test_result
+.. autofunction:: witsml.end
+
+
+
+Misc Primitives
+***************
+
+.. autofunction:: witsml.set
+.. autofunction:: witsml.get
+.. autofunction:: witsml.logging_on
+.. autofunction:: witsml.logging_off
+.. autofunction:: witsml.log
+.. autofunction:: witsml.log_variable
+

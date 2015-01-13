@@ -1,0 +1,45 @@
+
+this does schema validation
+
+#.. autoclass:: wsvt.SchemaValidator.WITSMLSchemaValidator
+
+WITSMLSchemaValidator class
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.. class:: wsvt.SchemaValidator.WITSMLSchemaValidator
+   
+   this class is a interface for schema validation used by WITSML Certification Tool
+   
+.. automethod:: wsvt.SchemaValidator.WITSMLSchemaValidator.validateXMLAgainstSchema
+
+.. automethod:: wsvt.SchemaValidator.WITSMLSchemaValidator.validateXMLAgainstGenericSchema
+
+.. automethod:: wsvt.SchemaValidator.WITSMLSchemaValidator.validateXMLAgainstReadSchema
+
+.. automethod:: wsvt.SchemaValidator.WITSMLSchemaValidator.validateXMLAgainstWriteSchema
+
+.. automethod:: wsvt.SchemaValidator.WITSMLSchemaValidator.validateXMLAgainstDeleteSchema
+
+.. automethod:: wsvt.SchemaValidator.WITSMLSchemaValidator.validateXMLAgainstUpdateSchema
+
+
+you can use schema validation package manually here is example how:
+
+.. code-block:: python
+   
+   import wsvt.SchemaValidator;
+   
+   validator = wsvt.SchemaValidator.WITSMLSchemaValidator("<path to schemas>")
+   
+   xml = """<logs xmlns="http://www.witsml.org/schemas/1series" version="1.4.1.1">
+                <log uidWell="UID_WELL" uidWellbore="UID_WELLBORE" uid="UID_LOG">                    
+                </log>
+            </logs>                                     
+         """
+   
+   valid, msg = validateXMLAgainstDeleteSchema( "1.4.1.1" , "log", xml ):
+   
+   if valid:
+      print "XML is Valid Acording to WITSML Log Delete Schema"
+   else:
+      print "XML is not compy with Log Object Delete Schema"
+   

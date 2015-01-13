@@ -1,0 +1,467 @@
+This file is intended to represent the current data model in use by the certification test scripts.
+
+This file MUST be kept up-to-date to represent the current datamodel.
+Note: the datamodel can be changed, however, the constraints mentioned herein must not be modified.  
+If the constraints for an object need to be modified, then consider adding a new object to the datamodel.
+
+Data Model
+==========
+
+ server_w1_uid
+	server_w1_wb1_uid
+		server_w1_wb1_traj1_uid
+		server_w1_wb1_traj2_uid
+		server_w1_wb1_log1_uid
+			server_w1_wb1_log1_mnemonic_1
+		server_w1_wb1_log2_uid
+	server_w1_wb2_uid
+ server_w2_uid
+ 	server_w2_wb1_uid
+ 		server_w2_wb1_log1_uid
+ 			server_w2_wb1_log1_mnemonic_1
+ 			server_w2_wb1_log1_index_mnemonic
+ server_w3_uid
+ 	server_w3_wb1_uid
+ 		server_w3_wb1_log1_uid
+ 		server_w3_wb1_log2_uid
+ 		server_w3_wb1_log3_uid 
+ 		server_w3_wb1_log4_uid 
+ 	server_w3_wb1_mudlog1_uid		
+		
+Reserved uids
+=============
+
+The following uids are reserved by the test tool		
+ certification-Test-Well-21
+ Certification-Test-Well-21  
+ Certification-Test-Well-22 
+
+
+====================
+well - server_w1_uid
+====================
+ 
+------------
+Description:
+------------
+Generic well.  Some constraints regarding unique naming and comparison with server_w2_uid.
+ 
+------------
+Constraints:
+------------
+General:
+	- contains at least two wellbores
+	- contains a changeLog for a well with a lastChangeType of 'add' or 'update'.
+
+Elements:
+	<name>
+	1) Name is unique in the server
+	2) Name has at least one letter (If possible but not required, make the name for the first well a combination of uppercase letters, lowercase letters and numbers)
+	
+	<dTimLastChange>
+	1) Older than Well 2's dTimLastChange
+	
+	<numAPI>
+	1) Unique in the server
+	
+	<numGovt>
+	1) Unique in the server
+	
+============================
+wellbore - server_w1_wb1_uid
+============================
+ 
+------------
+Description:
+------------
+Wellbore for well server_w1_uid. 
+Contains a time and depth log.
+ 
+------------
+Constraints:
+------------
+General:
+  - must contain both a time and depth log.
+  
+============================
+log - server_w1_wb1_log1_uid
+============================
+ 
+------------
+Description:
+------------
+Growing Depth log for for wellbore server_w1_wb1_uid. 
+ 
+------------
+Constraints:
+------------
+General:
+    -has at least 4 curves (including the index curve)
+	-has at least 5 rows with all curves with non-Null values
+	-log is growing
+	-contains less data nodes than server's maxdatanodes
+	-contains less data points than server's maxdatapoints
+	
+Elements:	
+	<indexType> 
+	1) depth
+
+=====================================
+curve - server_w1_wb1_log1_mnemonic_1
+=====================================
+
+------------
+Description:
+------------
+Mnemonic name of a non-index curve that has at least 5-rows with non-null values.
+
+------------
+Constraints:
+------------
+General:
+    - has at least 5 rows of data
+    - contains less data nodes than server's maxdatanodes
+	- contains less data points than server's maxdatapoints
+
+
+=====================================
+curve - server_w1_wb1_log1_curves
+=====================================
+
+------------
+Description:
+------------
+Mnemonic list of all curves in the log.
+
+	
+	
+============================
+log - server_w1_wb1_log2_uid
+============================
+ 
+------------
+Description:
+------------
+Non-growing Time log for for wellbore server_w1_wb1_uid. 
+ 
+------------
+Constraints:
+------------
+General:
+    - has at least 4 rows of data
+    - not growing
+	
+Elements:	
+	<indexType> 
+	1) date time	
+	
+=====================================
+curve - server_w1_wb1_log2_mnemonic_1
+=====================================
+
+------------
+Description:
+------------
+Mnemonic name of a non-index curve that has at least 5-rows with non-null values.
+
+------------
+Constraints:
+------------
+General:
+    - has at least 5 rows of data
+    - contains less data nodes than server's maxdatanodes
+	- contains less data points than server's maxdatapoints
+
+
+=====================================
+curve - server_w1_wb1_log2_curves
+=====================================
+
+------------
+Description:
+------------
+Mnemonic list of all curves in the log.
+	
+	
+============================
+traj - server_w1_wb1_traj1_uid
+============================
+ 
+------------
+Description:
+------------
+Growing trajectory for for wellbore server_w1_wb1_uid. 
+ 
+------------
+Constraints:
+------------
+General:
+	- object is growing
+	
+Elements:	
+
+	
+============================
+traj - server_w1_wb1_traj2_uid
+============================
+ 
+------------
+Description:
+------------
+Non-growing trajectory for for wellbore server_w1_wb1_uid. 
+ 
+------------
+Constraints:
+------------
+General:
+	- object is NOT growing
+	
+Elements:	
+
+
+============================
+wellbore - server_w1_wb2_uid
+============================
+ 
+------------
+Description:
+------------
+Wellbore for well server_w1_uid. Needed for well to have multiple wellbores.
+ 
+------------
+Constraints:
+------------
+General:
+  - none.
+	
+====================
+well - server_w2_uid
+====================
+ 
+------------
+Description:
+------------
+Generic well.  Some constraints regarding unique naming and comparison with server_w1_uid.
+Has a changeLog entry with a lastChangeType of 'add' or 'update'.
+ 
+------------
+Constraints:
+------------
+General:
+	- no constraints
+
+Elements:
+	<name>
+	1) Name is unique in the server
+	
+	<dTimLastChange>
+	1) Different than server_w1_uid
+	
+	<numAPI>
+	1) Unique in the server
+	
+	<numGovt>
+	1) Unique in the server
+	
+	<changeLog>
+	1) exists for a well object
+	2) with a lastChangeType of 'add' or 'update'"
+	
+============================
+wellbore - server_w2_wb1_uid
+============================
+ 
+------------
+Description:
+------------
+Wellbore for well server_w2_uid. 
+Contains a depth log.
+ 
+------------
+Constraints:
+------------
+General:
+  - must a depth log.
+  
+============================
+log - server_w2_wb1_log1_uid
+============================
+ 
+------------
+Description:
+------------
+Non-growing Depth log for for wellbore server_w2_wb1_uid. 
+ 
+------------
+Constraints:
+------------
+General:
+	-log is not growing
+	-contains less data nodes than server's maxdatanodes
+	-contains less data points than server's maxdatapoints
+	
+Elements:	
+	<indexType> 
+	1) depth
+
+=====================================
+curve - server_w2_wb1_log1_mnemonic_1
+=====================================
+
+------------
+Description:
+------------
+Mnemonic name of a non-index curve
+
+------------
+Constraints:
+------------
+General:
+    - contains less data nodes than server's maxdatanodes
+	- contains less data points than server's maxdatapoints
+
+=====================================
+curve - server_w2_wb1_log1_mnemonic_2
+=====================================
+
+------------
+Description:
+------------
+Mnemonic name of server_w2_wb1_log1 index curve
+
+------------
+Constraints:
+------------
+General:
+    - contains less data nodes than server's maxdatanodes
+	- contains less data points than server's maxdatapoints
+
+
+====================
+well - server_w3_uid
+====================
+ 
+------------
+Description:
+------------
+Well that contains a mudlog (for updating) and a log for truncating with maxdatapoints and maxdatanodes
+Server has a changeLog entry for one of the logs. 
+
+------------
+Constraints:
+------------
+General:
+	- no constraints
+
+	
+============================
+wellbore - server_w3_wb1_uid
+============================
+ 
+------------
+Description:
+------------
+Wellbore for well server_w3_uid. 
+Contains a large depth log for truncation testing ( > maxDataNodes and < maxDataPoints)
+Contains a large depth log for truncation testing ( > maxDataPoints and < maxDataNodes)
+Contains a large time log for truncation testing ( > maxDataNodes and < maxDataPoints)
+Contains a large time log for truncation testing ( > maxDataPoints and < maxDataNodes)
+Contains a mudlog for updating.
+Contains a changeLog for one of the logs with a minimum of two changeHistory entries.
+ 
+============================
+log - server_w3_wb1_log1_uid
+============================
+ 
+------------
+Description:
+------------
+A depth log with more rows than the server's maxDataNodes but less points than the server's maxDataPoints
+The server has a changeLog object for this log
+
+ 
+------------
+Constraints:
+------------
+General:
+	-contains more data nodes than server's maxDataNodes but less points than the server's maxDataPoints
+	-The server has a changeLog object for this log
+	-The changeLog object has at least two changeHistory entries.
+	
+Elements:	
+	<indexType> 
+	1) measured depth
+
+============================
+log - server_w3_wb1_log2_uid
+============================
+ 
+------------
+Description:
+------------
+A depth log with more rows than the server's maxDataPoints but less nodes than maxDataNodes
+ 
+------------
+Constraints:
+------------
+General:
+	-contains more data nodes than server's maxDataPoints but less nodes than the server's maxDataNodes
+	
+Elements:	
+	<indexType> 
+	1) measured depth
+	
+============================
+log - server_w3_wb1_log3_uid
+============================
+ 
+------------
+Description:
+------------
+A time log with more rows than the server's maxDataNodes but less points than the server's maxDataPoints
+ 
+------------
+Constraints:
+------------
+General:
+	-contains more data nodes than server's maxDataNodes but less points than the server's maxDataPoints
+	
+Elements:	
+	<indexType> 
+	1) date time
+
+============================
+log - server_w3_wb1_log4_uid
+============================
+ 
+------------
+Description:
+------------
+A time log with more rows than the server's maxDataPoints but less nodes than maxDataNodes
+ 
+------------
+Constraints:
+------------
+General:
+	-contains more data nodes than server's maxDataPoints but less nodes than the server's maxDataNodes
+	
+Elements:	
+	<indexType> 
+	1) date time
+
+	
+=====================================
+mudlog - server_w3_wb1_mudlog1_uid
+=====================================
+
+------------
+Description:
+------------
+Mudlog that can be updated for tests.
+
+------------
+Constraints:
+------------
+General:
+    - can be updated for tests
+	

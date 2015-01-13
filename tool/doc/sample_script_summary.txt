@@ -1,0 +1,117 @@
+#******************************************************************************
+# Copyright (c) 2011 Pason Systems Corp.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+#
+#******************************************************************************
+
+Sample script summary
+
+Sample script   Sample of                                                         Primitives used
+-------------   ---------                                                         ---------------
+add_well        Use of script parameters (well_uid, well_name, well_numAPI)       WMLS_GetFromStore
+                                                                                  WMLS_AddToStore
+                                                                                  check_XMLout_NumberOfObjects
+                                                                                  check_ReturnValue_Succes
+                                                                                  log
+                                                                                  
+delete_well     Use of script parameters (well_uid)                               WMLS_DeleteFromStore
+                                                                                  check_ReturnValue_Succes
+                                                                                  
+ss1             Use of server parameters in script (server_well_1_uid)            WMLS_GetVersion
+                Use of a variable in a check command                              WMLS_GetFromStore   
+                                                                                  check_ReturnValue_String
+                                                                                  check_ReturnValue_Success
+                                                                                  check_XMLout_AttributeIncluded
+                                                                                  check_XMLout_AttributeValueIsContained 
+                                                                                  log_variable
+                                                                                  log
+                                                                                  partial_success
+                                                                                  success
+
+ss2             Use of server parameters in script (server_well_1_uid)            check_ReturnValue_Success
+                Use of a variable in a WMLS_GetFromStore command                  check_XMLout_NumberOfObjects
+                Use of a variable in a check command"   "WMLS_GetFromStore        check_XMLout_AttributeIncluded   
+                                                                                  check_XMLout_ElementIncluded
+                                                                                  check_XMLout_ElementValue
+                                                                                  get_XMLout_Element_String
+                                                                                  set
+                                                                                  log
+                                                                                  partial_success
+                                                                                  success
+
+ss3             Use of server parameters in script (server_well_1_uid)            check_ReturnValue_Success
+                Use of a variable in a WMLS_GetFromStore command                  check_XMLout_NumberOfObjects
+                Use of a variable in a check command"   "WMLS_GetFromStore        check_XMLout_AttributeValue
+                                                                                  check_XMLout_ElementIncluded
+                                                                                  get_XMLout_Element_String
+                                                                                  set
+                                                                                  log
+                                                                                  run_script
+                                                                                  partial_success
+                                                                                  success
+                                                                                  now
+
+ss4             Use of 'OptionsIn' in a query                                     WMLS_GetFromStore
+                                                                                  check_ReturnValue_Success
+                                                                                  check_XMLout_NumberOfObjects
+                                                                                  check_XMLout_AttributeValue
+                                                                                  check_XMLout_ElementValue
+                                                                                  partial_success
+                                                                                  success
+
+ss5             Use of multiple server parameters in script                       WMLS_GetFromStore  
+                  (server_well_1_uid, server_well_2_uid)                          check_ReturnValue_Success
+                                                                                  check_XMLout_NumberOfObjects
+                                                                                  check_XMLout_AttributeValue
+                                                                                  check_XMLout_ElementIncluded
+                                                                                  get_XMLout_Element_String
+                                                                                  log
+                                                                                  partial_success
+                                                                                  success
+
+ss6             Use of list server parameter in script                            WMLS_GetFromStore
+                  (server_well_1_wellbore_1_log_1_curves[])                       check_ReturnValue_Success
+                Use of regular expressions (.*)                                   check_XMLout_String
+                                                                                  partial_success
+                                                                                  success
+
+ss6a            Use of list server parameter in script                            WMLS_GetFromStore
+                  (server_well_1_wellbore_1_log_1_curves[])                       check_ReturnValue_Success
+                Check against a list of values                                    check_XMLout_RecurringElementValue
+                                                                                  partial_success
+                                                                                  success
+
+ss7             OptionIn in WMLS_GetCap                                           WMLS_GetCap
+                Convert received values to the corresponding time(int())          check_ReturnValue_Success
+                Conditional checking received values (if)                         check_CapabilitiesOut_ElementValue  
+                                                                                  check_CapabilitiesOut_ElementIncluded
+                                                                                  get_CapabilitiesOut_Element_String
+                                                                                  fail
+                                                                                  partial_success
+                                                                                  success
+
+ss8             Use of list server parameter in script                            WMLS_GetFromStore
+                  (server_well_1_wellbore_1_log_2_curves[])                       check_ReturnValue_Success
+                Use of OptionsIn in a query                                       check_XMLout_String
+                Use of regular expressions (.*, .*?)                              check_logData_NumberOfNodes  
+                Use of '&' contruct to retrieve information into a variable       get_logData_IndexValue_String 
+                  (uom, start_index, end_index)                                   set
+                Use of a variable in a WMLS_GetFromStore command                  log
+                Getting index values from a log                                   log_variable
+                                                                                  success

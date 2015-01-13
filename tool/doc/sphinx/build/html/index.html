@@ -1,0 +1,2007 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>WITSML Certification Tool &mdash; sphinx_documentation 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="sphinx_documentation 1.0 documentation" href="#" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="#">sphinx_documentation 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="witsml-certification-tool">
+<h1>WITSML Certification Tool<a class="headerlink" href="#witsml-certification-tool" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul class="simple">
+</ul>
+</div>
+<div class="section" id="indices-and-tables">
+<h2>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a class="reference internal" href="genindex.html"><em>Index</em></a></li>
+<li><a class="reference internal" href="search.html"><em>Search Page</em></a></li>
+</ul>
+<div class="section" id="about">
+<h3>About<a class="headerlink" href="#about" title="Permalink to this headline">¶</a></h3>
+<p>The WITSML Test Tool was developed to fulfill the following objectives:</p>
+<ul class="simple">
+<li>Allow functional testing of a WITSML server</li>
+<li>Enable testing GetFromStore-only servers</li>
+<li>Simplify the preparation and maintenance of test scripts</li>
+</ul>
+</div>
+<div class="section" id="test-tool-packages">
+<h3>Test Tool Packages<a class="headerlink" href="#test-tool-packages" title="Permalink to this headline">¶</a></h3>
+<p>Certification tool consists of several packages</p>
+<p><strong>wtl</strong> - WITSML Test Tool</p>
+<p><strong>wsvt</strong> - WITSML Schema Validation Tool</p>
+<p><strong>wtools</strong> - WITSML dataset tools.</p>
+</div>
+<div class="section" id="wtl-package-witsml-test-tool">
+<h3>wtl Package (WITSML Test Tool)<a class="headerlink" href="#wtl-package-witsml-test-tool" title="Permalink to this headline">¶</a></h3>
+<p>This package doing actual job</p>
+<div class="section" id="witsml-py">
+<h4>witsml.py<a class="headerlink" href="#witsml-py" title="Permalink to this headline">¶</a></h4>
+<p>The witsml.py file is the interface to the WITSML Test Library (WTL). It defines the script commands and other parameters to be used by the Test Scripts and Test Suites.
+The witsml.py file includes:</p>
+<ul class="simple">
+<li>WITSML constant definitions</li>
+<li>Script commands</li>
+</ul>
+<p>Key specified values in the API and schema specification are defined in witsml.py to simplify the writing of the Test Scripts and to make them more readable. These constant definitions should not be changed by the Test Scripts.
+Constants names are mostly uppercase (case is preserved for names in the WITSML specification) with multiple words separated by underscores.
+The following are examples of constant definitions:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c">###############################################################################</span>
+<span class="c">#                                                                             #</span>
+<span class="c">#                                CONSTANT DEFINITIONS                         #</span>
+<span class="c">#                                                                             #</span>
+<span class="c">###############################################################################</span>
+
+
+<span class="c"># Key Return Values</span>
+<span class="c"># See WITSML STORE Application Program Interface (API) v1.4.1 - Appendix A</span>
+<span class="n">RETURNVALUE_FUNCTION_COMPLETED_SUCCESSFULLY</span>    <span class="o">=</span> <span class="mi">1</span>
+<span class="n">RETURNVALUE_PARTIAL_SUCCESS</span>                    <span class="o">=</span> <span class="mi">2</span>
+
+
+<span class="c"># Default values for object selection query</span>
+<span class="c"># See WITSML STORE Application Program Interface (API) v1.4.1 - Appendix B</span>
+<span class="n">DEF_Boolen</span>                                <span class="o">=</span> <span class="s">&#39;0&#39;</span>
+<span class="n">DEF_string</span>                                <span class="o">=</span> <span class="s">&#39;abc&#39;</span>
+<span class="n">DEF_date</span>                                  <span class="o">=</span> <span class="s">&#39;1900-01-01&#39;</span>
+<span class="n">DEF_dateTime</span>                              <span class="o">=</span> <span class="s">&#39;1900-01-01T00:00:00.000Z&#39;</span>
+<span class="n">DEF_timeZone</span>                              <span class="o">=</span> <span class="s">&#39;Z&#39;</span>
+<span class="n">DEF_number</span>                                <span class="o">=</span> <span class="s">&#39;1&#39;</span>
+<span class="n">DEF_calendarYear</span>                          <span class="o">=</span> <span class="s">&#39;1000&#39;</span>
+<span class="n">DEF_iadcBearingWearCode</span>                   <span class="o">=</span> <span class="s">&#39;E&#39;</span>
+<span class="n">DEF_geodeticZoneString</span>                    <span class="o">=</span> <span class="s">&#39;60N&#39;</span>
+<span class="n">DEF_sectionNumber</span>                         <span class="o">=</span> <span class="s">&#39;36&#39;</span>
+<span class="n">DEF_publicLandSurveySystemQuarterTownship</span> <span class="o">=</span> <span class="s">&#39;NE&#39;</span>
+<span class="n">DEF_publicLandSurveySystemQuarterSection</span>  <span class="o">=</span> <span class="s">&#39;NE&#39;</span>
+
+
+<span class="c"># WMLtypeIn</span>
+<span class="c"># See WITSML STORE Application Program Interface (API) v1.4.1 - Appendix C</span>
+<span class="n">WMLTYPEIN_ATTACHMENT</span> <span class="o">=</span> <span class="s">&#39;attachment&#39;</span>
+<span class="n">WMLTYPEIN_BHARUN</span> <span class="o">=</span> <span class="s">&#39;bhaRun&#39;</span>
+<span class="n">WMLTYPEIN_CEMENTJOB</span> <span class="o">=</span> <span class="s">&#39;cementJob&#39;</span>
+<span class="n">WMLTYPEIN_CHANGELOG</span> <span class="o">=</span> <span class="s">&#39;changeLog&#39;</span>
+<span class="n">WMLTYPEIN_CONVCORE</span> <span class="o">=</span> <span class="s">&#39;convCore&#39;</span>
+<span class="n">WMLTYPEIN_COORDINATEREFERENCESYSTEM</span> <span class="o">=</span> <span class="s">&#39;coordinateReferenceSystem&#39;</span>
+<span class="n">WMLTYPEIN_DRILLREPORT</span> <span class="o">=</span> <span class="s">&#39;drillReport&#39;</span>
+<span class="n">WMLTYPEIN_FLUIDSREPORT</span> <span class="o">=</span> <span class="s">&#39;fluidsReport&#39;</span>
+<span class="n">WMLTYPEIN_FORMATIONMARKER</span> <span class="o">=</span> <span class="s">&#39;formationMarker&#39;</span>
+<span class="n">WMLTYPEIN_LOG</span> <span class="o">=</span> <span class="s">&#39;log&#39;</span>
+<span class="n">WMLTYPEIN_MESSAGE</span> <span class="o">=</span> <span class="s">&#39;message&#39;</span>
+<span class="n">WMLTYPEIN_MUDLOG</span> <span class="o">=</span> <span class="s">&#39;mudLog&#39;</span>
+<span class="n">WMLTYPEIN_OBJECTGROUP</span> <span class="o">=</span> <span class="s">&#39;objectGroup&#39;</span>
+<span class="n">WMLTYPEIN_OPSREPORT</span> <span class="o">=</span> <span class="s">&#39;opsReport&#39;</span>
+<span class="n">WMLTYPEIN_RIG</span> <span class="o">=</span> <span class="s">&#39;rig&#39;</span>
+<span class="n">WMLTYPEIN_RISK</span> <span class="o">=</span> <span class="s">&#39;risk&#39;</span>
+<span class="n">WMLTYPEIN_SIDEWALLCORE</span> <span class="o">=</span> <span class="s">&#39;sidewallCore&#39;</span>
+<span class="n">WMLTYPEIN_STIMJOB</span> <span class="o">=</span> <span class="s">&#39;stimJob&#39;</span>
+<span class="n">WMLTYPEIN_SURVEYPROGRAM</span> <span class="o">=</span> <span class="s">&#39;surveyProgram&#39;</span>
+<span class="n">WMLTYPEIN_TARGET</span> <span class="o">=</span> <span class="s">&#39;target&#39;</span>
+<span class="n">WMLTYPEIN_TOOLERRORMODEL</span> <span class="o">=</span> <span class="s">&#39;toolErrorModel&#39;</span>
+<span class="n">WMLTYPEIN_TOOLERRORTERSET</span> <span class="o">=</span> <span class="s">&#39;toolErrorTermSet&#39;</span>
+<span class="n">WMLTYPEIN_TRAJECTORY</span> <span class="o">=</span> <span class="s">&#39;trajectory&#39;</span>
+<span class="n">WMLTYPEIN_TUBULAR</span> <span class="o">=</span> <span class="s">&#39;tubular&#39;</span>
+<span class="n">WMLTYPEIN_WBGEOMETRY</span> <span class="o">=</span> <span class="s">&#39;wbGeometry&#39;</span>
+<span class="n">WMLTYPEIN_WELL</span> <span class="o">=</span> <span class="s">&#39;well&#39;</span>
+<span class="n">WMLTYPEIN_WELLBORE</span> <span class="o">=</span> <span class="s">&#39;wellbore&#39;</span>
+
+
+<span class="c"># Test Script result codes</span>
+<span class="n">NONE</span> <span class="o">=</span> <span class="n">script</span><span class="o">.</span><span class="n">SCRIPT_RESULT_NONE</span>
+<span class="n">PASS</span> <span class="o">=</span> <span class="n">script</span><span class="o">.</span><span class="n">SCRIPT_RESULT_PASS</span>
+<span class="n">FAIL</span> <span class="o">=</span> <span class="n">script</span><span class="o">.</span><span class="n">SCRIPT_RESULT_FAIL</span>
+<span class="n">INCONCLUSIVE</span> <span class="o">=</span> <span class="n">script</span><span class="o">.</span><span class="n">SCRIPT_RESULT_INCONCLUSIVE</span>
+
+<span class="n">CAP_name</span> <span class="o">=</span> <span class="n">wtl</span><span class="o">.</span><span class="n">capability</span><span class="o">.</span><span class="n">CAP_name</span>
+<span class="n">CAP_vendor</span> <span class="o">=</span> <span class="n">wtl</span><span class="o">.</span><span class="n">capability</span><span class="o">.</span><span class="n">CAP_vendor</span>
+<span class="n">CAP_version</span> <span class="o">=</span> <span class="n">wtl</span><span class="o">.</span><span class="n">capability</span><span class="o">.</span><span class="n">CAP_version</span>
+<span class="n">CAP_changeDetectionPeriod</span> <span class="o">=</span> <span class="n">wtl</span><span class="o">.</span><span class="n">capability</span><span class="o">.</span><span class="n">CAP_changeDetectionPeriod</span>
+<span class="n">CAP_cascadedDelete</span> <span class="o">=</span> <span class="n">wtl</span><span class="o">.</span><span class="n">capability</span><span class="o">.</span><span class="n">CAP_cascadedDelete</span>
+<span class="n">CAP_compressionMethod</span> <span class="o">=</span> <span class="n">wtl</span><span class="o">.</span><span class="n">capability</span><span class="o">.</span><span class="n">CAP_compressionMethod</span>
+<span class="n">CAP_GET_LOG_maxDataNodes</span> <span class="o">=</span> <span class="n">wtl</span><span class="o">.</span><span class="n">capability</span><span class="o">.</span><span class="n">CAP_GET_LOG_maxDataNodes</span>
+<span class="n">CAP_ADD_LOG_maxDataNodes</span> <span class="o">=</span> <span class="n">wtl</span><span class="o">.</span><span class="n">capability</span><span class="o">.</span><span class="n">CAP_ADD_LOG_maxDataNodes</span>
+<span class="n">CAP_UPDATE_LOG_maxDataNodes</span> <span class="o">=</span> <span class="n">wtl</span><span class="o">.</span><span class="n">capability</span><span class="o">.</span><span class="n">CAP_UPDATE_LOG_maxDataNodes</span>
+<span class="n">CAP_GET_TRAJECTORY_maxDataNodes</span> <span class="o">=</span> <span class="n">wtl</span><span class="o">.</span><span class="n">capability</span><span class="o">.</span><span class="n">CAP_GET_TRAJECTORY_maxDataNodes</span>
+<span class="n">CAP_ADD_TRAJECTORY_maxDataNodes</span> <span class="o">=</span> <span class="n">wtl</span><span class="o">.</span><span class="n">capability</span><span class="o">.</span><span class="n">CAP_ADD_TRAJECTORY_maxDataNodes</span>
+<span class="n">CAP_UPDATE_TRAJECTORY_maxDataNodes</span> <span class="o">=</span> <span class="n">wtl</span><span class="o">.</span><span class="n">capability</span><span class="o">.</span><span class="n">CAP_UPDATE_TRAJECTORY_maxDataNodes</span>
+<span class="n">CAP_GET_LOG_maxDataPoints</span> <span class="o">=</span> <span class="n">wtl</span><span class="o">.</span><span class="n">capability</span><span class="o">.</span><span class="n">CAP_GET_LOG_maxDataPoints</span>
+<span class="n">CAP_ADD_LOG_maxDataPoints</span> <span class="o">=</span> <span class="n">wtl</span><span class="o">.</span><span class="n">capability</span><span class="o">.</span><span class="n">CAP_ADD_LOG_maxDataPoints</span>
+<span class="n">CAP_UPDATE_LOG_maxDataPoints</span> <span class="o">=</span> <span class="n">wtl</span><span class="o">.</span><span class="n">capability</span><span class="o">.</span><span class="n">CAP_UPDATE_LOG_maxDataPoints</span>
+<span class="n">CAP_GET_TRAJECTORY_maxDataPoints</span> <span class="o">=</span> <span class="n">wtl</span><span class="o">.</span><span class="n">capability</span><span class="o">.</span><span class="n">CAP_GET_TRAJECTORY_maxDataPoints</span>
+<span class="n">CAP_ADD_TRAJECTORY_maxDataPoints</span> <span class="o">=</span> <span class="n">wtl</span><span class="o">.</span><span class="n">capability</span><span class="o">.</span><span class="n">CAP_ADD_TRAJECTORY_maxDataPoints</span>
+<span class="n">CAP_UPDATE_TRAJECTORY_maxDataPoints</span> <span class="o">=</span> <span class="n">wtl</span><span class="o">.</span><span class="n">capability</span><span class="o">.</span><span class="n">CAP_UPDATE_TRAJECTORY_maxDataPoints</span>
+<span class="n">CAP_LOG_growingTimeoutPeriod</span> <span class="o">=</span> <span class="n">wtl</span><span class="o">.</span><span class="n">capability</span><span class="o">.</span><span class="n">CAP_LOG_growingTimeoutPeriod</span>
+<span class="n">CAP_TRAJECTORY_growingTimeoutPeriod</span> <span class="o">=</span> <span class="n">wtl</span><span class="o">.</span><span class="n">capability</span><span class="o">.</span><span class="n">CAP_TRAJECTORY_growingTimeoutPeriod</span>
+<span class="n">CAP_MUDLOG_growingTimeoutPeriod</span> <span class="o">=</span> <span class="n">wtl</span><span class="o">.</span><span class="n">capability</span><span class="o">.</span><span class="n">CAP_MUDLOG_growingTimeoutPeriod</span>
+<span class="n">CAP_OBJECTGROUP_growingTimeoutPeriod</span> <span class="o">=</span> <span class="n">wtl</span><span class="o">.</span><span class="n">capability</span><span class="o">.</span><span class="n">CAP_OBJECTGROUP_growingTimeoutPeriod</span>
+</pre></div>
+</div>
+<p>The witsml.py file defines a set of functions to be used as script commands. They define a minimum set of test primitives required to implement the WITSML server functional testing.
+Although the Test Scripts could use any Python code and any of the WTL functionality directly, it is recommended that the Test Scripts limit themselves for the most part to the use of the script commands defined in witsml.py and very basic Python constructs such as ‘if’, &#8216;for’, etc. This simplifies the test development, the readability of the Test Scripts and the maintenance of the tests.
+The script commands defined in witsml.py execute functionality implemented in the WTL, which automatically performs actions specified in the WITSML specification, thus relieving the Test Scripts from having to do this. The automated functionality implemented within WTL includes:</p>
+<div class="section" id="witsml-store-primitives">
+<h5>WITSML Store Primitives<a class="headerlink" href="#witsml-store-primitives" title="Permalink to this headline">¶</a></h5>
+<dl class="function">
+<dt id="witsml.WMLS_AddToStore">
+<tt class="descclassname">witsml.</tt><tt class="descname">WMLS_AddToStore</tt><big>(</big><em>WMLtypeIn</em>, <em>XMLin</em>, <em>OptionsIn={}</em>, <em>CapabilitiesIn=''</em><big>)</big><a class="headerlink" href="#witsml.WMLS_AddToStore" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute the WMLS_AddToStore API and save the server response</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><p class="first">See the WITSML STORE Application Program Interface (API)</p>
+<dl class="docutils">
+<dt>WMLtypeIn: A string containing the object name</dt>
+<dd>Example: &#8216;well&#8217;
+WMLtypeIn values for all objects are defined in witsml.py
+Example WMLTYPEIN_WELL</dd>
+<dt>Xmlin:     A string containing the XML document.   </dt>
+<dd>This string can contain variable substitutions ($...$),
+file substitutions (#...#) and  conditional substitutions
+(^...?...:...^)</dd>
+<dt>OptionsIn: A dictionary in the form &#8216;option&#8217;:&#8217;value&#8217;</dt>
+<dd>The OptionsIn string is encoded by this function
+Example: {&#8216;compressionMethod&#8217;:&#8217;gzip&#8217;}</dd>
+</dl>
+<p class="last">CapabilitiesIn:  A string containing the XML document</p>
+</dd>
+<dt>Returns:</dt>
+<dd>True if response received, or False otherwise</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="witsml.WMLS_DeleteFromStore">
+<tt class="descclassname">witsml.</tt><tt class="descname">WMLS_DeleteFromStore</tt><big>(</big><em>WMLtypeIn</em>, <em>QueryIn</em>, <em>OptionsIn={}</em>, <em>CapabilitiesIn=''</em><big>)</big><a class="headerlink" href="#witsml.WMLS_DeleteFromStore" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute the WMLS_DeleteFromStore API and save the server response</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><p class="first">See the WITSML STORE Application Program Interface (API)</p>
+<dl class="docutils">
+<dt>WMLtypeIn: A string containing the object name</dt>
+<dd>Example: &#8216;well&#8217;
+WMLtypeIn values for all objects are defined in witsml.py
+Example WMLTYPEIN_WELL</dd>
+<dt>QueryIn:   A string containing the XML document.   </dt>
+<dd>This string can contain variable substitutions ($...$),
+file substitutions (#...#) and  conditional substitutions
+(^...?...:...^)</dd>
+<dt>OptionsIn: A dictionary in the form &#8216;option&#8217;:&#8217;value&#8217;</dt>
+<dd>The OptionsIn string is encoded by this function
+Example: {&#8216;cascadeDelete&#8217;:&#8217;true&#8217;}</dd>
+</dl>
+<p class="last">CapabilitiesIn:  A string containing the XML document</p>
+</dd>
+<dt>Returns:</dt>
+<dd>True if response received, or False otherwise</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="witsml.WMLS_GetBaseMsg">
+<tt class="descclassname">witsml.</tt><tt class="descname">WMLS_GetBaseMsg</tt><big>(</big><em>ReturnValueIn</em><big>)</big><a class="headerlink" href="#witsml.WMLS_GetBaseMsg" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute the WMLS_GetBaseMsg API and save the server response</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><p class="first">See the WITSML STORE Application Program Interface (API)</p>
+<dl class="last docutils">
+<dt>ReturnValueIn: A string or integer containing the return value</dt>
+<dd>Examples: -101  or &#8216;-101&#8217;</dd>
+</dl>
+</dd>
+<dt>Returns:</dt>
+<dd>True if response received, or False otherwise</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="witsml.WMLS_GetCap">
+<tt class="descclassname">witsml.</tt><tt class="descname">WMLS_GetCap</tt><big>(</big><em>OptionsIn={}</em><big>)</big><a class="headerlink" href="#witsml.WMLS_GetCap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute the WMLS_GetCap API and save the server response</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><p class="first">See the WITSML STORE Application Program Interface (API)</p>
+<dl class="last docutils">
+<dt>OptionsIn: A dictionary in the form &#8216;option&#8217;:&#8217;value&#8217;</dt>
+<dd>The OptionsIn string is encoded by this function
+Example: {&#8216;dataVersion&#8217;:&#8216;1.3.1.1&#8217;}</dd>
+</dl>
+</dd>
+<dt>Returns:</dt>
+<dd>True if response received, or False otherwise</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="witsml.WMLS_GetFromStore">
+<tt class="descclassname">witsml.</tt><tt class="descname">WMLS_GetFromStore</tt><big>(</big><em>WMLtypeIn</em>, <em>QueryIn</em>, <em>OptionsIn={}</em>, <em>CapabilitiesIn=''</em><big>)</big><a class="headerlink" href="#witsml.WMLS_GetFromStore" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute the WMLS_GetFromStore API and save the server response</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><p class="first">See the WITSML STORE Application Program Interface (API)</p>
+<dl class="docutils">
+<dt>WMLtypeIn: A string containing the object name</dt>
+<dd>Example: &#8216;well&#8217;
+WMLtypeIn values for all objects are defined in witsml.py
+Example WMLTYPEIN_WELL</dd>
+<dt>QueryIn:   A string containing the XML document.   </dt>
+<dd>This string can contain variable substitutions ($...$),
+file substitutions (#...#) and  conditional substitutions
+(^...?...:...^)</dd>
+<dt>OptionsIn: A dictionary in the form &#8216;option&#8217;:&#8217;value&#8217;</dt>
+<dd>The OptionsIn string is encoded by this function
+Example: {&#8216;returnElements&#8217;:&#8217;all&#8217;}</dd>
+</dl>
+<p class="last">CapabilitiesIn:  A string containing the XML document</p>
+</dd>
+<dt>Returns:</dt>
+<dd>True if response received, or False otherwise</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="witsml.WMLS_GetVersion">
+<tt class="descclassname">witsml.</tt><tt class="descname">WMLS_GetVersion</tt><big>(</big><big>)</big><a class="headerlink" href="#witsml.WMLS_GetVersion" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute the WMLS_GetVersion API and save the server response</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="witsml.WMLS_UpdateInStore">
+<tt class="descclassname">witsml.</tt><tt class="descname">WMLS_UpdateInStore</tt><big>(</big><em>WMLtypeIn</em>, <em>XMLin</em>, <em>OptionsIn={}</em>, <em>CapabilitiesIn=''</em><big>)</big><a class="headerlink" href="#witsml.WMLS_UpdateInStore" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute the WMLS_UpdateInStore API and save the server response</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><p class="first">See the WITSML STORE Application Program Interface (API)</p>
+<dl class="docutils">
+<dt>WMLtypeIn: A string containing the object name</dt>
+<dd>Example: &#8216;well&#8217;
+WMLtypeIn values for all objects are defined in witsml.py
+Example WMLTYPEIN_WELL</dd>
+<dt>XMLin:     A string containing the XML document.   </dt>
+<dd>This string can contain variable substitutions ($...$),
+file substitutions (#...#) and  conditional substitutions
+(^...?...:...^)</dd>
+<dt>OptionsIn: A dictionary in the form &#8216;option&#8217;:&#8217;value&#8217;</dt>
+<dd>The OptionsIn string is encoded by this function
+Example: {&#8216;compressionMethod&#8217;:&#8217;gzip&#8217;}</dd>
+</dl>
+<p class="last">CapabilitiesIn:  A string containing the XML document</p>
+</dd>
+<dt>Returns:</dt>
+<dd>True if response received, or False otherwise</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="verify-primitives">
+<h5>Verify Primitives<a class="headerlink" href="#verify-primitives" title="Permalink to this headline">¶</a></h5>
+<dl class="function">
+<dt id="witsml.check_ReturnValue_Success">
+<tt class="descclassname">witsml.</tt><tt class="descname">check_ReturnValue_Success</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#witsml.check_ReturnValue_Success" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check the return value indicates success (i.e. is positive)</p>
+<dl class="docutils">
+<dt>Return:</dt>
+<dd>Nothing. Fail control primitive is called if check fails</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="witsml.check_ReturnValue_Failure">
+<tt class="descclassname">witsml.</tt><tt class="descname">check_ReturnValue_Failure</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#witsml.check_ReturnValue_Failure" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check the return value indicates error (i.e. is negative)</p>
+<dl class="docutils">
+<dt>Return:</dt>
+<dd>Nothing. Fail control primitive is called if check fails</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="witsml.check_ReturnValue_Value">
+<tt class="descclassname">witsml.</tt><tt class="descname">check_ReturnValue_Value</tt><big>(</big><em>self</em>, <em>expected_value</em><big>)</big><a class="headerlink" href="#witsml.check_ReturnValue_Value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compare the stored values with the expected value</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd>expected_value: Return value to compare against.</dd>
+<dt>Return:</dt>
+<dd>Nothing. Fail control primitive is called if check fails</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="witsml.check_ReturnValue_String">
+<tt class="descclassname">witsml.</tt><tt class="descname">check_ReturnValue_String</tt><big>(</big><em>self</em>, <em>expected_string</em><big>)</big><a class="headerlink" href="#witsml.check_ReturnValue_String" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compare the stored values with the expected string</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd>expected_string: String to compare against.
+String can contain regular expressions and special WTL constructs</dd>
+<dt>Return:</dt>
+<dd>Nothing. Fail control primitive is called if check fails</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="witsml.check_ReturnValue_Contains">
+<tt class="descclassname">witsml.</tt><tt class="descname">check_ReturnValue_Contains</tt><big>(</big><em>self</em>, <em>expected_substring</em><big>)</big><a class="headerlink" href="#witsml.check_ReturnValue_Contains" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check the stored value contains the expected substring</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd>expected_substring: String segment to search in the value
+Substring can contain regular expressions and special WTL constructs</dd>
+<dt>Return:</dt>
+<dd>Nothing. Fail control primitive is called if check fails</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="witsml.check_SuppMsgOut_Contains">
+<tt class="descclassname">witsml.</tt><tt class="descname">check_SuppMsgOut_Contains</tt><big>(</big><em>self</em>, <em>expected_substring</em><big>)</big><a class="headerlink" href="#witsml.check_SuppMsgOut_Contains" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check the stored value contains the expected substring</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd>expected_substring: String segment to search in the value
+Substring can contain regular expressions and special WTL constructs</dd>
+<dt>Return:</dt>
+<dd>Nothing. Fail control primitive is called if check fails</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="witsml.check_CapabilitiesOut_String">
+<tt class="descclassname">witsml.</tt><tt class="descname">check_CapabilitiesOut_String</tt><big>(</big><em>self</em>, <em>expected_xml_string</em><big>)</big><a class="headerlink" href="#witsml.check_CapabilitiesOut_String" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="witsml.check_CapabilitiesOut_XMLString">
+<tt class="descclassname">witsml.</tt><tt class="descname">check_CapabilitiesOut_XMLString</tt><big>(</big><em>self</em>, <em>expected_xml_string</em><big>)</big><a class="headerlink" href="#witsml.check_CapabilitiesOut_XMLString" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="witsml.check_CapabilitiesOut_ElementIncluded">
+<tt class="descclassname">witsml.</tt><tt class="descname">check_CapabilitiesOut_ElementIncluded</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#witsml.check_CapabilitiesOut_ElementIncluded" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decorator function that calls the original function for every object
+if the parameter check=&#8217;all_objects&#8217; is provided
+Otherwise calls the original function once as usual</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd>Parameters for the original function call</dd>
+<dt>Return:</dt>
+<dd>Nothing</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="witsml.check_CapabilitiesOut_ElementNotIncluded">
+<tt class="descclassname">witsml.</tt><tt class="descname">check_CapabilitiesOut_ElementNotIncluded</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#witsml.check_CapabilitiesOut_ElementNotIncluded" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decorator function that calls the original function for every object
+if the parameter check=&#8217;all_objects&#8217; is provided
+Otherwise calls the original function once as usual</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd>Parameters for the original function call</dd>
+<dt>Return:</dt>
+<dd>Nothing</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="witsml.check_CapabilitiesOut_ElementValue">
+<tt class="descclassname">witsml.</tt><tt class="descname">check_CapabilitiesOut_ElementValue</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#witsml.check_CapabilitiesOut_ElementValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decorator function that calls the original function for every object
+if the parameter check=&#8217;all_objects&#8217; is provided
+Otherwise calls the original function once as usual</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd>Parameters for the original function call</dd>
+<dt>Return:</dt>
+<dd>Nothing</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="witsml.check_CapabilitiesOut_ElementValue_Greaterthan">
+<tt class="descclassname">witsml.</tt><tt class="descname">check_CapabilitiesOut_ElementValue_Greaterthan</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#witsml.check_CapabilitiesOut_ElementValue_Greaterthan" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decorator function that calls the original function for every object
+if the parameter check=&#8217;all_objects&#8217; is provided
+Otherwise calls the original function once as usual</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd>Parameters for the original function call</dd>
+<dt>Return:</dt>
+<dd>Nothing</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="witsml.check_CapabilitiesOut_ElementValue_Lessthan">
+<tt class="descclassname">witsml.</tt><tt class="descname">check_CapabilitiesOut_ElementValue_Lessthan</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#witsml.check_CapabilitiesOut_ElementValue_Lessthan" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decorator function that calls the original function for every object
+if the parameter check=&#8217;all_objects&#8217; is provided
+Otherwise calls the original function once as usual</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd>Parameters for the original function call</dd>
+<dt>Return:</dt>
+<dd>Nothing</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="witsml.check_CapabilitiesOut_RecurringElementValue">
+<tt class="descclassname">witsml.</tt><tt class="descname">check_CapabilitiesOut_RecurringElementValue</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#witsml.check_CapabilitiesOut_RecurringElementValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decorator function that calls the original function for every object
+if the parameter check=&#8217;all_objects&#8217; is provided
+Otherwise calls the original function once as usual</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd>Parameters for the original function call</dd>
+<dt>Return:</dt>
+<dd>Nothing</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="witsml.check_CapabilitiesOut_RecurringElementValueContains">
+<tt class="descclassname">witsml.</tt><tt class="descname">check_CapabilitiesOut_RecurringElementValueContains</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#witsml.check_CapabilitiesOut_RecurringElementValueContains" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decorator function that calls the original function for every object
+if the parameter check=&#8217;all_objects&#8217; is provided
+Otherwise calls the original function once as usual</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd>Parameters for the original function call</dd>
+<dt>Return:</dt>
+<dd>Nothing</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="witsml.check_CapabilitiesOut_ElementValueContains">
+<tt class="descclassname">witsml.</tt><tt class="descname">check_CapabilitiesOut_ElementValueContains</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#witsml.check_CapabilitiesOut_ElementValueContains" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decorator function that calls the original function for every object
+if the parameter check=&#8217;all_objects&#8217; is provided
+Otherwise calls the original function once as usual</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd>Parameters for the original function call</dd>
+<dt>Return:</dt>
+<dd>Nothing</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="witsml.check_CapabilitiesOut_AttributeIncluded">
+<tt class="descclassname">witsml.</tt><tt class="descname">check_CapabilitiesOut_AttributeIncluded</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#witsml.check_CapabilitiesOut_AttributeIncluded" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decorator function that calls the original function for every object
+if the parameter check=&#8217;all_objects&#8217; is provided
+Otherwise calls the original function once as usual</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd>Parameters for the original function call</dd>
+<dt>Return:</dt>
+<dd>Nothing</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="witsml.check_CapabilitiesOut_AttributeNotIncluded">
+<tt class="descclassname">witsml.</tt><tt class="descname">check_CapabilitiesOut_AttributeNotIncluded</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#witsml.check_CapabilitiesOut_AttributeNotIncluded" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decorator function that calls the original function for every object
+if the parameter check=&#8217;all_objects&#8217; is provided
+Otherwise calls the original function once as usual</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd>Parameters for the original function call</dd>
+<dt>Return:</dt>
+<dd>Nothing</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="witsml.check_CapabilitiesOut_AttributeValue">
+<tt class="descclassname">witsml.</tt><tt class="descname">check_CapabilitiesOut_AttributeValue</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#witsml.check_CapabilitiesOut_AttributeValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decorator function that calls the original function for every object
+if the parameter check=&#8217;all_objects&#8217; is provided
+Otherwise calls the original function once as usual</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd>Parameters for the original function call</dd>
+<dt>Return:</dt>
+<dd>Nothing</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="witsml.check_CapabilitiesOut_AttributeValueIsContained">
+<tt class="descclassname">witsml.</tt><tt class="descname">check_CapabilitiesOut_AttributeValueIsContained</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#witsml.check_CapabilitiesOut_AttributeValueIsContained" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decorator function that calls the original function for every object
+if the parameter check=&#8217;all_objects&#8217; is provided
+Otherwise calls the original function once as usual</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd>Parameters for the original function call</dd>
+<dt>Return:</dt>
+<dd>Nothing</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="witsml.check_XMLout_String">
+<tt class="descclassname">witsml.</tt><tt class="descname">check_XMLout_String</tt><big>(</big><em>self</em>, <em>expected_xml_string</em><big>)</big><a class="headerlink" href="#witsml.check_XMLout_String" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="witsml.check_XMLout_DoesNotContain">
+<tt class="descclassname">witsml.</tt><tt class="descname">check_XMLout_DoesNotContain</tt><big>(</big><em>self</em>, <em>unexpected_substring</em><big>)</big><a class="headerlink" href="#witsml.check_XMLout_DoesNotContain" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check the stored value does not contain the substring</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd>unexpected_substring: String segment to determine as not present in value
+Substring cannot contain regex 
+Substring can contain special WTL constructs</dd>
+<dt>Return:</dt>
+<dd>Nothing. Fail control primitive is called if check fails</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="witsml.check_XMLout_XMLString">
+<tt class="descclassname">witsml.</tt><tt class="descname">check_XMLout_XMLString</tt><big>(</big><em>self</em>, <em>expected_xml_string</em><big>)</big><a class="headerlink" href="#witsml.check_XMLout_XMLString" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="witsml.check_XMLout_ElementIncluded">
+<tt class="descclassname">witsml.</tt><tt class="descname">check_XMLout_ElementIncluded</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#witsml.check_XMLout_ElementIncluded" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decorator function that calls the original function for every object
+if the parameter check=&#8217;all_objects&#8217; is provided
+Otherwise calls the original function once as usual</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd>Parameters for the original function call</dd>
+<dt>Return:</dt>
+<dd>Nothing</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="witsml.check_XMLout_ElementNotIncluded">
+<tt class="descclassname">witsml.</tt><tt class="descname">check_XMLout_ElementNotIncluded</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#witsml.check_XMLout_ElementNotIncluded" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decorator function that calls the original function for every object
+if the parameter check=&#8217;all_objects&#8217; is provided
+Otherwise calls the original function once as usual</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd>Parameters for the original function call</dd>
+<dt>Return:</dt>
+<dd>Nothing</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="witsml.check_XMLout_ElementValue">
+<tt class="descclassname">witsml.</tt><tt class="descname">check_XMLout_ElementValue</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#witsml.check_XMLout_ElementValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decorator function that calls the original function for every object
+if the parameter check=&#8217;all_objects&#8217; is provided
+Otherwise calls the original function once as usual</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd>Parameters for the original function call</dd>
+<dt>Return:</dt>
+<dd>Nothing</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="witsml.check_XMLout_ElementValue_Greaterthan">
+<tt class="descclassname">witsml.</tt><tt class="descname">check_XMLout_ElementValue_Greaterthan</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#witsml.check_XMLout_ElementValue_Greaterthan" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decorator function that calls the original function for every object
+if the parameter check=&#8217;all_objects&#8217; is provided
+Otherwise calls the original function once as usual</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd>Parameters for the original function call</dd>
+<dt>Return:</dt>
+<dd>Nothing</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="witsml.check_XMLout_ElementValue_Lessthan">
+<tt class="descclassname">witsml.</tt><tt class="descname">check_XMLout_ElementValue_Lessthan</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#witsml.check_XMLout_ElementValue_Lessthan" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decorator function that calls the original function for every object
+if the parameter check=&#8217;all_objects&#8217; is provided
+Otherwise calls the original function once as usual</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd>Parameters for the original function call</dd>
+<dt>Return:</dt>
+<dd>Nothing</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="witsml.check_XMLout_RecurringElementValue">
+<tt class="descclassname">witsml.</tt><tt class="descname">check_XMLout_RecurringElementValue</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#witsml.check_XMLout_RecurringElementValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decorator function that calls the original function for every object
+if the parameter check=&#8217;all_objects&#8217; is provided
+Otherwise calls the original function once as usual</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd>Parameters for the original function call</dd>
+<dt>Return:</dt>
+<dd>Nothing</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="witsml.check_XMLout_RecurringElementValueContains">
+<tt class="descclassname">witsml.</tt><tt class="descname">check_XMLout_RecurringElementValueContains</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#witsml.check_XMLout_RecurringElementValueContains" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decorator function that calls the original function for every object
+if the parameter check=&#8217;all_objects&#8217; is provided
+Otherwise calls the original function once as usual</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd>Parameters for the original function call</dd>
+<dt>Return:</dt>
+<dd>Nothing</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="witsml.check_XMLout_ElementValueContains">
+<tt class="descclassname">witsml.</tt><tt class="descname">check_XMLout_ElementValueContains</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#witsml.check_XMLout_ElementValueContains" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decorator function that calls the original function for every object
+if the parameter check=&#8217;all_objects&#8217; is provided
+Otherwise calls the original function once as usual</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd>Parameters for the original function call</dd>
+<dt>Return:</dt>
+<dd>Nothing</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="witsml.check_XMLout_AttributeIncluded">
+<tt class="descclassname">witsml.</tt><tt class="descname">check_XMLout_AttributeIncluded</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#witsml.check_XMLout_AttributeIncluded" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decorator function that calls the original function for every object
+if the parameter check=&#8217;all_objects&#8217; is provided
+Otherwise calls the original function once as usual</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd>Parameters for the original function call</dd>
+<dt>Return:</dt>
+<dd>Nothing</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="witsml.check_XMLout_AttributeNotIncluded">
+<tt class="descclassname">witsml.</tt><tt class="descname">check_XMLout_AttributeNotIncluded</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#witsml.check_XMLout_AttributeNotIncluded" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decorator function that calls the original function for every object
+if the parameter check=&#8217;all_objects&#8217; is provided
+Otherwise calls the original function once as usual</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd>Parameters for the original function call</dd>
+<dt>Return:</dt>
+<dd>Nothing</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="witsml.check_XMLout_AttributeValue">
+<tt class="descclassname">witsml.</tt><tt class="descname">check_XMLout_AttributeValue</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#witsml.check_XMLout_AttributeValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decorator function that calls the original function for every object
+if the parameter check=&#8217;all_objects&#8217; is provided
+Otherwise calls the original function once as usual</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd>Parameters for the original function call</dd>
+<dt>Return:</dt>
+<dd>Nothing</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="witsml.check_XMLout_AttributeValueIsContained">
+<tt class="descclassname">witsml.</tt><tt class="descname">check_XMLout_AttributeValueIsContained</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#witsml.check_XMLout_AttributeValueIsContained" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decorator function that calls the original function for every object
+if the parameter check=&#8217;all_objects&#8217; is provided
+Otherwise calls the original function once as usual</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd>Parameters for the original function call</dd>
+<dt>Return:</dt>
+<dd>Nothing</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="witsml.check_XMLout_NumberOfObjects">
+<tt class="descclassname">witsml.</tt><tt class="descname">check_XMLout_NumberOfObjects</tt><big>(</big><em>self</em>, <em>num</em><big>)</big><a class="headerlink" href="#witsml.check_XMLout_NumberOfObjects" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check the number of objects matches the number provided</p>
+<dl class="docutils">
+<dt>Parameters: </dt>
+<dd>num: Expected number objects</dd>
+<dt>Return:</dt>
+<dd>Nothing. Fail control primitive is called if check fails</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="witsml.check_XMLout_NumberOfObjects_Greaterthan">
+<tt class="descclassname">witsml.</tt><tt class="descname">check_XMLout_NumberOfObjects_Greaterthan</tt><big>(</big><em>self</em>, <em>num</em><big>)</big><a class="headerlink" href="#witsml.check_XMLout_NumberOfObjects_Greaterthan" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check the number of objects is greater than the number provided</p>
+<dl class="docutils">
+<dt>Parameters: </dt>
+<dd>num: Number to be compared against</dd>
+<dt>Return:</dt>
+<dd>Nothing. Fail control primitive is called if check fails</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="witsml.check_XMLout_NumberOfObjects_Lessthan">
+<tt class="descclassname">witsml.</tt><tt class="descname">check_XMLout_NumberOfObjects_Lessthan</tt><big>(</big><em>self</em>, <em>num</em><big>)</big><a class="headerlink" href="#witsml.check_XMLout_NumberOfObjects_Lessthan" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check the number of objects is less than the number provided</p>
+<dl class="docutils">
+<dt>Parameters: </dt>
+<dd>num: Number to be compared against</dd>
+<dt>Return:</dt>
+<dd>Nothing. Fail control primitive is called if check fails</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="witsml.check_XMLout_OnlyIncluded">
+<tt class="descclassname">witsml.</tt><tt class="descname">check_XMLout_OnlyIncluded</tt><big>(</big><em>self</em>, <em>elements</em><big>)</big><a class="headerlink" href="#witsml.check_XMLout_OnlyIncluded" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>summary:</dt>
+<dd>check that only listed , exists in xml  elements set in form [ &#8216;elm[attr]&#8217;, &#8216;elm[attr]&#8217; ]</dd>
+<dt>returns: </dt>
+<dd>true if only given set exists</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="witsml.check_Version">
+<tt class="descclassname">witsml.</tt><tt class="descname">check_Version</tt><big>(</big><em>self</em>, <em>version_str</em><big>)</big><a class="headerlink" href="#witsml.check_Version" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>summary:</dt>
+<dd>Check that string consists of WITSML versions in order from oldest to newest
+Does basic checking on WITSML version string, but does not validate string against actual 
+versions of the specification (i.e. does not check for 1.3.1, 1.4.1.1 explicitly)</dd>
+<dt>returns: </dt>
+<dd>true if version string is in order from oldest to newest
+false otherwise</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="witsml.check_logData_IndexValue">
+<tt class="descclassname">witsml.</tt><tt class="descname">check_logData_IndexValue</tt><big>(</big><em>self</em>, <em>n</em>, <em>value</em>, <em>error_margin=0</em><big>)</big><a class="headerlink" href="#witsml.check_logData_IndexValue" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="witsml.check_logData_DataValue">
+<tt class="descclassname">witsml.</tt><tt class="descname">check_logData_DataValue</tt><big>(</big><em>self</em>, <em>n</em>, <em>mnemonic</em>, <em>value</em>, <em>error_margin=0</em><big>)</big><a class="headerlink" href="#witsml.check_logData_DataValue" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="witsml.check_logData_AllData">
+<tt class="descclassname">witsml.</tt><tt class="descname">check_logData_AllData</tt><big>(</big><em>self</em>, <em>array</em>, <em>index_error_margin=0</em>, <em>error_margin=0</em><big>)</big><a class="headerlink" href="#witsml.check_logData_AllData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check all the data values received in the logData</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first docutils">
+<dt>data_array: Array with all the data value to check againt. The array is formated as follows</dt>
+<dd><dl class="first docutils">
+<dt>[(value00, value01, value02,...value0n),</dt>
+<dd>(value10, value11, value12,...value1n),
+...
+(valuem0, valuem1, valuem2,...valuemn)]</dd>
+</dl>
+<p class="last">Notes:
+- No null values can be in the data
+- Index can be datatime or a floating point number
+- Data values can be only floating point numbers</p>
+</dd>
+<dt>index_error_margin (optional): Error margin to apply to the index comparison</dt>
+<dd>Must be set to zero or not included for index datatime
+Must be set to non-zero for depth index</dd>
+</dl>
+<p class="last">error_margin (optional): Error margin to apply to the data value comparison Must be non-zero</p>
+</dd>
+<dt>Return:</dt>
+<dd>None
+Script will fail if comparison fails</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="witsml.check_logData_NumberOfNodes">
+<tt class="descclassname">witsml.</tt><tt class="descname">check_logData_NumberOfNodes</tt><big>(</big><em>self</em>, <em>n</em><big>)</big><a class="headerlink" href="#witsml.check_logData_NumberOfNodes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="witsml.check_logData_NumberOfPoints">
+<tt class="descclassname">witsml.</tt><tt class="descname">check_logData_NumberOfPoints</tt><big>(</big><em>self</em>, <em>n</em><big>)</big><a class="headerlink" href="#witsml.check_logData_NumberOfPoints" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="parse-primitives">
+<h5>Parse Primitives<a class="headerlink" href="#parse-primitives" title="Permalink to this headline">¶</a></h5>
+<dl class="function">
+<dt id="witsml.get_ReturnValue">
+<tt class="descclassname">witsml.</tt><tt class="descname">get_ReturnValue</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#witsml.get_ReturnValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the stored value</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="witsml.get_SuppMsgOut_String">
+<tt class="descclassname">witsml.</tt><tt class="descname">get_SuppMsgOut_String</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#witsml.get_SuppMsgOut_String" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the stored value</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="witsml.get_SuppMsgOut_uid_String">
+<tt class="descclassname">witsml.</tt><tt class="descname">get_SuppMsgOut_uid_String</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#witsml.get_SuppMsgOut_uid_String" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return all the characters up to the first space
+If value is empty, fail</p>
+<dl class="docutils">
+<dt>Return:</dt>
+<dd>All the characters up to the first space
+Fail control primitive is called if no string is set</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="witsml.get_CapabilitiesOut_Element_String">
+<tt class="descclassname">witsml.</tt><tt class="descname">get_CapabilitiesOut_Element_String</tt><big>(</big><em>self</em>, <em>tag</em>, <em>_object_index=None</em><big>)</big><a class="headerlink" href="#witsml.get_CapabilitiesOut_Element_String" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the text of the element from the XML tree with the corresponding
+tag.
+The first element in the document with the tag is returned</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd>tag:     The element&#8217;s tag</dd>
+<dt>Return:</dt>
+<dd>The element&#8217;s text if found, otherwise &#8216;None&#8217;</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="witsml.get_CapabilitiesOut_RecurringElement_List">
+<tt class="descclassname">witsml.</tt><tt class="descname">get_CapabilitiesOut_RecurringElement_List</tt><big>(</big><em>self</em>, <em>tag</em>, <em>_object_index=None</em><big>)</big><a class="headerlink" href="#witsml.get_CapabilitiesOut_RecurringElement_List" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a list of the the text of all the recurring elements from the XML
+tree with the corresponding tag.
+The first recurring element list  in the document with the tag is
+returned</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd>tag:     The element&#8217;s tag</dd>
+<dt>Return:</dt>
+<dd>A list with the text of all elements with the tag if found,
+otherwise &#8216;None&#8217;</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="witsml.get_XMLout_Element_String">
+<tt class="descclassname">witsml.</tt><tt class="descname">get_XMLout_Element_String</tt><big>(</big><em>self</em>, <em>tag</em>, <em>_object_index=None</em><big>)</big><a class="headerlink" href="#witsml.get_XMLout_Element_String" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the text of the element from the XML tree with the corresponding
+tag.
+The first element in the document with the tag is returned</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd>tag:     The element&#8217;s tag</dd>
+<dt>Return:</dt>
+<dd>The element&#8217;s text if found, otherwise &#8216;None&#8217;</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="witsml.get_XMLout_Attribute_String">
+<tt class="descclassname">witsml.</tt><tt class="descname">get_XMLout_Attribute_String</tt><big>(</big><em>self</em>, <em>tag</em>, <em>attribute</em>, <em>_object_index=None</em><big>)</big><a class="headerlink" href="#witsml.get_XMLout_Attribute_String" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the text of an attribute from the XML tree with the corresponding
+name for the given element.
+The first element in the document with the tag is used</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd>tag:       The element&#8217;s tag
+attribute: The attributes name</dd>
+<dt>Return:</dt>
+<dd>The attributes value if found, otherwise &#8216;None&#8217;</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="witsml.get_XMLout_RecurringElement_List">
+<tt class="descclassname">witsml.</tt><tt class="descname">get_XMLout_RecurringElement_List</tt><big>(</big><em>self</em>, <em>tag</em>, <em>_object_index=None</em><big>)</big><a class="headerlink" href="#witsml.get_XMLout_RecurringElement_List" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a list of the the text of all the recurring elements from the XML
+tree with the corresponding tag.
+The first recurring element list  in the document with the tag is
+returned</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd>tag:     The element&#8217;s tag</dd>
+<dt>Return:</dt>
+<dd>A list with the text of all elements with the tag if found,
+otherwise &#8216;None&#8217;</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="witsml.get_XMLout_NumberOfObjects_Int">
+<tt class="descclassname">witsml.</tt><tt class="descname">get_XMLout_NumberOfObjects_Int</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#witsml.get_XMLout_NumberOfObjects_Int" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the number of objects in the XML tree</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd>None</dd>
+<dt>Return:</dt>
+<dd>The number of objects returned if there is a value exists,
+otherwise &#8216;None&#8217;</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="witsml.get_XMLout_Mnemonics_List">
+<tt class="descclassname">witsml.</tt><tt class="descname">get_XMLout_Mnemonics_List</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#witsml.get_XMLout_Mnemonics_List" title="Permalink to this definition">¶</a></dt>
+<dd><p>Builds a list of mnemonics from the mnemonicList attribute split by &#8221;,&#8221;</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd>none</dd>
+<dt>Return:</dt>
+<dd>A list of mnemonic strings.  An empty list if no mnemonics</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="witsml.get_XMLout_Units_List">
+<tt class="descclassname">witsml.</tt><tt class="descname">get_XMLout_Units_List</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#witsml.get_XMLout_Units_List" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves a unit list from the unitsList attribute split by &#8221;,&#8221;</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd>none</dd>
+<dt>Return:</dt>
+<dd>A list of unit strings.  An empty list if no units</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="witsml.get_XMLout_LatestdTimChange_String">
+<tt class="descclassname">witsml.</tt><tt class="descname">get_XMLout_LatestdTimChange_String</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#witsml.get_XMLout_LatestdTimChange_String" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the dTimChange of the changeHistory element with the latest dTimChange</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd>None</dd>
+<dt>Return:</dt>
+<dd>The latest dTimChange, otherwise &#8216;None&#8217;</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="witsml.get_logData_IndexValue_String">
+<tt class="descclassname">witsml.</tt><tt class="descname">get_logData_IndexValue_String</tt><big>(</big><em>self</em>, <em>n</em><big>)</big><a class="headerlink" href="#witsml.get_logData_IndexValue_String" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="witsml.get_logData_DataValue_String">
+<tt class="descclassname">witsml.</tt><tt class="descname">get_logData_DataValue_String</tt><big>(</big><em>self</em>, <em>n</em>, <em>mnemonic</em><big>)</big><a class="headerlink" href="#witsml.get_logData_DataValue_String" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="witsml.get_logData_NumberOfNodes_Int">
+<tt class="descclassname">witsml.</tt><tt class="descname">get_logData_NumberOfNodes_Int</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#witsml.get_logData_NumberOfNodes_Int" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="witsml.get_logData_NumberOfPoints_Int">
+<tt class="descclassname">witsml.</tt><tt class="descname">get_logData_NumberOfPoints_Int</tt><big>(</big><em>self</em><big>)</big><a class="headerlink" href="#witsml.get_logData_NumberOfPoints_Int" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="capabilities-primitives">
+<h5>Capabilities Primitives<a class="headerlink" href="#capabilities-primitives" title="Permalink to this headline">¶</a></h5>
+<dl class="function">
+<dt id="witsml.get_capability">
+<tt class="descclassname">witsml.</tt><tt class="descname">get_capability</tt><big>(</big><em>cap</em><big>)</big><a class="headerlink" href="#witsml.get_capability" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="time-primitives">
+<h5>Time Primitives<a class="headerlink" href="#time-primitives" title="Permalink to this headline">¶</a></h5>
+<dl class="function">
+<dt id="witsml.now">
+<tt class="descclassname">witsml.</tt><tt class="descname">now</tt><big>(</big><big>)</big><a class="headerlink" href="#witsml.now" title="Permalink to this definition">¶</a></dt>
+<dd><p>Primitive function to return the current datetime as an ISO 8601 string.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd>none</dd>
+<dt>Return:</dt>
+<dd>ISO 8601 formatted date time string of the current date and time.</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="witsml.check_timestamp_Equals">
+<tt class="descclassname">witsml.</tt><tt class="descname">check_timestamp_Equals</tt><big>(</big><em>timestamp_lhs</em>, <em>timestamp_rhs</em><big>)</big><a class="headerlink" href="#witsml.check_timestamp_Equals" title="Permalink to this definition">¶</a></dt>
+<dd><p>Primitive function to compare two timestamp strings for equality</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd>timestamp_lhs: a timestamp string to compare for equality.
+timestamp_rhs: a timestamp string to compare for equality.</dd>
+<dt>Return:</dt>
+<dd>&#8216;True&#8217; if the timestamps represent the same time (taking into account formatting and timezone)
+Raise an exception otherwise</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="witsml.check_timestamp_Lessthan">
+<tt class="descclassname">witsml.</tt><tt class="descname">check_timestamp_Lessthan</tt><big>(</big><em>timestamp_lhs</em>, <em>timestamp_rhs</em><big>)</big><a class="headerlink" href="#witsml.check_timestamp_Lessthan" title="Permalink to this definition">¶</a></dt>
+<dd><p>Primitive function to compare two timestamp strings such that lhs &lt; rhs</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd>timestamp_lhs: left hand side timestamp string to compare for &lt;.
+timestamp_rhs: right hand side timestamp string to compare.</dd>
+<dt>Return:</dt>
+<dd>&#8216;True&#8217; if timestamp_lhs &lt; timestamp_rhs
+Raise an exception otherwise</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="witsml.check_timestamp_LessthanEquals">
+<tt class="descclassname">witsml.</tt><tt class="descname">check_timestamp_LessthanEquals</tt><big>(</big><em>timestamp_lhs</em>, <em>timestamp_rhs</em><big>)</big><a class="headerlink" href="#witsml.check_timestamp_LessthanEquals" title="Permalink to this definition">¶</a></dt>
+<dd><p>Primitive function to compare two timestamp strings such that lhs &lt;= rhs</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd>timestamp_lhs: left hand side timestamp string to compare for &lt;=.
+timestamp_rhs: right hand side timestamp string to compare.</dd>
+<dt>Return:</dt>
+<dd>&#8216;True&#8217; if timestamp_lhs &lt;= timestamp_rhs
+Raise an exception otherwise</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="witsml.check_timestamp_Greaterthan">
+<tt class="descclassname">witsml.</tt><tt class="descname">check_timestamp_Greaterthan</tt><big>(</big><em>timestamp_lhs</em>, <em>timestamp_rhs</em><big>)</big><a class="headerlink" href="#witsml.check_timestamp_Greaterthan" title="Permalink to this definition">¶</a></dt>
+<dd><p>Primitive function to compare two timestamp strings such that lhs &gt; rhs</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd>timestamp_lhs: left hand side timestamp string to compare for &gt;.
+timestamp_rhs: right hand side timestamp string to compare.</dd>
+<dt>Return:</dt>
+<dd>&#8216;True&#8217; if timestamp_lhs &gt; timestamp_rhs
+Raise an exception otherwise</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="witsml.check_timestamp_GreaterthanEquals">
+<tt class="descclassname">witsml.</tt><tt class="descname">check_timestamp_GreaterthanEquals</tt><big>(</big><em>timestamp_lhs</em>, <em>timestamp_rhs</em><big>)</big><a class="headerlink" href="#witsml.check_timestamp_GreaterthanEquals" title="Permalink to this definition">¶</a></dt>
+<dd><p>Primitive function to compare two timestamp strings such that lhs &gt;= rhs</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd>timestamp_lhs: left hand side timestamp string to compare for &gt;=.
+timestamp_rhs: right hand side timestamp string to compare.</dd>
+<dt>Return:</dt>
+<dd>&#8216;True&#8217; if timestamp_lhs &gt;= timestamp_rhs
+Raise an exception otherwise</dd>
+</dl>
+</dd></dl>
+
+<p>timestamp_add_seconds
+timestamp_subtract_seconds</p>
+</div>
+<div class="section" id="log-verify">
+<h5>log verify<a class="headerlink" href="#log-verify" title="Permalink to this headline">¶</a></h5>
+<dl class="function">
+<dt id="witsml.log_verify_check_log_header_and_data">
+<tt class="descclassname">witsml.</tt><tt class="descname">log_verify_check_log_header_and_data</tt><big>(</big><em>self</em>, <em>verbose=False</em>, <em>strict=False</em><big>)</big><a class="headerlink" href="#witsml.log_verify_check_log_header_and_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Expecting a log acquired from returnElements=all, if a failure occurs, we quit</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd>verbose: output messages 
+strict:  if true, run extra validation, false if not</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="witsml.log_verify_check_log_header_only">
+<tt class="descclassname">witsml.</tt><tt class="descname">log_verify_check_log_header_only</tt><big>(</big><em>self</em>, <em>verbose=False</em>, <em>strict=False</em><big>)</big><a class="headerlink" href="#witsml.log_verify_check_log_header_only" title="Permalink to this definition">¶</a></dt>
+<dd><p>Expecting a log acquired from returnElements=header-only, if a failure occurs, we quit 
+Parameters:
+verbose: output messages 
+strict:  if true, run extra validation, false if not</p>
+</dd></dl>
+
+</div>
+<div class="section" id="execution-control-primitives">
+<h5>Execution Control Primitives<a class="headerlink" href="#execution-control-primitives" title="Permalink to this headline">¶</a></h5>
+<dl class="function">
+<dt id="witsml.fail">
+<tt class="descclassname">witsml.</tt><tt class="descname">fail</tt><big>(</big><em>fail_string</em><big>)</big><a class="headerlink" href="#witsml.fail" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stop execution of the running script. The script failed
+Depending on the WTL configuration end running the scripts</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd>fail_string: Reason for failure</dd>
+<dt>Return:</dt>
+<dd>Nothing</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="witsml.partial_success">
+<tt class="descclassname">witsml.</tt><tt class="descname">partial_success</tt><big>(</big><em>success_string</em><big>)</big><a class="headerlink" href="#witsml.partial_success" title="Permalink to this definition">¶</a></dt>
+<dd><p>Record a partial success in the running script</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd>success_string: The check that was successful</dd>
+<dt>Return:</dt>
+<dd>Nothing</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="witsml.success">
+<tt class="descclassname">witsml.</tt><tt class="descname">success</tt><big>(</big><big>)</big><a class="headerlink" href="#witsml.success" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stop execution of the running script. The script was successful</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd>Nothing</dd>
+<dt>Return:</dt>
+<dd>Nothing</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="witsml.stop">
+<tt class="descclassname">witsml.</tt><tt class="descname">stop</tt><big>(</big><big>)</big><a class="headerlink" href="#witsml.stop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stop execution of the running script</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd>Nothing</dd>
+<dt>Return:</dt>
+<dd>Nothing</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="witsml.error">
+<tt class="descclassname">witsml.</tt><tt class="descname">error</tt><big>(</big><em>error_text</em><big>)</big><a class="headerlink" href="#witsml.error" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log the error text provided and fail the running script</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd>error_text: Error condition</dd>
+<dt>Return:</dt>
+<dd>Nothing</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="witsml.run_script">
+<tt class="descclassname">witsml.</tt><tt class="descname">run_script</tt><big>(</big><em>script_name</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#witsml.run_script" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute the provided script with the given parameters.
+This primitive is meant to be used within a Test Script. Test Suites 
+should use the &#8216;run&#8217; command
+If the script to be run fails, the current running script fails</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd>script name: Script to be run
+kwargs:      Dictionary with optional script parameters</dd>
+<dt>Return:</dt>
+<dd>Nothing</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="witsml.pause">
+<tt class="descclassname">witsml.</tt><tt class="descname">pause</tt><big>(</big><em>seconds</em><big>)</big><a class="headerlink" href="#witsml.pause" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pause the script execution for the specified number of seconds</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd>seconds: Number of seconds to stop execution</dd>
+<dt>Return:</dt>
+<dd>Nothing</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="witsml.pause_for_changeDetectionPeriod">
+<tt class="descclassname">witsml.</tt><tt class="descname">pause_for_changeDetectionPeriod</tt><big>(</big><big>)</big><a class="headerlink" href="#witsml.pause_for_changeDetectionPeriod" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pause the script execution for the length of the server&#8217;s 
+changeDetectionPeriod</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd>None</dd>
+<dt>Return:</dt>
+<dd>Nothing</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="witsml.pause_for_growingTimeoutPeriod">
+<tt class="descclassname">witsml.</tt><tt class="descname">pause_for_growingTimeoutPeriod</tt><big>(</big><em>data_object</em><big>)</big><a class="headerlink" href="#witsml.pause_for_growingTimeoutPeriod" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pause the script execution for the length of the server&#8217;s 
+growingTimeoutPeriod for the provide object</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd>data_object:  Object to use to obtain the growingTimeoutPeriod</dd>
+<dt>Return:</dt>
+<dd>Nothing</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="witsml.run">
+<tt class="descclassname">witsml.</tt><tt class="descname">run</tt><big>(</big><em>script_name</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#witsml.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute the provided script with the given parameters.
+This primitive is meant to be used within a Test Suite. Test Scripts 
+should use the &#8216;run_script&#8217; command
+Even if the script to be run fails, the Test Suite continues execution</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd>script name: Script to be run
+kwargs:      Dictionary with optional script parameters</dd>
+<dt>Return:</dt>
+<dd>Nothing</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="witsml.get_last_test_result">
+<tt class="descclassname">witsml.</tt><tt class="descname">get_last_test_result</tt><big>(</big><big>)</big><a class="headerlink" href="#witsml.get_last_test_result" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the result of the last script run</p>
+<dl class="docutils">
+<dt>Return:</dt>
+<dd>One of &#8216;&#8217;, &#8216;Pass&#8217;, &#8216;Fail&#8217; or  &#8216;Inconclusive&#8217;</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="witsml.end">
+<tt class="descclassname">witsml.</tt><tt class="descname">end</tt><big>(</big><em>code</em><big>)</big><a class="headerlink" href="#witsml.end" title="Permalink to this definition">¶</a></dt>
+<dd><p>Terminate execution of tests and exit</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd>code: Exit code to use when terminating program execution</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="misc-primitives">
+<h5>Misc Primitives<a class="headerlink" href="#misc-primitives" title="Permalink to this headline">¶</a></h5>
+<dl class="function">
+<dt id="witsml.set">
+<tt class="descclassname">witsml.</tt><tt class="descname">set</tt><big>(</big><em>variable</em>, <em>value</em><big>)</big><a class="headerlink" href="#witsml.set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Utility function to set variables value.
+The variable is set in the running script&#8217;s variables. If it already exists
+it is overwritten</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd>variable_name:  String containing the variable&#8217;s name
+value:          String containing the variable&#8217;s value</dd>
+<dt>Return:</dt>
+<dd>Nothing</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="witsml.get">
+<tt class="descclassname">witsml.</tt><tt class="descname">get</tt><big>(</big><em>variable_name</em><big>)</big><a class="headerlink" href="#witsml.get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Utility function to retrieve a variables value.
+The variable name is first searched in the server file. If it does not
+exist, the variable is searched in the running script&#8217;s variables</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd>variable_name:  String containing the variable&#8217;s name</dd>
+<dt>Return:</dt>
+<dd>A string with the variable&#8217;s value, or &#8216;None&#8217; if variable does not exist</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="witsml.logging_on">
+<tt class="descclassname">witsml.</tt><tt class="descname">logging_on</tt><big>(</big><big>)</big><a class="headerlink" href="#witsml.logging_on" title="Permalink to this definition">¶</a></dt>
+<dd><p>Turn logging on</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="witsml.logging_off">
+<tt class="descclassname">witsml.</tt><tt class="descname">logging_off</tt><big>(</big><big>)</big><a class="headerlink" href="#witsml.logging_off" title="Permalink to this definition">¶</a></dt>
+<dd><p>Turn logging off</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="witsml.log">
+<tt class="descclassname">witsml.</tt><tt class="descname">log</tt><big>(</big><em>log_string</em>, <em>force=False</em>, <em>no_new_line=False</em>, <em>prefix=''</em><big>)</big><a class="headerlink" href="#witsml.log" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log test primitive. Uses the internal log function and prepends the &#8220;#&#8221;
+character to the message to identify the script log messages in the log
+file</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><p class="first">log_string:  Message to log
+force:       Force the message to be logged independent of the &#8216;logging&#8217;</p>
+<blockquote>
+<div>variable state</div></blockquote>
+<dl class="last docutils">
+<dt>no_new_line: Flag to prevent a new line to be added at the end of the</dt>
+<dd>message</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="witsml.log_variable">
+<tt class="descclassname">witsml.</tt><tt class="descname">log_variable</tt><big>(</big><em>variable_name</em>, <em>label=''</em><big>)</big><a class="headerlink" href="#witsml.log_variable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Utility function to retrieve a variables value and log it.
+The variable name is first searched in the server file. If it does not
+exist, the variable is searched in the running script&#8217;s variables</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><p class="first">variable_name:   String containing the variable&#8217;s name
+label:           (Optional) Text to use for the log. If not given the</p>
+<blockquote class="last">
+<div>variable name is used</div></blockquote>
+</dd>
+<dt>Return:</dt>
+<dd>Nothing</dd>
+<dt>Examples:</dt>
+<dd><dl class="first last docutils">
+<dt>When variable &#8216;x&#8217; has the value &#8216;123&#8217;</dt>
+<dd>log_variable_value(&#8216;x&#8217;, &#8216;my variable&#8217;) will log &#8220;my_variable = 123&#8221;
+log_variable_value(&#8216;x&#8217;)                will log &#8220;Variable &#8216;x&#8217; = 123&#8221;</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</div>
+</div>
+<div class="section" id="wsvt-package-witsml-schema-validation-tool">
+<h3>wsvt Package (WITSML Schema Validation Tool)<a class="headerlink" href="#wsvt-package-witsml-schema-validation-tool" title="Permalink to this headline">¶</a></h3>
+<p>this does schema validation</p>
+<p>#.. autoclass:: wsvt.SchemaValidator.WITSMLSchemaValidator</p>
+<div class="section" id="witsmlschemavalidator-class">
+<h4>WITSMLSchemaValidator class<a class="headerlink" href="#witsmlschemavalidator-class" title="Permalink to this headline">¶</a></h4>
+<dl class="class">
+<dt id="wsvt.SchemaValidator.WITSMLSchemaValidator">
+<em class="property">class </em><tt class="descclassname">wsvt.SchemaValidator.</tt><tt class="descname">WITSMLSchemaValidator</tt><a class="headerlink" href="#wsvt.SchemaValidator.WITSMLSchemaValidator" title="Permalink to this definition">¶</a></dt>
+<dd><p>this class is a interface for schema validation used by WITSML Certification Tool</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="wsvt.SchemaValidator.WITSMLSchemaValidator.validateXMLAgainstSchema">
+<tt class="descclassname">WITSMLSchemaValidator.</tt><tt class="descname">validateXMLAgainstSchema</tt><big>(</big><em>schema_version</em>, <em>schema_type</em>, <em>object_type</em>, <em>xml_string</em><big>)</big><a class="headerlink" href="#wsvt.SchemaValidator.WITSMLSchemaValidator.validateXMLAgainstSchema" title="Permalink to this definition">¶</a></dt>
+<dd><p>check and validate does provided xml string complied with generic xml schema</p>
+<dl class="docutils">
+<dt>parameters:</dt>
+<dd><ul class="first last simple">
+<li>schema_version : which version is being validated</li>
+<li>schema_type    : which type of schema we are validating against ( GENERIC_SCHEMA / READ_SCHEMA / WRITE_SCHEMA / DELETE_SCHEMA / UPDATE_SCHEMA )</li>
+<li>object_type    : which object type is being validated  (WITSML object type)</li>
+<li>xml_string     : xml for validation</li>
+</ul>
+</dd>
+<dt>output:</dt>
+<dd><dl class="first last docutils">
+<dt>tuple :</dt>
+<dd>boolean , string  : success flag, and supplemental msg</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="wsvt.SchemaValidator.WITSMLSchemaValidator.validateXMLAgainstGenericSchema">
+<tt class="descclassname">WITSMLSchemaValidator.</tt><tt class="descname">validateXMLAgainstGenericSchema</tt><big>(</big><em>schema_version</em>, <em>object_type</em>, <em>xml_string</em><big>)</big><a class="headerlink" href="#wsvt.SchemaValidator.WITSMLSchemaValidator.validateXMLAgainstGenericSchema" title="Permalink to this definition">¶</a></dt>
+<dd><p>check and validate does provided xml string complied with generic xml schema 
+parameters:</p>
+<blockquote>
+<div><ul class="simple">
+<li>schema_version : which version is being validated</li>
+<li>object_type    : which object type is being validated  (WITSML object type)</li>
+<li>xml_string     : xml for validation</li>
+</ul>
+</div></blockquote>
+<dl class="docutils">
+<dt>output:</dt>
+<dd><dl class="first last docutils">
+<dt>tuple :</dt>
+<dd>boolean , string  : success flag, and supplemental msg</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="wsvt.SchemaValidator.WITSMLSchemaValidator.validateXMLAgainstReadSchema">
+<tt class="descclassname">WITSMLSchemaValidator.</tt><tt class="descname">validateXMLAgainstReadSchema</tt><big>(</big><em>schema_version</em>, <em>object_type</em>, <em>xml_string</em><big>)</big><a class="headerlink" href="#wsvt.SchemaValidator.WITSMLSchemaValidator.validateXMLAgainstReadSchema" title="Permalink to this definition">¶</a></dt>
+<dd><p>check and validate does provided xml string complied with generic xml schema 
+parameters:</p>
+<blockquote>
+<div><ul class="simple">
+<li>schema_version : which version is being validated</li>
+<li>object_type    : which object type is being validated  (WITSML object type)</li>
+<li>xml_string     : xml for validation</li>
+</ul>
+</div></blockquote>
+<dl class="docutils">
+<dt>output:</dt>
+<dd><dl class="first last docutils">
+<dt>tuple :</dt>
+<dd>boolean , string  : success flag, and supplemental msg</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="wsvt.SchemaValidator.WITSMLSchemaValidator.validateXMLAgainstWriteSchema">
+<tt class="descclassname">WITSMLSchemaValidator.</tt><tt class="descname">validateXMLAgainstWriteSchema</tt><big>(</big><em>schema_version</em>, <em>object_type</em>, <em>xml_string</em><big>)</big><a class="headerlink" href="#wsvt.SchemaValidator.WITSMLSchemaValidator.validateXMLAgainstWriteSchema" title="Permalink to this definition">¶</a></dt>
+<dd><p>check and validate does provided xml string complied with generic xml schema 
+parameters:</p>
+<blockquote>
+<div><ul class="simple">
+<li>schema_version : which version is being validated</li>
+<li>object_type    : which object type is being validated  (WITSML object type)</li>
+<li>xml_string     : xml for validation</li>
+</ul>
+</div></blockquote>
+<dl class="docutils">
+<dt>output:</dt>
+<dd><dl class="first last docutils">
+<dt>tuple :</dt>
+<dd>boolean , string  : success flag, and supplemental msg</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="wsvt.SchemaValidator.WITSMLSchemaValidator.validateXMLAgainstDeleteSchema">
+<tt class="descclassname">WITSMLSchemaValidator.</tt><tt class="descname">validateXMLAgainstDeleteSchema</tt><big>(</big><em>schema_version</em>, <em>object_type</em>, <em>xml_string</em><big>)</big><a class="headerlink" href="#wsvt.SchemaValidator.WITSMLSchemaValidator.validateXMLAgainstDeleteSchema" title="Permalink to this definition">¶</a></dt>
+<dd><p>check and validate does provided xml string complied with generic xml schema 
+parameters:</p>
+<blockquote>
+<div><ul class="simple">
+<li>schema_version : which version is being validated</li>
+<li>object_type    : which object type is being validated  (WITSML object type)</li>
+<li>xml_string     : xml for validation</li>
+</ul>
+</div></blockquote>
+<dl class="docutils">
+<dt>output:</dt>
+<dd><dl class="first last docutils">
+<dt>tuple :</dt>
+<dd>boolean , string  : success flag, and supplemental msg</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="wsvt.SchemaValidator.WITSMLSchemaValidator.validateXMLAgainstUpdateSchema">
+<tt class="descclassname">WITSMLSchemaValidator.</tt><tt class="descname">validateXMLAgainstUpdateSchema</tt><big>(</big><em>schema_version</em>, <em>object_type</em>, <em>xml_string</em><big>)</big><a class="headerlink" href="#wsvt.SchemaValidator.WITSMLSchemaValidator.validateXMLAgainstUpdateSchema" title="Permalink to this definition">¶</a></dt>
+<dd><p>check and validate does provided xml string complied with generic xml schema 
+parameters:</p>
+<blockquote>
+<div><ul class="simple">
+<li>schema_version : which version is being validated</li>
+<li>object_type    : which object type is being validated  (WITSML object type)</li>
+<li>xml_string     : xml for validation</li>
+</ul>
+</div></blockquote>
+<dl class="docutils">
+<dt>output:</dt>
+<dd><dl class="first last docutils">
+<dt>tuple :</dt>
+<dd>boolean , string  : success flag, and supplemental msg</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<p>you can use schema validation package manually here is example how:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">wsvt.SchemaValidator</span><span class="p">;</span>
+
+<span class="n">validator</span> <span class="o">=</span> <span class="n">wsvt</span><span class="o">.</span><span class="n">SchemaValidator</span><span class="o">.</span><span class="n">WITSMLSchemaValidator</span><span class="p">(</span><span class="s">&quot;&lt;path to schemas&gt;&quot;</span><span class="p">)</span>
+
+<span class="n">xml</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;&lt;logs xmlns=&quot;http://www.witsml.org/schemas/1series&quot; version=&quot;1.4.1.1&quot;&gt;</span>
+<span class="s">             &lt;log uidWell=&quot;UID_WELL&quot; uidWellbore=&quot;UID_WELLBORE&quot; uid=&quot;UID_LOG&quot;&gt;</span>
+<span class="s">             &lt;/log&gt;</span>
+<span class="s">         &lt;/logs&gt;</span>
+<span class="s">      &quot;&quot;&quot;</span>
+
+<span class="n">valid</span><span class="p">,</span> <span class="n">msg</span> <span class="o">=</span> <span class="n">validateXMLAgainstDeleteSchema</span><span class="p">(</span> <span class="s">&quot;1.4.1.1&quot;</span> <span class="p">,</span> <span class="s">&quot;log&quot;</span><span class="p">,</span> <span class="n">xml</span> <span class="p">):</span>
+
+<span class="k">if</span> <span class="n">valid</span><span class="p">:</span>
+   <span class="k">print</span> <span class="s">&quot;XML is Valid Acording to WITSML Log Delete Schema&quot;</span>
+<span class="k">else</span><span class="p">:</span>
+   <span class="k">print</span> <span class="s">&quot;XML is not compy with Log Object Delete Schema&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="wtools-package-witsml-dataset-tool">
+<h3>wtools Package (WITSML dataset Tool)<a class="headerlink" href="#wtools-package-witsml-dataset-tool" title="Permalink to this headline">¶</a></h3>
+<p>this one does witsml dataset comparison</p>
+<dl class="docutils">
+<dt>Comparison of two object use following logic:</dt>
+<dd><ul class="first simple">
+<li>we take two xmls and normalize them - we remove all nodes that should not be compared, or that added by server and can not be validated we arange all parts of WITSML object in same way, where order is not regulated by standard (for example curves) all values, are parsed and then printed back same way, so timezones will disapear, doubles will be truncated the same way.</li>
+</ul>
+<blockquote class="last">
+<div>-then not actual comparison done but encapsulation we basically check that nodes that we added are still there, but we allow server to add some other weired stuff ( like modification timestamp)</div></blockquote>
+</dd>
+</dl>
+<div class="section" id="logobject">
+<h4>LogObject<a class="headerlink" href="#logobject" title="Permalink to this headline">¶</a></h4>
+<dl class="class">
+<dt id="wtools.logObj.LogObject">
+<em class="property">class </em><tt class="descclassname">wtools.logObj.</tt><tt class="descname">LogObject</tt><a class="headerlink" href="#wtools.logObj.LogObject" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class used for comparion of log objects</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="wtools.logObj.LogObject.CheckHeaderInformation">
+<tt class="descclassname">LogObject.</tt><tt class="descname">CheckHeaderInformation</tt><big>(</big><big>)</big><a class="headerlink" href="#wtools.logObj.LogObject.CheckHeaderInformation" title="Permalink to this definition">¶</a></dt>
+<dd><p>validates header</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="wtools.logObj.LogObject.LoadObjectFromStore">
+<tt class="descclassname">LogObject.</tt><tt class="descname">LoadObjectFromStore</tt><big>(</big><em>well_uid</em>, <em>wellbore_uid</em>, <em>log_uid</em><big>)</big><a class="headerlink" href="#wtools.logObj.LogObject.LoadObjectFromStore" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>summary:</dt>
+<dd>loads log object from store</dd>
+<dt>parameters:</dt>
+<dd>api          - instance of wtools_witsml_api
+schema       - instance of wtools_schemas_witsml1310 (not used currently only for future schematron reference)
+well_uid     - well uid string
+wellbore_uid - wellbore uid string
+log_uid      - log uid string</dd>
+<dt>returns:</dt>
+<dd>nothing</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="wtools.logObj.LogObject.LoadHeaderFromStore">
+<tt class="descclassname">LogObject.</tt><tt class="descname">LoadHeaderFromStore</tt><big>(</big><em>well_uid</em>, <em>wellbore_uid</em>, <em>log_uid</em><big>)</big><a class="headerlink" href="#wtools.logObj.LogObject.LoadHeaderFromStore" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>summary:</dt>
+<dd>loads header of log object object from store</dd>
+<dt>parameters:</dt>
+<dd>#api          - instance of wtools_witsml_api
+#schema       - instance of wtools_schemas_witsml1310 (not used currently only for future schematron reference)
+well_uid     - well uid string
+wellbore_uid - wellbore uid string
+log_uid      - log uid string</dd>
+<dt>returns:</dt>
+<dd>nothing</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="wtools.logObj.LogObject.LoadObjectFromString">
+<tt class="descclassname">LogObject.</tt><tt class="descname">LoadObjectFromString</tt><big>(</big><em>string_xml</em><big>)</big><a class="headerlink" href="#wtools.logObj.LogObject.LoadObjectFromString" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>summary:</dt>
+<dd>loads header of log object object from disk</dd>
+<dt>parameters:</dt>
+<dd>api          - instance of wtools_witsml_api
+schema       - instance of wtools_schemas_witsml1310 (not used currently only for future schematron reference)
+string_xml   - WITSML XML to load string</dd>
+<dt>returns:</dt>
+<dd>nothing</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="wtools.logObj.LogObject.LoadObjectFromDisk">
+<tt class="descclassname">LogObject.</tt><tt class="descname">LoadObjectFromDisk</tt><big>(</big><em>filename</em><big>)</big><a class="headerlink" href="#wtools.logObj.LogObject.LoadObjectFromDisk" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>summary:</dt>
+<dd>loads header of log object object from disk</dd>
+<dt>parameters:</dt>
+<dd>api          - instance of wtools_witsml_api
+schema       - instance of wtools_schemas_witsml1310 (not used currently only for future schematron reference)
+filename     - filename string</dd>
+<dt>returns:</dt>
+<dd>nothing</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="wtools.logObj.LogObject.SaveObjectToDisk">
+<tt class="descclassname">LogObject.</tt><tt class="descname">SaveObjectToDisk</tt><big>(</big><em>filename</em><big>)</big><a class="headerlink" href="#wtools.logObj.LogObject.SaveObjectToDisk" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>summary:</dt>
+<dd>saves log object object to disk</dd>
+<dt>parameters:</dt>
+<dd>api          - instance of wtools_witsml_api
+schema       - instance of wtools_schemas_witsml1310 (not used currently only for future schematron reference)
+filename     - filename string</dd>
+<dt>returns:</dt>
+<dd>nothing</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="wtools.logObj.LogObject.UploadObjectToStore">
+<tt class="descclassname">LogObject.</tt><tt class="descname">UploadObjectToStore</tt><big>(</big><em>well_name</em>, <em>well_uid</em>, <em>wellbore_name</em>, <em>wellbore_uid</em>, <em>log_name</em>, <em>log_uid</em>, <em>replace_object_if_exists=True</em>, <em>row_count_per_request=1000</em><big>)</big><a class="headerlink" href="#wtools.logObj.LogObject.UploadObjectToStore" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>summary:</dt>
+<dd>Uploads WITSML log object to WITSML store</dd>
+<dt>parameters:</dt>
+<dd>api          - instance of wtools_witsml_api
+schema       - instance of wtools_schemas_witsml1310 (not used currently only for future schematron reference)
+well_uid     - well uid string
+wellbore_uid - wellbore uid string
+log_uid      - log uid string</dd>
+<dt>returns:</dt>
+<dd>nothing</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="wtools.logObj.LogObject.isEncapsulates">
+<tt class="descclassname">LogObject.</tt><tt class="descname">isEncapsulates</tt><big>(</big><em>original_log</em><big>)</big><a class="headerlink" href="#wtools.logObj.LogObject.isEncapsulates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compare is this log is represent all of the data from original nodes. Essentially compare logs.</p>
+</dd></dl>
+
+<div class="section" id="example-script">
+<h5>Example Script<a class="headerlink" href="#example-script" title="Permalink to this headline">¶</a></h5>
+<p>Example of test script that load object to WITSML Store, then Load it back, and compare with same one</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">wtl.witsml</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="nn">string</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">wtools.default_api</span> <span class="kn">as</span> <span class="nn">default_api</span>
+<span class="kn">import</span> <span class="nn">wtools.logObj</span> <span class="kn">as</span> <span class="nn">logObj</span>
+<span class="kn">import</span> <span class="nn">wsvt</span><span class="p">;</span>
+
+<span class="n">test</span><span class="p">(</span>
+     <span class="n">purpose</span> <span class="o">=</span> <span class="s">&quot;Log (Time) GetFromStore - Minimal Data&quot;</span><span class="p">,</span>
+     <span class="n">reference</span> <span class="o">=</span>  <span class="s">&quot;&quot;</span>  <span class="p">,</span>  <span class="c"># TODO: fill this field with some data</span>
+     <span class="n">reference_text</span> <span class="o">=</span> <span class="s">&quot;&quot;</span><span class="p">,</span> <span class="c"># TODO: fill this field with some data</span>
+     <span class="n">functionality_required</span> <span class="o">=</span>   <span class="p">[</span><span class="s">&quot;WMLS_GetFromStore:log&quot;</span><span class="p">],</span>
+     <span class="n">data_schemas</span> <span class="o">=</span> <span class="p">[</span> <span class="s">&quot;1.4.1.1&quot;</span><span class="p">],</span>
+    <span class="p">)</span>
+
+<span class="c">#########</span>
+<span class="c"># SETUP #</span>
+<span class="c">#########</span>
+
+<span class="n">log</span><span class="p">(</span><span class="s">&#39;No setup required for this test.&#39;</span><span class="p">)</span>
+<span class="n">log</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">)</span>
+
+<span class="c">#############</span>
+<span class="c"># TEST BODY #</span>
+<span class="c">#############</span>
+
+<span class="n">log</span><span class="p">(</span><span class="s">&#39;Script procedure start&#39;</span><span class="p">)</span>
+
+<span class="sd">&quot;&quot;&quot; this should be improved using &#39;get&#39; to get parameter &quot;&quot;&quot;</span>
+<span class="n">ver</span> <span class="o">=</span> <span class="s">&quot;1.4.1.1&quot;</span>
+
+<span class="sd">&quot;&quot;&quot; we create an instance of object that will contain object allowing us perform operations on it &quot;&quot;&quot;</span>
+<span class="n">logUpload</span> <span class="o">=</span> <span class="n">logObj</span><span class="o">.</span><span class="n">LogObject</span><span class="p">(</span><span class="n">ver</span><span class="p">);</span>
+
+<span class="sd">&quot;&quot;&quot; we load XML from string &quot;&quot;&quot;</span>
+<span class="n">logUpload</span><span class="o">.</span><span class="n">LoadObjectFromString</span><span class="p">(</span> <span class="n">string</span><span class="o">.</span><span class="n">Template</span><span class="p">(</span><span class="s">&quot;&quot;&quot;&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span>
+<span class="s">                                                       &lt;logs xmlns=&quot;http://www.witsml.org/schemas/1series&quot; version=&quot;$ver&quot;&gt;</span>
+<span class="s">                                                          &lt;log uidWell=&quot;Energistics-well-0001&quot; uidWellbore=&quot;Energistics-w1-wellbore-0001&quot; uid=&quot;TEMP-w1-wb1-log-0002&quot;&gt;</span>
+
+<span class="s">                                                             &lt;nameWell&gt;Energistics Certification Well 1&lt;/nameWell&gt;</span>
+<span class="s">                                                             &lt;nameWellbore&gt;Energistics Certification Well 1 Wellbore 1&lt;/nameWellbore&gt;</span>
+<span class="s">                                                             &lt;name&gt;Energistics Certification Well 1 Wellbore 1 Log 2&lt;/name&gt;</span>
+
+<span class="s">                                                             &lt;indexType&gt;date time&lt;/indexType&gt;</span>
+<span class="s">                                                             &lt;startDateTimeIndex&gt;2012-07-26T15:17:20Z&lt;/startDateTimeIndex&gt;</span>
+<span class="s">                                                             &lt;endDateTimeIndex&gt;2012-07-26T15:17:50Z&lt;/endDateTimeIndex&gt;</span>
+<span class="s">                                                             &lt;direction&gt;increasing&lt;/direction&gt;</span>
+<span class="s">                                                             &lt;indexCurve&gt;TIME&lt;/indexCurve&gt;</span>
+
+<span class="s">                                                             &lt;logCurveInfo uid=&#39;TIME&#39;&gt;</span>
+<span class="s">                                                               &lt;mnemonic&gt;TIME&lt;/mnemonic&gt;</span>
+<span class="s">                                                               &lt;unit&gt;unitless&lt;/unit&gt;</span>
+<span class="s">                                                               &lt;typeLogData&gt;date time&lt;/typeLogData&gt;</span>
+<span class="s">                                                             &lt;/logCurveInfo&gt;</span>
+
+<span class="s">                                                             &lt;logCurveInfo uid=&#39;ROP&#39;&gt;</span>
+<span class="s">                                                               &lt;mnemonic&gt;ROP&lt;/mnemonic&gt;</span>
+<span class="s">                                                               &lt;unit&gt;m/h&lt;/unit&gt;</span>
+<span class="s">                                                               &lt;typeLogData&gt;double&lt;/typeLogData&gt;</span>
+<span class="s">                                                             &lt;/logCurveInfo&gt;</span>
+
+<span class="s">                                                             &lt;logCurveInfo uid=&#39;SUNSHINE&#39;&gt;</span>
+<span class="s">                                                               &lt;mnemonic&gt;SUNSHINE&lt;/mnemonic&gt;</span>
+<span class="s">                                                               &lt;unit&gt;tons&lt;/unit&gt;</span>
+<span class="s">                                                               &lt;typeLogData&gt;double&lt;/typeLogData&gt;</span>
+<span class="s">                                                             &lt;/logCurveInfo&gt;</span>
+
+<span class="s">                                                             &lt;logData&gt;</span>
+<span class="s">                                                               &lt;mnemonicList&gt;TIME,ROP,SUNSHINE&lt;/mnemonicList&gt;</span>
+<span class="s">                                                               &lt;unitList&gt;unitless,m/h,tons&lt;/unitList&gt;</span>
+<span class="s">                                                               &lt;data&gt;2012-07-26T15:17:20Z,0.00001,0.1&lt;/data&gt;</span>
+<span class="s">                                                               &lt;data&gt;2012-07-26T15:17:30Z,1,1111.0&lt;/data&gt;</span>
+<span class="s">                                                               &lt;data&gt;2012-07-26T15:17:40Z,2,0.1&lt;/data&gt;</span>
+<span class="s">                                                               &lt;data&gt;2012-07-26T15:17:50Z,3.00004,0.5&lt;/data&gt;</span>
+<span class="s">                                                             &lt;/logData&gt;</span>
+
+<span class="s">                                                          &lt;/log&gt;</span>
+<span class="s">                                                       &lt;/logs&gt;&quot;&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">substitute</span><span class="p">(</span><span class="n">ver</span> <span class="o">=</span> <span class="n">ver</span><span class="p">)</span> <span class="p">)</span>
+
+
+<span class="sd">&quot;&quot;&quot; we upload this object to WITSML Store &quot;&quot;&quot;</span>
+<span class="n">logUpload</span><span class="o">.</span><span class="n">UploadObjectToStore</span><span class="p">(</span>
+                <span class="s">&quot;Energistics-well-0001&quot;</span><span class="p">,</span> <span class="c">#name  (well)</span>
+                <span class="s">&quot;Energistics-well-0001&quot;</span><span class="p">,</span> <span class="c">#uid</span>
+
+                <span class="s">&quot;Energistics-w1-wellbore-0001&quot;</span><span class="p">,</span>  <span class="c">#name  (wellbore)</span>
+                <span class="s">&quot;Energistics-w1-wellbore-0001&quot;</span><span class="p">,</span>  <span class="c">#uid</span>
+
+                <span class="s">&quot;TEMP-w1-wb1-log-0002&quot;</span><span class="p">,</span> <span class="c">#name (log)</span>
+                <span class="s">&quot;TEMP-w1-wb1-log-0002&quot;</span>  <span class="c">#uid</span>
+                <span class="p">)</span>
+
+
+<span class="sd">&quot;&quot;&quot; we create instance of object that will keep object downloaded back from WITSML Store &quot;&quot;&quot;</span>
+<span class="n">logStore</span> <span class="o">=</span> <span class="n">logObj</span><span class="o">.</span><span class="n">LogObject</span><span class="p">(</span><span class="n">ver</span><span class="p">);</span>
+
+<span class="sd">&quot;&quot;&quot;loading log object from WITSML store&quot;&quot;&quot;</span>
+<span class="n">logStore</span><span class="o">.</span><span class="n">LoadObjectFromStore</span><span class="p">(</span>
+                <span class="s">&quot;Energistics-well-0001&quot;</span>         <span class="p">,</span> <span class="c"># uid well</span>
+                <span class="s">&quot;Energistics-w1-wellbore-0001&quot;</span>  <span class="p">,</span> <span class="c"># uid wellbore</span>
+                <span class="s">&quot;TEMP-w1-wb1-log-0002&quot;</span>          <span class="p">,</span> <span class="c"># uid log</span>
+                <span class="p">);</span>
+
+
+<span class="sd">&quot;&quot;&quot;now we will create instance of original log, which essentially same log that we send but to add more test value, we also will change precision to few double values, and we will swap curves order&quot;&quot;&quot;</span>
+<span class="n">logEthalon</span> <span class="o">=</span> <span class="n">logObj</span><span class="o">.</span><span class="n">LogObject</span><span class="p">(</span><span class="n">ver</span><span class="p">);</span>
+<span class="n">logEthalon</span><span class="o">.</span><span class="n">LoadObjectFromString</span><span class="p">(</span> <span class="n">string</span><span class="o">.</span><span class="n">Template</span><span class="p">(</span><span class="s">&quot;&quot;&quot;&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span>
+<span class="s">                                                       &lt;logs xmlns=&quot;http://www.witsml.org/schemas/1series&quot; version=&quot;$ver&quot;&gt;</span>
+<span class="s">                                                          &lt;log uidWell=&quot;Energistics-well-0001&quot; uidWellbore=&quot;Energistics-w1-wellbore-0001&quot; uid=&quot;TEMP-w1-wb1-log-0002&quot;&gt;</span>
+
+<span class="s">                                                             &lt;nameWell&gt;Energistics Certification Well 1&lt;/nameWell&gt;</span>
+<span class="s">                                                             &lt;nameWellbore&gt;Energistics Certification Well 1 Wellbore 1&lt;/nameWellbore&gt;</span>
+<span class="s">                                                             &lt;name&gt;Energistics Certification Well 1 Wellbore 1 Log 2&lt;/name&gt;</span>
+
+<span class="s">                                                             &lt;indexType&gt;date time&lt;/indexType&gt;</span>
+<span class="s">                                                             &lt;startDateTimeIndex&gt;2012-07-26T15:17:20Z&lt;/startDateTimeIndex&gt;</span>
+<span class="s">                                                             &lt;endDateTimeIndex&gt;2012-07-26T15:17:50Z&lt;/endDateTimeIndex&gt;</span>
+<span class="s">                                                             &lt;direction&gt;increasing&lt;/direction&gt;</span>
+<span class="s">                                                             &lt;indexCurve&gt;TIME&lt;/indexCurve&gt;</span>
+
+<span class="s">                                                             &lt;logCurveInfo uid=&#39;TIME&#39;&gt;</span>
+<span class="s">                                                               &lt;mnemonic&gt;TIME&lt;/mnemonic&gt;</span>
+<span class="s">                                                               &lt;unit&gt;unitless&lt;/unit&gt;</span>
+<span class="s">                                                               &lt;typeLogData&gt;date time&lt;/typeLogData&gt;</span>
+<span class="s">                                                             &lt;/logCurveInfo&gt;</span>
+
+
+<span class="s">                                                             &lt;logCurveInfo uid=&#39;SUNSHINE&#39;&gt;</span>
+<span class="s">                                                               &lt;mnemonic&gt;SUNSHINE&lt;/mnemonic&gt;</span>
+<span class="s">                                                               &lt;unit&gt;tons&lt;/unit&gt;</span>
+<span class="s">                                                               &lt;typeLogData&gt;double&lt;/typeLogData&gt;</span>
+<span class="s">                                                             &lt;/logCurveInfo&gt;</span>
+
+<span class="s">                                                             &lt;logCurveInfo uid=&#39;ROP&#39;&gt;</span>
+<span class="s">                                                               &lt;mnemonic&gt;ROP&lt;/mnemonic&gt;</span>
+<span class="s">                                                               &lt;unit&gt;m/h&lt;/unit&gt;</span>
+<span class="s">                                                               &lt;typeLogData&gt;double&lt;/typeLogData&gt;</span>
+<span class="s">                                                             &lt;/logCurveInfo&gt;</span>
+
+<span class="s">                                                             &lt;logData&gt;</span>
+<span class="s">                                                               &lt;mnemonicList&gt;TIME,SUNSHINE,ROP&lt;/mnemonicList&gt;</span>
+<span class="s">                                                               &lt;unitList&gt;unitless,tons,m/h&lt;/unitList&gt;</span>
+<span class="s">                                                               &lt;data&gt;2012-07-26T15:17:20Z,0.1,0.00002&lt;/data&gt;</span>
+<span class="s">                                                               &lt;data&gt;2012-07-26T15:17:30Z,1111.0,1&lt;/data&gt;</span>
+<span class="s">                                                               &lt;data&gt;2012-07-26T15:17:40Z,0.1,2&lt;/data&gt;</span>
+<span class="s">                                                               &lt;data&gt;2012-07-26T15:17:50Z,0.5,3.00007&lt;/data&gt;</span>
+<span class="s">                                                             &lt;/logData&gt;</span>
+
+<span class="s">                                                          &lt;/log&gt;</span>
+<span class="s">                                                       &lt;/logs&gt;&quot;&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">substitute</span><span class="p">(</span><span class="n">ver</span> <span class="o">=</span> <span class="n">ver</span><span class="p">)</span> <span class="p">)</span>
+
+
+<span class="sd">&quot;&quot;&quot; now we check that we are encapsulating original object. In other words, weather object received from WITSML Store has all of the curves that we have in ethalon object we do not care if WITSML store add more tags (like timestamps etc) &quot;&quot;&quot;</span>
+<span class="n">match</span> <span class="o">=</span> <span class="n">logStore</span><span class="o">.</span><span class="n">isEncapsulates</span><span class="p">(</span><span class="n">logEthalon</span><span class="p">)</span> <span class="p">;</span>
+
+<span class="k">if</span> <span class="ow">not</span> <span class="n">match</span><span class="p">:</span>
+    <span class="n">fail</span><span class="p">(</span><span class="s">&quot;Server did not preserved all elements from original log.&quot;</span><span class="p">)</span>
+
+<span class="n">partial_success</span><span class="p">(</span><span class="s">&quot;Server preserver all elements from original log. And all mandatory elements are checked by schema validation.&quot;</span><span class="p">)</span>
+
+<span class="n">log</span><span class="p">(</span><span class="s">&#39;Script procedure end&#39;</span><span class="p">)</span>
+
+<span class="n">success</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="comparison-procedure">
+<h4>Comparison procedure<a class="headerlink" href="#comparison-procedure" title="Permalink to this headline">¶</a></h4>
+<dl class="function">
+<dt id="wtools.common.isXMLEncapsulateAnotherXML">
+<tt class="descclassname">wtools.common.</tt><tt class="descname">isXMLEncapsulateAnotherXML</tt><big>(</big><em>inspected_tree</em>, <em>original_tree</em>, <em>inspected_xml</em>, <em>original_xml</em>, <em>depth=0</em><big>)</big><a class="headerlink" href="#wtools.common.isXMLEncapsulateAnotherXML" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Checks weather XML tree 1 encapsulates XML tree 2. It is essentially comparison of XML, It will succeed if:</dt>
+<dd><ul class="first last simple">
+<li>every node of original tree is exists in inspected XML in same order (if it a text node then node text is matches)</li>
+<li>every attribute of original node exists in inspected node.</li>
+<li>comparison of subtree succeeded.</li>
+</ul>
+</dd>
+<dt>this will require that WITSML objects (XML&#8217;s) was normalized:</dt>
+<dd><ul class="first last simple">
+<li>all nodes that allowed to be different are removed</li>
+<li>all attributes that are optional should be Nulled.</li>
+<li>all nodes that contain datetime values need to be normalized to same format (timezone)</li>
+<li>all nodes that contain double values need to be rounded to specific comparison precission</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="how-to-write-this-documentation">
+<h3>How to write this documentation<a class="headerlink" href="#how-to-write-this-documentation" title="Permalink to this headline">¶</a></h3>
+<p>This documentation is generated by Sphinx</p>
+<p>You can install Sphinx by typing</p>
+<p><em>easy_install sphinx</em></p>
+<p>if you do not have <em>setup tools</em> in your path, or if you not using state of art operation system like Linux you can download windows binary:</p>
+<p><a class="reference external" href="http://www.lfd.uci.edu/~gohlke/pythonlibs/#sphinx">Sphinx Binary</a></p>
+<p>make sure sphinx is in your system path, you won&#8217;t have problem on Linux, but on Windows make sure that c:/Python27/Scripts is in your path</p>
+<p>The best way to jump start is to use Eclipse plugin for sphinx, then you don&#8217;t need to deal with command line you can download ecplise plugin from :</p>
+<p><em>http://resteditor.sourceforge.net/eclipse</em></p>
+<p>then in eclipse you click on index.rst file and click run, this will run HTML documentation.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="#">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">WITSML Certification Tool</a><ul>
+<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a><ul>
+<li><a class="reference internal" href="#about">About</a></li>
+<li><a class="reference internal" href="#test-tool-packages">Test Tool Packages</a></li>
+<li><a class="reference internal" href="#wtl-package-witsml-test-tool">wtl Package (WITSML Test Tool)</a><ul>
+<li><a class="reference internal" href="#witsml-py">witsml.py</a><ul>
+<li><a class="reference internal" href="#witsml-store-primitives">WITSML Store Primitives</a></li>
+<li><a class="reference internal" href="#verify-primitives">Verify Primitives</a></li>
+<li><a class="reference internal" href="#parse-primitives">Parse Primitives</a></li>
+<li><a class="reference internal" href="#capabilities-primitives">Capabilities Primitives</a></li>
+<li><a class="reference internal" href="#time-primitives">Time Primitives</a></li>
+<li><a class="reference internal" href="#log-verify">log verify</a></li>
+<li><a class="reference internal" href="#execution-control-primitives">Execution Control Primitives</a></li>
+<li><a class="reference internal" href="#misc-primitives">Misc Primitives</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#wsvt-package-witsml-schema-validation-tool">wsvt Package (WITSML Schema Validation Tool)</a><ul>
+<li><a class="reference internal" href="#witsmlschemavalidator-class">WITSMLSchemaValidator class</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#wtools-package-witsml-dataset-tool">wtools Package (WITSML dataset Tool)</a><ul>
+<li><a class="reference internal" href="#logobject">LogObject</a><ul>
+<li><a class="reference internal" href="#example-script">Example Script</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#comparison-procedure">Comparison procedure</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#how-to-write-this-documentation">How to write this documentation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/index.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="#">sphinx_documentation 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, WITSML Certification Team.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

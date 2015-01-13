@@ -1,0 +1,207 @@
+
+this one does witsml dataset comparison
+
+Comparison of two object use following logic:
+   - we take two xmls and normalize them - we remove all nodes that should not be compared, or that added by server and can not be validated we arange all parts of WITSML object in same way, where order is not regulated by standard (for example curves) all values, are parsed and then printed back same way, so timezones will disapear, doubles will be truncated the same way. 
+   
+    -then not actual comparison done but encapsulation we basically check that nodes that we added are still there, but we allow server to add some other weired stuff ( like modification timestamp)  
+
+LogObject
+^^^^^^^^^ 
+
+.. class:: wtools.logObj.LogObject
+   
+   Class used for comparion of log objects
+   
+.. automethod:: wtools.logObj.LogObject.CheckHeaderInformation
+
+.. automethod:: wtools.logObj.LogObject.LoadObjectFromStore
+
+.. automethod:: wtools.logObj.LogObject.LoadHeaderFromStore
+
+.. automethod:: wtools.logObj.LogObject.LoadObjectFromString
+
+.. automethod:: wtools.logObj.LogObject.LoadObjectFromDisk
+
+.. automethod:: wtools.logObj.LogObject.SaveObjectToDisk
+
+.. automethod:: wtools.logObj.LogObject.UploadObjectToStore
+
+.. automethod:: wtools.logObj.LogObject.isEncapsulates
+
+
+Example Script
+**************
+
+Example of test script that load object to WITSML Store, then Load it back, and compare with same one 
+
+
+.. code-block:: python
+      
+   from wtl.witsml import *
+   import string;
+   import wtools.default_api as default_api
+   import wtools.logObj as logObj
+   import wsvt;
+   
+   test(
+        purpose = "Log (Time) GetFromStore - Minimal Data",
+        reference =  ""  ,  # TODO: fill this field with some data
+        reference_text = "", # TODO: fill this field with some data
+        functionality_required =   ["WMLS_GetFromStore:log"],
+        data_schemas = [ "1.4.1.1"],
+       )
+   
+   #########
+   # SETUP #
+   #########
+   
+   log('No setup required for this test.')
+   log('')
+   
+   #############
+   # TEST BODY #
+   #############
+   
+   log('Script procedure start')
+   
+   """ this should be improved using 'get' to get parameter """
+   ver = "1.4.1.1"
+   
+   """ we create an instance of object that will contain object allowing us perform operations on it """
+   logUpload = logObj.LogObject(ver);
+   
+   """ we load XML from string """
+   logUpload.LoadObjectFromString( string.Template("""<?xml version="1.0" encoding="utf-8"?>
+                                                          <logs xmlns="http://www.witsml.org/schemas/1series" version="$ver">
+                                                             <log uidWell="Energistics-well-0001" uidWellbore="Energistics-w1-wellbore-0001" uid="TEMP-w1-wb1-log-0002">
+                                                                
+                                                                <nameWell>Energistics Certification Well 1</nameWell>
+                                                                <nameWellbore>Energistics Certification Well 1 Wellbore 1</nameWellbore>
+                                                                <name>Energistics Certification Well 1 Wellbore 1 Log 2</name>
+                                                                
+                                                                <indexType>date time</indexType>
+                                                                <startDateTimeIndex>2012-07-26T15:17:20Z</startDateTimeIndex>
+                                                                <endDateTimeIndex>2012-07-26T15:17:50Z</endDateTimeIndex>
+                                                                <direction>increasing</direction>
+                                                                <indexCurve>TIME</indexCurve>
+                                                                
+                                                                <logCurveInfo uid='TIME'>
+                                                                  <mnemonic>TIME</mnemonic>
+                                                                  <unit>unitless</unit>
+                                                                  <typeLogData>date time</typeLogData>
+                                                                </logCurveInfo>
+                                                                
+                                                                <logCurveInfo uid='ROP'>
+                                                                  <mnemonic>ROP</mnemonic>
+                                                                  <unit>m/h</unit>
+                                                                  <typeLogData>double</typeLogData>
+                                                                </logCurveInfo>
+                                                                
+                                                                <logCurveInfo uid='SUNSHINE'>
+                                                                  <mnemonic>SUNSHINE</mnemonic>
+                                                                  <unit>tons</unit>
+                                                                  <typeLogData>double</typeLogData>
+                                                                </logCurveInfo>
+                                                                
+                                                                <logData>
+                                                                  <mnemonicList>TIME,ROP,SUNSHINE</mnemonicList>
+                                                                  <unitList>unitless,m/h,tons</unitList>
+                                                                  <data>2012-07-26T15:17:20Z,0.00001,0.1</data>
+                                                                  <data>2012-07-26T15:17:30Z,1,1111.0</data>
+                                                                  <data>2012-07-26T15:17:40Z,2,0.1</data>
+                                                                  <data>2012-07-26T15:17:50Z,3.00004,0.5</data>
+                                                                </logData>
+                                                                
+                                                             </log>
+                                                          </logs>""").substitute(ver = ver) )
+   
+   
+   """ we upload this object to WITSML Store """
+   logUpload.UploadObjectToStore( 
+                   "Energistics-well-0001", #name  (well)
+                   "Energistics-well-0001", #uid
+   
+                   "Energistics-w1-wellbore-0001",  #name  (wellbore)
+                   "Energistics-w1-wellbore-0001",  #uid
+                   
+                   "TEMP-w1-wb1-log-0002", #name (log)
+                   "TEMP-w1-wb1-log-0002"  #uid
+                   )
+   
+   
+   """ we create instance of object that will keep object downloaded back from WITSML Store """
+   logStore = logObj.LogObject(ver);      
+   
+   """loading log object from WITSML store"""
+   logStore.LoadObjectFromStore(
+                   "Energistics-well-0001"         , # uid well
+                   "Energistics-w1-wellbore-0001"  , # uid wellbore
+                   "TEMP-w1-wb1-log-0002"          , # uid log
+                   );
+                   
+   
+   """now we will create instance of original log, which essentially same log that we send but to add more test value, we also will change precision to few double values, and we will swap curves order"""
+   logEthalon = logObj.LogObject(ver);
+   logEthalon.LoadObjectFromString( string.Template("""<?xml version="1.0" encoding="utf-8"?>
+                                                          <logs xmlns="http://www.witsml.org/schemas/1series" version="$ver">
+                                                             <log uidWell="Energistics-well-0001" uidWellbore="Energistics-w1-wellbore-0001" uid="TEMP-w1-wb1-log-0002">
+                                                                
+                                                                <nameWell>Energistics Certification Well 1</nameWell>
+                                                                <nameWellbore>Energistics Certification Well 1 Wellbore 1</nameWellbore>
+                                                                <name>Energistics Certification Well 1 Wellbore 1 Log 2</name>
+                                                                
+                                                                <indexType>date time</indexType>
+                                                                <startDateTimeIndex>2012-07-26T15:17:20Z</startDateTimeIndex>
+                                                                <endDateTimeIndex>2012-07-26T15:17:50Z</endDateTimeIndex>
+                                                                <direction>increasing</direction>
+                                                                <indexCurve>TIME</indexCurve>
+                                                                
+                                                                <logCurveInfo uid='TIME'>
+                                                                  <mnemonic>TIME</mnemonic>
+                                                                  <unit>unitless</unit>
+                                                                  <typeLogData>date time</typeLogData>
+                                                                </logCurveInfo>
+                                                               
+                                                                
+                                                                <logCurveInfo uid='SUNSHINE'>
+                                                                  <mnemonic>SUNSHINE</mnemonic>
+                                                                  <unit>tons</unit>
+                                                                  <typeLogData>double</typeLogData>
+                                                                </logCurveInfo>
+                                                               
+                                                                <logCurveInfo uid='ROP'>
+                                                                  <mnemonic>ROP</mnemonic>
+                                                                  <unit>m/h</unit>
+                                                                  <typeLogData>double</typeLogData>
+                                                                </logCurveInfo>                                                            
+                                                                
+                                                                <logData>
+                                                                  <mnemonicList>TIME,SUNSHINE,ROP</mnemonicList>
+                                                                  <unitList>unitless,tons,m/h</unitList>
+                                                                  <data>2012-07-26T15:17:20Z,0.1,0.00002</data>
+                                                                  <data>2012-07-26T15:17:30Z,1111.0,1</data>
+                                                                  <data>2012-07-26T15:17:40Z,0.1,2</data>
+                                                                  <data>2012-07-26T15:17:50Z,0.5,3.00007</data>
+                                                                </logData>
+                                                                
+                                                             </log>
+                                                          </logs>""").substitute(ver = ver) )
+   
+   
+   """ now we check that we are encapsulating original object. In other words, weather object received from WITSML Store has all of the curves that we have in ethalon object we do not care if WITSML store add more tags (like timestamps etc) """
+   match = logStore.isEncapsulates(logEthalon) ;
+           
+   if not match:
+       fail("Server did not preserved all elements from original log.")
+   
+   partial_success("Server preserver all elements from original log. And all mandatory elements are checked by schema validation.")
+   
+   log('Script procedure end')
+   
+   success()
+
+Comparison procedure
+^^^^^^^^^^^^^^^^^^^^
+
+.. autofunction:: wtools.common.isXMLEncapsulateAnotherXML
