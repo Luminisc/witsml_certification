@@ -501,7 +501,7 @@ class XMLValue:
         if ((self.value == None) or (not xpath_string)):
             return None
                
-        if(xpath_string[0] <> '/'):
+        if(xpath_string[0] != '/'):
             if (_object_index is not None):
                 # Add indexed object to XPath
                 path = xpath_string.split('/')
@@ -1872,7 +1872,7 @@ class XMLValue:
         
         try:
             # sort version list 
-            sorted_version_list.sort(key = lambda s: map(int,s.split('.')))
+            sorted_version_list.sort(key = lambda s: list(map(int,s.split('.'))))
             
             # if list of 1, and sort was okay the formatting is okay
             if len(version_list) == 1:

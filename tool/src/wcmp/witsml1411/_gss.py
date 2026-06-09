@@ -7,7 +7,7 @@
 import pyxb
 import pyxb.binding
 import pyxb.binding.saxer
-import StringIO
+import io
 import pyxb.utils.utility
 import pyxb.utils.domutils
 import sys
@@ -16,9 +16,9 @@ import sys
 _GenerationUID = pyxb.utils.utility.UniqueIdentifier('urn:uuid:f6fdb56e-91b0-11e2-ad7f-08002712d133')
 
 # Import bindings for namespaces imported into schema
-import _nsgroup
+from . import _nsgroup
 
-Namespace = pyxb.namespace.NamespaceForURI(u'http://www.isotc211.org/2005/gss', create_if_missing=True)
+Namespace = pyxb.namespace.NamespaceForURI('http://www.isotc211.org/2005/gss', create_if_missing=True)
 Namespace.configureCategories(['typeBinding', 'elementBinding'])
 ModuleRecord = Namespace.lookupModuleRecordByUID(_GenerationUID, create_if_missing=True)
 ModuleRecord._setModule(sys.modules[__name__])
@@ -45,7 +45,7 @@ def CreateFromDocument (xml_text, default_namespace=None, location_base=None):
         default_namespace = Namespace.fallbackNamespace()
     saxer = pyxb.binding.saxer.make_parser(fallback_namespace=default_namespace, location_base=location_base)
     handler = saxer.getContentHandler()
-    saxer.parse(StringIO.StringIO(xml_text))
+    saxer.parse(io.StringIO(xml_text))
     instance = handler.rootObject()
     return instance
 
@@ -58,5 +58,5 @@ def CreateFromDOM (node, default_namespace=None):
         default_namespace = Namespace.fallbackNamespace()
     return pyxb.binding.basis.element.AnyCreateFromDOM(node, default_namespace)
 
-from _nsgroup import GM_Point_PropertyType # {http://www.isotc211.org/2005/gss}GM_Point_PropertyType
-from _nsgroup import GM_Object_PropertyType # {http://www.isotc211.org/2005/gss}GM_Object_PropertyType
+from ._nsgroup import GM_Point_PropertyType # {http://www.isotc211.org/2005/gss}GM_Point_PropertyType
+from ._nsgroup import GM_Object_PropertyType # {http://www.isotc211.org/2005/gss}GM_Object_PropertyType

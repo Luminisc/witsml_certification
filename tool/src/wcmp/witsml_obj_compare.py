@@ -9,7 +9,7 @@ Created on Feb 23, 2013
 
 import pyxb
 import iso8601
-import StringIO;
+import io;
 import collections;
 
 from lxml import etree;
@@ -107,7 +107,7 @@ def parseLogCurveValueAsDatatype(value, datatype, nullvalue):
         
     if (datatype == "string"):
         return value;
-    print "uknown datatype:"+datatype
+    print("uknown datatype:"+datatype)
     raise RuntimeError( "unknown datatype:"+datatype );
 
 class LogCurveInfo:
@@ -164,14 +164,14 @@ class LogDataParser:
         for curve in self.curves:
             curves_str = curves_str+"\t"+curve.mnemonic+"("+str(ix)+")";
             ix = ix + 1
-        print curves_str;
+        print(curves_str);
         for data_row in self.data:
             data_str = "";
             ix = 0;
             for data_point in data_row.values:
                 data_str = data_str+"\t"+str(data_point)+"("+str(ix)+")"
                 ix = ix + 1
-            print data_str
+            print(data_str)
 
     def parseLogObjectHeader( self, obj ):
         """ 
@@ -303,13 +303,13 @@ class LogDataParser:
                     try:
                         new_row.values[ curve_index ] =    parseLogCurveValueAsDatatype(values[i], self.curves[curve_index].datatype , self.curves[curve_index].nullvalue );
                     except:
-                        print "What fail : datarow "+str(data_iter);
+                        print("What fail : datarow "+str(data_iter));
                         
-                        print (" curve = '"+ 
+                        print((" curve = '"+ 
                                self.curves[curve_index].mnemonic + 
                                "' datatype: (" + 
                                self.curves[curve_index].datatype + 
-                               ") attempted to parse value: '"+values[i]+"' column #"+str(curve_index));
+                               ") attempted to parse value: '"+values[i]+"' column #"+str(curve_index)));
                                
                         raise;
                 if len(self.data)>1:
@@ -503,7 +503,7 @@ def orderCollection( tp , unordered_original ,unordered_inspected , report, spac
         #
         report.write( report_neutral(space+"setting original collection order" , diff_only , current_path ) );
         pos = 0;
-        for k, v in iter(sorted(original_map.iteritems()) ):
+        for k, v in iter(sorted(original_map.items()) ):
             rez_original.append(v);
             pos+=1;
             report.write( report_neutral(space+" element #%d ( %s = '%s' ) " % ( pos, key, v.attrib[key] ) , diff_only , current_path ) );
@@ -511,7 +511,7 @@ def orderCollection( tp , unordered_original ,unordered_inspected , report, spac
         pos = 0;
         #
         report.write( report_neutral(space+"setting inspected collection order", diff_only , current_path ) );
-        for k, v in iter(sorted(inspected_map.iteritems()) ): 
+        for k, v in iter(sorted(inspected_map.items()) ): 
             rez_inspected.append(v);
             pos+=1;
             report.write( report_neutral(space+" element #%d ( %s = '%s' ) " % ( pos, key, v.attrib[key] ) , diff_only , current_path) );
@@ -802,7 +802,7 @@ def doesWITSMLObjectsEqual( element_type , original_node , inspected_node , rez 
                                 report.write( report_neutral( space+"Running comparison" , diff_only , current_path));
                                 result = result and compareLogData( space , original_node.logData,inspected_node.logData,  original_log , inspected_log, report , diff_only , current_path);
                                 #report.write( report_bad( space+" comparing data section "  ) );
-                            except RuntimeError, et:
+                            except RuntimeError as et:
                                 report.write( report_bad( space+"Can comparison failed with exception "+str(et) , diff_only , current_path ) );
                                 result = False;
                             continue;
@@ -890,7 +890,7 @@ def compare_genetic( type_, xml_original , xml_inspected , diff_only ):
         
     obj_original = objectify.fromstring( xml_original );
     obj_inspected = objectify.fromstring( xml_inspected );
-    report = StringIO.StringIO()
+    report = io.StringIO()
     current_path = [];
     rez = doesWITSMLObjectsEqual( type_ , obj_original , obj_inspected , True , report, 0, diff_only , current_path); 
     return (rez, report.getvalue())
@@ -933,7 +933,7 @@ def witsml1411_compare_obj_attachments( xml_original , xml_inspected , diff_only
         tuple of  comparison result , report string 
     """
     
-    import witsml1411.witsml1411_obj_attachment as witsml1411_obj_attachment
+    from . import witsml1411.witsml1411_obj_attachment as witsml1411_obj_attachment
     return compare_genetic( witsml1411_obj_attachment.obj_attachments, xml_original , xml_inspected , diff_only )
 
 def witsml1411_compare_obj_bhaRuns( xml_original , xml_inspected  , diff_only = False):
@@ -950,7 +950,7 @@ def witsml1411_compare_obj_bhaRuns( xml_original , xml_inspected  , diff_only = 
         tuple of  comparison result , report string 
     """
 
-    import witsml1411.witsml1411_obj_bhaRun as witsml1411_obj_bhaRun
+    from . import witsml1411.witsml1411_obj_bhaRun as witsml1411_obj_bhaRun
     return compare_genetic( witsml1411_obj_bhaRun.obj_bhaRuns, xml_original , xml_inspected , diff_only )
     
 def witsml1411_compare_obj_cementJobs( xml_original , xml_inspected  , diff_only = False):
@@ -967,7 +967,7 @@ def witsml1411_compare_obj_cementJobs( xml_original , xml_inspected  , diff_only
         tuple of  comparison result , report string 
     """
 
-    import witsml1411.witsml1411_obj_cementJob as witsml1411_obj_cementJob
+    from . import witsml1411.witsml1411_obj_cementJob as witsml1411_obj_cementJob
     return compare_genetic( witsml1411_obj_cementJob.obj_cementJobs, xml_original , xml_inspected , diff_only)
     
 def witsml1411_compare_obj_changeLogs( xml_original , xml_inspected  , diff_only = False):
@@ -983,7 +983,7 @@ def witsml1411_compare_obj_changeLogs( xml_original , xml_inspected  , diff_only
     returns:
         tuple of  comparison result , report string 
     """
-    import witsml1411.witsml1411_obj_changeLog as witsml1411_obj_changeLog
+    from . import witsml1411.witsml1411_obj_changeLog as witsml1411_obj_changeLog
     return compare_genetic( witsml1411_obj_changeLog.obj_changeLogs, xml_original , xml_inspected , diff_only)
     
 def witsml1411_compare_obj_convCores( xml_original , xml_inspected  , diff_only = False):
@@ -1000,7 +1000,7 @@ def witsml1411_compare_obj_convCores( xml_original , xml_inspected  , diff_only 
         tuple of  comparison result , report string 
     """
         
-    import witsml1411.witsml1411_obj_convCore as witsml1411_obj_convCore
+    from . import witsml1411.witsml1411_obj_convCore as witsml1411_obj_convCore
     return compare_genetic( witsml1411_obj_convCore.obj_convCores, xml_original , xml_inspected , diff_only)
     
 def witsml1411_compare_obj_coordinateReferenceSystems( xml_original , xml_inspected  , diff_only = False):
@@ -1017,7 +1017,7 @@ def witsml1411_compare_obj_coordinateReferenceSystems( xml_original , xml_inspec
         tuple of  comparison result , report string 
     """
     
-    import witsml1411.witsml1411_obj_coordinateReferenceSystem as witsml1411_obj_coordinateReferenceSystem
+    from . import witsml1411.witsml1411_obj_coordinateReferenceSystem as witsml1411_obj_coordinateReferenceSystem
     return compare_genetic( witsml1411_obj_coordinateReferenceSystem.obj_coordinateReferenceSystems, xml_original , xml_inspected , diff_only)
     
 def witsml1411_compare_obj_drillReports( xml_original , xml_inspected  , diff_only = False):
@@ -1034,7 +1034,7 @@ def witsml1411_compare_obj_drillReports( xml_original , xml_inspected  , diff_on
         tuple of  comparison result , report string 
     """
     
-    import witsml1411.witsml1411_obj_drillReport as witsml1411_obj_drillReport
+    from . import witsml1411.witsml1411_obj_drillReport as witsml1411_obj_drillReport
     return compare_genetic( witsml1411_obj_drillReport.drillReports, xml_original , xml_inspected , diff_only )
     
 def witsml1411_compare_obj_fluidsReports( xml_original , xml_inspected  , diff_only = False):
@@ -1051,7 +1051,7 @@ def witsml1411_compare_obj_fluidsReports( xml_original , xml_inspected  , diff_o
         tuple of  comparison result , report string 
     """
         
-    import witsml1411.witsml1411_obj_fluidsReport as witsml1411_obj_fluidsReport
+    from . import witsml1411.witsml1411_obj_fluidsReport as witsml1411_obj_fluidsReport
     return compare_genetic( witsml1411_obj_fluidsReport.obj_fluidsReports, xml_original , xml_inspected , diff_only )
     
 def witsml1411_compare_obj_formationMarkers( xml_original , xml_inspected  , diff_only = False):
@@ -1068,7 +1068,7 @@ def witsml1411_compare_obj_formationMarkers( xml_original , xml_inspected  , dif
         tuple of  comparison result , report string 
     """
         
-    import witsml1411.witsml1411_obj_formationMarker as witsml1411_obj_formationMarker
+    from . import witsml1411.witsml1411_obj_formationMarker as witsml1411_obj_formationMarker
     return compare_genetic( witsml1411_obj_formationMarker.obj_formationMarkers, xml_original , xml_inspected , diff_only)
     
 def witsml1411_compare_obj_logs( xml_original , xml_inspected  , diff_only = False):
@@ -1085,7 +1085,7 @@ def witsml1411_compare_obj_logs( xml_original , xml_inspected  , diff_only = Fal
         tuple of  comparison result , report string 
     """
             
-    import witsml1411.witsml1411_obj_log as witsml1411_obj_log
+    from . import witsml1411.witsml1411_obj_log as witsml1411_obj_log
     return compare_genetic( witsml1411_obj_log.obj_logs, xml_original , xml_inspected , diff_only )
     
 def witsml1411_compare_obj_messages( xml_original , xml_inspected  , diff_only = False):
@@ -1102,7 +1102,7 @@ def witsml1411_compare_obj_messages( xml_original , xml_inspected  , diff_only =
         tuple of  comparison result , report string 
     """
         
-    import witsml1411.witsml1411_obj_message as witsml1411_obj_message
+    from . import witsml1411.witsml1411_obj_message as witsml1411_obj_message
     return compare_genetic( witsml1411_obj_message.obj_messages, xml_original , xml_inspected , diff_only )
     
 def witsml1411_compare_obj_mudLogs( xml_original , xml_inspected  , diff_only = False):
@@ -1119,7 +1119,7 @@ def witsml1411_compare_obj_mudLogs( xml_original , xml_inspected  , diff_only = 
         tuple of  comparison result , report string 
     """
         
-    import witsml1411.witsml1411_obj_mudLog as witsml1411_obj_mudLog
+    from . import witsml1411.witsml1411_obj_mudLog as witsml1411_obj_mudLog
     return compare_genetic( witsml1411_obj_mudLog.obj_mudLogs, xml_original , xml_inspected , diff_only )
     
 def witsml1411_compare_obj_objectGroups( xml_original , xml_inspected  , diff_only = False):
@@ -1136,7 +1136,7 @@ def witsml1411_compare_obj_objectGroups( xml_original , xml_inspected  , diff_on
         tuple of  comparison result , report string 
     """
         
-    import witsml1411.witsml1411_obj_objectGroup as witsml1411_obj_objectGroup
+    from . import witsml1411.witsml1411_obj_objectGroup as witsml1411_obj_objectGroup
     return compare_genetic( witsml1411_obj_objectGroup.obj_objectGroups, xml_original , xml_inspected  , diff_only)
 
 def witsml1411_compare_obj_opsReports( xml_original , xml_inspected  , diff_only = False):
@@ -1153,7 +1153,7 @@ def witsml1411_compare_obj_opsReports( xml_original , xml_inspected  , diff_only
         tuple of  comparison result , report string 
     """
       
-    import witsml1411.witsml1411_obj_opsReport as witsml1411_obj_opsReport
+    from . import witsml1411.witsml1411_obj_opsReport as witsml1411_obj_opsReport
     return compare_genetic( witsml1411_obj_opsReport.obj_opsReports, xml_original , xml_inspected , diff_only )
 
 def witsml1411_compare_obj_rigs( xml_original , xml_inspected  , diff_only = False):
@@ -1170,7 +1170,7 @@ def witsml1411_compare_obj_rigs( xml_original , xml_inspected  , diff_only = Fal
         tuple of  comparison result , report string 
     """
       
-    import witsml1411.witsml1411_obj_rig as witsml1411_obj_rig
+    from . import witsml1411.witsml1411_obj_rig as witsml1411_obj_rig
     return compare_genetic( witsml1411_obj_rig.obj_rigs, xml_original , xml_inspected )
 
 def witsml1411_compare_obj_risks( xml_original , xml_inspected  , diff_only = False):
@@ -1187,7 +1187,7 @@ def witsml1411_compare_obj_risks( xml_original , xml_inspected  , diff_only = Fa
         tuple of  comparison result , report string 
     """
       
-    import witsml1411.witsml1411_obj_risk as witsml1411_obj_risk
+    from . import witsml1411.witsml1411_obj_risk as witsml1411_obj_risk
     return compare_genetic( witsml1411_obj_risk.obj_risks, xml_original , xml_inspected )
 
 def witsml1411_compare_obj_sidewallCores( xml_original , xml_inspected  , diff_only = False):
@@ -1204,7 +1204,7 @@ def witsml1411_compare_obj_sidewallCores( xml_original , xml_inspected  , diff_o
         tuple of  comparison result , report string 
     """
       
-    import witsml1411.witsml1411_obj_sidewallCore as witsml1411_obj_sidewallCore
+    from . import witsml1411.witsml1411_obj_sidewallCore as witsml1411_obj_sidewallCore
     return compare_genetic( witsml1411_obj_sidewallCore.obj_sidewallCores, xml_original , xml_inspected , diff_only)
 
 def witsml1411_compare_obj_stimJobs( xml_original , xml_inspected  , diff_only = False):
@@ -1221,7 +1221,7 @@ def witsml1411_compare_obj_stimJobs( xml_original , xml_inspected  , diff_only =
         tuple of  comparison result , report string 
     """
       
-    import witsml1411.witsml1411_obj_stimJob as witsml1411_obj_stimJob
+    from . import witsml1411.witsml1411_obj_stimJob as witsml1411_obj_stimJob
     return compare_genetic( witsml1411_obj_stimJob.obj_stimJobs, xml_original , xml_inspected )
 
 def witsml1411_compare_obj_surveyPrograms( xml_original , xml_inspected  , diff_only = False):
@@ -1238,7 +1238,7 @@ def witsml1411_compare_obj_surveyPrograms( xml_original , xml_inspected  , diff_
         tuple of  comparison result , report string 
     """
       
-    import witsml1411.witsml1411_obj_surveyProgram as witsml1411_obj_surveyProgram
+    from . import witsml1411.witsml1411_obj_surveyProgram as witsml1411_obj_surveyProgram
     return compare_genetic( witsml1411_obj_surveyProgram.obj_surveyPrograms, xml_original , xml_inspected  , diff_only)
 
 def witsml1411_compare_obj_targets( xml_original , xml_inspected  , diff_only = False):
@@ -1255,7 +1255,7 @@ def witsml1411_compare_obj_targets( xml_original , xml_inspected  , diff_only = 
         tuple of  comparison result , report string 
     """
       
-    import witsml1411.witsml1411_obj_target as witsml1411_obj_target
+    from . import witsml1411.witsml1411_obj_target as witsml1411_obj_target
     return compare_genetic( witsml1411_obj_target.obj_targets, xml_original , xml_inspected , diff_only)
 
 def witsml1411_compare_obj_toolErrorModels( xml_original , xml_inspected  , diff_only = False):
@@ -1272,7 +1272,7 @@ def witsml1411_compare_obj_toolErrorModels( xml_original , xml_inspected  , diff
         tuple of  comparison result , report string 
     """
       
-    import witsml1411.witsml1411_obj_toolErrorModel as witsml1411_obj_toolErrorModel
+    from . import witsml1411.witsml1411_obj_toolErrorModel as witsml1411_obj_toolErrorModel
     return compare_genetic( witsml1411_obj_toolErrorModel.obj_toolErrorModels, xml_original , xml_inspected , diff_only )
 
 def witsml1411_compare_obj_toolErrorTermSets( xml_original , xml_inspected  , diff_only = False):
@@ -1289,7 +1289,7 @@ def witsml1411_compare_obj_toolErrorTermSets( xml_original , xml_inspected  , di
         tuple of  comparison result , report string 
     """
       
-    import witsml1411.witsml1411_obj_toolErrorTermSet as witsml1411_obj_toolErrorTermSet
+    from . import witsml1411.witsml1411_obj_toolErrorTermSet as witsml1411_obj_toolErrorTermSet
     return compare_genetic( witsml1411_obj_toolErrorTermSet.obj_toolErrorTermSets, xml_original , xml_inspected  , diff_only)
 
 def witsml1411_compare_obj_trajectorys( xml_original , xml_inspected  , diff_only = False):
@@ -1306,7 +1306,7 @@ def witsml1411_compare_obj_trajectorys( xml_original , xml_inspected  , diff_onl
         tuple of  comparison result , report string 
     """
       
-    import witsml1411.witsml1411_obj_trajectory as witsml1411_obj_trajectory
+    from . import witsml1411.witsml1411_obj_trajectory as witsml1411_obj_trajectory
     return compare_genetic( witsml1411_obj_trajectory.obj_trajectorys, xml_original , xml_inspected , diff_only )
 
 def witsml1411_compare_obj_tubulars( xml_original , xml_inspected  , diff_only = False):
@@ -1323,7 +1323,7 @@ def witsml1411_compare_obj_tubulars( xml_original , xml_inspected  , diff_only =
         tuple of  comparison result , report string 
     """
       
-    import witsml1411.witsml1411_obj_tubular as witsml1411_obj_tubular
+    from . import witsml1411.witsml1411_obj_tubular as witsml1411_obj_tubular
     return compare_genetic( witsml1411_obj_tubular.obj_tubulars, xml_original , xml_inspected , diff_only)
 
 def witsml1411_compare_obj_wbGeometry( xml_original , xml_inspected  , diff_only = False):
@@ -1340,7 +1340,7 @@ def witsml1411_compare_obj_wbGeometry( xml_original , xml_inspected  , diff_only
         tuple of  comparison result , report string 
     """
       
-    import witsml1411.witsml1411_obj_wbGeometry as witsml1411_obj_wbGeometry
+    from . import witsml1411.witsml1411_obj_wbGeometry as witsml1411_obj_wbGeometry
     return compare_genetic( witsml1411_obj_wbGeometry.obj_wbGeometrys, xml_original , xml_inspected , diff_only)
 
 def witsml1411_compare_obj_wells( xml_original , xml_inspected  , diff_only = False):
@@ -1357,7 +1357,7 @@ def witsml1411_compare_obj_wells( xml_original , xml_inspected  , diff_only = Fa
         tuple of  comparison result , report string 
     """
       
-    import witsml1411.witsml1411_obj_well as witsml1411_obj_well
+    from . import witsml1411.witsml1411_obj_well as witsml1411_obj_well
     return compare_genetic( witsml1411_obj_well.obj_wells, xml_original , xml_inspected , diff_only)
 
 def witsml1411_compare_obj_wellbores( xml_original , xml_inspected  , diff_only = False):
@@ -1374,7 +1374,7 @@ def witsml1411_compare_obj_wellbores( xml_original , xml_inspected  , diff_only 
         tuple of  comparison result , report string 
     """
       
-    import witsml1411.witsml1411_obj_wellbore as witsml1411_obj_wellbore
+    from . import witsml1411.witsml1411_obj_wellbore as witsml1411_obj_wellbore
     return compare_genetic( witsml1411_obj_wellbore.obj_wellbores, xml_original , xml_inspected , diff_only)
 
 
@@ -1406,7 +1406,7 @@ def witsml1410_compare_obj_attachments( xml_original , xml_inspected , diff_only
         tuple of  comparison result , report string 
     """
     
-    import witsml1410.witsml1410_obj_attachment as witsml1410_obj_attachment
+    from . import witsml1410.witsml1410_obj_attachment as witsml1410_obj_attachment
     return compare_genetic( witsml1410_obj_attachment.obj_attachments, xml_original , xml_inspected , diff_only )
 
 def witsml1410_compare_obj_bhaRuns( xml_original , xml_inspected  , diff_only = False):
@@ -1423,7 +1423,7 @@ def witsml1410_compare_obj_bhaRuns( xml_original , xml_inspected  , diff_only = 
         tuple of  comparison result , report string 
     """
 
-    import witsml1410.witsml1410_obj_bhaRun as witsml1410_obj_bhaRun
+    from . import witsml1410.witsml1410_obj_bhaRun as witsml1410_obj_bhaRun
     return compare_genetic( witsml1410_obj_bhaRun.obj_bhaRuns, xml_original , xml_inspected , diff_only )
     
 def witsml1410_compare_obj_cementJobs( xml_original , xml_inspected  , diff_only = False):
@@ -1440,7 +1440,7 @@ def witsml1410_compare_obj_cementJobs( xml_original , xml_inspected  , diff_only
         tuple of  comparison result , report string 
     """
 
-    import witsml1410.witsml1410_obj_cementJob as witsml1410_obj_cementJob
+    from . import witsml1410.witsml1410_obj_cementJob as witsml1410_obj_cementJob
     return compare_genetic( witsml1410_obj_cementJob.obj_cementJobs, xml_original , xml_inspected , diff_only)
     
 def witsml1410_compare_obj_changeLogs( xml_original , xml_inspected  , diff_only = False):
@@ -1456,7 +1456,7 @@ def witsml1410_compare_obj_changeLogs( xml_original , xml_inspected  , diff_only
     returns:
         tuple of  comparison result , report string 
     """
-    import witsml1410.witsml1410_obj_changeLog as witsml1410_obj_changeLog
+    from . import witsml1410.witsml1410_obj_changeLog as witsml1410_obj_changeLog
     return compare_genetic( witsml1410_obj_changeLog.obj_changeLogs, xml_original , xml_inspected , diff_only)
     
 def witsml1410_compare_obj_convCores( xml_original , xml_inspected  , diff_only = False):
@@ -1473,7 +1473,7 @@ def witsml1410_compare_obj_convCores( xml_original , xml_inspected  , diff_only 
         tuple of  comparison result , report string 
     """
         
-    import witsml1410.witsml1410_obj_convCore as witsml1410_obj_convCore
+    from . import witsml1410.witsml1410_obj_convCore as witsml1410_obj_convCore
     return compare_genetic( witsml1410_obj_convCore.obj_convCores, xml_original , xml_inspected , diff_only)
     
 def witsml1410_compare_obj_coordinateReferenceSystems( xml_original , xml_inspected  , diff_only = False):
@@ -1490,7 +1490,7 @@ def witsml1410_compare_obj_coordinateReferenceSystems( xml_original , xml_inspec
         tuple of  comparison result , report string 
     """
     
-    import witsml1410.witsml1410_obj_coordinateReferenceSystem as witsml1410_obj_coordinateReferenceSystem
+    from . import witsml1410.witsml1410_obj_coordinateReferenceSystem as witsml1410_obj_coordinateReferenceSystem
     return compare_genetic( witsml1410_obj_coordinateReferenceSystem.obj_coordinateReferenceSystems, xml_original , xml_inspected , diff_only)
     
 def witsml1410_compare_obj_drillReports( xml_original , xml_inspected  , diff_only = False):
@@ -1507,7 +1507,7 @@ def witsml1410_compare_obj_drillReports( xml_original , xml_inspected  , diff_on
         tuple of  comparison result , report string 
     """
     
-    import witsml1410.witsml1410_obj_drillReport as witsml1410_obj_drillReport
+    from . import witsml1410.witsml1410_obj_drillReport as witsml1410_obj_drillReport
     return compare_genetic( witsml1410_obj_drillReport.drillReports, xml_original , xml_inspected , diff_only )
     
 def witsml1410_compare_obj_fluidsReports( xml_original , xml_inspected  , diff_only = False):
@@ -1524,7 +1524,7 @@ def witsml1410_compare_obj_fluidsReports( xml_original , xml_inspected  , diff_o
         tuple of  comparison result , report string 
     """
         
-    import witsml1410.witsml1410_obj_fluidsReport as witsml1410_obj_fluidsReport
+    from . import witsml1410.witsml1410_obj_fluidsReport as witsml1410_obj_fluidsReport
     return compare_genetic( witsml1410_obj_fluidsReport.obj_fluidsReports, xml_original , xml_inspected , diff_only )
     
 def witsml1410_compare_obj_formationMarkers( xml_original , xml_inspected  , diff_only = False):
@@ -1541,7 +1541,7 @@ def witsml1410_compare_obj_formationMarkers( xml_original , xml_inspected  , dif
         tuple of  comparison result , report string 
     """
         
-    import witsml1410.witsml1410_obj_formationMarker as witsml1410_obj_formationMarker
+    from . import witsml1410.witsml1410_obj_formationMarker as witsml1410_obj_formationMarker
     return compare_genetic( witsml1410_obj_formationMarker.obj_formationMarkers, xml_original , xml_inspected , diff_only)
     
 def witsml1410_compare_obj_logs( xml_original , xml_inspected  , diff_only = False):
@@ -1558,7 +1558,7 @@ def witsml1410_compare_obj_logs( xml_original , xml_inspected  , diff_only = Fal
         tuple of  comparison result , report string 
     """
             
-    import witsml1410.witsml1410_obj_log as witsml1410_obj_log
+    from . import witsml1410.witsml1410_obj_log as witsml1410_obj_log
     return compare_genetic( witsml1410_obj_log.obj_logs, xml_original , xml_inspected , diff_only )
     
 def witsml1410_compare_obj_messages( xml_original , xml_inspected  , diff_only = False):
@@ -1575,7 +1575,7 @@ def witsml1410_compare_obj_messages( xml_original , xml_inspected  , diff_only =
         tuple of  comparison result , report string 
     """
         
-    import witsml1410.witsml1410_obj_message as witsml1410_obj_message
+    from . import witsml1410.witsml1410_obj_message as witsml1410_obj_message
     return compare_genetic( witsml1410_obj_message.obj_messages, xml_original , xml_inspected , diff_only )
     
 def witsml1410_compare_obj_mudLogs( xml_original , xml_inspected  , diff_only = False):
@@ -1592,7 +1592,7 @@ def witsml1410_compare_obj_mudLogs( xml_original , xml_inspected  , diff_only = 
         tuple of  comparison result , report string 
     """
         
-    import witsml1410.witsml1410_obj_mudLog as witsml1410_obj_mudLog
+    from . import witsml1410.witsml1410_obj_mudLog as witsml1410_obj_mudLog
     return compare_genetic( witsml1410_obj_mudLog.obj_mudLogs, xml_original , xml_inspected , diff_only )
     
 def witsml1410_compare_obj_objectGroups( xml_original , xml_inspected  , diff_only = False):
@@ -1609,7 +1609,7 @@ def witsml1410_compare_obj_objectGroups( xml_original , xml_inspected  , diff_on
         tuple of  comparison result , report string 
     """
         
-    import witsml1410.witsml1410_obj_objectGroup as witsml1410_obj_objectGroup
+    from . import witsml1410.witsml1410_obj_objectGroup as witsml1410_obj_objectGroup
     return compare_genetic( witsml1410_obj_objectGroup.obj_objectGroups, xml_original , xml_inspected  , diff_only)
 
 def witsml1410_compare_obj_opsReports( xml_original , xml_inspected  , diff_only = False):
@@ -1626,7 +1626,7 @@ def witsml1410_compare_obj_opsReports( xml_original , xml_inspected  , diff_only
         tuple of  comparison result , report string 
     """
       
-    import witsml1410.witsml1410_obj_opsReport as witsml1410_obj_opsReport
+    from . import witsml1410.witsml1410_obj_opsReport as witsml1410_obj_opsReport
     return compare_genetic( witsml1410_obj_opsReport.obj_opsReports, xml_original , xml_inspected , diff_only )
 
 def witsml1410_compare_obj_rigs( xml_original , xml_inspected  , diff_only = False):
@@ -1643,7 +1643,7 @@ def witsml1410_compare_obj_rigs( xml_original , xml_inspected  , diff_only = Fal
         tuple of  comparison result , report string 
     """
       
-    import witsml1410.witsml1410_obj_rig as witsml1410_obj_rig
+    from . import witsml1410.witsml1410_obj_rig as witsml1410_obj_rig
     return compare_genetic( witsml1410_obj_rig.obj_rigs, xml_original , xml_inspected )
 
 def witsml1410_compare_obj_risks( xml_original , xml_inspected  , diff_only = False):
@@ -1660,7 +1660,7 @@ def witsml1410_compare_obj_risks( xml_original , xml_inspected  , diff_only = Fa
         tuple of  comparison result , report string 
     """
       
-    import witsml1410.witsml1410_obj_risk as witsml1410_obj_risk
+    from . import witsml1410.witsml1410_obj_risk as witsml1410_obj_risk
     return compare_genetic( witsml1410_obj_risk.obj_risks, xml_original , xml_inspected )
 
 def witsml1410_compare_obj_sidewallCores( xml_original , xml_inspected  , diff_only = False):
@@ -1677,7 +1677,7 @@ def witsml1410_compare_obj_sidewallCores( xml_original , xml_inspected  , diff_o
         tuple of  comparison result , report string 
     """
       
-    import witsml1410.witsml1410_obj_sidewallCore as witsml1410_obj_sidewallCore
+    from . import witsml1410.witsml1410_obj_sidewallCore as witsml1410_obj_sidewallCore
     return compare_genetic( witsml1410_obj_sidewallCore.obj_sidewallCores, xml_original , xml_inspected , diff_only)
 
 def witsml1410_compare_obj_stimJobs( xml_original , xml_inspected  , diff_only = False):
@@ -1694,7 +1694,7 @@ def witsml1410_compare_obj_stimJobs( xml_original , xml_inspected  , diff_only =
         tuple of  comparison result , report string 
     """
       
-    import witsml1410.witsml1410_obj_stimJob as witsml1410_obj_stimJob
+    from . import witsml1410.witsml1410_obj_stimJob as witsml1410_obj_stimJob
     return compare_genetic( witsml1410_obj_stimJob.obj_stimJobs, xml_original , xml_inspected )
 
 def witsml1410_compare_obj_surveyPrograms( xml_original , xml_inspected  , diff_only = False):
@@ -1711,7 +1711,7 @@ def witsml1410_compare_obj_surveyPrograms( xml_original , xml_inspected  , diff_
         tuple of  comparison result , report string 
     """
       
-    import witsml1410.witsml1410_obj_surveyProgram as witsml1410_obj_surveyProgram
+    from . import witsml1410.witsml1410_obj_surveyProgram as witsml1410_obj_surveyProgram
     return compare_genetic( witsml1410_obj_surveyProgram.obj_surveyPrograms, xml_original , xml_inspected  , diff_only)
 
 def witsml1410_compare_obj_targets( xml_original , xml_inspected  , diff_only = False):
@@ -1728,7 +1728,7 @@ def witsml1410_compare_obj_targets( xml_original , xml_inspected  , diff_only = 
         tuple of  comparison result , report string 
     """
       
-    import witsml1410.witsml1410_obj_target as witsml1410_obj_target
+    from . import witsml1410.witsml1410_obj_target as witsml1410_obj_target
     return compare_genetic( witsml1410_obj_target.obj_targets, xml_original , xml_inspected , diff_only)
 
 def witsml1410_compare_obj_toolErrorModels( xml_original , xml_inspected  , diff_only = False):
@@ -1745,7 +1745,7 @@ def witsml1410_compare_obj_toolErrorModels( xml_original , xml_inspected  , diff
         tuple of  comparison result , report string 
     """
       
-    import witsml1410.witsml1410_obj_toolErrorModel as witsml1410_obj_toolErrorModel
+    from . import witsml1410.witsml1410_obj_toolErrorModel as witsml1410_obj_toolErrorModel
     return compare_genetic( witsml1410_obj_toolErrorModel.obj_toolErrorModels, xml_original , xml_inspected , diff_only )
 
 def witsml1410_compare_obj_toolErrorTermSets( xml_original , xml_inspected  , diff_only = False):
@@ -1762,7 +1762,7 @@ def witsml1410_compare_obj_toolErrorTermSets( xml_original , xml_inspected  , di
         tuple of  comparison result , report string 
     """
       
-    import witsml1410.witsml1410_obj_toolErrorTermSet as witsml1410_obj_toolErrorTermSet
+    from . import witsml1410.witsml1410_obj_toolErrorTermSet as witsml1410_obj_toolErrorTermSet
     return compare_genetic( witsml1410_obj_toolErrorTermSet.obj_toolErrorTermSets, xml_original , xml_inspected  , diff_only)
 
 def witsml1410_compare_obj_trajectorys( xml_original , xml_inspected  , diff_only = False):
@@ -1779,7 +1779,7 @@ def witsml1410_compare_obj_trajectorys( xml_original , xml_inspected  , diff_onl
         tuple of  comparison result , report string 
     """
       
-    import witsml1410.witsml1410_obj_trajectory as witsml1410_obj_trajectory
+    from . import witsml1410.witsml1410_obj_trajectory as witsml1410_obj_trajectory
     return compare_genetic( witsml1410_obj_trajectory.obj_trajectorys, xml_original , xml_inspected , diff_only )
 
 def witsml1410_compare_obj_tubulars( xml_original , xml_inspected  , diff_only = False):
@@ -1796,7 +1796,7 @@ def witsml1410_compare_obj_tubulars( xml_original , xml_inspected  , diff_only =
         tuple of  comparison result , report string 
     """
       
-    import witsml1410.witsml1410_obj_tubular as witsml1410_obj_tubular
+    from . import witsml1410.witsml1410_obj_tubular as witsml1410_obj_tubular
     return compare_genetic( witsml1410_obj_tubular.obj_tubulars, xml_original , xml_inspected , diff_only)
 
 def witsml1410_compare_obj_wbGeometry( xml_original , xml_inspected  , diff_only = False):
@@ -1813,7 +1813,7 @@ def witsml1410_compare_obj_wbGeometry( xml_original , xml_inspected  , diff_only
         tuple of  comparison result , report string 
     """
       
-    import witsml1410.witsml1410_obj_wbGeometry as witsml1410_obj_wbGeometry
+    from . import witsml1410.witsml1410_obj_wbGeometry as witsml1410_obj_wbGeometry
     return compare_genetic( witsml1410_obj_wbGeometry.obj_wbGeometrys, xml_original , xml_inspected , diff_only)
 
 def witsml1410_compare_obj_wells( xml_original , xml_inspected  , diff_only = False):
@@ -1830,7 +1830,7 @@ def witsml1410_compare_obj_wells( xml_original , xml_inspected  , diff_only = Fa
         tuple of  comparison result , report string 
     """
       
-    import witsml1410.witsml1410_obj_well as witsml1410_obj_well
+    from . import witsml1410.witsml1410_obj_well as witsml1410_obj_well
     return compare_genetic( witsml1410_obj_well.obj_wells, xml_original , xml_inspected , diff_only)
 
 def witsml1410_compare_obj_wellbores( xml_original , xml_inspected  , diff_only = False):
@@ -1847,7 +1847,7 @@ def witsml1410_compare_obj_wellbores( xml_original , xml_inspected  , diff_only 
         tuple of  comparison result , report string 
     """
       
-    import witsml1410.witsml1410_obj_wellbore as witsml1410_obj_wellbore
+    from . import witsml1410.witsml1410_obj_wellbore as witsml1410_obj_wellbore
     return compare_genetic( witsml1410_obj_wellbore.obj_wellbores, xml_original , xml_inspected , diff_only)
 
 #
@@ -1877,7 +1877,7 @@ def witsml1311_compare_obj_bhaRuns( xml_original , xml_inspected  , diff_only = 
         tuple of  comparison result , report string 
     """
 
-    import witsml1311.witsml1311_obj_bhaRun as witsml1311_obj_bhaRun
+    from . import witsml1311.witsml1311_obj_bhaRun as witsml1311_obj_bhaRun
     return compare_genetic( witsml1311_obj_bhaRun.obj_bhaRuns, xml_original , xml_inspected , diff_only )
     
 def witsml1311_compare_obj_cementJobs( xml_original , xml_inspected  , diff_only = False):
@@ -1894,7 +1894,7 @@ def witsml1311_compare_obj_cementJobs( xml_original , xml_inspected  , diff_only
         tuple of  comparison result , report string 
     """
 
-    import witsml1311.witsml1311_obj_cementJob as witsml1311_obj_cementJob
+    from . import witsml1311.witsml1311_obj_cementJob as witsml1311_obj_cementJob
     return compare_genetic( witsml1311_obj_cementJob.obj_cementJobs, xml_original , xml_inspected , diff_only)
     
 def witsml1311_compare_obj_changeLogs( xml_original , xml_inspected  , diff_only = False):
@@ -1910,7 +1910,7 @@ def witsml1311_compare_obj_changeLogs( xml_original , xml_inspected  , diff_only
     returns:
         tuple of  comparison result , report string 
     """
-    import witsml1311.witsml1311_obj_changeLog as witsml1311_obj_changeLog
+    from . import witsml1311.witsml1311_obj_changeLog as witsml1311_obj_changeLog
     return compare_genetic( witsml1311_obj_changeLog.obj_changeLogs, xml_original , xml_inspected , diff_only)
     
 def witsml1311_compare_obj_convCores( xml_original , xml_inspected  , diff_only = False):
@@ -1927,7 +1927,7 @@ def witsml1311_compare_obj_convCores( xml_original , xml_inspected  , diff_only 
         tuple of  comparison result , report string 
     """
         
-    import witsml1311.witsml1311_obj_convCore as witsml1311_obj_convCore
+    from . import witsml1311.witsml1311_obj_convCore as witsml1311_obj_convCore
     return compare_genetic( witsml1311_obj_convCore.obj_convCores, xml_original , xml_inspected , diff_only)
     
 def witsml1311_compare_obj_coordinateReferenceSystems( xml_original , xml_inspected  , diff_only = False):
@@ -1944,7 +1944,7 @@ def witsml1311_compare_obj_coordinateReferenceSystems( xml_original , xml_inspec
         tuple of  comparison result , report string 
     """
     
-    import witsml1311.witsml1311_obj_coordinateReferenceSystem as witsml1311_obj_coordinateReferenceSystem
+    from . import witsml1311.witsml1311_obj_coordinateReferenceSystem as witsml1311_obj_coordinateReferenceSystem
     return compare_genetic( witsml1311_obj_coordinateReferenceSystem.obj_coordinateReferenceSystems, xml_original , xml_inspected , diff_only)
     
 def witsml1311_compare_obj_drillReports( xml_original , xml_inspected  , diff_only = False):
@@ -1961,7 +1961,7 @@ def witsml1311_compare_obj_drillReports( xml_original , xml_inspected  , diff_on
         tuple of  comparison result , report string 
     """
     
-    import witsml1311.witsml1311_obj_drillReport as witsml1311_obj_drillReport
+    from . import witsml1311.witsml1311_obj_drillReport as witsml1311_obj_drillReport
     return compare_genetic( witsml1311_obj_drillReport.drillReports, xml_original , xml_inspected , diff_only )
     
 def witsml1311_compare_obj_fluidsReports( xml_original , xml_inspected  , diff_only = False):
@@ -1978,7 +1978,7 @@ def witsml1311_compare_obj_fluidsReports( xml_original , xml_inspected  , diff_o
         tuple of  comparison result , report string 
     """
         
-    import witsml1311.witsml1311_obj_fluidsReport as witsml1311_obj_fluidsReport
+    from . import witsml1311.witsml1311_obj_fluidsReport as witsml1311_obj_fluidsReport
     return compare_genetic( witsml1311_obj_fluidsReport.obj_fluidsReports, xml_original , xml_inspected , diff_only )
     
 def witsml1311_compare_obj_formationMarkers( xml_original , xml_inspected  , diff_only = False):
@@ -1995,7 +1995,7 @@ def witsml1311_compare_obj_formationMarkers( xml_original , xml_inspected  , dif
         tuple of  comparison result , report string 
     """
         
-    import witsml1311.witsml1311_obj_formationMarker as witsml1311_obj_formationMarker
+    from . import witsml1311.witsml1311_obj_formationMarker as witsml1311_obj_formationMarker
     return compare_genetic( witsml1311_obj_formationMarker.obj_formationMarkers, xml_original , xml_inspected , diff_only)
     
 def witsml1311_compare_obj_logs( xml_original , xml_inspected  , diff_only = False):
@@ -2012,7 +2012,7 @@ def witsml1311_compare_obj_logs( xml_original , xml_inspected  , diff_only = Fal
         tuple of  comparison result , report string 
     """
             
-    import witsml1311.witsml1311_obj_log as witsml1311_obj_log
+    from . import witsml1311.witsml1311_obj_log as witsml1311_obj_log
     return compare_genetic( witsml1311_obj_log.obj_logs, xml_original , xml_inspected , diff_only )
     
 def witsml1311_compare_obj_messages( xml_original , xml_inspected  , diff_only = False):
@@ -2029,7 +2029,7 @@ def witsml1311_compare_obj_messages( xml_original , xml_inspected  , diff_only =
         tuple of  comparison result , report string 
     """
         
-    import witsml1311.witsml1311_obj_message as witsml1311_obj_message
+    from . import witsml1311.witsml1311_obj_message as witsml1311_obj_message
     return compare_genetic( witsml1311_obj_message.obj_messages, xml_original , xml_inspected , diff_only )
     
 def witsml1311_compare_obj_mudLogs( xml_original , xml_inspected  , diff_only = False):
@@ -2046,7 +2046,7 @@ def witsml1311_compare_obj_mudLogs( xml_original , xml_inspected  , diff_only = 
         tuple of  comparison result , report string 
     """
         
-    import witsml1311.witsml1311_obj_mudLog as witsml1311_obj_mudLog
+    from . import witsml1311.witsml1311_obj_mudLog as witsml1311_obj_mudLog
     return compare_genetic( witsml1311_obj_mudLog.obj_mudLogs, xml_original , xml_inspected , diff_only )
     
 def witsml1311_compare_obj_objectGroups( xml_original , xml_inspected  , diff_only = False):
@@ -2063,7 +2063,7 @@ def witsml1311_compare_obj_objectGroups( xml_original , xml_inspected  , diff_on
         tuple of  comparison result , report string 
     """
         
-    import witsml1311.witsml1311_obj_objectGroup as witsml1311_obj_objectGroup
+    from . import witsml1311.witsml1311_obj_objectGroup as witsml1311_obj_objectGroup
     return compare_genetic( witsml1311_obj_objectGroup.obj_objectGroups, xml_original , xml_inspected  , diff_only)
 
 def witsml1311_compare_obj_opsReports( xml_original , xml_inspected  , diff_only = False):
@@ -2080,7 +2080,7 @@ def witsml1311_compare_obj_opsReports( xml_original , xml_inspected  , diff_only
         tuple of  comparison result , report string 
     """
       
-    import witsml1311.witsml1311_obj_opsReport as witsml1311_obj_opsReport
+    from . import witsml1311.witsml1311_obj_opsReport as witsml1311_obj_opsReport
     return compare_genetic( witsml1311_obj_opsReport.obj_opsReports, xml_original , xml_inspected , diff_only )
 
 def witsml1311_compare_obj_rigs( xml_original , xml_inspected  , diff_only = False):
@@ -2097,7 +2097,7 @@ def witsml1311_compare_obj_rigs( xml_original , xml_inspected  , diff_only = Fal
         tuple of  comparison result , report string 
     """
       
-    import witsml1311.witsml1311_obj_rig as witsml1311_obj_rig
+    from . import witsml1311.witsml1311_obj_rig as witsml1311_obj_rig
     return compare_genetic( witsml1311_obj_rig.obj_rigs, xml_original , xml_inspected )
 
 def witsml1311_compare_obj_risks( xml_original , xml_inspected  , diff_only = False):
@@ -2114,7 +2114,7 @@ def witsml1311_compare_obj_risks( xml_original , xml_inspected  , diff_only = Fa
         tuple of  comparison result , report string 
     """
       
-    import witsml1311.witsml1311_obj_risk as witsml1311_obj_risk
+    from . import witsml1311.witsml1311_obj_risk as witsml1311_obj_risk
     return compare_genetic( witsml1311_obj_risk.obj_risks, xml_original , xml_inspected )
 
 def witsml1311_compare_obj_sidewallCores( xml_original , xml_inspected  , diff_only = False):
@@ -2131,7 +2131,7 @@ def witsml1311_compare_obj_sidewallCores( xml_original , xml_inspected  , diff_o
         tuple of  comparison result , report string 
     """
       
-    import witsml1311.witsml1311_obj_sidewallCore as witsml1311_obj_sidewallCore
+    from . import witsml1311.witsml1311_obj_sidewallCore as witsml1311_obj_sidewallCore
     return compare_genetic( witsml1311_obj_sidewallCore.obj_sidewallCores, xml_original , xml_inspected , diff_only)
 
 def witsml1311_compare_obj_stimJobs( xml_original , xml_inspected  , diff_only = False):
@@ -2148,7 +2148,7 @@ def witsml1311_compare_obj_stimJobs( xml_original , xml_inspected  , diff_only =
         tuple of  comparison result , report string 
     """
       
-    import witsml1311.witsml1311_obj_stimJob as witsml1311_obj_stimJob
+    from . import witsml1311.witsml1311_obj_stimJob as witsml1311_obj_stimJob
     return compare_genetic( witsml1311_obj_stimJob.obj_stimJobs, xml_original , xml_inspected )
 
 def witsml1311_compare_obj_surveyPrograms( xml_original , xml_inspected  , diff_only = False):
@@ -2165,7 +2165,7 @@ def witsml1311_compare_obj_surveyPrograms( xml_original , xml_inspected  , diff_
         tuple of  comparison result , report string 
     """
       
-    import witsml1311.witsml1311_obj_surveyProgram as witsml1311_obj_surveyProgram
+    from . import witsml1311.witsml1311_obj_surveyProgram as witsml1311_obj_surveyProgram
     return compare_genetic( witsml1311_obj_surveyProgram.obj_surveyPrograms, xml_original , xml_inspected  , diff_only)
 
 def witsml1311_compare_obj_targets( xml_original , xml_inspected  , diff_only = False):
@@ -2182,7 +2182,7 @@ def witsml1311_compare_obj_targets( xml_original , xml_inspected  , diff_only = 
         tuple of  comparison result , report string 
     """
       
-    import witsml1311.witsml1311_obj_target as witsml1311_obj_target
+    from . import witsml1311.witsml1311_obj_target as witsml1311_obj_target
     return compare_genetic( witsml1311_obj_target.obj_targets, xml_original , xml_inspected , diff_only)
 
 def witsml1311_compare_obj_toolErrorModels( xml_original , xml_inspected  , diff_only = False):
@@ -2199,7 +2199,7 @@ def witsml1311_compare_obj_toolErrorModels( xml_original , xml_inspected  , diff
         tuple of  comparison result , report string 
     """
       
-    import witsml1311.witsml1311_obj_toolErrorModel as witsml1311_obj_toolErrorModel
+    from . import witsml1311.witsml1311_obj_toolErrorModel as witsml1311_obj_toolErrorModel
     return compare_genetic( witsml1311_obj_toolErrorModel.obj_toolErrorModels, xml_original , xml_inspected , diff_only )
 
 def witsml1311_compare_obj_toolErrorTermSets( xml_original , xml_inspected  , diff_only = False):
@@ -2216,7 +2216,7 @@ def witsml1311_compare_obj_toolErrorTermSets( xml_original , xml_inspected  , di
         tuple of  comparison result , report string 
     """
       
-    import witsml1311.witsml1311_obj_toolErrorTermSet as witsml1311_obj_toolErrorTermSet
+    from . import witsml1311.witsml1311_obj_toolErrorTermSet as witsml1311_obj_toolErrorTermSet
     return compare_genetic( witsml1311_obj_toolErrorTermSet.obj_toolErrorTermSets, xml_original , xml_inspected  , diff_only)
 
 def witsml1311_compare_obj_trajectorys( xml_original , xml_inspected  , diff_only = False):
@@ -2233,7 +2233,7 @@ def witsml1311_compare_obj_trajectorys( xml_original , xml_inspected  , diff_onl
         tuple of  comparison result , report string 
     """
       
-    import witsml1311.witsml1311_obj_trajectory as witsml1311_obj_trajectory
+    from . import witsml1311.witsml1311_obj_trajectory as witsml1311_obj_trajectory
     return compare_genetic( witsml1311_obj_trajectory.obj_trajectorys, xml_original , xml_inspected , diff_only )
 
 def witsml1311_compare_obj_tubulars( xml_original , xml_inspected  , diff_only = False):
@@ -2250,7 +2250,7 @@ def witsml1311_compare_obj_tubulars( xml_original , xml_inspected  , diff_only =
         tuple of  comparison result , report string 
     """
       
-    import witsml1311.witsml1311_obj_tubular as witsml1311_obj_tubular
+    from . import witsml1311.witsml1311_obj_tubular as witsml1311_obj_tubular
     return compare_genetic( witsml1311_obj_tubular.obj_tubulars, xml_original , xml_inspected , diff_only)
 
 def witsml1311_compare_obj_wbGeometry( xml_original , xml_inspected  , diff_only = False):
@@ -2267,7 +2267,7 @@ def witsml1311_compare_obj_wbGeometry( xml_original , xml_inspected  , diff_only
         tuple of  comparison result , report string 
     """
       
-    import witsml1311.witsml1311_obj_wbGeometry as witsml1311_obj_wbGeometry
+    from . import witsml1311.witsml1311_obj_wbGeometry as witsml1311_obj_wbGeometry
     return compare_genetic( witsml1311_obj_wbGeometry.obj_wbGeometrys, xml_original , xml_inspected , diff_only)
 
 def witsml1311_compare_obj_wells( xml_original , xml_inspected  , diff_only = False):
@@ -2284,7 +2284,7 @@ def witsml1311_compare_obj_wells( xml_original , xml_inspected  , diff_only = Fa
         tuple of  comparison result , report string 
     """
       
-    import witsml1311.witsml1311_obj_well as witsml1311_obj_well
+    from . import witsml1311.witsml1311_obj_well as witsml1311_obj_well
     return compare_genetic( witsml1311_obj_well.obj_wells, xml_original , xml_inspected , diff_only)
 
 def witsml1311_compare_obj_wellbores( xml_original , xml_inspected  , diff_only = False):
@@ -2301,7 +2301,7 @@ def witsml1311_compare_obj_wellbores( xml_original , xml_inspected  , diff_only 
         tuple of  comparison result , report string 
     """
       
-    import witsml1311.witsml1311_obj_wellbore as witsml1311_obj_wellbore
+    from . import witsml1311.witsml1311_obj_wellbore as witsml1311_obj_wellbore
     return compare_genetic( witsml1311_obj_wellbore.obj_wellbores, xml_original , xml_inspected , diff_only)
 
 

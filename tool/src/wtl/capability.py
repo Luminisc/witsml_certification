@@ -109,11 +109,11 @@ class WITSMLStoreCapabilities:
                             for dataObject_iter in func_iter.dataObject:
                                 """ Iterating over dataObject nodes to get objects that are supported by this functionality """
                                 wtl.globals.set_function_object_supported(func_iter.attrib["name"], dataObject_iter.text.strip())
-                                if ('maxDataNodes' in dataObject_iter.attrib.keys()):
+                                if ('maxDataNodes' in list(dataObject_iter.attrib.keys())):
                                     wtl.globals.set_maxDataNodes(func_iter.attrib["name"],
                                                                   dataObject_iter.text.strip(),
                                                                   dataObject_iter.attrib['maxDataNodes'])
-                                if ('maxDataPoints' in dataObject_iter.attrib.keys()):
+                                if ('maxDataPoints' in list(dataObject_iter.attrib.keys())):
                                     wtl.globals.set_maxDataPoints(func_iter.attrib["name"],
                                                                   dataObject_iter.text.strip(),
                                                                   dataObject_iter.attrib['maxDataPoints'])

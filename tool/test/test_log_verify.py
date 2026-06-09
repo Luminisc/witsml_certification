@@ -456,7 +456,7 @@ XML_LOG_1410_TIME_OK = """
 </logs>"""
 
 XML_LOG_1410_ARRAY_OK =  """
-<logs xmlns="http://www.witsml.org/schemas/1series" version="1.4.1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.witsml.org/schemas/1series ..\Users\hbl4152\Downloads\witsml\witsml.1.4.1.RTM\data\witsml_v1.4.1_data\generated_write_schemas\obj_log.xsd">
+<logs xmlns="http://www.witsml.org/schemas/1series" version="1.4.1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.witsml.org/schemas/1series ..\\Users\hbl4152\Downloads\witsml\witsml.1.4.1.RTM\data\witsml_v1.4.1_data\generated_write_schemas\obj_log.xsd">
     <log uidWell="W-12" uidWellbore="B-01" uid="f34a">
         <nameWell>6507/7-A-42</nameWell>
         <nameWellbore>A-42</nameWellbore>
@@ -2838,7 +2838,7 @@ class LogVerifyest(unittest.TestCase, mocking.MockingTestMixin):
     def test_log_curve_array_header_badAxisOrder(self):
         # axisDefinition order(s) are both 1        
         wtl.store_prim.WITSMLServer.xml_out.set("""
-<logs xmlns="http://www.witsml.org/schemas/1series" version="1.4.1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.witsml.org/schemas/1series ..\Users\hbl4152\Downloads\witsml\witsml.1.4.1.RTM\data\witsml_v1.4.1_data\generated_write_schemas\obj_log.xsd">
+<logs xmlns="http://www.witsml.org/schemas/1series" version="1.4.1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.witsml.org/schemas/1series ..\\Users\hbl4152\Downloads\witsml\witsml.1.4.1.RTM\data\witsml_v1.4.1_data\generated_write_schemas\obj_log.xsd">
     <log uidWell="W-12" uidWellbore="B-01" uid="f34a">
         <nameWell>6507/7-A-42</nameWell>
         <nameWellbore>A-42</nameWellbore>
@@ -2959,7 +2959,7 @@ class LogVerifyest(unittest.TestCase, mocking.MockingTestMixin):
     def test_2_log_curve_array_header(self):
         # axisDefinition order(s) are both 1        
         wtl.store_prim.WITSMLServer.xml_out.set("""
-<logs xmlns="http://www.witsml.org/schemas/1series" version="1.4.1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.witsml.org/schemas/1series ..\Users\hbl4152\Downloads\witsml\witsml.1.4.1.RTM\data\witsml_v1.4.1_data\generated_write_schemas\obj_log.xsd">
+<logs xmlns="http://www.witsml.org/schemas/1series" version="1.4.1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.witsml.org/schemas/1series ..\\Users\hbl4152\Downloads\witsml\witsml.1.4.1.RTM\data\witsml_v1.4.1_data\generated_write_schemas\obj_log.xsd">
     <log uidWell="W-12" uidWellbore="B-01" uid="f34a">
         <nameWell>6507/7-A-42</nameWell>
         <nameWellbore>A-42</nameWellbore>
@@ -4122,9 +4122,9 @@ class LogVerifyest(unittest.TestCase, mocking.MockingTestMixin):
         wtl.store_prim.WITSMLServer.xml_out.set(XML_LOG_1410_OK);
         curveListDict = self.logVerify.get_CurveInfo_Dictionary(True)
         self.assertTrue(curveListDict is not None)
-        self.assertTrue(len(curveListDict.keys())==7)
-        self.assertTrue(curveListDict.keys().sort() == ['DEP','EWXT','R39P','R15P','C39P','DTEMP','DGRC'].sort())
-        self.assertTrue(curveListDict['R39P'].keys().sort() == ['Mnemonic','LogNullName','CurveNullName','CurveDataType','CurveArrayDim','IsIndexCurve'].sort())          
+        self.assertTrue(len(list(curveListDict.keys()))==7)
+        self.assertTrue(list(curveListDict.keys()).sort() == ['DEP','EWXT','R39P','R15P','C39P','DTEMP','DGRC'].sort())
+        self.assertTrue(list(curveListDict['R39P'].keys()).sort() == ['Mnemonic','LogNullName','CurveNullName','CurveDataType','CurveArrayDim','IsIndexCurve'].sort())          
            
        
     def test_dataOnlyExtended_test1(self):

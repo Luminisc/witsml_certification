@@ -16,7 +16,7 @@ from lxml import objectify
 
 
 def grow_log( well_uid, wellbore_uid, log_uid ):
-    print "growing log : "+ well_uid +"/"+ wellbore_uid+"/"+log_uid;
+    print(("growing log : "+ well_uid +"/"+ wellbore_uid+"/"+log_uid));
     
     set('well_uid', well_uid)
     set('wellbore_uid', wellbore_uid)
@@ -46,7 +46,7 @@ def grow_log( well_uid, wellbore_uid, log_uid ):
         indexStr = "endIndex"
         indexStrElement = "startIndex"
     else:
-        print "unsupported log type: " + get("logIndexType")
+        print(("unsupported log type: " + get("logIndexType")))
         return  
     
     set("endIndex", get_XMLout_Element_String(indexStr))
@@ -69,7 +69,7 @@ def grow_log( well_uid, wellbore_uid, log_uid ):
     else:
         newIdx = float(get_XMLout_Element_String("endIndex")) + 0.001
                 
-    print "setting log : '"+log_uid+"'  end index to :",newIdx;
+    print(("setting log : '"+log_uid+"'  end index to :",newIdx));
     
     #construct update query
     set("mnemonicList",get_XMLout_Element_String("mnemonicList") )
@@ -107,7 +107,7 @@ def grow_trajectory( well_uid, wellbore_uid, traj_uid ):
         Returns:
           None
         """
-    print "growing trajectory : "+ well_uid +"/"+ wellbore_uid+"/"+traj_uid;
+    print(("growing trajectory : "+ well_uid +"/"+ wellbore_uid+"/"+traj_uid));
     
     set('well_uid', well_uid)
     set('wellbore_uid', wellbore_uid)
@@ -166,8 +166,8 @@ if __name__ == '__main__':
     growlog = wtl.globals.is_function_object_supported('WMLS_UpdateInStore' , WMLTYPEIN_LOG)
     growtraj = wtl.globals.is_function_object_supported('WMLS_UpdateInStore' , WMLTYPEIN_TRAJECTORY)
     
-    print "Grow Logs: " + str(growlog)
-    print "Grow Trajectorys: " + str(growtraj)
+    print(("Grow Logs: " + str(growlog)))
+    print(("Grow Trajectorys: " + str(growtraj)))
     
     while 1:
         if (growlog is True):

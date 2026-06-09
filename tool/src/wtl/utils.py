@@ -497,7 +497,7 @@ def encode_options_in(options_in):
     encoded_options = []
     
     try:
-        for option in options_in.keys():
+        for option in list(options_in.keys()):
             encoded_options.append('%s=%s' %(option, options_in[option]))
     except:
         pass
@@ -534,7 +534,7 @@ def iso_to_localized(iso_str, timezone_name, interpretInTimezone=False):
         timezone_name = 'UTC'
     try:
         dt = date_time.astimezone(pytz.timezone(timezone_name))
-    except ValueError, ve:
+    except ValueError as ve:
         if interpretInTimezone:
             dt = pytz.timezone(timezone_name).localize(date_time)
         else:

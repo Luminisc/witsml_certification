@@ -954,7 +954,7 @@ class LogVerify:
                 # find index of curve last non null value
                 numberOfRows = self._get_logData_NumberOfNodes_Int(); 
                 indexValueOfLastNonNull = -1
-                reverseRange = range(numberOfRows)
+                reverseRange = list(range(numberOfRows))
                 reverseRange.reverse()
                 for row in reverseRange:
                      value = self._get_logData_DataValue_String(row,mnemonic)
@@ -1027,7 +1027,7 @@ class LogVerify:
                 # find index of curve last non null value
                 numberOfRows = self._get_logData_NumberOfNodes_Int(); 
                 indexValueOfLastNonNull = -1
-                reverseRange = range(numberOfRows)
+                reverseRange = list(range(numberOfRows))
                 reverseRange.reverse()
                 for row in reverseRange:
                      value = self._get_logData_DataValue_String(row,mnemonic)

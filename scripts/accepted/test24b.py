@@ -52,9 +52,9 @@ WMLS_GetFromStore(WMLTYPEIN_LOG, """<?xml version="1.0" encoding="UTF-8"?>
 check_ReturnValue_Success()
 
 
-if (get('firstMinIndex') <> get_XMLout_Element_String('/logs/log/logCurveInfo[mnemonic="$server_w2_wb1_log1_mnemonic_1$"]/minIndex')):
+if (get('firstMinIndex') != get_XMLout_Element_String('/logs/log/logCurveInfo[mnemonic="$server_w2_wb1_log1_mnemonic_1$"]/minIndex')):
     fail('minIndex is different from both queries')
-if (get('firstMaxIndex') <> get_XMLout_Element_String('/logs/log/logCurveInfo[mnemonic="$server_w2_wb1_log1_mnemonic_1$"]/maxIndex')):
+if (get('firstMaxIndex') != get_XMLout_Element_String('/logs/log/logCurveInfo[mnemonic="$server_w2_wb1_log1_mnemonic_1$"]/maxIndex')):
     fail('maxIndex is different from both queries')
 partial_success('minIndex and maxIndex match from both queries')    
 

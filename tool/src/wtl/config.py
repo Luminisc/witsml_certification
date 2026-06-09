@@ -41,7 +41,7 @@ auto_start = True
 # If a local configuration file exists, overwrite configuration parameters from there
 local_config_file = os.path.join(os.getcwd(),'wtl_cfg.py')
 if os.path.isfile(local_config_file):
-    execfile(local_config_file)
+    exec(compile(open(local_config_file, "rb").read(), local_config_file, 'exec'))
 
 #Set path to default server file directory and add it to the path 
 if (not server_file_directory):

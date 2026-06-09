@@ -4,10 +4,10 @@ import sys
 import os
 import time
 import re
-import ConfigParser
+import configparser
 from PySide import QtGui, QtCore
 import subprocess
-from Queue import Queue
+from queue import Queue
 
 from wtl.witsml import *
 import wtl.store_prim
@@ -654,7 +654,7 @@ class MainWidget(QtGui.QWidget):
         server access profiles file
         """
         
-        self.server_profiles = ConfigParser.SafeConfigParser({'server_url': '',
+        self.server_profiles = configparser.SafeConfigParser({'server_url': '',
                                                               'server_proxy_url': '',
                                                               'server_username': '',
                                                               'server_password': ''})

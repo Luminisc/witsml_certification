@@ -37,19 +37,19 @@ class InconsistentLogException:
 class CanNotLoadObjectException:
     def __init__(self, msg):
         self.msg = msg;
-        print "EXCEPTION : "+msg
+        print("EXCEPTION : "+msg)
         pass;
 
 class LogAlreadyExistsException:
     def __init__(self, msg):
         self.msg = msg;
-        print "EXCEPTION : "+msg
+        print("EXCEPTION : "+msg)
         pass;
     
 class GenericStoreException:
     def __init__(self, msg):
         self.msg = msg;
-        print "EXCEPTION : "+msg
+        print("EXCEPTION : "+msg)
         pass;
 
 
@@ -78,7 +78,7 @@ def parseValueAsDatatype(value, datatype, nullvalue):
         return common.xsd_dateTime_to_datetime(value);
     if (datatype == "string"):
         return value;
-    print "uknown datatype:"+datatype
+    print("uknown datatype:"+datatype)
     raise ValueError();
 
 def valueToString(value, datatype, nullvalue):
@@ -103,7 +103,7 @@ def valueToString(value, datatype, nullvalue):
         return str(common.datetime_to_xsd_dateTime(value));
     if (datatype == "string"):
         return value;
-    print "uknown datatype:"+datatype
+    print("uknown datatype:"+datatype)
     raise ValueError();
 
 #log object implementation
@@ -170,7 +170,7 @@ class LogDataObject:
         return "unknown";
     
     def logError(self, str_param):
-        print ("ERROR : "+str_param);
+        print(("ERROR : "+str_param));
     
     def preview(self):
         """
@@ -181,14 +181,14 @@ class LogDataObject:
         for curve in self.curves:
             curves_str = curves_str+"\t"+curve.mnemonic+"("+str(ix)+")";
             ix = ix + 1
-        print curves_str;
+        print(curves_str);
         for data_row in self.data:
             data_str = "";
             ix = 0;
             for data_point in data_row.values:
                 data_str = data_str+"\t"+str(data_point)+"("+str(ix)+")"
                 ix = ix + 1
-            print data_str
+            print(data_str)
         
     
     def objectify(self, schema, xml_str):
@@ -346,13 +346,13 @@ class LogDataObject:
                     try:
                         new_row.values[ curve_index ] =    parseValueAsDatatype(values[i], self.curves[curve_index].datatype , self.curves[curve_index].nullvalue );
                     except:
-                        print "What fail : datarow "+str(data_iter);
+                        print("What fail : datarow "+str(data_iter));
                         
-                        print (" curve = '"+ 
+                        print((" curve = '"+ 
                                self.curves[curve_index].mnemonic + 
                                "' datatype: (" + 
                                self.curves[curve_index].datatype + 
-                               ") attempted to parse value: '"+values[i]+"' column #"+str(curve_index));
+                               ") attempted to parse value: '"+values[i]+"' column #"+str(curve_index)));
                                
                         raise;
                 if len(self.data)>1:
@@ -363,7 +363,7 @@ class LogDataObject:
     
     def sortCurvesIntoAlphabeticOrder(self,obj):
         if len( obj.log[0].logCurveInfo ) <= 1:
-            print "No curves to be sorted Object contains only Index curve"        
+            print("No curves to be sorted Object contains only Index curve")        
         #storing curves
         index_crv = None;
         data_curves = [];
@@ -557,7 +557,7 @@ class LogObject:
         self.CheckHeaderInformation();
         request_position = self.logDataObject.start;
         while (1):
-            print "new request pos = "+str(request_position);
+            print("new request pos = "+str(request_position));
             if (self.logDataObject.index_type == INDEX_TYPE_TIME):
                 query = string.Template( """<logs xmlns="http://www.witsml.org/schemas/1series" version="$version">
                                                   <log uidWell="$uidWell" uidWellbore="$uidWellbore" uid="$uidLog">
@@ -587,7 +587,7 @@ class LogObject:
                         endIndex = "",
                         startTimeIndex = "",
                         endTimeIndex = "") 
-            print "requesting data from WITSML store...";
+            print("requesting data from WITSML store...");
             
             #WMLS_GetFromStore
             
@@ -600,20 +600,20 @@ class LogObject:
                                                   );
                                           
                                                        
-            print "processing reply from WITSML store..."
+            print("processing reply from WITSML store...")
             object_from_store = objectify.fromstring( response.XMLout );
             try:
                 self.logDataObject.parseLogObjectData(object_from_store)
             except:
-                print "\n FYI: Original Header was :\n"+etree.tostring( self.objectified_native_header , pretty_print=True)
+                print("\n FYI: Original Header was :\n"+etree.tostring( self.objectified_native_header , pretty_print=True))
                 raise ;            
-            print "XML parsed"
+            print("XML parsed")
             if (response.Result == 1):
                 break;
             request_position = self.logDataObject.lastIndexValue();
-            print "loaded : "+str( len(self.logDataObject.data) )+" rows ...";
-            print "";
-        print "Loading Done. Total Loaded : "+str( len(self.logDataObject.data) )+" rows";    
+            print("loaded : "+str( len(self.logDataObject.data) )+" rows ...");
+            print("");
+        print("Loading Done. Total Loaded : "+str( len(self.logDataObject.data) )+" rows");    
     
     def LoadHeaderFromStore(self ,  well_uid, wellbore_uid, log_uid):
             """ 
@@ -792,7 +792,7 @@ class LogObject:
             except:
                 import traceback;
                 tb = traceback.format_exc();
-                print tb;
+                print(tb);
                 print("Can not delete existing log object, in order to create new one");
                 raise GenericStoreException("Can not delete existing log object, in order to create new one");
             log_exists = False;

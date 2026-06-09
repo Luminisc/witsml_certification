@@ -28,14 +28,14 @@ from suds.transport.http import HttpAuthenticated
 from datetime import datetime
 
 # Application imports
-import script
-import utils
-import testlog
-import response
+from . import script
+from . import utils
+from . import testlog
+from . import response
 import wtl.capability
 import wtl.globals
 import wtl.config
-import log_verify
+from . import log_verify
 from wsvt.SchemaValidator import WITSMLSchemaValidator;
 
 validator = None
@@ -177,7 +177,7 @@ class WITSMLServer:
         versions = None
         try:
             versions = WITSMLServer.client.service.WMLS_GetVersion()
-        except Exception, exception_instance:
+        except Exception as exception_instance:
             WITSMLServer.log_store_result('Failed - '+str(formatUserFriendlyHTTPError(exception_instance)))
             return False
         except:
@@ -208,7 +208,7 @@ class WITSMLServer:
         WITSMLServer.clear_response()
         try:
             reply = WITSMLServer.client.service.WMLS_GetCap(utils.encode_options_in(OptionsIn))
-        except Exception, exception_instance:
+        except Exception as exception_instance:
             WITSMLServer.log_store_result('Failed - '+str(formatUserFriendlyHTTPError(exception_instance)))
             return False
         except:
@@ -265,7 +265,7 @@ class WITSMLServer:
             after = datetime.now()
             duration_in_seconds = (after - before).total_seconds()
             WITSMLServer.elapse_time_in_seconds.set(duration_in_seconds, log='Elapse Time in Seconds')            
-        except Exception, exception_instance:
+        except Exception as exception_instance:
             WITSMLServer.log_store_result('Failed - '+str(formatUserFriendlyHTTPError(exception_instance)))
             return False
         except:
@@ -321,7 +321,7 @@ class WITSMLServer:
             after = datetime.now()
             duration_in_seconds = (after - before).total_seconds()
             WITSMLServer.elapse_time_in_seconds.set(duration_in_seconds, log='Elapse Time in Seconds') 
-        except Exception, exception_instance:
+        except Exception as exception_instance:
             WITSMLServer.log_store_result('Failed - '+str(formatUserFriendlyHTTPError(exception_instance)))
             return False
         except:
@@ -376,7 +376,7 @@ class WITSMLServer:
             after = datetime.now()
             duration_in_seconds = (after - before).total_seconds()
             WITSMLServer.elapse_time_in_seconds.set(duration_in_seconds, log='Elapse Time in Seconds')
-        except Exception, exception_instance:
+        except Exception as exception_instance:
             WITSMLServer.log_store_result('Failed - '+str(formatUserFriendlyHTTPError(exception_instance)))
             return False
         except:
@@ -449,7 +449,7 @@ class WITSMLServer:
             after = datetime.now()
             duration_in_seconds = (after - before).total_seconds()
             WITSMLServer.elapse_time_in_seconds.set(duration_in_seconds, log='Elapse Time in Seconds') 
-        except Exception, exception_instance:
+        except Exception as exception_instance:
             WITSMLServer.log_store_result('Failed - '+str(formatUserFriendlyHTTPError(exception_instance)))
             return False
         except:
@@ -484,7 +484,7 @@ class WITSMLServer:
         WITSMLServer.clear_response()
         try:
             message = WITSMLServer.client.service.WMLS_GetBaseMsg(ReturnValueIn)
-        except Exception, exception_instance:
+        except Exception as exception_instance:
             WITSMLServer.log_store_result('Failed - '+str(formatUserFriendlyHTTPError(exception_instance)))
             return False
         except:

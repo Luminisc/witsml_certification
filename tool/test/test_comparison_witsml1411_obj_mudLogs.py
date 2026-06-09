@@ -236,7 +236,7 @@ class Test(unittest.TestCase):
 
     def testCompareToItself(self):
         result, report = witsml_obj_compare.witsml1411_compare_obj_mudLogs( XML_ORIGINAL , XML_ORIGINAL , True)
-        print report;
+        print(report);
         self.assertTrue( result );
         pass
 
@@ -448,7 +448,7 @@ class Test(unittest.TestCase):
                     </mudLogs>
         """
         result, report = witsml_obj_compare.witsml1411_compare_obj_mudLogs( XML_ORIGINAL , XML_INSPECTED_CALCITE_MODIFIED , True)
-        print report;
+        print(report);
         self.assertFalse( result );
         pass
 
@@ -664,7 +664,7 @@ class Test(unittest.TestCase):
                     </mudLogs>
         """
         result, report = witsml_obj_compare.witsml1411_compare_obj_mudLogs( XML_ORIGINAL , XML_PARAMETERS_REORDERED , True)
-        print report;
+        print(report);
         self.assertTrue( result );
         pass
 
@@ -1051,7 +1051,7 @@ class Test(unittest.TestCase):
         </mudLogs>
         """
         result, report = witsml_obj_compare.witsml1411_compare_obj_mudLogs( XMLA , XMLB , True)
-        print report;
+        print(report);
         self.assertTrue( result );
         pass
         

@@ -123,7 +123,7 @@ class WITSMLSchemaValidator:
             
         #checking for duplicate
         if ( object_type in self.parsers[schema_version][schema_type] ):
-            raise "Internal Error : Duplicate detected"
+            raise Exception("Internal Error : Duplicate detected")
         
         #creating parser
         
@@ -131,7 +131,7 @@ class WITSMLSchemaValidator:
         
     
     def instantinateParsers(self , schemas_root):
-        print "building validation parsers for WITSML API 1.3.1.1"
+        print("building validation parsers for WITSML API 1.3.1.1")
         """ 
         1.3.1.1 
         """
@@ -155,7 +155,7 @@ class WITSMLSchemaValidator:
         self.addParser( self.WITSML_VERSION_1311 , self.GENERIC_SCHEMA , self.OBJ_TYPE_WBGEOMETRY, witsml_1311_root+"obj_wbGeometry.xsd" );
         self.addParser( self.WITSML_VERSION_1311 , self.GENERIC_SCHEMA , self.OBJ_TYPE_WELL, witsml_1311_root+"obj_well.xsd" );
         self.addParser( self.WITSML_VERSION_1311 , self.GENERIC_SCHEMA , self.OBJ_TYPE_WELLBORE, witsml_1311_root+"obj_wellbore.xsd" );
-        print "building validation parsers for WITSML API 1.4.1.0"
+        print("building validation parsers for WITSML API 1.4.1.0")
         """ 
         1.4.1.0 
         """
@@ -268,7 +268,7 @@ class WITSMLSchemaValidator:
         self.addParser( self.WITSML_VERSION_1410 , self.UPDATE_SCHEMA , self.OBJ_TYPE_WBGEOMETRY,      witsml_1410_root + "obj_wbGeometry.xsd" );
         self.addParser( self.WITSML_VERSION_1410 , self.UPDATE_SCHEMA , self.OBJ_TYPE_WELL,            witsml_1410_root + "obj_well.xsd" );
         self.addParser( self.WITSML_VERSION_1410 , self.UPDATE_SCHEMA , self.OBJ_TYPE_WELLBORE,        witsml_1410_root + "obj_wellbore.xsd" );
-        print "building validation parsers for WITSML API 1.4.1.1"
+        print("building validation parsers for WITSML API 1.4.1.1")
         """ 
         1.4.1.1 
         """
@@ -418,7 +418,7 @@ class WITSMLSchemaValidator:
             obz = objectify.fromstring( xml_string , self.parsers[schema_version][schema_type][object_type].getParser() );
             if (obz is None):
                 return False,"Validation did not work'd as expected"
-        except etree.XMLSyntaxError, e:
+        except etree.XMLSyntaxError as e:
             return False , "XML is not Valid : "+str(e);
         
         return True,"XML is Valid"

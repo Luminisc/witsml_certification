@@ -1087,7 +1087,7 @@ class ResponseTest(unittest.TestCase, mocking.MockingTestMixin):
         # Test UTF-8
         x1 = XML_ENCODING %("UTF-8", XMLBODY)
         r = wtl.response.XMLValue()
-        r.set(unicode(x1))
+        r.set(str(x1))
         r.set(x1)
         
     def test_XMLValue_set_encoding_shouldAcceptEncodingUTF16(self):
@@ -1100,14 +1100,14 @@ class ResponseTest(unittest.TestCase, mocking.MockingTestMixin):
         # Test no encoding
         x1 = XML1
         r = wtl.response.XMLValue()
-        r.set(unicode(x1))
+        r.set(str(x1))
         r.set(x1)        
 
     def test_XMLValue_set_encoding_shouldAcceptEncodingInvalid(self):
         # Test invalid encoding
         x1 = XML_ENCODING %("abc", XMLBODY)
         r = wtl.response.XMLValue()
-        r.set(unicode(x1))
+        r.set(str(x1))
         r.set(x1)        
 
     def test_XMLValue_get_attribute(self):

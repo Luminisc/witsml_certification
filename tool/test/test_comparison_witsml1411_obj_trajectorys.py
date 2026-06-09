@@ -196,7 +196,7 @@ class TestTrajectoryComparison(unittest.TestCase):
                 </trajectorys>
                 """
         result, report = witsml_obj_compare.witsml1411_compare_obj_trajectorys( XML_ORIGINAL , XML_INSPECT , True)
-        print report;
+        print(report);
         self.assertTrue( result );
         pass
     
@@ -289,7 +289,7 @@ class TestTrajectoryComparison(unittest.TestCase):
                 </trajectorys>
                 """
         result, report = witsml_obj_compare.witsml1411_compare_obj_trajectorys( XML_ORIGINAL , XML_INSPECT , True)
-        print report;
+        print(report);
         self.assertFalse( result );
         pass
     
@@ -382,7 +382,7 @@ class TestTrajectoryComparison(unittest.TestCase):
                 </trajectorys>
                 """
         result, report = witsml_obj_compare.witsml1411_compare_obj_trajectorys( XML_ORIGINAL , XML_INSPECT , True)
-        print report;
+        print(report);
         self.assertTrue( result );
         pass
 
@@ -475,7 +475,7 @@ class TestTrajectoryComparison(unittest.TestCase):
                 </trajectorys>
                 """
         result, report = witsml_obj_compare.witsml1411_compare_obj_trajectorys( XML_ORIGINAL , XML_INSPECT , True)
-        print report;
+        print(report);
         self.assertTrue( result );
         pass
 
@@ -567,7 +567,7 @@ class TestTrajectoryComparison(unittest.TestCase):
                 </trajectorys>
                 """
         result, report = witsml_obj_compare.witsml1411_compare_obj_trajectorys( XML_ORIGINAL , XML_INSPECT , True)
-        print report;
+        print(report);
         self.assertFalse( result );
         pass
   
@@ -661,7 +661,7 @@ class TestTrajectoryComparison(unittest.TestCase):
                 </trajectorys>
                 """
         result, report = witsml_obj_compare.witsml1411_compare_obj_trajectorys( XML_ORIGINAL , XML_INSPECT , True)
-        print report;
+        print(report);
         self.assertFalse( result );
         pass
     

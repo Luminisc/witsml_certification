@@ -178,8 +178,8 @@ class UtilsTest(unittest.TestCase):
         jun = datetime.datetime(2009,6,21,5,45,0)
 
         dt = wtl.utils.iso_to_utc(iso_str)
-        self.assertEquals(dt, pytz.timezone("US/Central").localize(jun))
-        self.assertEquals(dt.utcoffset(), datetime.timedelta(0))
+        self.assertEqual(dt, pytz.timezone("US/Central").localize(jun))
+        self.assertEqual(dt.utcoffset(), datetime.timedelta(0))
         
     def test_iso_to_utc_with_Z(self):
         "Check that an ISO string with Z as its timezone parses"
@@ -187,8 +187,8 @@ class UtilsTest(unittest.TestCase):
         dec = datetime.datetime(2009,12,21,17,47,0)
         
         dt = wtl.utils.iso_to_utc(iso_str)
-        self.assertEquals(dt, pytz.utc.localize(dec))
-        self.assertEquals(dt.utcoffset(), datetime.timedelta(0))
+        self.assertEqual(dt, pytz.utc.localize(dec))
+        self.assertEqual(dt.utcoffset(), datetime.timedelta(0))
 
     def test_iso_to_utc_has_no_tz_info_should_pass_when_forced(self):
         "Check that an ISO string w/o timezone info parses when forced"
@@ -196,8 +196,8 @@ class UtilsTest(unittest.TestCase):
         dec = datetime.datetime(2009,12,21,17,47,0)
 
         dt = wtl.utils.iso_to_utc(iso_str, interpretInTimezone=True)
-        self.assertEquals(dt, pytz.utc.localize(dec))
-        self.assertEquals(dt.utcoffset(), datetime.timedelta(0))
+        self.assertEqual(dt, pytz.utc.localize(dec))
+        self.assertEqual(dt.utcoffset(), datetime.timedelta(0))
         
     def test_iso_to_utc_exceptions(self):
         # No tz and not forced
@@ -211,15 +211,15 @@ class UtilsTest(unittest.TestCase):
         "Check that localization accounts for DST (or lack thereof)"
         cgy_dec = wtl.utils.iso_to_localized("2009-12-21T17:47:00", "Canada/Mountain", interpretInTimezone=True)
 
-        self.assertEquals(cgy_dec.utcoffset(), datetime.timedelta(hours=-7))
+        self.assertEqual(cgy_dec.utcoffset(), datetime.timedelta(hours=-7))
 
     def test_iso_to_localized_australia_no_dst(self):
         "Check that localization works where there is no DST"
         aus_jun = wtl.utils.iso_to_localized("2009-06-21T05:45:00", "Australia/Brisbane", interpretInTimezone=True)
-        self.assertEquals(aus_jun.utcoffset(), datetime.timedelta(hours=10))
+        self.assertEqual(aus_jun.utcoffset(), datetime.timedelta(hours=10))
 
         aus_dec = wtl.utils.iso_to_localized("2009-12-21T17:47:00", "Australia/Brisbane", interpretInTimezone=True)
-        self.assertEquals(aus_dec.utcoffset(), datetime.timedelta(hours=10))
+        self.assertEqual(aus_dec.utcoffset(), datetime.timedelta(hours=10))
 
     def test_iso_to_localized_esceptions(self):
         "Native date fails - Ensure that the function will not accept timezone agnostic datetimes"
@@ -237,8 +237,8 @@ class UtilsTest(unittest.TestCase):
         dec = datetime.datetime(2009,12,21,17,47,0)
         
         dt = wtl.utils.iso_to_localized(iso_str, "", interpretInTimezone=True)
-        self.assertEquals(dt, pytz.utc.localize(dec))
-        self.assertEquals(dt.utcoffset(), datetime.timedelta(0))
+        self.assertEqual(dt, pytz.utc.localize(dec))
+        self.assertEqual(dt.utcoffset(), datetime.timedelta(0))
         
     def test_datetime_to_iso_utc_preserve_timezone(self):      
         jun = datetime.datetime(2009,6,21,5,45,0)
@@ -246,7 +246,7 @@ class UtilsTest(unittest.TestCase):
 
         "Check that a UTC datetime is printed with an offset of 0"
         iso_str = wtl.utils.datetime_to_iso(pytz.utc.localize(jun))
-        self.assertEquals(iso_str, expected)
+        self.assertEqual(iso_str, expected)
 
     def test_datetime_to_iso_utc_drop_timezone(self):
         dec = datetime.datetime(2009,12,21,17,47,0)
@@ -254,7 +254,7 @@ class UtilsTest(unittest.TestCase):
 
         "Check that a UTC datetime is printed with the timezone identifier Z"
         iso_str = wtl.utils.datetime_to_iso(pytz.utc.localize(dec), False)
-        self.assertEquals(iso_str, expected)
+        self.assertEqual(iso_str, expected)
 
     def test_datetime_to_iso_localized_preserve_timezone(self):
         jun = datetime.datetime(2009,6,21,5,45,0)
@@ -262,7 +262,7 @@ class UtilsTest(unittest.TestCase):
 
         "Check that a localized datetime is printed with its offset from UTC"
         iso_str = wtl.utils.datetime_to_iso(pytz.timezone("US/Central").localize(jun))
-        self.assertEquals(iso_str, expected)
+        self.assertEqual(iso_str, expected)
 
     def test_datetime_to_iso_localized_drop_timezone(self):
         dec = datetime.datetime(2009,12,21,17,47,0)
@@ -271,7 +271,7 @@ class UtilsTest(unittest.TestCase):
         "Check that a localized datetime is converted to UTC"
         iso_str = wtl.utils.datetime_to_iso(pytz.timezone("US/Central").localize(dec), False)
         expected = "2009-12-21T23:47:00Z"
-        self.assertEquals(iso_str, expected)
+        self.assertEqual(iso_str, expected)
 
     def test_datetime_to_iso_naive_date_fails(self):
         "Check that the function will not accept timezone agnostic datetimes"

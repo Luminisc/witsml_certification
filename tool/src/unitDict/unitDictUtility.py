@@ -1,8 +1,8 @@
 # System imports
 import os
 import sys
-import unitOfMeasure
-import unitDictGenerated
+from . import unitOfMeasure
+from . import unitDictGenerated
 import wtl.control_prim
 import wtl.testlog as testlog
 

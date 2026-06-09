@@ -93,8 +93,8 @@ try:
           package_dir = {'unitDict': 'src/unitDict'},
           )		  
     
-except SystemExit, msg:
-    print "Installation Failed: Error: %s" % msg
+except SystemExit as msg:
+    print(("Installation Failed: Error: %s" % msg))
     exit(-1)
         
-print "Installation Complete"
+print("Installation Complete")

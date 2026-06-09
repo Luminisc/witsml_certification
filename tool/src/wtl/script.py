@@ -27,8 +27,8 @@ import sys
 
 # Application imports
 import wtl.config
-import testlog
-import utils
+from . import testlog
+from . import utils
 
 #******************************************************************************
 #
@@ -219,9 +219,9 @@ class Script:
 
         try:
             exec(file_contents)
-        except ScriptEvent, e:
+        except ScriptEvent as e:
             pass
-        except Exception, inst:
+        except Exception as inst:
             self.test_result = SCRIPT_RESULT_FAIL
             self.log_script_result('ERROR: "%s"' %(inst))
 
@@ -367,7 +367,7 @@ class Script:
         """
         
         value = None
-        if (self.variables.has_key(name)):
+        if (name in self.variables):
             value = self.variables[name]
         return value 
 

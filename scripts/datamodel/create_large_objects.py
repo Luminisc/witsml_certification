@@ -114,7 +114,7 @@ def create_log_maxDataNodes(uidWell, uidWellbore, uidLog, nameWell, nameWellbore
               
     first_query_flag = True;
     nodesToExceed = maxDataNodes['WMLS_GetFromStore']
-    print ("uploading log that exceeds maxDataRows of " + str(nodesToExceed));
+    print(("uploading log that exceeds maxDataRows of " + str(nodesToExceed)));
     while uploaded_rows <= nodesToExceed:
         ###
         crv1 = random.random();
@@ -135,16 +135,16 @@ def create_log_maxDataNodes(uidWell, uidWellbore, uidLog, nameWell, nameWellbore
             ###
         update_query = etree.tostring( new_logs_xml , pretty_print = True );
         if (first_query_flag):
-            print "Adding to store new log..."
+            print("Adding to store new log...")
             #print update_query;
             WMLS_AddToStore(WMLTYPEIN_LOG,  update_query );
         else:
-            print "Appending data to log..."
+            print("Appending data to log...")
             WMLS_UpdateInStore(WMLTYPEIN_LOG,  update_query );
         check_ReturnValue_Success();
         uploaded_rows+=maximum_rows_per_request;
         first_query_flag = False;
-        print "uploaded so far : "+str(uploaded_rows)+" rows";
+        print(("uploaded so far : "+str(uploaded_rows)+" rows"));
         
     return True
 
@@ -188,7 +188,7 @@ def create_log_maxDataPoints(uidWell, uidWellbore, uidLog, nameWell, nameWellbor
         maximum_rows_per_request = maxDataPoints['WMLS_UpdateInStore']
     
     maxPointsToExceed = maxDataPoints['WMLS_GetFromStore']  
-    print ("uploading log that exceeds maxDataPoints of " + str(maxPointsToExceed));
+    print(("uploading log that exceeds maxDataPoints of " + str(maxPointsToExceed)));
     
     # set number of curves to write (capped at 500)
     curve_count =  maxPointsToExceed / 1000;
@@ -322,8 +322,8 @@ def create_log_maxDataPoints(uidWell, uidWellbore, uidLog, nameWell, nameWellbor
         ###
         uploaded_points += collected_points;
         uploaded_nodes += collected_nodes
-        print "uploaded "+str(uploaded_points)+" points to witsml store"
-        print "node count: "+str(uploaded_nodes)+" "
+        print(("uploaded "+str(uploaded_points)+" points to witsml store"))
+        print(("node count: "+str(uploaded_nodes)+" "))
         first_upload = False;
     return True
 

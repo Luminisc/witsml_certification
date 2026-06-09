@@ -92,11 +92,11 @@ def wtl_log(log_string, force=False, no_new_line=False, prefix=''):
     global log_file
     if (force or logging):
         if (no_new_line):
-            print prefix+log_string,
+            print(prefix+log_string, end=' ')
             if log_file:
                 log_file.write(prefix+log_string)
         else:
-            print prefix+log_string
+            print(prefix+log_string)
             if log_file:
                 log_file.write(prefix+log_string+'\n')
 

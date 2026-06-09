@@ -8,7 +8,7 @@ Created on Jun 22, 2012
 import sys
 import xml.dom.minidom
 import string
-import common;
+from . import common;
 import os;
 import string;
 
@@ -39,13 +39,13 @@ WITSML_VERSION_1411 = "1.4.1.1"
 
 class HTML_Exception:
     def __init__(self):
-        print "Raised HTML Exception"
+        print("Raised HTML Exception")
         pass
 
 
 class WITSML_Exception:
     def __init__(self, result_code, result):
-        print "Raised Exception : "+str(result_code)+" '"+result+"' ";
+        print("Raised Exception : "+str(result_code)+" '"+result+"' ");
         pass
 
 class GetFromStoreResponse:
@@ -129,7 +129,7 @@ class WITSML_API:
     
     def checkResultCode(self , value , msg):
         if ( value <=0 ) :
-            print "Error Detected!!!! ERROR CODE : #"+str(value)+" msg:"+msg;
+            print("Error Detected!!!! ERROR CODE : #"+str(value)+" msg:"+msg);
             raise WITSML_Exception(value , msg)
         pass
     
@@ -164,7 +164,7 @@ class WITSML_API:
             try:
                 self.checkResultCode(result.Result , result.SuppMsgOut);
             except:
-                print "query fail :\n"+QueryIn;
+                print("query fail :\n"+QueryIn);
                 raise;
             
             result.XMLout = store_prim.WITSMLServer.xml_out.get();
@@ -190,7 +190,7 @@ class WITSML_API:
             try:
                 self.checkResultCode( result.Result, result.SuppMsgOut );
             except:
-                print "What fail : "+XMLin
+                print("What fail : "+XMLin)
             return result;
 
     def WMLS_UpdateInStore(self, XMLin, WMLtypeIn, OptionsIn = {} , CapabilitiesIn = ""):

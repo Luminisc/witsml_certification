@@ -7,7 +7,7 @@
 import pyxb
 import pyxb.binding
 import pyxb.binding.saxer
-import StringIO
+import io
 import pyxb.utils.utility
 import pyxb.utils.domutils
 import sys
@@ -18,7 +18,7 @@ _GenerationUID = pyxb.utils.utility.UniqueIdentifier('urn:uuid:dfed69f0-daaa-11e
 # Import bindings for namespaces imported into schema
 import pyxb.binding.datatypes
 
-Namespace = pyxb.namespace.NamespaceForURI(u'http://www.energistics.org/schemas/abstract', create_if_missing=True)
+Namespace = pyxb.namespace.NamespaceForURI('http://www.energistics.org/schemas/abstract', create_if_missing=True)
 Namespace.configureCategories(['typeBinding', 'elementBinding'])
 ModuleRecord = Namespace.lookupModuleRecordByUID(_GenerationUID, create_if_missing=True)
 ModuleRecord._setModule(sys.modules[__name__])
@@ -45,7 +45,7 @@ def CreateFromDocument (xml_text, default_namespace=None, location_base=None):
         default_namespace = Namespace.fallbackNamespace()
     saxer = pyxb.binding.saxer.make_parser(fallback_namespace=default_namespace, location_base=location_base)
     handler = saxer.getContentHandler()
-    saxer.parse(StringIO.StringIO(xml_text))
+    saxer.parse(io.StringIO(xml_text))
     instance = handler.rootObject()
     return instance
 
@@ -68,8 +68,8 @@ class abstractObject (pyxb.binding.basis.complexTypeDefinition):
     _TypeDefinition = None
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_EMPTY
     _Abstract = True
-    _ExpandedName = pyxb.namespace.ExpandedName(Namespace, u'abstractObject')
-    _XSDLocation = pyxb.utils.utility.Location(u'o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.4.1.0_Data_Schema\\abstract_v1.0\\xsd_schemas\\sub_abstractSubstitutionGroup.xsd', 30, 1)
+    _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'abstractObject')
+    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.4.1.0_Data_Schema\\abstract_v1.0\\xsd_schemas\\sub_abstractSubstitutionGroup.xsd', 30, 1)
     # Base type is pyxb.binding.datatypes.anyType
 
     _ElementMap = {
@@ -78,11 +78,11 @@ class abstractObject (pyxb.binding.basis.complexTypeDefinition):
     _AttributeMap = {
         
     }
-Namespace.addCategoryObject('typeBinding', u'abstractObject', abstractObject)
+Namespace.addCategoryObject('typeBinding', 'abstractObject', abstractObject)
 
 
-abstractDataObject = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, u'abstractDataObject'), abstractObject, abstract=pyxb.binding.datatypes.boolean(1), documentation=u'Substitution group for normative data objects.', location=pyxb.utils.utility.Location(u'o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.4.1.0_Data_Schema\\abstract_v1.0\\xsd_schemas\\sub_abstractSubstitutionGroup.xsd', 18, 1))
+abstractDataObject = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'abstractDataObject'), abstractObject, abstract=pyxb.binding.datatypes.boolean(1), documentation='Substitution group for normative data objects.', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.4.1.0_Data_Schema\\abstract_v1.0\\xsd_schemas\\sub_abstractSubstitutionGroup.xsd', 18, 1))
 Namespace.addCategoryObject('elementBinding', abstractDataObject.name().localName(), abstractDataObject)
 
-abstractContextualObject = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, u'abstractContextualObject'), abstractObject, abstract=pyxb.binding.datatypes.boolean(1), documentation=u'Substitution group for contextual objects.', location=pyxb.utils.utility.Location(u'o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.4.1.0_Data_Schema\\abstract_v1.0\\xsd_schemas\\sub_abstractSubstitutionGroup.xsd', 24, 1))
+abstractContextualObject = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'abstractContextualObject'), abstractObject, abstract=pyxb.binding.datatypes.boolean(1), documentation='Substitution group for contextual objects.', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.4.1.0_Data_Schema\\abstract_v1.0\\xsd_schemas\\sub_abstractSubstitutionGroup.xsd', 24, 1))
 Namespace.addCategoryObject('elementBinding', abstractContextualObject.name().localName(), abstractContextualObject)

@@ -109,34 +109,34 @@ def isXMLEncapsulateAnotherXML( inspected_tree , original_tree , inspected_xml ,
             if (original_tree.text != inspected_tree.text):
                     """Oops! text is different print problem and return False"""
                     print("");
-                    print(space+"text is different for node ( "+ getPathForNode(original_tree) +
+                    print((space+"text is different for node ( "+ getPathForNode(original_tree) +
                                             " ) \n    '" + original_tree.text+ 
                                             "' \n != \n    '" + inspected_tree.text 
-                                            );
+                                            ));
                     print("");
-                    print(space+"Different lines in XML : \n    original xml line"+str(original_tree.sourceline)+" : '"+ original_xml.splitlines(True)[original_tree.sourceline-1]+"'"+
-                                                        "\n    inspected xml line"+str(inspected_tree.sourceline)+" : '"+ inspected_xml.splitlines(True)[inspected_tree.sourceline-1])+"'";
+                    print((space+"Different lines in XML : \n    original xml line"+str(original_tree.sourceline)+" : '"+ original_xml.splitlines(True)[original_tree.sourceline-1]+"'"+
+                                                        "\n    inspected xml line"+str(inspected_tree.sourceline)+" : '"+ inspected_xml.splitlines(True)[inspected_tree.sourceline-1])+"'");
                     return False ;
     """checking attributes;"""
-    for attrib_original in original_tree.items():
+    for attrib_original in list(original_tree.items()):
         """ if attribute contains "{" then it is a namespace or other weired node that we ignore """
         if (attrib_original[0].find("{") > -1):
             continue;
         """ it is regular attribute using flag to indicate is it in array"""
         found_in_inspected_attrib_list = False;
-        for attrib_inspected in inspected_tree.items():
+        for attrib_inspected in list(inspected_tree.items()):
             """names (first part of tuple) is equal then its the same attribute"""
             if (attrib_original[0] == attrib_inspected[0]):
                 """setting flag to found"""
                 found_in_inspected_attrib_list = True;
                 """if text (second part of tuple) is different then report problem and return"""
                 if (attrib_original[1] != attrib_inspected[1]):
-                    print space+"value for attribute : "+getPathForNode(original_tree) +"["+ attrib_original[0]+"] - Does Not Match! "
-                    print space+"    '"+attrib_original[1] + "' != '" + attrib_inspected[1]+"'"
+                    print(space+"value for attribute : "+getPathForNode(original_tree) +"["+ attrib_original[0]+"] - Does Not Match! ")
+                    print(space+"    '"+attrib_original[1] + "' != '" + attrib_inspected[1]+"'")
                     return False;
         """if flag was not set then it attribute is missing from inspected node"""
         if (not found_in_inspected_attrib_list):
-            print "missing attribute : "+getPathForNode(original_tree) +"["+ attrib_original[0]+"]"
+            print("missing attribute : "+getPathForNode(original_tree) +"["+ attrib_original[0]+"]")
             return False; 
     """attributes are checked, checking sub elements and recursively call it self on new elements"""
     pos_i = -1;
@@ -170,7 +170,7 @@ def isXMLEncapsulateAnotherXML( inspected_tree , original_tree , inspected_xml ,
                 break;
         """if we did not found element we just return false"""
         if not found:
-            print " Matching element is not found, attempted to find something similar to :\n "+  etree.tostring( element , pretty_print=True) 
+            print(" Matching element is not found, attempted to find something similar to :\n "+  etree.tostring( element , pretty_print=True)) 
             return False;
         else:
             pass;
