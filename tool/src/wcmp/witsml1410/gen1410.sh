@@ -8,32 +8,59 @@ PYXBGEN_OPTS="--schema-root=$SCHEMA_DIR --binding-root=$SCRIPT_DIR --strip-file-
 echo "SCRIPT_DIR: $SCRIPT_DIR"
 echo "SCHEMA_DIR: $SCHEMA_DIR"
 
+echo "--- obj_attachment ---"
 pyxbgen $PYXBGEN_OPTS -u obj_attachment.xsd                   -m witsml1410_obj_attachment
+echo "--- obj_bhaRun ---"
 pyxbgen $PYXBGEN_OPTS -u obj_bhaRun.xsd                       -m witsml1410_obj_bhaRun
+echo "--- obj_cementJob ---"
 pyxbgen $PYXBGEN_OPTS -u obj_cementJob.xsd                    -m witsml1410_obj_cementJob
+echo "--- obj_changeLog ---"
 pyxbgen $PYXBGEN_OPTS -u obj_changeLog.xsd                    -m witsml1410_obj_changeLog
+echo "--- obj_convCore ---"
 pyxbgen $PYXBGEN_OPTS -u obj_convCore.xsd                     -m witsml1410_obj_convCore
+echo "--- obj_coordinateReferenceSystem ---"
 pyxbgen $PYXBGEN_OPTS -u obj_coordinateReferenceSystem.xsd    -m witsml1410_obj_coordinateReferenceSystem
+echo "--- obj_drillReport ---"
 pyxbgen $PYXBGEN_OPTS -u obj_drillReport.xsd                  -m witsml1410_obj_drillReport
+echo "--- obj_fluidsReport ---"
 pyxbgen $PYXBGEN_OPTS -u obj_fluidsReport.xsd                 -m witsml1410_obj_fluidsReport
+echo "--- obj_formationMarker ---"
 pyxbgen $PYXBGEN_OPTS -u obj_formationMarker.xsd              -m witsml1410_obj_formationMarker
+echo "--- obj_log ---"
 pyxbgen $PYXBGEN_OPTS -u obj_log.xsd                          -m witsml1410_obj_log
+echo "--- obj_message ---"
 pyxbgen $PYXBGEN_OPTS -u obj_message.xsd                      -m witsml1410_obj_message
+echo "--- obj_mudLog ---"
 pyxbgen $PYXBGEN_OPTS -u obj_mudLog.xsd                       -m witsml1410_obj_mudLog
+echo "--- obj_objectGroup ---"
 pyxbgen $PYXBGEN_OPTS -u obj_objectGroup.xsd                  -m witsml1410_obj_objectGroup
+echo "--- obj_opsReport ---"
 pyxbgen $PYXBGEN_OPTS -u obj_opsReport.xsd                    -m witsml1410_obj_opsReport
+echo "--- obj_rig ---"
 pyxbgen $PYXBGEN_OPTS -u obj_rig.xsd                          -m witsml1410_obj_rig
+echo "--- obj_risk ---"
 pyxbgen $PYXBGEN_OPTS -u obj_risk.xsd                         -m witsml1410_obj_risk
+echo "--- obj_sidewallCore ---"
 pyxbgen $PYXBGEN_OPTS -u obj_sidewallCore.xsd                 -m witsml1410_obj_sidewallCore
+echo "--- obj_stimJob ---"
 pyxbgen $PYXBGEN_OPTS -u obj_stimJob.xsd                      -m witsml1410_obj_stimJob
+echo "--- obj_surveyProgram ---"
 pyxbgen $PYXBGEN_OPTS -u obj_surveyProgram.xsd                -m witsml1410_obj_surveyProgram
+echo "--- obj_target ---"
 pyxbgen $PYXBGEN_OPTS -u obj_target.xsd                       -m witsml1410_obj_target
+echo "--- obj_toolErrorModel ---"
 pyxbgen $PYXBGEN_OPTS -u obj_toolErrorModel.xsd               -m witsml1410_obj_toolErrorModel
+echo "--- obj_toolErrorTermSet ---"
 pyxbgen $PYXBGEN_OPTS -u obj_toolErrorTermSet.xsd             -m witsml1410_obj_toolErrorTermSet
+echo "--- obj_trajectory ---"
 pyxbgen $PYXBGEN_OPTS -u obj_trajectory.xsd                   -m witsml1410_obj_trajectory
+echo "--- obj_tubular ---"
 pyxbgen $PYXBGEN_OPTS -u obj_tubular.xsd                      -m witsml1410_obj_tubular
+echo "--- obj_wbGeometry ---"
 pyxbgen $PYXBGEN_OPTS -u obj_wbGeometry.xsd                   -m witsml1410_obj_wbGeometry
+echo "--- obj_well ---"
 pyxbgen $PYXBGEN_OPTS -u obj_well.xsd                         -m witsml1410_obj_well
+echo "--- obj_wellbore ---"
 pyxbgen $PYXBGEN_OPTS -u obj_wellbore.xsd                     -m witsml1410_obj_wellbore
 
 echo "done"

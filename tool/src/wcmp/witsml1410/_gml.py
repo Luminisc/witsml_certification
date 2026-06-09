@@ -1,9 +1,10 @@
-# .\_gml.py
+# /mnt/c/_Work/_Tools/witsml_v1.4.1.1_certification/tool/src/wcmp/witsml1410/_gml.py
 # -*- coding: utf-8 -*-
 # PyXB bindings for NM:c4f74fce23a2f49d6da683416eb2980bfced7e33
-# Generated 2013-06-21 14:42:08.005000 by PyXB version 1.2.1
+# Generated 2026-06-09 18:08:17.721703 by PyXB version 1.2.6 using Python 3.11.2.final.0
 # Namespace http://www.opengis.net/gml/3.2 [xmlns:gml]
 
+from __future__ import unicode_literals
 import pyxb
 import pyxb.binding
 import pyxb.binding.saxer
@@ -11,52 +12,74 @@ import io
 import pyxb.utils.utility
 import pyxb.utils.domutils
 import sys
-
+import pyxb.utils.six as _six
 # Unique identifier for bindings created at the same time
-_GenerationUID = pyxb.utils.utility.UniqueIdentifier('urn:uuid:9ff8bbae-daaa-11e2-b2e7-08002718187b')
+_GenerationUID = pyxb.utils.utility.UniqueIdentifier('urn:uuid:0fe87515-9f8f-46f6-ab96-f3edf1e3dc46')
+
+# Version of PyXB used to generate the bindings
+_PyXBVersion = '1.2.6'
+
+# A holder for module-level binding classes so we can access them from
+# inside class definitions where property names may conflict.
+_module_typeBindings = pyxb.utils.utility.Object()
 
 # Import bindings for namespaces imported into schema
-from . import _nsgroup
+import _nsgroup as _ImportedBinding__nsgroup
 
+# NOTE: All namespace declarations are reserved within the binding
 Namespace = pyxb.namespace.NamespaceForURI('http://www.opengis.net/gml/3.2', create_if_missing=True)
 Namespace.configureCategories(['typeBinding', 'elementBinding'])
-ModuleRecord = Namespace.lookupModuleRecordByUID(_GenerationUID, create_if_missing=True)
-ModuleRecord._setModule(sys.modules[__name__])
 
-def CreateFromDocument (xml_text, default_namespace=None, location_base=None):
+def CreateFromDocument (xml_text, fallback_namespace=None, location_base=None, default_namespace=None):
     """Parse the given XML and use the document element to create a
     Python instance.
-    
-    @kw default_namespace The L{pyxb.Namespace} instance to use as the
-    default namespace where there is no default namespace in scope.
-    If unspecified or C{None}, the namespace of the module containing
-    this function will be used.
+
+    @param xml_text An XML document.  This should be data (Python 2
+    str or Python 3 bytes), or a text (Python 2 unicode or Python 3
+    str) in the L{pyxb._InputEncoding} encoding.
+
+    @keyword fallback_namespace An absent L{pyxb.Namespace} instance
+    to use for unqualified names when there is no default namespace in
+    scope.  If unspecified or C{None}, the namespace of the module
+    containing this function will be used, if it is an absent
+    namespace.
 
     @keyword location_base: An object to be recorded as the base of all
     L{pyxb.utils.utility.Location} instances associated with events and
     objects handled by the parser.  You might pass the URI from which
     the document was obtained.
+
+    @keyword default_namespace An alias for @c fallback_namespace used
+    in PyXB 1.1.4 through 1.2.6.  It behaved like a default namespace
+    only for absent namespaces.
     """
 
     if pyxb.XMLStyle_saxer != pyxb._XMLStyle:
         dom = pyxb.utils.domutils.StringToDOM(xml_text)
         return CreateFromDOM(dom.documentElement)
-    if default_namespace is None:
-        default_namespace = Namespace.fallbackNamespace()
-    saxer = pyxb.binding.saxer.make_parser(fallback_namespace=default_namespace, location_base=location_base)
+    if fallback_namespace is None:
+        fallback_namespace = default_namespace
+    if fallback_namespace is None:
+        fallback_namespace = Namespace.fallbackNamespace()
+    saxer = pyxb.binding.saxer.make_parser(fallback_namespace=fallback_namespace, location_base=location_base)
     handler = saxer.getContentHandler()
-    saxer.parse(io.StringIO(xml_text))
+    xmld = xml_text
+    if isinstance(xmld, _six.text_type):
+        xmld = xmld.encode(pyxb._InputEncoding)
+    saxer.parse(io.BytesIO(xmld))
     instance = handler.rootObject()
     return instance
 
-def CreateFromDOM (node, default_namespace=None):
+def CreateFromDOM (node, fallback_namespace=None, default_namespace=None):
     """Create a Python instance from the given DOM node.
     The node tag must correspond to an element declaration in this module.
 
     @deprecated: Forcing use of DOM interface is unnecessary; use L{CreateFromDocument}."""
-    if default_namespace is None:
-        default_namespace = Namespace.fallbackNamespace()
-    return pyxb.binding.basis.element.AnyCreateFromDOM(node, default_namespace)
+    if fallback_namespace is None:
+        fallback_namespace = default_namespace
+    if fallback_namespace is None:
+        fallback_namespace = Namespace.fallbackNamespace()
+    return pyxb.binding.basis.element.AnyCreateFromDOM(node, fallback_namespace)
 
 from _nsgroup import operationVersion # {http://www.opengis.net/gml/3.2}operationVersion
 from _nsgroup import modifiedCoordinate # {http://www.opengis.net/gml/3.2}modifiedCoordinate
@@ -130,7 +153,6 @@ from _nsgroup import surfaceMembers # {http://www.opengis.net/gml/3.2}surfaceMem
 from _nsgroup import solidMembers # {http://www.opengis.net/gml/3.2}solidMembers
 from _nsgroup import exterior # {http://www.opengis.net/gml/3.2}exterior
 from _nsgroup import interior # {http://www.opengis.net/gml/3.2}interior
-from _nsgroup import AbstractRing # {http://www.opengis.net/gml/3.2}AbstractRing
 from _nsgroup import AbstractCurveSegment # {http://www.opengis.net/gml/3.2}AbstractCurveSegment
 from _nsgroup import segments # {http://www.opengis.net/gml/3.2}segments
 from _nsgroup import AffinePlacement # {http://www.opengis.net/gml/3.2}AffinePlacement
@@ -163,7 +185,6 @@ from _nsgroup import AbstractGeometry # {http://www.opengis.net/gml/3.2}Abstract
 from _nsgroup import pos # {http://www.opengis.net/gml/3.2}pos
 from _nsgroup import posList # {http://www.opengis.net/gml/3.2}posList
 from _nsgroup import Envelope # {http://www.opengis.net/gml/3.2}Envelope
-from _nsgroup import LinearRing # {http://www.opengis.net/gml/3.2}LinearRing
 from _nsgroup import LineStringSegment # {http://www.opengis.net/gml/3.2}LineStringSegment
 from _nsgroup import ArcString # {http://www.opengis.net/gml/3.2}ArcString
 from _nsgroup import ArcStringByBulge # {http://www.opengis.net/gml/3.2}ArcStringByBulge
@@ -176,9 +197,7 @@ from _nsgroup import GeodesicString # {http://www.opengis.net/gml/3.2}GeodesicSt
 from _nsgroup import PolygonPatch # {http://www.opengis.net/gml/3.2}PolygonPatch
 from _nsgroup import Triangle # {http://www.opengis.net/gml/3.2}Triangle
 from _nsgroup import Rectangle # {http://www.opengis.net/gml/3.2}Rectangle
-from _nsgroup import Ring # {http://www.opengis.net/gml/3.2}Ring
 from _nsgroup import AbstractParametricCurveSurface # {http://www.opengis.net/gml/3.2}AbstractParametricCurveSurface
-from _nsgroup import Shell # {http://www.opengis.net/gml/3.2}Shell
 from _nsgroup import identifier # {http://www.opengis.net/gml/3.2}identifier
 from _nsgroup import AbstractImplicitGeometry # {http://www.opengis.net/gml/3.2}AbstractImplicitGeometry
 from _nsgroup import AbstractTimeObject # {http://www.opengis.net/gml/3.2}AbstractTimeObject
@@ -470,6 +489,7 @@ from _nsgroup import PrimeMeridian # {http://www.opengis.net/gml/3.2}PrimeMeridi
 from _nsgroup import AbstractOperation # {http://www.opengis.net/gml/3.2}AbstractOperation
 from _nsgroup import LineString # {http://www.opengis.net/gml/3.2}LineString
 from _nsgroup import Polygon # {http://www.opengis.net/gml/3.2}Polygon
+from _nsgroup import AbstractRing # {http://www.opengis.net/gml/3.2}AbstractRing
 from _nsgroup import CompositeCurve # {http://www.opengis.net/gml/3.2}CompositeCurve
 from _nsgroup import CompositeSurface # {http://www.opengis.net/gml/3.2}CompositeSurface
 from _nsgroup import CompositeSolid # {http://www.opengis.net/gml/3.2}CompositeSolid
@@ -480,6 +500,7 @@ from _nsgroup import OrientableSurface # {http://www.opengis.net/gml/3.2}Orienta
 from _nsgroup import PolyhedralSurface # {http://www.opengis.net/gml/3.2}PolyhedralSurface
 from _nsgroup import TriangulatedSurface # {http://www.opengis.net/gml/3.2}TriangulatedSurface
 from _nsgroup import Solid # {http://www.opengis.net/gml/3.2}Solid
+from _nsgroup import Shell # {http://www.opengis.net/gml/3.2}Shell
 from _nsgroup import DirectedObservationAtDistance # {http://www.opengis.net/gml/3.2}DirectedObservationAtDistance
 from _nsgroup import AbstractCRS # {http://www.opengis.net/gml/3.2}AbstractCRS
 from _nsgroup import TimeInstant # {http://www.opengis.net/gml/3.2}TimeInstant
@@ -526,6 +547,8 @@ from _nsgroup import TemporalCS # {http://www.opengis.net/gml/3.2}TemporalCS
 from _nsgroup import ObliqueCartesianCS # {http://www.opengis.net/gml/3.2}ObliqueCartesianCS
 from _nsgroup import GeographicCRS # {http://www.opengis.net/gml/3.2}GeographicCRS
 from _nsgroup import GeocentricCRS # {http://www.opengis.net/gml/3.2}GeocentricCRS
+from _nsgroup import LinearRing # {http://www.opengis.net/gml/3.2}LinearRing
+from _nsgroup import Ring # {http://www.opengis.net/gml/3.2}Ring
 from _nsgroup import Tin # {http://www.opengis.net/gml/3.2}Tin
 from _nsgroup import Conversion # {http://www.opengis.net/gml/3.2}Conversion
 from _nsgroup import Transformation # {http://www.opengis.net/gml/3.2}Transformation
@@ -580,7 +603,6 @@ from _nsgroup import GeometryArrayPropertyType # {http://www.opengis.net/gml/3.2
 from _nsgroup import PointArrayPropertyType # {http://www.opengis.net/gml/3.2}PointArrayPropertyType
 from _nsgroup import CurveArrayPropertyType # {http://www.opengis.net/gml/3.2}CurveArrayPropertyType
 from _nsgroup import SurfaceArrayPropertyType # {http://www.opengis.net/gml/3.2}SurfaceArrayPropertyType
-from _nsgroup import AbstractRingType # {http://www.opengis.net/gml/3.2}AbstractRingType
 from _nsgroup import AbstractRingPropertyType # {http://www.opengis.net/gml/3.2}AbstractRingPropertyType
 from _nsgroup import LinearRingPropertyType # {http://www.opengis.net/gml/3.2}LinearRingPropertyType
 from _nsgroup import AbstractCurveSegmentType # {http://www.opengis.net/gml/3.2}AbstractCurveSegmentType
@@ -646,7 +668,6 @@ from _nsgroup import DirectPositionType # {http://www.opengis.net/gml/3.2}Direct
 from _nsgroup import DirectPositionListType # {http://www.opengis.net/gml/3.2}DirectPositionListType
 from _nsgroup import STD_ANON_7 # None
 from _nsgroup import EnvelopeType # {http://www.opengis.net/gml/3.2}EnvelopeType
-from _nsgroup import LinearRingType # {http://www.opengis.net/gml/3.2}LinearRingType
 from _nsgroup import LineStringSegmentType # {http://www.opengis.net/gml/3.2}LineStringSegmentType
 from _nsgroup import ArcStringType # {http://www.opengis.net/gml/3.2}ArcStringType
 from _nsgroup import ArcStringByBulgeType # {http://www.opengis.net/gml/3.2}ArcStringByBulgeType
@@ -659,9 +680,7 @@ from _nsgroup import GeodesicStringType # {http://www.opengis.net/gml/3.2}Geodes
 from _nsgroup import PolygonPatchType # {http://www.opengis.net/gml/3.2}PolygonPatchType
 from _nsgroup import TriangleType # {http://www.opengis.net/gml/3.2}TriangleType
 from _nsgroup import RectangleType # {http://www.opengis.net/gml/3.2}RectangleType
-from _nsgroup import RingType # {http://www.opengis.net/gml/3.2}RingType
 from _nsgroup import AbstractParametricCurveSurfaceType # {http://www.opengis.net/gml/3.2}AbstractParametricCurveSurfaceType
-from _nsgroup import ShellType # {http://www.opengis.net/gml/3.2}ShellType
 from _nsgroup import AbstractTimeObjectType # {http://www.opengis.net/gml/3.2}AbstractTimeObjectType
 from _nsgroup import TimePositionType # {http://www.opengis.net/gml/3.2}TimePositionType
 from _nsgroup import TimeUnitType # {http://www.opengis.net/gml/3.2}TimeUnitType
@@ -870,6 +889,7 @@ from _nsgroup import EllipsoidType # {http://www.opengis.net/gml/3.2}EllipsoidTy
 from _nsgroup import PrimeMeridianType # {http://www.opengis.net/gml/3.2}PrimeMeridianType
 from _nsgroup import LineStringType # {http://www.opengis.net/gml/3.2}LineStringType
 from _nsgroup import PolygonType # {http://www.opengis.net/gml/3.2}PolygonType
+from _nsgroup import AbstractRingType # {http://www.opengis.net/gml/3.2}AbstractRingType
 from _nsgroup import CompositeCurveType # {http://www.opengis.net/gml/3.2}CompositeCurveType
 from _nsgroup import CompositeSurfaceType # {http://www.opengis.net/gml/3.2}CompositeSurfaceType
 from _nsgroup import CompositeSolidType # {http://www.opengis.net/gml/3.2}CompositeSolidType
@@ -878,6 +898,7 @@ from _nsgroup import OrientableCurveType # {http://www.opengis.net/gml/3.2}Orien
 from _nsgroup import SurfaceType # {http://www.opengis.net/gml/3.2}SurfaceType
 from _nsgroup import OrientableSurfaceType # {http://www.opengis.net/gml/3.2}OrientableSurfaceType
 from _nsgroup import SolidType # {http://www.opengis.net/gml/3.2}SolidType
+from _nsgroup import ShellType # {http://www.opengis.net/gml/3.2}ShellType
 from _nsgroup import DirectedObservationAtDistanceType # {http://www.opengis.net/gml/3.2}DirectedObservationAtDistanceType
 from _nsgroup import AbstractCRSType # {http://www.opengis.net/gml/3.2}AbstractCRSType
 from _nsgroup import TimeInstantType # {http://www.opengis.net/gml/3.2}TimeInstantType
@@ -925,6 +946,8 @@ from _nsgroup import TemporalCSType # {http://www.opengis.net/gml/3.2}TemporalCS
 from _nsgroup import ObliqueCartesianCSType # {http://www.opengis.net/gml/3.2}ObliqueCartesianCSType
 from _nsgroup import GeographicCRSType # {http://www.opengis.net/gml/3.2}GeographicCRSType
 from _nsgroup import GeocentricCRSType # {http://www.opengis.net/gml/3.2}GeocentricCRSType
+from _nsgroup import LinearRingType # {http://www.opengis.net/gml/3.2}LinearRingType
+from _nsgroup import RingType # {http://www.opengis.net/gml/3.2}RingType
 from _nsgroup import TinType # {http://www.opengis.net/gml/3.2}TinType
 from _nsgroup import ConversionType # {http://www.opengis.net/gml/3.2}ConversionType
 from _nsgroup import TransformationType # {http://www.opengis.net/gml/3.2}TransformationType

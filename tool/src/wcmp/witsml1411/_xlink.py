@@ -1,9 +1,10 @@
-# .\_xlink.py
+# /mnt/c/_Work/_Tools/witsml_v1.4.1.1_certification/tool/src/wcmp/witsml1411/_xlink.py
 # -*- coding: utf-8 -*-
 # PyXB bindings for NM:b43cd366527ddb6a0e58594876e07421e0148f30
-# Generated 2013-03-20 17:53:38.942000 by PyXB version 1.2.1
+# Generated 2026-06-09 18:16:02.837787 by PyXB version 1.2.6 using Python 3.11.2.final.0
 # Namespace http://www.w3.org/1999/xlink [xmlns:xlink]
 
+from __future__ import unicode_literals
 import pyxb
 import pyxb.binding
 import pyxb.binding.saxer
@@ -11,53 +12,75 @@ import io
 import pyxb.utils.utility
 import pyxb.utils.domutils
 import sys
-
+import pyxb.utils.six as _six
 # Unique identifier for bindings created at the same time
-_GenerationUID = pyxb.utils.utility.UniqueIdentifier('urn:uuid:f6fdb56e-91b0-11e2-ad7f-08002712d133')
+_GenerationUID = pyxb.utils.utility.UniqueIdentifier('urn:uuid:1c1907ae-b313-4be3-9ded-13a0a1028ae9')
+
+# Version of PyXB used to generate the bindings
+_PyXBVersion = '1.2.6'
+
+# A holder for module-level binding classes so we can access them from
+# inside class definitions where property names may conflict.
+_module_typeBindings = pyxb.utils.utility.Object()
 
 # Import bindings for namespaces imported into schema
 import pyxb.binding.datatypes
 import pyxb.binding.xml_
 
+# NOTE: All namespace declarations are reserved within the binding
 Namespace = pyxb.namespace.NamespaceForURI('http://www.w3.org/1999/xlink', create_if_missing=True)
 Namespace.configureCategories(['typeBinding', 'elementBinding'])
-ModuleRecord = Namespace.lookupModuleRecordByUID(_GenerationUID, create_if_missing=True)
-ModuleRecord._setModule(sys.modules[__name__])
 
-def CreateFromDocument (xml_text, default_namespace=None, location_base=None):
+def CreateFromDocument (xml_text, fallback_namespace=None, location_base=None, default_namespace=None):
     """Parse the given XML and use the document element to create a
     Python instance.
-    
-    @kw default_namespace The L{pyxb.Namespace} instance to use as the
-    default namespace where there is no default namespace in scope.
-    If unspecified or C{None}, the namespace of the module containing
-    this function will be used.
+
+    @param xml_text An XML document.  This should be data (Python 2
+    str or Python 3 bytes), or a text (Python 2 unicode or Python 3
+    str) in the L{pyxb._InputEncoding} encoding.
+
+    @keyword fallback_namespace An absent L{pyxb.Namespace} instance
+    to use for unqualified names when there is no default namespace in
+    scope.  If unspecified or C{None}, the namespace of the module
+    containing this function will be used, if it is an absent
+    namespace.
 
     @keyword location_base: An object to be recorded as the base of all
     L{pyxb.utils.utility.Location} instances associated with events and
     objects handled by the parser.  You might pass the URI from which
     the document was obtained.
+
+    @keyword default_namespace An alias for @c fallback_namespace used
+    in PyXB 1.1.4 through 1.2.6.  It behaved like a default namespace
+    only for absent namespaces.
     """
 
     if pyxb.XMLStyle_saxer != pyxb._XMLStyle:
         dom = pyxb.utils.domutils.StringToDOM(xml_text)
         return CreateFromDOM(dom.documentElement)
-    if default_namespace is None:
-        default_namespace = Namespace.fallbackNamespace()
-    saxer = pyxb.binding.saxer.make_parser(fallback_namespace=default_namespace, location_base=location_base)
+    if fallback_namespace is None:
+        fallback_namespace = default_namespace
+    if fallback_namespace is None:
+        fallback_namespace = Namespace.fallbackNamespace()
+    saxer = pyxb.binding.saxer.make_parser(fallback_namespace=fallback_namespace, location_base=location_base)
     handler = saxer.getContentHandler()
-    saxer.parse(io.StringIO(xml_text))
+    xmld = xml_text
+    if isinstance(xmld, _six.text_type):
+        xmld = xmld.encode(pyxb._InputEncoding)
+    saxer.parse(io.BytesIO(xmld))
     instance = handler.rootObject()
     return instance
 
-def CreateFromDOM (node, default_namespace=None):
+def CreateFromDOM (node, fallback_namespace=None, default_namespace=None):
     """Create a Python instance from the given DOM node.
     The node tag must correspond to an element declaration in this module.
 
     @deprecated: Forcing use of DOM interface is unnecessary; use L{CreateFromDocument}."""
-    if default_namespace is None:
-        default_namespace = Namespace.fallbackNamespace()
-    return pyxb.binding.basis.element.AnyCreateFromDOM(node, default_namespace)
+    if fallback_namespace is None:
+        fallback_namespace = default_namespace
+    if fallback_namespace is None:
+        fallback_namespace = Namespace.fallbackNamespace()
+    return pyxb.binding.basis.element.AnyCreateFromDOM(node, fallback_namespace)
 
 
 # Atomic simple type: {http://www.w3.org/1999/xlink}typeType
@@ -68,7 +91,7 @@ class typeType (pyxb.binding.datatypes.token, pyxb.binding.basis.enumeration_mix
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'typeType')
     _XSDLocation = pyxb.utils.utility.Location('http://www.w3.org/1999/xlink.xsd', 31, 1)
     _Documentation = None
-typeType._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=typeType, enum_prefix=None)
+typeType._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=typeType)
 typeType.simple = typeType._CF_enumeration.addEnumeration(unicode_value='simple', tag='simple')
 typeType.extended = typeType._CF_enumeration.addEnumeration(unicode_value='extended', tag='extended')
 typeType.title = typeType._CF_enumeration.addEnumeration(unicode_value='title', tag='title')
@@ -77,6 +100,7 @@ typeType.locator = typeType._CF_enumeration.addEnumeration(unicode_value='locato
 typeType.arc = typeType._CF_enumeration.addEnumeration(unicode_value='arc', tag='arc')
 typeType._InitializeFacetMap(typeType._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'typeType', typeType)
+_module_typeBindings.typeType = typeType
 
 # Atomic simple type: {http://www.w3.org/1999/xlink}hrefType
 class hrefType (pyxb.binding.datatypes.anyURI):
@@ -88,6 +112,7 @@ class hrefType (pyxb.binding.datatypes.anyURI):
     _Documentation = None
 hrefType._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'hrefType', hrefType)
+_module_typeBindings.hrefType = hrefType
 
 # Atomic simple type: {http://www.w3.org/1999/xlink}roleType
 class roleType (pyxb.binding.datatypes.anyURI):
@@ -100,6 +125,7 @@ class roleType (pyxb.binding.datatypes.anyURI):
 roleType._CF_minLength = pyxb.binding.facets.CF_minLength(value=pyxb.binding.datatypes.nonNegativeInteger(1))
 roleType._InitializeFacetMap(roleType._CF_minLength)
 Namespace.addCategoryObject('typeBinding', 'roleType', roleType)
+_module_typeBindings.roleType = roleType
 
 # Atomic simple type: {http://www.w3.org/1999/xlink}arcroleType
 class arcroleType (pyxb.binding.datatypes.anyURI):
@@ -112,6 +138,7 @@ class arcroleType (pyxb.binding.datatypes.anyURI):
 arcroleType._CF_minLength = pyxb.binding.facets.CF_minLength(value=pyxb.binding.datatypes.nonNegativeInteger(1))
 arcroleType._InitializeFacetMap(arcroleType._CF_minLength)
 Namespace.addCategoryObject('typeBinding', 'arcroleType', arcroleType)
+_module_typeBindings.arcroleType = arcroleType
 
 # Atomic simple type: {http://www.w3.org/1999/xlink}titleAttrType
 class titleAttrType (pyxb.binding.datatypes.string):
@@ -123,6 +150,7 @@ class titleAttrType (pyxb.binding.datatypes.string):
     _Documentation = None
 titleAttrType._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'titleAttrType', titleAttrType)
+_module_typeBindings.titleAttrType = titleAttrType
 
 # Atomic simple type: {http://www.w3.org/1999/xlink}showType
 class showType (pyxb.binding.datatypes.token, pyxb.binding.basis.enumeration_mixin):
@@ -132,7 +160,7 @@ class showType (pyxb.binding.datatypes.token, pyxb.binding.basis.enumeration_mix
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'showType')
     _XSDLocation = pyxb.utils.utility.Location('http://www.w3.org/1999/xlink.xsd', 72, 1)
     _Documentation = None
-showType._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=showType, enum_prefix=None)
+showType._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=showType)
 showType.new = showType._CF_enumeration.addEnumeration(unicode_value='new', tag='new')
 showType.replace = showType._CF_enumeration.addEnumeration(unicode_value='replace', tag='replace')
 showType.embed = showType._CF_enumeration.addEnumeration(unicode_value='embed', tag='embed')
@@ -140,6 +168,7 @@ showType.other = showType._CF_enumeration.addEnumeration(unicode_value='other', 
 showType.none = showType._CF_enumeration.addEnumeration(unicode_value='none', tag='none')
 showType._InitializeFacetMap(showType._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'showType', showType)
+_module_typeBindings.showType = showType
 
 # Atomic simple type: {http://www.w3.org/1999/xlink}actuateType
 class actuateType (pyxb.binding.datatypes.token, pyxb.binding.basis.enumeration_mixin):
@@ -149,13 +178,14 @@ class actuateType (pyxb.binding.datatypes.token, pyxb.binding.basis.enumeration_
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'actuateType')
     _XSDLocation = pyxb.utils.utility.Location('http://www.w3.org/1999/xlink.xsd', 84, 1)
     _Documentation = None
-actuateType._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=actuateType, enum_prefix=None)
+actuateType._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=actuateType)
 actuateType.onLoad = actuateType._CF_enumeration.addEnumeration(unicode_value='onLoad', tag='onLoad')
 actuateType.onRequest = actuateType._CF_enumeration.addEnumeration(unicode_value='onRequest', tag='onRequest')
 actuateType.other = actuateType._CF_enumeration.addEnumeration(unicode_value='other', tag='other')
 actuateType.none = actuateType._CF_enumeration.addEnumeration(unicode_value='none', tag='none')
 actuateType._InitializeFacetMap(actuateType._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'actuateType', actuateType)
+_module_typeBindings.actuateType = actuateType
 
 # Atomic simple type: {http://www.w3.org/1999/xlink}labelType
 class labelType (pyxb.binding.datatypes.NCName):
@@ -167,6 +197,7 @@ class labelType (pyxb.binding.datatypes.NCName):
     _Documentation = None
 labelType._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'labelType', labelType)
+_module_typeBindings.labelType = labelType
 
 # Atomic simple type: {http://www.w3.org/1999/xlink}fromType
 class fromType (pyxb.binding.datatypes.NCName):
@@ -178,6 +209,7 @@ class fromType (pyxb.binding.datatypes.NCName):
     _Documentation = None
 fromType._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'fromType', fromType)
+_module_typeBindings.fromType = fromType
 
 # Atomic simple type: {http://www.w3.org/1999/xlink}toType
 class toType (pyxb.binding.datatypes.NCName):
@@ -189,6 +221,7 @@ class toType (pyxb.binding.datatypes.NCName):
     _Documentation = None
 toType._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'toType', toType)
+_module_typeBindings.toType = toType
 
 # Complex type {http://www.w3.org/1999/xlink}simple with content type MIXED
 class simple (pyxb.binding.basis.complexTypeDefinition):
@@ -201,10 +234,12 @@ class simple (pyxb.binding.basis.complexTypeDefinition):
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'simple')
     _XSDLocation = pyxb.utils.utility.Location('http://www.w3.org/1999/xlink.xsd', 127, 1)
+    _ElementMap = {}
+    _AttributeMap = {}
     # Base type is pyxb.binding.datatypes.anyType
     
     # Attribute {http://www.w3.org/1999/xlink}type uses Python identifier type
-    __type = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(Namespace, 'type'), 'type', '__httpwww_w3_org1999xlink_simple_httpwww_w3_org1999xlinktype', typeType, fixed=True, unicode_default='simple')
+    __type = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(Namespace, 'type'), 'type', '__httpwww_w3_org1999xlink_simple_httpwww_w3_org1999xlinktype', _module_typeBindings.typeType, fixed=True, unicode_default='simple')
     __type._DeclarationLocation = pyxb.utils.utility.Location('http://www.w3.org/1999/xlink.xsd', 29, 1)
     __type._UseLocation = pyxb.utils.utility.Location('http://www.w3.org/1999/xlink.xsd', 112, 2)
     
@@ -212,7 +247,7 @@ class simple (pyxb.binding.basis.complexTypeDefinition):
 
     
     # Attribute {http://www.w3.org/1999/xlink}href uses Python identifier href
-    __href = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(Namespace, 'href'), 'href', '__httpwww_w3_org1999xlink_simple_httpwww_w3_org1999xlinkhref', hrefType)
+    __href = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(Namespace, 'href'), 'href', '__httpwww_w3_org1999xlink_simple_httpwww_w3_org1999xlinkhref', _module_typeBindings.hrefType)
     __href._DeclarationLocation = pyxb.utils.utility.Location('http://www.w3.org/1999/xlink.xsd', 42, 1)
     __href._UseLocation = pyxb.utils.utility.Location('http://www.w3.org/1999/xlink.xsd', 113, 2)
     
@@ -220,7 +255,7 @@ class simple (pyxb.binding.basis.complexTypeDefinition):
 
     
     # Attribute {http://www.w3.org/1999/xlink}role uses Python identifier role
-    __role = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(Namespace, 'role'), 'role', '__httpwww_w3_org1999xlink_simple_httpwww_w3_org1999xlinkrole', roleType)
+    __role = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(Namespace, 'role'), 'role', '__httpwww_w3_org1999xlink_simple_httpwww_w3_org1999xlinkrole', _module_typeBindings.roleType)
     __role._DeclarationLocation = pyxb.utils.utility.Location('http://www.w3.org/1999/xlink.xsd', 48, 1)
     __role._UseLocation = pyxb.utils.utility.Location('http://www.w3.org/1999/xlink.xsd', 114, 2)
     
@@ -228,7 +263,7 @@ class simple (pyxb.binding.basis.complexTypeDefinition):
 
     
     # Attribute {http://www.w3.org/1999/xlink}arcrole uses Python identifier arcrole
-    __arcrole = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(Namespace, 'arcrole'), 'arcrole', '__httpwww_w3_org1999xlink_simple_httpwww_w3_org1999xlinkarcrole', arcroleType)
+    __arcrole = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(Namespace, 'arcrole'), 'arcrole', '__httpwww_w3_org1999xlink_simple_httpwww_w3_org1999xlinkarcrole', _module_typeBindings.arcroleType)
     __arcrole._DeclarationLocation = pyxb.utils.utility.Location('http://www.w3.org/1999/xlink.xsd', 56, 1)
     __arcrole._UseLocation = pyxb.utils.utility.Location('http://www.w3.org/1999/xlink.xsd', 115, 2)
     
@@ -236,7 +271,7 @@ class simple (pyxb.binding.basis.complexTypeDefinition):
 
     
     # Attribute {http://www.w3.org/1999/xlink}title uses Python identifier title
-    __title = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(Namespace, 'title'), 'title', '__httpwww_w3_org1999xlink_simple_httpwww_w3_org1999xlinktitle', titleAttrType)
+    __title = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(Namespace, 'title'), 'title', '__httpwww_w3_org1999xlink_simple_httpwww_w3_org1999xlinktitle', _module_typeBindings.titleAttrType)
     __title._DeclarationLocation = pyxb.utils.utility.Location('http://www.w3.org/1999/xlink.xsd', 64, 1)
     __title._UseLocation = pyxb.utils.utility.Location('http://www.w3.org/1999/xlink.xsd', 116, 2)
     
@@ -244,7 +279,7 @@ class simple (pyxb.binding.basis.complexTypeDefinition):
 
     
     # Attribute {http://www.w3.org/1999/xlink}show uses Python identifier show
-    __show = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(Namespace, 'show'), 'show', '__httpwww_w3_org1999xlink_simple_httpwww_w3_org1999xlinkshow', showType)
+    __show = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(Namespace, 'show'), 'show', '__httpwww_w3_org1999xlink_simple_httpwww_w3_org1999xlinkshow', _module_typeBindings.showType)
     __show._DeclarationLocation = pyxb.utils.utility.Location('http://www.w3.org/1999/xlink.xsd', 70, 1)
     __show._UseLocation = pyxb.utils.utility.Location('http://www.w3.org/1999/xlink.xsd', 117, 2)
     
@@ -252,18 +287,17 @@ class simple (pyxb.binding.basis.complexTypeDefinition):
 
     
     # Attribute {http://www.w3.org/1999/xlink}actuate uses Python identifier actuate
-    __actuate = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(Namespace, 'actuate'), 'actuate', '__httpwww_w3_org1999xlink_simple_httpwww_w3_org1999xlinkactuate', actuateType)
+    __actuate = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(Namespace, 'actuate'), 'actuate', '__httpwww_w3_org1999xlink_simple_httpwww_w3_org1999xlinkactuate', _module_typeBindings.actuateType)
     __actuate._DeclarationLocation = pyxb.utils.utility.Location('http://www.w3.org/1999/xlink.xsd', 82, 1)
     __actuate._UseLocation = pyxb.utils.utility.Location('http://www.w3.org/1999/xlink.xsd', 118, 2)
     
     actuate = property(__actuate.value, __actuate.set, None, None)
 
     _HasWildcardElement = True
-
-    _ElementMap = {
+    _ElementMap.update({
         
-    }
-    _AttributeMap = {
+    })
+    _AttributeMap.update({
         __type.name() : __type,
         __href.name() : __href,
         __role.name() : __role,
@@ -271,7 +305,8 @@ class simple (pyxb.binding.basis.complexTypeDefinition):
         __title.name() : __title,
         __show.name() : __show,
         __actuate.name() : __actuate
-    }
+    })
+_module_typeBindings.simple = simple
 Namespace.addCategoryObject('typeBinding', 'simple', simple)
 
 
@@ -289,6 +324,8 @@ class extended (pyxb.binding.basis.complexTypeDefinition):
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'extended')
     _XSDLocation = pyxb.utils.utility.Location('http://www.w3.org/1999/xlink.xsd', 153, 1)
+    _ElementMap = {}
+    _AttributeMap = {}
     # Base type is pyxb.binding.datatypes.anyType
     
     # Element {http://www.w3.org/1999/xlink}title uses Python identifier title
@@ -320,7 +357,7 @@ class extended (pyxb.binding.basis.complexTypeDefinition):
 
     
     # Attribute {http://www.w3.org/1999/xlink}type uses Python identifier type
-    __type = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(Namespace, 'type'), 'type', '__httpwww_w3_org1999xlink_extended_httpwww_w3_org1999xlinktype', typeType, fixed=True, unicode_default='extended', required=True)
+    __type = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(Namespace, 'type'), 'type', '__httpwww_w3_org1999xlink_extended_httpwww_w3_org1999xlinktype', _module_typeBindings.typeType, fixed=True, unicode_default='extended', required=True)
     __type._DeclarationLocation = pyxb.utils.utility.Location('http://www.w3.org/1999/xlink.xsd', 29, 1)
     __type._UseLocation = pyxb.utils.utility.Location('http://www.w3.org/1999/xlink.xsd', 139, 2)
     
@@ -328,7 +365,7 @@ class extended (pyxb.binding.basis.complexTypeDefinition):
 
     
     # Attribute {http://www.w3.org/1999/xlink}role uses Python identifier role
-    __role = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(Namespace, 'role'), 'role', '__httpwww_w3_org1999xlink_extended_httpwww_w3_org1999xlinkrole', roleType)
+    __role = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(Namespace, 'role'), 'role', '__httpwww_w3_org1999xlink_extended_httpwww_w3_org1999xlinkrole', _module_typeBindings.roleType)
     __role._DeclarationLocation = pyxb.utils.utility.Location('http://www.w3.org/1999/xlink.xsd', 48, 1)
     __role._UseLocation = pyxb.utils.utility.Location('http://www.w3.org/1999/xlink.xsd', 140, 2)
     
@@ -336,24 +373,24 @@ class extended (pyxb.binding.basis.complexTypeDefinition):
 
     
     # Attribute {http://www.w3.org/1999/xlink}title uses Python identifier title_
-    __title_ = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(Namespace, 'title'), 'title_', '__httpwww_w3_org1999xlink_extended_httpwww_w3_org1999xlinktitle_', titleAttrType)
+    __title_ = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(Namespace, 'title'), 'title_', '__httpwww_w3_org1999xlink_extended_httpwww_w3_org1999xlinktitle_', _module_typeBindings.titleAttrType)
     __title_._DeclarationLocation = pyxb.utils.utility.Location('http://www.w3.org/1999/xlink.xsd', 64, 1)
     __title_._UseLocation = pyxb.utils.utility.Location('http://www.w3.org/1999/xlink.xsd', 141, 2)
     
     title_ = property(__title_.value, __title_.set, None, None)
 
-
-    _ElementMap = {
+    _ElementMap.update({
         __title.name() : __title,
         __resource.name() : __resource,
         __locator.name() : __locator,
         __arc.name() : __arc
-    }
-    _AttributeMap = {
+    })
+    _AttributeMap.update({
         __type.name() : __type,
         __role.name() : __role,
         __title_.name() : __title_
-    }
+    })
+_module_typeBindings.extended = extended
 Namespace.addCategoryObject('typeBinding', 'extended', extended)
 
 
@@ -365,6 +402,8 @@ class titleEltType (pyxb.binding.basis.complexTypeDefinition):
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'titleEltType')
     _XSDLocation = pyxb.utils.utility.Location('http://www.w3.org/1999/xlink.xsd', 188, 1)
+    _ElementMap = {}
+    _AttributeMap = {}
     # Base type is pyxb.binding.datatypes.anyType
     
     # Attribute {http://www.w3.org/XML/1998/namespace}lang uses Python identifier lang
@@ -376,21 +415,21 @@ class titleEltType (pyxb.binding.basis.complexTypeDefinition):
 
     
     # Attribute {http://www.w3.org/1999/xlink}type uses Python identifier type
-    __type = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(Namespace, 'type'), 'type', '__httpwww_w3_org1999xlink_titleEltType_httpwww_w3_org1999xlinktype', typeType, fixed=True, unicode_default='title', required=True)
+    __type = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(Namespace, 'type'), 'type', '__httpwww_w3_org1999xlink_titleEltType_httpwww_w3_org1999xlinktype', _module_typeBindings.typeType, fixed=True, unicode_default='title', required=True)
     __type._DeclarationLocation = pyxb.utils.utility.Location('http://www.w3.org/1999/xlink.xsd', 29, 1)
     __type._UseLocation = pyxb.utils.utility.Location('http://www.w3.org/1999/xlink.xsd', 170, 2)
     
     type = property(__type.value, __type.set, None, None)
 
     _HasWildcardElement = True
-
-    _ElementMap = {
+    _ElementMap.update({
         
-    }
-    _AttributeMap = {
+    })
+    _AttributeMap.update({
         __lang.name() : __lang,
         __type.name() : __type
-    }
+    })
+_module_typeBindings.titleEltType = titleEltType
 Namespace.addCategoryObject('typeBinding', 'titleEltType', titleEltType)
 
 
@@ -402,10 +441,12 @@ class resourceType (pyxb.binding.basis.complexTypeDefinition):
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'resourceType')
     _XSDLocation = pyxb.utils.utility.Location('http://www.w3.org/1999/xlink.xsd', 208, 1)
+    _ElementMap = {}
+    _AttributeMap = {}
     # Base type is pyxb.binding.datatypes.anyType
     
     # Attribute {http://www.w3.org/1999/xlink}type uses Python identifier type
-    __type = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(Namespace, 'type'), 'type', '__httpwww_w3_org1999xlink_resourceType_httpwww_w3_org1999xlinktype', typeType, fixed=True, unicode_default='resource', required=True)
+    __type = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(Namespace, 'type'), 'type', '__httpwww_w3_org1999xlink_resourceType_httpwww_w3_org1999xlinktype', _module_typeBindings.typeType, fixed=True, unicode_default='resource', required=True)
     __type._DeclarationLocation = pyxb.utils.utility.Location('http://www.w3.org/1999/xlink.xsd', 29, 1)
     __type._UseLocation = pyxb.utils.utility.Location('http://www.w3.org/1999/xlink.xsd', 196, 2)
     
@@ -413,7 +454,7 @@ class resourceType (pyxb.binding.basis.complexTypeDefinition):
 
     
     # Attribute {http://www.w3.org/1999/xlink}role uses Python identifier role
-    __role = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(Namespace, 'role'), 'role', '__httpwww_w3_org1999xlink_resourceType_httpwww_w3_org1999xlinkrole', roleType)
+    __role = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(Namespace, 'role'), 'role', '__httpwww_w3_org1999xlink_resourceType_httpwww_w3_org1999xlinkrole', _module_typeBindings.roleType)
     __role._DeclarationLocation = pyxb.utils.utility.Location('http://www.w3.org/1999/xlink.xsd', 48, 1)
     __role._UseLocation = pyxb.utils.utility.Location('http://www.w3.org/1999/xlink.xsd', 197, 2)
     
@@ -421,7 +462,7 @@ class resourceType (pyxb.binding.basis.complexTypeDefinition):
 
     
     # Attribute {http://www.w3.org/1999/xlink}title uses Python identifier title
-    __title = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(Namespace, 'title'), 'title', '__httpwww_w3_org1999xlink_resourceType_httpwww_w3_org1999xlinktitle', titleAttrType)
+    __title = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(Namespace, 'title'), 'title', '__httpwww_w3_org1999xlink_resourceType_httpwww_w3_org1999xlinktitle', _module_typeBindings.titleAttrType)
     __title._DeclarationLocation = pyxb.utils.utility.Location('http://www.w3.org/1999/xlink.xsd', 64, 1)
     __title._UseLocation = pyxb.utils.utility.Location('http://www.w3.org/1999/xlink.xsd', 198, 2)
     
@@ -429,23 +470,23 @@ class resourceType (pyxb.binding.basis.complexTypeDefinition):
 
     
     # Attribute {http://www.w3.org/1999/xlink}label uses Python identifier label
-    __label = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(Namespace, 'label'), 'label', '__httpwww_w3_org1999xlink_resourceType_httpwww_w3_org1999xlinklabel', labelType)
+    __label = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(Namespace, 'label'), 'label', '__httpwww_w3_org1999xlink_resourceType_httpwww_w3_org1999xlinklabel', _module_typeBindings.labelType)
     __label._DeclarationLocation = pyxb.utils.utility.Location('http://www.w3.org/1999/xlink.xsd', 93, 1)
     __label._UseLocation = pyxb.utils.utility.Location('http://www.w3.org/1999/xlink.xsd', 199, 2)
     
     label = property(__label.value, __label.set, None, None)
 
     _HasWildcardElement = True
-
-    _ElementMap = {
+    _ElementMap.update({
         
-    }
-    _AttributeMap = {
+    })
+    _AttributeMap.update({
         __type.name() : __type,
         __role.name() : __role,
         __title.name() : __title,
         __label.name() : __label
-    }
+    })
+_module_typeBindings.resourceType = resourceType
 Namespace.addCategoryObject('typeBinding', 'resourceType', resourceType)
 
 
@@ -457,6 +498,8 @@ class locatorType (pyxb.binding.basis.complexTypeDefinition):
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'locatorType')
     _XSDLocation = pyxb.utils.utility.Location('http://www.w3.org/1999/xlink.xsd', 236, 1)
+    _ElementMap = {}
+    _AttributeMap = {}
     # Base type is pyxb.binding.datatypes.anyType
     
     # Element {http://www.w3.org/1999/xlink}title uses Python identifier title
@@ -467,7 +510,7 @@ class locatorType (pyxb.binding.basis.complexTypeDefinition):
 
     
     # Attribute {http://www.w3.org/1999/xlink}type uses Python identifier type
-    __type = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(Namespace, 'type'), 'type', '__httpwww_w3_org1999xlink_locatorType_httpwww_w3_org1999xlinktype', typeType, fixed=True, unicode_default='locator', required=True)
+    __type = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(Namespace, 'type'), 'type', '__httpwww_w3_org1999xlink_locatorType_httpwww_w3_org1999xlinktype', _module_typeBindings.typeType, fixed=True, unicode_default='locator', required=True)
     __type._DeclarationLocation = pyxb.utils.utility.Location('http://www.w3.org/1999/xlink.xsd', 29, 1)
     __type._UseLocation = pyxb.utils.utility.Location('http://www.w3.org/1999/xlink.xsd', 216, 2)
     
@@ -475,7 +518,7 @@ class locatorType (pyxb.binding.basis.complexTypeDefinition):
 
     
     # Attribute {http://www.w3.org/1999/xlink}href uses Python identifier href
-    __href = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(Namespace, 'href'), 'href', '__httpwww_w3_org1999xlink_locatorType_httpwww_w3_org1999xlinkhref', hrefType, required=True)
+    __href = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(Namespace, 'href'), 'href', '__httpwww_w3_org1999xlink_locatorType_httpwww_w3_org1999xlinkhref', _module_typeBindings.hrefType, required=True)
     __href._DeclarationLocation = pyxb.utils.utility.Location('http://www.w3.org/1999/xlink.xsd', 42, 1)
     __href._UseLocation = pyxb.utils.utility.Location('http://www.w3.org/1999/xlink.xsd', 217, 2)
     
@@ -483,7 +526,7 @@ class locatorType (pyxb.binding.basis.complexTypeDefinition):
 
     
     # Attribute {http://www.w3.org/1999/xlink}role uses Python identifier role
-    __role = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(Namespace, 'role'), 'role', '__httpwww_w3_org1999xlink_locatorType_httpwww_w3_org1999xlinkrole', roleType)
+    __role = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(Namespace, 'role'), 'role', '__httpwww_w3_org1999xlink_locatorType_httpwww_w3_org1999xlinkrole', _module_typeBindings.roleType)
     __role._DeclarationLocation = pyxb.utils.utility.Location('http://www.w3.org/1999/xlink.xsd', 48, 1)
     __role._UseLocation = pyxb.utils.utility.Location('http://www.w3.org/1999/xlink.xsd', 218, 2)
     
@@ -491,7 +534,7 @@ class locatorType (pyxb.binding.basis.complexTypeDefinition):
 
     
     # Attribute {http://www.w3.org/1999/xlink}title uses Python identifier title_
-    __title_ = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(Namespace, 'title'), 'title_', '__httpwww_w3_org1999xlink_locatorType_httpwww_w3_org1999xlinktitle_', titleAttrType)
+    __title_ = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(Namespace, 'title'), 'title_', '__httpwww_w3_org1999xlink_locatorType_httpwww_w3_org1999xlinktitle_', _module_typeBindings.titleAttrType)
     __title_._DeclarationLocation = pyxb.utils.utility.Location('http://www.w3.org/1999/xlink.xsd', 64, 1)
     __title_._UseLocation = pyxb.utils.utility.Location('http://www.w3.org/1999/xlink.xsd', 219, 2)
     
@@ -499,23 +542,23 @@ class locatorType (pyxb.binding.basis.complexTypeDefinition):
 
     
     # Attribute {http://www.w3.org/1999/xlink}label uses Python identifier label
-    __label = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(Namespace, 'label'), 'label', '__httpwww_w3_org1999xlink_locatorType_httpwww_w3_org1999xlinklabel', labelType)
+    __label = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(Namespace, 'label'), 'label', '__httpwww_w3_org1999xlink_locatorType_httpwww_w3_org1999xlinklabel', _module_typeBindings.labelType)
     __label._DeclarationLocation = pyxb.utils.utility.Location('http://www.w3.org/1999/xlink.xsd', 93, 1)
     __label._UseLocation = pyxb.utils.utility.Location('http://www.w3.org/1999/xlink.xsd', 220, 2)
     
     label = property(__label.value, __label.set, None, None)
 
-
-    _ElementMap = {
+    _ElementMap.update({
         __title.name() : __title
-    }
-    _AttributeMap = {
+    })
+    _AttributeMap.update({
         __type.name() : __type,
         __href.name() : __href,
         __role.name() : __role,
         __title_.name() : __title_,
         __label.name() : __label
-    }
+    })
+_module_typeBindings.locatorType = locatorType
 Namespace.addCategoryObject('typeBinding', 'locatorType', locatorType)
 
 
@@ -527,6 +570,8 @@ class arcType (pyxb.binding.basis.complexTypeDefinition):
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'arcType')
     _XSDLocation = pyxb.utils.utility.Location('http://www.w3.org/1999/xlink.xsd', 265, 1)
+    _ElementMap = {}
+    _AttributeMap = {}
     # Base type is pyxb.binding.datatypes.anyType
     
     # Element {http://www.w3.org/1999/xlink}title uses Python identifier title
@@ -537,7 +582,7 @@ class arcType (pyxb.binding.basis.complexTypeDefinition):
 
     
     # Attribute {http://www.w3.org/1999/xlink}type uses Python identifier type
-    __type = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(Namespace, 'type'), 'type', '__httpwww_w3_org1999xlink_arcType_httpwww_w3_org1999xlinktype', typeType, fixed=True, unicode_default='arc', required=True)
+    __type = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(Namespace, 'type'), 'type', '__httpwww_w3_org1999xlink_arcType_httpwww_w3_org1999xlinktype', _module_typeBindings.typeType, fixed=True, unicode_default='arc', required=True)
     __type._DeclarationLocation = pyxb.utils.utility.Location('http://www.w3.org/1999/xlink.xsd', 29, 1)
     __type._UseLocation = pyxb.utils.utility.Location('http://www.w3.org/1999/xlink.xsd', 244, 2)
     
@@ -545,7 +590,7 @@ class arcType (pyxb.binding.basis.complexTypeDefinition):
 
     
     # Attribute {http://www.w3.org/1999/xlink}arcrole uses Python identifier arcrole
-    __arcrole = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(Namespace, 'arcrole'), 'arcrole', '__httpwww_w3_org1999xlink_arcType_httpwww_w3_org1999xlinkarcrole', arcroleType)
+    __arcrole = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(Namespace, 'arcrole'), 'arcrole', '__httpwww_w3_org1999xlink_arcType_httpwww_w3_org1999xlinkarcrole', _module_typeBindings.arcroleType)
     __arcrole._DeclarationLocation = pyxb.utils.utility.Location('http://www.w3.org/1999/xlink.xsd', 56, 1)
     __arcrole._UseLocation = pyxb.utils.utility.Location('http://www.w3.org/1999/xlink.xsd', 245, 2)
     
@@ -553,7 +598,7 @@ class arcType (pyxb.binding.basis.complexTypeDefinition):
 
     
     # Attribute {http://www.w3.org/1999/xlink}title uses Python identifier title_
-    __title_ = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(Namespace, 'title'), 'title_', '__httpwww_w3_org1999xlink_arcType_httpwww_w3_org1999xlinktitle_', titleAttrType)
+    __title_ = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(Namespace, 'title'), 'title_', '__httpwww_w3_org1999xlink_arcType_httpwww_w3_org1999xlinktitle_', _module_typeBindings.titleAttrType)
     __title_._DeclarationLocation = pyxb.utils.utility.Location('http://www.w3.org/1999/xlink.xsd', 64, 1)
     __title_._UseLocation = pyxb.utils.utility.Location('http://www.w3.org/1999/xlink.xsd', 246, 2)
     
@@ -561,7 +606,7 @@ class arcType (pyxb.binding.basis.complexTypeDefinition):
 
     
     # Attribute {http://www.w3.org/1999/xlink}show uses Python identifier show
-    __show = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(Namespace, 'show'), 'show', '__httpwww_w3_org1999xlink_arcType_httpwww_w3_org1999xlinkshow', showType)
+    __show = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(Namespace, 'show'), 'show', '__httpwww_w3_org1999xlink_arcType_httpwww_w3_org1999xlinkshow', _module_typeBindings.showType)
     __show._DeclarationLocation = pyxb.utils.utility.Location('http://www.w3.org/1999/xlink.xsd', 70, 1)
     __show._UseLocation = pyxb.utils.utility.Location('http://www.w3.org/1999/xlink.xsd', 247, 2)
     
@@ -569,7 +614,7 @@ class arcType (pyxb.binding.basis.complexTypeDefinition):
 
     
     # Attribute {http://www.w3.org/1999/xlink}actuate uses Python identifier actuate
-    __actuate = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(Namespace, 'actuate'), 'actuate', '__httpwww_w3_org1999xlink_arcType_httpwww_w3_org1999xlinkactuate', actuateType)
+    __actuate = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(Namespace, 'actuate'), 'actuate', '__httpwww_w3_org1999xlink_arcType_httpwww_w3_org1999xlinkactuate', _module_typeBindings.actuateType)
     __actuate._DeclarationLocation = pyxb.utils.utility.Location('http://www.w3.org/1999/xlink.xsd', 82, 1)
     __actuate._UseLocation = pyxb.utils.utility.Location('http://www.w3.org/1999/xlink.xsd', 248, 2)
     
@@ -577,7 +622,7 @@ class arcType (pyxb.binding.basis.complexTypeDefinition):
 
     
     # Attribute {http://www.w3.org/1999/xlink}from uses Python identifier from_
-    __from = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(Namespace, 'from'), 'from_', '__httpwww_w3_org1999xlink_arcType_httpwww_w3_org1999xlinkfrom', fromType)
+    __from = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(Namespace, 'from'), 'from_', '__httpwww_w3_org1999xlink_arcType_httpwww_w3_org1999xlinkfrom', _module_typeBindings.fromType)
     __from._DeclarationLocation = pyxb.utils.utility.Location('http://www.w3.org/1999/xlink.xsd', 99, 1)
     __from._UseLocation = pyxb.utils.utility.Location('http://www.w3.org/1999/xlink.xsd', 249, 2)
     
@@ -585,17 +630,16 @@ class arcType (pyxb.binding.basis.complexTypeDefinition):
 
     
     # Attribute {http://www.w3.org/1999/xlink}to uses Python identifier to
-    __to = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(Namespace, 'to'), 'to', '__httpwww_w3_org1999xlink_arcType_httpwww_w3_org1999xlinkto', toType)
+    __to = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(Namespace, 'to'), 'to', '__httpwww_w3_org1999xlink_arcType_httpwww_w3_org1999xlinkto', _module_typeBindings.toType)
     __to._DeclarationLocation = pyxb.utils.utility.Location('http://www.w3.org/1999/xlink.xsd', 105, 1)
     __to._UseLocation = pyxb.utils.utility.Location('http://www.w3.org/1999/xlink.xsd', 250, 2)
     
     to = property(__to.value, __to.set, None, None)
 
-
-    _ElementMap = {
+    _ElementMap.update({
         __title.name() : __title
-    }
-    _AttributeMap = {
+    })
+    _AttributeMap.update({
         __type.name() : __type,
         __arcrole.name() : __arcrole,
         __title_.name() : __title_,
@@ -603,7 +647,8 @@ class arcType (pyxb.binding.basis.complexTypeDefinition):
         __actuate.name() : __actuate,
         __from.name() : __from,
         __to.name() : __to
-    }
+    })
+_module_typeBindings.arcType = arcType
 Namespace.addCategoryObject('typeBinding', 'arcType', arcType)
 
 
@@ -622,7 +667,7 @@ Namespace.addCategoryObject('elementBinding', arc.name().localName(), arc)
 
 
 def _BuildAutomaton ():
-    # Remove this helper function from the namespace after it's invoked
+    # Remove this helper function from the namespace after it is invoked
     global _BuildAutomaton
     del _BuildAutomaton
     import pyxb.utils.fac as fac
@@ -655,7 +700,7 @@ extended._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Name
 extended._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'arc'), arcType, abstract=pyxb.binding.datatypes.boolean(1), scope=extended, location=pyxb.utils.utility.Location('http://www.w3.org/1999/xlink.xsd', 241, 1)))
 
 def _BuildAutomaton_ ():
-    # Remove this helper function from the namespace after it's invoked
+    # Remove this helper function from the namespace after it is invoked
     global _BuildAutomaton_
     del _BuildAutomaton_
     import pyxb.utils.fac as fac
@@ -731,7 +776,7 @@ extended._Automaton = _BuildAutomaton_()
 
 
 def _BuildAutomaton_2 ():
-    # Remove this helper function from the namespace after it's invoked
+    # Remove this helper function from the namespace after it is invoked
     global _BuildAutomaton_2
     del _BuildAutomaton_2
     import pyxb.utils.fac as fac
@@ -756,7 +801,7 @@ titleEltType._Automaton = _BuildAutomaton_2()
 
 
 def _BuildAutomaton_3 ():
-    # Remove this helper function from the namespace after it's invoked
+    # Remove this helper function from the namespace after it is invoked
     global _BuildAutomaton_3
     del _BuildAutomaton_3
     import pyxb.utils.fac as fac
@@ -783,7 +828,7 @@ resourceType._Automaton = _BuildAutomaton_3()
 locatorType._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'title'), titleEltType, abstract=pyxb.binding.datatypes.boolean(1), scope=locatorType, location=pyxb.utils.utility.Location('http://www.w3.org/1999/xlink.xsd', 167, 1)))
 
 def _BuildAutomaton_4 ():
-    # Remove this helper function from the namespace after it's invoked
+    # Remove this helper function from the namespace after it is invoked
     global _BuildAutomaton_4
     del _BuildAutomaton_4
     import pyxb.utils.fac as fac
@@ -810,7 +855,7 @@ locatorType._Automaton = _BuildAutomaton_4()
 arcType._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'title'), titleEltType, abstract=pyxb.binding.datatypes.boolean(1), scope=arcType, location=pyxb.utils.utility.Location('http://www.w3.org/1999/xlink.xsd', 167, 1)))
 
 def _BuildAutomaton_5 ():
-    # Remove this helper function from the namespace after it's invoked
+    # Remove this helper function from the namespace after it is invoked
     global _BuildAutomaton_5
     del _BuildAutomaton_5
     import pyxb.utils.fac as fac

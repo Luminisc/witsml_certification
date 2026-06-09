@@ -1,9 +1,10 @@
-# .\witsml1311_obj_tubular.py
+# /mnt/c/_Work/_Tools/witsml_v1.4.1.1_certification/tool/src/wcmp/witsml1311/witsml1311_obj_tubular.py
 # -*- coding: utf-8 -*-
 # PyXB bindings for NM:aca2769132b0274e00b9254c973534926b1b1a29
-# Generated 2013-06-21 14:47:15.697000 by PyXB version 1.2.1
+# Generated 2026-06-09 17:53:01.574537 by PyXB version 1.2.6 using Python 3.11.2.final.0
 # Namespace http://www.witsml.org/schemas/131
 
+from __future__ import unicode_literals
 import pyxb
 import pyxb.binding
 import pyxb.binding.saxer
@@ -11,52 +12,74 @@ import io
 import pyxb.utils.utility
 import pyxb.utils.domutils
 import sys
-
+import pyxb.utils.six as _six
 # Unique identifier for bindings created at the same time
-_GenerationUID = pyxb.utils.utility.UniqueIdentifier('urn:uuid:5eed02b0-daab-11e2-829f-08002718187b')
+_GenerationUID = pyxb.utils.utility.UniqueIdentifier('urn:uuid:fee35bbc-fc45-4dc3-ba74-e6e74e82493b')
+
+# Version of PyXB used to generate the bindings
+_PyXBVersion = '1.2.6'
+
+# A holder for module-level binding classes so we can access them from
+# inside class definitions where property names may conflict.
+_module_typeBindings = pyxb.utils.utility.Object()
 
 # Import bindings for namespaces imported into schema
 import pyxb.binding.datatypes
 
+# NOTE: All namespace declarations are reserved within the binding
 Namespace = pyxb.namespace.NamespaceForURI('http://www.witsml.org/schemas/131', create_if_missing=True)
 Namespace.configureCategories(['typeBinding', 'elementBinding'])
-ModuleRecord = Namespace.lookupModuleRecordByUID(_GenerationUID, create_if_missing=True)
-ModuleRecord._setModule(sys.modules[__name__])
 
-def CreateFromDocument (xml_text, default_namespace=None, location_base=None):
+def CreateFromDocument (xml_text, fallback_namespace=None, location_base=None, default_namespace=None):
     """Parse the given XML and use the document element to create a
     Python instance.
-    
-    @kw default_namespace The L{pyxb.Namespace} instance to use as the
-    default namespace where there is no default namespace in scope.
-    If unspecified or C{None}, the namespace of the module containing
-    this function will be used.
+
+    @param xml_text An XML document.  This should be data (Python 2
+    str or Python 3 bytes), or a text (Python 2 unicode or Python 3
+    str) in the L{pyxb._InputEncoding} encoding.
+
+    @keyword fallback_namespace An absent L{pyxb.Namespace} instance
+    to use for unqualified names when there is no default namespace in
+    scope.  If unspecified or C{None}, the namespace of the module
+    containing this function will be used, if it is an absent
+    namespace.
 
     @keyword location_base: An object to be recorded as the base of all
     L{pyxb.utils.utility.Location} instances associated with events and
     objects handled by the parser.  You might pass the URI from which
     the document was obtained.
+
+    @keyword default_namespace An alias for @c fallback_namespace used
+    in PyXB 1.1.4 through 1.2.6.  It behaved like a default namespace
+    only for absent namespaces.
     """
 
     if pyxb.XMLStyle_saxer != pyxb._XMLStyle:
         dom = pyxb.utils.domutils.StringToDOM(xml_text)
         return CreateFromDOM(dom.documentElement)
-    if default_namespace is None:
-        default_namespace = Namespace.fallbackNamespace()
-    saxer = pyxb.binding.saxer.make_parser(fallback_namespace=default_namespace, location_base=location_base)
+    if fallback_namespace is None:
+        fallback_namespace = default_namespace
+    if fallback_namespace is None:
+        fallback_namespace = Namespace.fallbackNamespace()
+    saxer = pyxb.binding.saxer.make_parser(fallback_namespace=fallback_namespace, location_base=location_base)
     handler = saxer.getContentHandler()
-    saxer.parse(io.StringIO(xml_text))
+    xmld = xml_text
+    if isinstance(xmld, _six.text_type):
+        xmld = xmld.encode(pyxb._InputEncoding)
+    saxer.parse(io.BytesIO(xmld))
     instance = handler.rootObject()
     return instance
 
-def CreateFromDOM (node, default_namespace=None):
+def CreateFromDOM (node, fallback_namespace=None, default_namespace=None):
     """Create a Python instance from the given DOM node.
     The node tag must correspond to an element declaration in this module.
 
     @deprecated: Forcing use of DOM interface is unnecessary; use L{CreateFromDocument}."""
-    if default_namespace is None:
-        default_namespace = Namespace.fallbackNamespace()
-    return pyxb.binding.basis.element.AnyCreateFromDOM(node, default_namespace)
+    if fallback_namespace is None:
+        fallback_namespace = default_namespace
+    if fallback_namespace is None:
+        fallback_namespace = Namespace.fallbackNamespace()
+    return pyxb.binding.basis.element.AnyCreateFromDOM(node, fallback_namespace)
 
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}abstractBoolean
@@ -67,12 +90,13 @@ class abstractBoolean (pyxb.binding.datatypes.boolean):
 			All boolean types should be derived from this type rather than using xsd:boolen."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'abstractBoolean')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_baseType.xsd', 20, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_baseType.xsd', 20, 1)
     _Documentation = 'This type disallows an "empty" boolean value.\n\t\t\tThis type should not be used directly except to derive another type.\n\t\t\tAll boolean types should be derived from this type rather than using xsd:boolen.'
 abstractBoolean._CF_pattern = pyxb.binding.facets.CF_pattern()
 abstractBoolean._CF_pattern.addPattern(pattern='.+')
 abstractBoolean._InitializeFacetMap(abstractBoolean._CF_pattern)
 Namespace.addCategoryObject('typeBinding', 'abstractBoolean', abstractBoolean)
+_module_typeBindings.abstractBoolean = abstractBoolean
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}abstractDateTime
 class abstractDateTime (pyxb.binding.datatypes.dateTime):
@@ -82,12 +106,13 @@ class abstractDateTime (pyxb.binding.datatypes.dateTime):
 			All dateTime types should be derived from this type rather than using xsd:dateTime."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'abstractDateTime')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_baseType.xsd', 31, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_baseType.xsd', 31, 1)
     _Documentation = 'This type disallows an "empty" dateTime value.\n\t\t\tThis type should not be used directly except to derive another type.\n\t\t\tAll dateTime types should be derived from this type rather than using xsd:dateTime.'
 abstractDateTime._CF_pattern = pyxb.binding.facets.CF_pattern()
 abstractDateTime._CF_pattern.addPattern(pattern='.+')
 abstractDateTime._InitializeFacetMap(abstractDateTime._CF_pattern)
 Namespace.addCategoryObject('typeBinding', 'abstractDateTime', abstractDateTime)
+_module_typeBindings.abstractDateTime = abstractDateTime
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}abstractDate
 class abstractDate (pyxb.binding.datatypes.date):
@@ -97,12 +122,13 @@ class abstractDate (pyxb.binding.datatypes.date):
 			All dateTime types should be derived from this type rather than using xsd:dateTime."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'abstractDate')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_baseType.xsd', 42, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_baseType.xsd', 42, 1)
     _Documentation = 'This type disallows an "empty" date value.\n\t\t\tThis type should not be used directly except to derive another type.\n\t\t\tAll dateTime types should be derived from this type rather than using xsd:dateTime.'
 abstractDate._CF_pattern = pyxb.binding.facets.CF_pattern()
 abstractDate._CF_pattern.addPattern(pattern='.+')
 abstractDate._InitializeFacetMap(abstractDate._CF_pattern)
 Namespace.addCategoryObject('typeBinding', 'abstractDate', abstractDate)
+_module_typeBindings.abstractDate = abstractDate
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}abstractYear
 class abstractYear (pyxb.binding.datatypes.gYear):
@@ -112,12 +138,13 @@ class abstractYear (pyxb.binding.datatypes.gYear):
 			All year types should be derived from this type rather than using xsd:gYear."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'abstractYear')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_baseType.xsd', 53, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_baseType.xsd', 53, 1)
     _Documentation = 'This type disallows an "empty" gYear value.\n\t\t\tThis type should not be used directly except to derive another type.\n\t\t\tAll year types should be derived from this type rather than using xsd:gYear.'
 abstractYear._CF_pattern = pyxb.binding.facets.CF_pattern()
 abstractYear._CF_pattern.addPattern(pattern='.+')
 abstractYear._InitializeFacetMap(abstractYear._CF_pattern)
 Namespace.addCategoryObject('typeBinding', 'abstractYear', abstractYear)
+_module_typeBindings.abstractYear = abstractYear
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}abstractDouble
 class abstractDouble (pyxb.binding.datatypes.double):
@@ -126,12 +153,13 @@ class abstractDouble (pyxb.binding.datatypes.double):
 			This type should not be used directly except to derive another type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'abstractDouble')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_baseType.xsd', 64, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_baseType.xsd', 64, 1)
     _Documentation = 'This type disallows an "empty" double value.\n\t\t\tThis type should not be used directly except to derive another type.'
 abstractDouble._CF_pattern = pyxb.binding.facets.CF_pattern()
 abstractDouble._CF_pattern.addPattern(pattern='.+')
 abstractDouble._InitializeFacetMap(abstractDouble._CF_pattern)
 Namespace.addCategoryObject('typeBinding', 'abstractDouble', abstractDouble)
+_module_typeBindings.abstractDouble = abstractDouble
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}abstractShort
 class abstractShort (pyxb.binding.datatypes.short):
@@ -140,12 +168,13 @@ class abstractShort (pyxb.binding.datatypes.short):
 			This type should not be used directly except to derive another type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'abstractShort')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_baseType.xsd', 74, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_baseType.xsd', 74, 1)
     _Documentation = 'This type disallows an "empty" short value.\n\t\t\tThis type should not be used directly except to derive another type.'
 abstractShort._CF_pattern = pyxb.binding.facets.CF_pattern()
 abstractShort._CF_pattern.addPattern(pattern='.+')
 abstractShort._InitializeFacetMap(abstractShort._CF_pattern)
 Namespace.addCategoryObject('typeBinding', 'abstractShort', abstractShort)
+_module_typeBindings.abstractShort = abstractShort
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}abstractInt
 class abstractInt (pyxb.binding.datatypes.int):
@@ -154,12 +183,13 @@ class abstractInt (pyxb.binding.datatypes.int):
 			This type should not be used directly except to derive another type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'abstractInt')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_baseType.xsd', 84, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_baseType.xsd', 84, 1)
     _Documentation = 'This type disallows an "empty" int value.\n\t\t\tThis type should not be used directly except to derive another type.'
 abstractInt._CF_pattern = pyxb.binding.facets.CF_pattern()
 abstractInt._CF_pattern.addPattern(pattern='.+')
 abstractInt._InitializeFacetMap(abstractInt._CF_pattern)
 Namespace.addCategoryObject('typeBinding', 'abstractInt', abstractInt)
+_module_typeBindings.abstractInt = abstractInt
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}abstractString
 class abstractString (pyxb.binding.datatypes.string):
@@ -169,13 +199,14 @@ class abstractString (pyxb.binding.datatypes.string):
 			This type should not be used directly except to derive another type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'abstractString')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_baseType.xsd', 94, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_baseType.xsd', 94, 1)
     _Documentation = 'The intended abstract supertype of all strings.\n\t\t\tThis abstract type allows the control over whitespace for all strings to be defined at a high level. \n\t\t\tThis type should not be used directly except to derive another type.'
 abstractString._CF_minLength = pyxb.binding.facets.CF_minLength(value=pyxb.binding.datatypes.nonNegativeInteger(1))
 abstractString._CF_whiteSpace = pyxb.binding.facets.CF_whiteSpace(value=pyxb.binding.facets._WhiteSpace_enum.collapse)
 abstractString._InitializeFacetMap(abstractString._CF_minLength,
    abstractString._CF_whiteSpace)
 Namespace.addCategoryObject('typeBinding', 'abstractString', abstractString)
+_module_typeBindings.abstractString = abstractString
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}abstractUncollapsedString
 class abstractUncollapsedString (pyxb.binding.datatypes.string):
@@ -185,11 +216,12 @@ class abstractUncollapsedString (pyxb.binding.datatypes.string):
 			This type should not be used directly except to derive another type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'abstractUncollapsedString')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_baseType.xsd', 145, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_baseType.xsd', 145, 1)
     _Documentation = 'The intended abstract supertype of all strings that must maintain whitespace. \n\t\t\tThe type abstractString should normally be used.\n\t\t\tThis type should not be used directly except to derive another type.'
 abstractUncollapsedString._CF_minLength = pyxb.binding.facets.CF_minLength(value=pyxb.binding.datatypes.nonNegativeInteger(1))
 abstractUncollapsedString._InitializeFacetMap(abstractUncollapsedString._CF_minLength)
 Namespace.addCategoryObject('typeBinding', 'abstractUncollapsedString', abstractUncollapsedString)
+_module_typeBindings.abstractUncollapsedString = abstractUncollapsedString
 
 # Union simple type: {http://www.witsml.org/schemas/131}anyDate
 # superclasses pyxb.binding.datatypes.anySimpleType
@@ -198,7 +230,7 @@ class anyDate (pyxb.binding.basis.STD_union):
     """A union of date and dateTime, so that time is not mandatory."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'anyDate')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 20, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 20, 1)
     _Documentation = 'A union of date and dateTime, so that time is not mandatory.'
 
     _MemberTypes = ( pyxb.binding.datatypes.dateTime, pyxb.binding.datatypes.date, pyxb.binding.datatypes.gYearMonth, pyxb.binding.datatypes.gYear, )
@@ -207,6 +239,7 @@ anyDate._CF_pattern = pyxb.binding.facets.CF_pattern()
 anyDate._InitializeFacetMap(anyDate._CF_enumeration,
    anyDate._CF_pattern)
 Namespace.addCategoryObject('typeBinding', 'anyDate', anyDate)
+_module_typeBindings.anyDate = anyDate
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}abstractMaximumLengthString
 class abstractMaximumLengthString (abstractString):
@@ -215,11 +248,12 @@ class abstractMaximumLengthString (abstractString):
 			string that can be stored in a data base."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'abstractMaximumLengthString')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_baseType.xsd', 129, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_baseType.xsd', 129, 1)
     _Documentation = 'This defines the maximum acceptable length of a\n\t\t\tstring that can be stored in a data base.'
 abstractMaximumLengthString._CF_maxLength = pyxb.binding.facets.CF_maxLength(value=pyxb.binding.datatypes.nonNegativeInteger(4000))
 abstractMaximumLengthString._InitializeFacetMap(abstractMaximumLengthString._CF_maxLength)
 Namespace.addCategoryObject('typeBinding', 'abstractMaximumLengthString', abstractMaximumLengthString)
+_module_typeBindings.abstractMaximumLengthString = abstractMaximumLengthString
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}abstractPositiveCount
 class abstractPositiveCount (abstractShort):
@@ -227,11 +261,12 @@ class abstractPositiveCount (abstractShort):
     """A positive integer (one based count or index) with a maximum value of 32767 (2-bytes)."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'abstractPositiveCount')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_baseType.xsd', 162, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_baseType.xsd', 162, 1)
     _Documentation = 'A positive integer (one based count or index) with a maximum value of 32767 (2-bytes).'
-abstractPositiveCount._CF_minInclusive = pyxb.binding.facets.CF_minInclusive(value_datatype=abstractPositiveCount, value=pyxb.binding.datatypes.short(1))
+abstractPositiveCount._CF_minInclusive = pyxb.binding.facets.CF_minInclusive(value=pyxb.binding.datatypes.short(1), value_datatype=abstractPositiveCount)
 abstractPositiveCount._InitializeFacetMap(abstractPositiveCount._CF_minInclusive)
 Namespace.addCategoryObject('typeBinding', 'abstractPositiveCount', abstractPositiveCount)
+_module_typeBindings.abstractPositiveCount = abstractPositiveCount
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}abstractNameString
 class abstractNameString (abstractString):
@@ -242,11 +277,12 @@ class abstractNameString (abstractString):
 			This type of value is generally not guaranteed to be unique and is not a candidate to be replaced by an enumeration."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'abstractNameString')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_baseType.xsd', 177, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_baseType.xsd', 177, 1)
     _Documentation = 'The intended abstract supertype of all user assigned human \n\t\t\trecognizable contextual name types. \n\t\t\tThere should be no assumption that (interoperable) semantic information will be extracted from the name by a third party.\n\t\t\tThis type of value is generally not guaranteed to be unique and is not a candidate to be replaced by an enumeration.'
 abstractNameString._CF_maxLength = pyxb.binding.facets.CF_maxLength(value=pyxb.binding.datatypes.nonNegativeInteger(64))
 abstractNameString._InitializeFacetMap(abstractNameString._CF_maxLength)
 Namespace.addCategoryObject('typeBinding', 'abstractNameString', abstractNameString)
+_module_typeBindings.abstractNameString = abstractNameString
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}abstractUidString
 class abstractUidString (abstractString):
@@ -259,7 +295,7 @@ class abstractUidString (abstractString):
 			Spaces are not allowed."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'abstractUidString')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_baseType.xsd', 189, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_baseType.xsd', 189, 1)
     _Documentation = 'The intended abstract supertype of all locally unique identifiers. \n\t\t\tThe value is not intended to convey any semantic content (e.g., it may be computer generated). \n\t\t\tThe value is only required to be unique within a context in a document (e.g., defined via key and keyref). \n\t\t\tThere is no guarantee that the same data in multiple documents will utilize the same uid value \n\t\t\tunless enforced by the source of the document (e.g., a document server).\n\t\t\tSpaces are not allowed.'
 abstractUidString._CF_maxLength = pyxb.binding.facets.CF_maxLength(value=pyxb.binding.datatypes.nonNegativeInteger(64))
 abstractUidString._CF_pattern = pyxb.binding.facets.CF_pattern()
@@ -267,6 +303,7 @@ abstractUidString._CF_pattern.addPattern(pattern='[^ ]*')
 abstractUidString._InitializeFacetMap(abstractUidString._CF_maxLength,
    abstractUidString._CF_pattern)
 Namespace.addCategoryObject('typeBinding', 'abstractUidString', abstractUidString)
+_module_typeBindings.abstractUidString = abstractUidString
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}abstractTypeEnum
 class abstractTypeEnum (abstractString):
@@ -277,11 +314,12 @@ class abstractTypeEnum (abstractString):
 			It should also be used for uncontrolled strings which are candidates to become enumerations at a future date."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'abstractTypeEnum')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_baseType.xsd', 215, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_baseType.xsd', 215, 1)
     _Documentation = 'The intended abstract supertype of all enumerated "types".\n\t\t\tThis abstract type allows the maximum length of a type enumeration to be centrally defined.\n\t\t\tThis type should not be used directly except to derive another type.\n\t\t\tIt should also be used for uncontrolled strings which are candidates to become enumerations at a future date.'
 abstractTypeEnum._CF_maxLength = pyxb.binding.facets.CF_maxLength(value=pyxb.binding.datatypes.nonNegativeInteger(40))
 abstractTypeEnum._InitializeFacetMap(abstractTypeEnum._CF_maxLength)
 Namespace.addCategoryObject('typeBinding', 'abstractTypeEnum', abstractTypeEnum)
+_module_typeBindings.abstractTypeEnum = abstractTypeEnum
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}abstractUomEnum
 class abstractUomEnum (abstractString):
@@ -292,11 +330,12 @@ class abstractUomEnum (abstractString):
 			except to derive another type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'abstractUomEnum')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_baseType.xsd', 227, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_baseType.xsd', 227, 1)
     _Documentation = 'The intended abstract supertype of all "units of measure".\n\t\t\tThis abstract type allows the maximum length of a UOM enumeration to be centrally defined. \n\t\t\tThis type is abstract in the sense that it should not be used directly \n\t\t\texcept to derive another type.'
 abstractUomEnum._CF_maxLength = pyxb.binding.facets.CF_maxLength(value=pyxb.binding.datatypes.nonNegativeInteger(24))
 abstractUomEnum._InitializeFacetMap(abstractUomEnum._CF_maxLength)
 Namespace.addCategoryObject('typeBinding', 'abstractUomEnum', abstractUomEnum)
+_module_typeBindings.abstractUomEnum = abstractUomEnum
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}logicalBoolean
 class logicalBoolean (abstractBoolean):
@@ -304,10 +343,11 @@ class logicalBoolean (abstractBoolean):
     """Values of "true" (or "1") and "false" (or "0")."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'logicalBoolean')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 63, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 63, 1)
     _Documentation = 'Values of "true" (or "1") and "false" (or "0").'
 logicalBoolean._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'logicalBoolean', logicalBoolean)
+_module_typeBindings.logicalBoolean = logicalBoolean
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}date
 class date (abstractDate):
@@ -315,10 +355,11 @@ class date (abstractDate):
     """A julian date."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'date')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 70, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 70, 1)
     _Documentation = 'A julian date.'
 date._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'date', date)
+_module_typeBindings.date = date
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}timestamp
 class timestamp (abstractDateTime):
@@ -328,10 +369,11 @@ class timestamp (abstractDateTime):
 			always be specified in each date time value."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'timestamp')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 77, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 77, 1)
     _Documentation = 'A date with the time of day and an optional time zone.\n\t\t\tWhile the time zone is optional, it is strongly advised that the zone \n\t\t\talways be specified in each date time value.'
 timestamp._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'timestamp', timestamp)
+_module_typeBindings.timestamp = timestamp
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}timeZone
 class timeZone (abstractString):
@@ -343,12 +385,13 @@ class timeZone (abstractString):
 				"mm" is 00 to 59."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'timeZone')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 86, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 86, 1)
     _Documentation = 'A time zone conforming to the XSD:dateTime specification.\n\t\t\tIt should be of the form "Z" or "shh.mm" where \n\t\t\t\t"s" is "+" or "-", \n\t\t\t\t"hh" is 00 to 23 and\n\t\t\t\t"mm" is 00 to 59.'
 timeZone._CF_pattern = pyxb.binding.facets.CF_pattern()
 timeZone._CF_pattern.addPattern(pattern='[Z]|([-+](([01][0-9])|(2[0-3])):[0-5][0-9])')
 timeZone._InitializeFacetMap(timeZone._CF_pattern)
 Namespace.addCategoryObject('typeBinding', 'timeZone', timeZone)
+_module_typeBindings.timeZone = timeZone
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}calendarYear
 class calendarYear (abstractYear):
@@ -356,10 +399,11 @@ class calendarYear (abstractYear):
     """A calendar year (CCYY) in the gregorian calendar."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'calendarYear')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 99, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 99, 1)
     _Documentation = 'A calendar year (CCYY) in the gregorian calendar.'
 calendarYear._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'calendarYear', calendarYear)
+_module_typeBindings.calendarYear = calendarYear
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}unitlessQuantity
 class unitlessQuantity (abstractDouble):
@@ -368,10 +412,11 @@ class unitlessQuantity (abstractDouble):
 			be confused with a dimensionless measure."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'unitlessQuantity')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 145, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 145, 1)
     _Documentation = 'A unitless quantity. This should not \n\t\t\tbe confused with a dimensionless measure.'
 unitlessQuantity._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'unitlessQuantity', unitlessQuantity)
+_module_typeBindings.unitlessQuantity = unitlessQuantity
 
 # List simple type: {http://www.witsml.org/schemas/131}listOfDouble
 # superclasses pyxb.binding.datatypes.anySimpleType
@@ -382,12 +427,13 @@ class listOfDouble (pyxb.binding.basis.STD_list):
 			"""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'listOfDouble')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 224, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 224, 1)
     _Documentation = '\n\t\t\t\tA representation of a list of xsd:double values.\n\t\t\t'
 
     _ItemType = abstractDouble
 listOfDouble._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'listOfDouble', listOfDouble)
+_module_typeBindings.listOfDouble = listOfDouble
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}descriptionString
 class descriptionString (abstractString):
@@ -395,11 +441,12 @@ class descriptionString (abstractString):
     """A textual description of something."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'descriptionString')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 331, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 331, 1)
     _Documentation = 'A textual description of something.'
 descriptionString._CF_maxLength = pyxb.binding.facets.CF_maxLength(value=pyxb.binding.datatypes.nonNegativeInteger(256))
 descriptionString._InitializeFacetMap(descriptionString._CF_maxLength)
 Namespace.addCategoryObject('typeBinding', 'descriptionString', descriptionString)
+_module_typeBindings.descriptionString = descriptionString
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}shortDescriptionString
 class shortDescriptionString (abstractString):
@@ -407,11 +454,12 @@ class shortDescriptionString (abstractString):
     """A short textual description of something."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'shortDescriptionString')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 340, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 340, 1)
     _Documentation = 'A short textual description of something.'
 shortDescriptionString._CF_maxLength = pyxb.binding.facets.CF_maxLength(value=pyxb.binding.datatypes.nonNegativeInteger(64))
 shortDescriptionString._InitializeFacetMap(shortDescriptionString._CF_maxLength)
 Namespace.addCategoryObject('typeBinding', 'shortDescriptionString', shortDescriptionString)
+_module_typeBindings.shortDescriptionString = shortDescriptionString
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}encodedValueString
 class encodedValueString (abstractString):
@@ -421,11 +469,12 @@ class encodedValueString (abstractString):
 			define the encoding."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'encodedValueString')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 364, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 364, 1)
     _Documentation = 'A single value. The encoding may utilize \n\t\t\tany of several xsd encodings. Something external to the value must\n\t\t\tdefine the encoding.'
 encodedValueString._CF_maxLength = pyxb.binding.facets.CF_maxLength(value=pyxb.binding.datatypes.nonNegativeInteger(32))
 encodedValueString._InitializeFacetMap(encodedValueString._CF_maxLength)
 Namespace.addCategoryObject('typeBinding', 'encodedValueString', encodedValueString)
+_module_typeBindings.encodedValueString = encodedValueString
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}schemaVersionString
 class schemaVersionString (abstractString):
@@ -436,7 +485,7 @@ class schemaVersionString (abstractString):
 			XML loader files. """
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'schemaVersionString')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 411, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 411, 1)
     _Documentation = 'The version of the schema.\n\t\t\tThe first three levels are fixed. The fourth level can vary\n\t\t\tto represent on the constraints defined in enumerations and \n\t\t\tXML loader files. '
 schemaVersionString._CF_maxLength = pyxb.binding.facets.CF_maxLength(value=pyxb.binding.datatypes.nonNegativeInteger(16))
 schemaVersionString._CF_pattern = pyxb.binding.facets.CF_pattern()
@@ -444,6 +493,7 @@ schemaVersionString._CF_pattern.addPattern(pattern='1\\.3\\.1\\.([1-9]|([1-9][0-
 schemaVersionString._InitializeFacetMap(schemaVersionString._CF_maxLength,
    schemaVersionString._CF_pattern)
 Namespace.addCategoryObject('typeBinding', 'schemaVersionString', schemaVersionString)
+_module_typeBindings.schemaVersionString = schemaVersionString
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}uncollapsedString
 class uncollapsedString (abstractUncollapsedString):
@@ -451,11 +501,12 @@ class uncollapsedString (abstractUncollapsedString):
     """A textual string that retains all whitespace."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'uncollapsedString')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 460, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 460, 1)
     _Documentation = 'A textual string that retains all whitespace.'
 uncollapsedString._CF_maxLength = pyxb.binding.facets.CF_maxLength(value=pyxb.binding.datatypes.nonNegativeInteger(256))
 uncollapsedString._InitializeFacetMap(uncollapsedString._CF_maxLength)
 Namespace.addCategoryObject('typeBinding', 'uncollapsedString', uncollapsedString)
+_module_typeBindings.uncollapsedString = uncollapsedString
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}iadcBearingWearCode
 class iadcBearingWearCode (abstractString):
@@ -463,7 +514,7 @@ class iadcBearingWearCode (abstractString):
     """IADC bearing wear code: integer 0 - 8 or one of the letters E, F, N or X. ."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'iadcBearingWearCode')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 469, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 469, 1)
     _Documentation = 'IADC bearing wear code: integer 0 - 8 or one of the letters E, F, N or X. .'
 iadcBearingWearCode._CF_maxLength = pyxb.binding.facets.CF_maxLength(value=pyxb.binding.datatypes.nonNegativeInteger(1))
 iadcBearingWearCode._CF_pattern = pyxb.binding.facets.CF_pattern()
@@ -471,6 +522,7 @@ iadcBearingWearCode._CF_pattern.addPattern(pattern='[0-8EFNX]')
 iadcBearingWearCode._InitializeFacetMap(iadcBearingWearCode._CF_maxLength,
    iadcBearingWearCode._CF_pattern)
 Namespace.addCategoryObject('typeBinding', 'iadcBearingWearCode', iadcBearingWearCode)
+_module_typeBindings.iadcBearingWearCode = iadcBearingWearCode
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}geodeticZoneString
 class geodeticZoneString (abstractString):
@@ -479,7 +531,7 @@ class geodeticZoneString (abstractString):
 			of "N" (North) or "S" (South). For example, "21N"."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'geodeticZoneString')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 479, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 479, 1)
     _Documentation = 'A geodetic zone with values from 1 to 60 and a required direction \n\t\t\tof "N" (North) or "S" (South). For example, "21N".'
 geodeticZoneString._CF_maxLength = pyxb.binding.facets.CF_maxLength(value=pyxb.binding.datatypes.nonNegativeInteger(3))
 geodeticZoneString._CF_pattern = pyxb.binding.facets.CF_pattern()
@@ -487,6 +539,7 @@ geodeticZoneString._CF_pattern.addPattern(pattern='([1-9]|[1-5][0-9]|60)[NS]')
 geodeticZoneString._InitializeFacetMap(geodeticZoneString._CF_maxLength,
    geodeticZoneString._CF_pattern)
 Namespace.addCategoryObject('typeBinding', 'geodeticZoneString', geodeticZoneString)
+_module_typeBindings.geodeticZoneString = geodeticZoneString
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}nonNegativeCount
 class nonNegativeCount (abstractShort):
@@ -495,11 +548,12 @@ class nonNegativeCount (abstractShort):
 			For items that represent "number of" something or a "sequential" count or index."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'nonNegativeCount')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 624, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 624, 1)
     _Documentation = 'A non-negative integer (zero based count or index) with a maximum value of 32767 (2-bytes).\n\t\t\tFor items that represent "number of" something or a "sequential" count or index.'
-nonNegativeCount._CF_minInclusive = pyxb.binding.facets.CF_minInclusive(value_datatype=nonNegativeCount, value=pyxb.binding.datatypes.short(0))
+nonNegativeCount._CF_minInclusive = pyxb.binding.facets.CF_minInclusive(value=pyxb.binding.datatypes.short(0), value_datatype=nonNegativeCount)
 nonNegativeCount._InitializeFacetMap(nonNegativeCount._CF_minInclusive)
 Namespace.addCategoryObject('typeBinding', 'nonNegativeCount', nonNegativeCount)
+_module_typeBindings.nonNegativeCount = nonNegativeCount
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}positiveBigCount
 class positiveBigCount (abstractInt):
@@ -507,11 +561,12 @@ class positiveBigCount (abstractInt):
     """A large positive integer (one based count or index) with a maximum value of 2,147,483,647 (4-bytes)."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'positiveBigCount')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 651, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 651, 1)
     _Documentation = 'A large positive integer (one based count or index) with a maximum value of 2,147,483,647 (4-bytes).'
-positiveBigCount._CF_minInclusive = pyxb.binding.facets.CF_minInclusive(value_datatype=positiveBigCount, value=pyxb.binding.datatypes.int(1))
+positiveBigCount._CF_minInclusive = pyxb.binding.facets.CF_minInclusive(value=pyxb.binding.datatypes.int(1), value_datatype=positiveBigCount)
 positiveBigCount._InitializeFacetMap(positiveBigCount._CF_minInclusive)
 Namespace.addCategoryObject('typeBinding', 'positiveBigCount', positiveBigCount)
+_module_typeBindings.positiveBigCount = positiveBigCount
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}integerCount
 class integerCount (abstractInt):
@@ -519,10 +574,11 @@ class integerCount (abstractInt):
     """A positive or negative count with a maximum positive value of 2147483647 (4-bytes)."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'integerCount')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 664, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 664, 1)
     _Documentation = 'A positive or negative count with a maximum positive value of 2147483647 (4-bytes).'
 integerCount._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'integerCount', integerCount)
+_module_typeBindings.integerCount = integerCount
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}beaufortScaleIntegerCode
 class beaufortScaleIntegerCode (abstractShort):
@@ -531,13 +587,14 @@ class beaufortScaleIntegerCode (abstractShort):
 			Values range from 0 (calm) to 12 (hurricane). """
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'beaufortScaleIntegerCode')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 671, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 671, 1)
     _Documentation = 'An estimate wind strength based on the Beaufort Wind Scale. \n\t\t\tValues range from 0 (calm) to 12 (hurricane). '
-beaufortScaleIntegerCode._CF_maxInclusive = pyxb.binding.facets.CF_maxInclusive(value_datatype=beaufortScaleIntegerCode, value=pyxb.binding.datatypes.short(12))
-beaufortScaleIntegerCode._CF_minInclusive = pyxb.binding.facets.CF_minInclusive(value_datatype=beaufortScaleIntegerCode, value=pyxb.binding.datatypes.short(0))
+beaufortScaleIntegerCode._CF_maxInclusive = pyxb.binding.facets.CF_maxInclusive(value=pyxb.binding.datatypes.short(12), value_datatype=beaufortScaleIntegerCode)
+beaufortScaleIntegerCode._CF_minInclusive = pyxb.binding.facets.CF_minInclusive(value=pyxb.binding.datatypes.short(0), value_datatype=beaufortScaleIntegerCode)
 beaufortScaleIntegerCode._InitializeFacetMap(beaufortScaleIntegerCode._CF_maxInclusive,
    beaufortScaleIntegerCode._CF_minInclusive)
 Namespace.addCategoryObject('typeBinding', 'beaufortScaleIntegerCode', beaufortScaleIntegerCode)
+_module_typeBindings.beaufortScaleIntegerCode = beaufortScaleIntegerCode
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}pumpActionIntegerCode
 class pumpActionIntegerCode (abstractShort):
@@ -545,13 +602,14 @@ class pumpActionIntegerCode (abstractShort):
     """Pump Action: 1 = Single acting, 2 = double acting."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'pumpActionIntegerCode')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 682, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 682, 1)
     _Documentation = 'Pump Action: 1 = Single acting, 2 = double acting.'
-pumpActionIntegerCode._CF_maxInclusive = pyxb.binding.facets.CF_maxInclusive(value_datatype=pumpActionIntegerCode, value=pyxb.binding.datatypes.short(2))
-pumpActionIntegerCode._CF_minInclusive = pyxb.binding.facets.CF_minInclusive(value_datatype=pumpActionIntegerCode, value=pyxb.binding.datatypes.short(1))
+pumpActionIntegerCode._CF_maxInclusive = pyxb.binding.facets.CF_maxInclusive(value=pyxb.binding.datatypes.short(2), value_datatype=pumpActionIntegerCode)
+pumpActionIntegerCode._CF_minInclusive = pyxb.binding.facets.CF_minInclusive(value=pyxb.binding.datatypes.short(1), value_datatype=pumpActionIntegerCode)
 pumpActionIntegerCode._InitializeFacetMap(pumpActionIntegerCode._CF_maxInclusive,
    pumpActionIntegerCode._CF_minInclusive)
 Namespace.addCategoryObject('typeBinding', 'pumpActionIntegerCode', pumpActionIntegerCode)
+_module_typeBindings.pumpActionIntegerCode = pumpActionIntegerCode
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}iadcIntegerCode
 class iadcIntegerCode (abstractShort):
@@ -559,13 +617,14 @@ class iadcIntegerCode (abstractShort):
     """IADC codes: 0 to 8."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'iadcIntegerCode')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 692, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 692, 1)
     _Documentation = 'IADC codes: 0 to 8.'
-iadcIntegerCode._CF_maxInclusive = pyxb.binding.facets.CF_maxInclusive(value_datatype=iadcIntegerCode, value=pyxb.binding.datatypes.short(8))
-iadcIntegerCode._CF_minInclusive = pyxb.binding.facets.CF_minInclusive(value_datatype=iadcIntegerCode, value=pyxb.binding.datatypes.short(0))
+iadcIntegerCode._CF_maxInclusive = pyxb.binding.facets.CF_maxInclusive(value=pyxb.binding.datatypes.short(8), value_datatype=iadcIntegerCode)
+iadcIntegerCode._CF_minInclusive = pyxb.binding.facets.CF_minInclusive(value=pyxb.binding.datatypes.short(0), value_datatype=iadcIntegerCode)
 iadcIntegerCode._InitializeFacetMap(iadcIntegerCode._CF_maxInclusive,
    iadcIntegerCode._CF_minInclusive)
 Namespace.addCategoryObject('typeBinding', 'iadcIntegerCode', iadcIntegerCode)
+_module_typeBindings.iadcIntegerCode = iadcIntegerCode
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}levelIntegerCode
 class levelIntegerCode (abstractShort):
@@ -573,13 +632,14 @@ class levelIntegerCode (abstractShort):
     """Integer level code from 1 through 5."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'levelIntegerCode')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 702, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 702, 1)
     _Documentation = 'Integer level code from 1 through 5.'
-levelIntegerCode._CF_maxInclusive = pyxb.binding.facets.CF_maxInclusive(value_datatype=levelIntegerCode, value=pyxb.binding.datatypes.short(8))
-levelIntegerCode._CF_minInclusive = pyxb.binding.facets.CF_minInclusive(value_datatype=levelIntegerCode, value=pyxb.binding.datatypes.short(0))
+levelIntegerCode._CF_maxInclusive = pyxb.binding.facets.CF_maxInclusive(value=pyxb.binding.datatypes.short(8), value_datatype=levelIntegerCode)
+levelIntegerCode._CF_minInclusive = pyxb.binding.facets.CF_minInclusive(value=pyxb.binding.datatypes.short(0), value_datatype=levelIntegerCode)
 levelIntegerCode._InitializeFacetMap(levelIntegerCode._CF_maxInclusive,
    levelIntegerCode._CF_minInclusive)
 Namespace.addCategoryObject('typeBinding', 'levelIntegerCode', levelIntegerCode)
+_module_typeBindings.levelIntegerCode = levelIntegerCode
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}str2
 class str2 (abstractString):
@@ -587,11 +647,12 @@ class str2 (abstractString):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'str2')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 738, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 738, 1)
     _Documentation = None
 str2._CF_maxLength = pyxb.binding.facets.CF_maxLength(value=pyxb.binding.datatypes.nonNegativeInteger(2))
 str2._InitializeFacetMap(str2._CF_maxLength)
 Namespace.addCategoryObject('typeBinding', 'str2', str2)
+_module_typeBindings.str2 = str2
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}str16
 class str16 (abstractString):
@@ -599,11 +660,12 @@ class str16 (abstractString):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'str16')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 744, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 744, 1)
     _Documentation = None
 str16._CF_maxLength = pyxb.binding.facets.CF_maxLength(value=pyxb.binding.datatypes.nonNegativeInteger(16))
 str16._InitializeFacetMap(str16._CF_maxLength)
 Namespace.addCategoryObject('typeBinding', 'str16', str16)
+_module_typeBindings.str16 = str16
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}str32
 class str32 (abstractString):
@@ -611,11 +673,12 @@ class str32 (abstractString):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'str32')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 750, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 750, 1)
     _Documentation = None
 str32._CF_maxLength = pyxb.binding.facets.CF_maxLength(value=pyxb.binding.datatypes.nonNegativeInteger(32))
 str32._InitializeFacetMap(str32._CF_maxLength)
 Namespace.addCategoryObject('typeBinding', 'str32', str32)
+_module_typeBindings.str32 = str32
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}abstractCommentString
 class abstractCommentString (abstractMaximumLengthString):
@@ -627,10 +690,11 @@ class abstractCommentString (abstractMaximumLengthString):
 			in the same way (i.e., it may not be interoperable)."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'abstractCommentString')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_baseType.xsd', 204, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_baseType.xsd', 204, 1)
     _Documentation = 'The intended abstract supertype of all comments or remarks \n\t\t\tintended for human consumption. \n\t\t\tThere should be no assumption that semantics can be extracted from the field by a computer. \n\t\t\tNeither should there be an assumption that any two humans will interpret the information \n\t\t\tin the same way (i.e., it may not be interoperable).'
 abstractCommentString._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'abstractCommentString', abstractCommentString)
+_module_typeBindings.abstractCommentString = abstractCommentString
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}ActivityClassType
 class ActivityClassType (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
@@ -638,15 +702,16 @@ class ActivityClassType (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin)
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'ActivityClassType')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 23, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 23, 1)
     _Documentation = None
-ActivityClassType._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=ActivityClassType, enum_prefix=None)
+ActivityClassType._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=ActivityClassType)
 ActivityClassType.planned = ActivityClassType._CF_enumeration.addEnumeration(unicode_value='planned', tag='planned')
 ActivityClassType.unplanned = ActivityClassType._CF_enumeration.addEnumeration(unicode_value='unplanned', tag='unplanned')
 ActivityClassType.downtime = ActivityClassType._CF_enumeration.addEnumeration(unicode_value='downtime', tag='downtime')
 ActivityClassType.unknown = ActivityClassType._CF_enumeration.addEnumeration(unicode_value='unknown', tag='unknown')
 ActivityClassType._InitializeFacetMap(ActivityClassType._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'ActivityClassType', ActivityClassType)
+_module_typeBindings.ActivityClassType = ActivityClassType
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}ActivityCode
 class ActivityCode (abstractTypeEnum):
@@ -655,10 +720,11 @@ class ActivityCode (abstractTypeEnum):
 			The list of standard values is contained in the WITSML enumValues.xml file. """
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'ActivityCode')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 50, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 50, 1)
     _Documentation = 'Activity codes.\n\t\t\tThe list of standard values is contained in the WITSML enumValues.xml file. '
 ActivityCode._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'ActivityCode', ActivityCode)
+_module_typeBindings.ActivityCode = ActivityCode
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}AziRef
 class AziRef (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
@@ -666,15 +732,16 @@ class AziRef (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'AziRef')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 59, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 59, 1)
     _Documentation = None
-AziRef._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=AziRef, enum_prefix=None)
+AziRef._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=AziRef)
 AziRef.magnetic_north = AziRef._CF_enumeration.addEnumeration(unicode_value='magnetic north', tag='magnetic_north')
 AziRef.grid_north = AziRef._CF_enumeration.addEnumeration(unicode_value='grid north', tag='grid_north')
 AziRef.true_north = AziRef._CF_enumeration.addEnumeration(unicode_value='true north', tag='true_north')
 AziRef.unknown = AziRef._CF_enumeration.addEnumeration(unicode_value='unknown', tag='unknown')
 AziRef._InitializeFacetMap(AziRef._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'AziRef', AziRef)
+_module_typeBindings.AziRef = AziRef
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}ArrayElementDataType
 class ArrayElementDataType (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
@@ -692,9 +759,9 @@ class ArrayElementDataType (abstractTypeEnum, pyxb.binding.basis.enumeration_mix
 			[ http://www.ietf.org/rfc/rfc2045.txt ]."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'ArrayElementDataType')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 91, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 91, 1)
     _Documentation = 'A list of binary representations for elements of \n\t\t\taggregates which may be Base64-encoded\n\t\t\t(e. g. elements of well log array traces, or\n\t\t\tmultiplexed frames of similar-typed well log traces)\n\t\t\tas described in \n\t\t\t"XML Schema Part 2: Datatypes", 3.2.16 base64binary\n\t\t\t[http://www.w3.org/TR/xmlschema-2/#base4Binary]]\n\t\t\tand in\n\t\t\t"Multipurpose Internet Mail Extensions (MIME) Part One:\n\t\t\tFormat of Internet Message Bodies" (IETF RFC 2045)\n\t\t\t[ http://www.ietf.org/rfc/rfc2045.txt ].'
-ArrayElementDataType._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=ArrayElementDataType, enum_prefix=None)
+ArrayElementDataType._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=ArrayElementDataType)
 ArrayElementDataType.boolean = ArrayElementDataType._CF_enumeration.addEnumeration(unicode_value='boolean', tag='boolean')
 ArrayElementDataType.integer_8_bit = ArrayElementDataType._CF_enumeration.addEnumeration(unicode_value='integer 8 bit', tag='integer_8_bit')
 ArrayElementDataType.integer_16_bit = ArrayElementDataType._CF_enumeration.addEnumeration(unicode_value='integer 16 bit', tag='integer_16_bit')
@@ -704,6 +771,7 @@ ArrayElementDataType.IEEE_float_32_bit = ArrayElementDataType._CF_enumeration.ad
 ArrayElementDataType.IEEE_float_64_bit = ArrayElementDataType._CF_enumeration.addEnumeration(unicode_value='IEEE float 64 bit', tag='IEEE_float_64_bit')
 ArrayElementDataType._InitializeFacetMap(ArrayElementDataType._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'ArrayElementDataType', ArrayElementDataType)
+_module_typeBindings.ArrayElementDataType = ArrayElementDataType
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}BearingType
 class BearingType (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
@@ -711,15 +779,16 @@ class BearingType (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'BearingType')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 116, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 116, 1)
     _Documentation = None
-BearingType._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=BearingType, enum_prefix=None)
+BearingType._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=BearingType)
 BearingType.oil_seal = BearingType._CF_enumeration.addEnumeration(unicode_value='oil seal', tag='oil_seal')
 BearingType.mud_lube = BearingType._CF_enumeration.addEnumeration(unicode_value='mud lube', tag='mud_lube')
 BearingType.other = BearingType._CF_enumeration.addEnumeration(unicode_value='other', tag='other')
 BearingType.unknown = BearingType._CF_enumeration.addEnumeration(unicode_value='unknown', tag='unknown')
 BearingType._InitializeFacetMap(BearingType._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'BearingType', BearingType)
+_module_typeBindings.BearingType = BearingType
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}BitDullCode
 class BitDullCode (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
@@ -728,9 +797,9 @@ class BitDullCode (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
 			on its reason for being declared inoperable, as originally defined by the IADC."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'BitDullCode')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 143, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 143, 1)
     _Documentation = 'These values represent a classification of a drill bit based \n\t\t\ton its reason for being declared inoperable, as originally defined by the IADC.'
-BitDullCode._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=BitDullCode, enum_prefix=None)
+BitDullCode._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=BitDullCode)
 BitDullCode.BC = BitDullCode._CF_enumeration.addEnumeration(unicode_value='BC', tag='BC')
 BitDullCode.BT = BitDullCode._CF_enumeration.addEnumeration(unicode_value='BT', tag='BT')
 BitDullCode.BU = BitDullCode._CF_enumeration.addEnumeration(unicode_value='BU', tag='BU')
@@ -760,6 +829,7 @@ BitDullCode.WT = BitDullCode._CF_enumeration.addEnumeration(unicode_value='WT', 
 BitDullCode.unknown = BitDullCode._CF_enumeration.addEnumeration(unicode_value='unknown', tag='unknown')
 BitDullCode._InitializeFacetMap(BitDullCode._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'BitDullCode', BitDullCode)
+_module_typeBindings.BitDullCode = BitDullCode
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}BitReasonPulled
 class BitReasonPulled (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
@@ -768,9 +838,9 @@ class BitReasonPulled (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
 			from the wellbore, as originally defined by the IADC."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'BitReasonPulled')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 289, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 289, 1)
     _Documentation = 'These values represent the reason for pulling a drill bit \n\t\t\tfrom the wellbore, as originally defined by the IADC.'
-BitReasonPulled._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=BitReasonPulled, enum_prefix=None)
+BitReasonPulled._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=BitReasonPulled)
 BitReasonPulled.BHA = BitReasonPulled._CF_enumeration.addEnumeration(unicode_value='BHA', tag='BHA')
 BitReasonPulled.CM = BitReasonPulled._CF_enumeration.addEnumeration(unicode_value='CM', tag='CM')
 BitReasonPulled.CP = BitReasonPulled._CF_enumeration.addEnumeration(unicode_value='CP', tag='CP')
@@ -792,6 +862,7 @@ BitReasonPulled.WC = BitReasonPulled._CF_enumeration.addEnumeration(unicode_valu
 BitReasonPulled.unknown = BitReasonPulled._CF_enumeration.addEnumeration(unicode_value='unknown', tag='unknown')
 BitReasonPulled._InitializeFacetMap(BitReasonPulled._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'BitReasonPulled', BitReasonPulled)
+_module_typeBindings.BitReasonPulled = BitReasonPulled
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}BitType
 class BitType (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
@@ -799,9 +870,9 @@ class BitType (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
     """These values represent the type of drill/core bit."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'BitType')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 395, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 395, 1)
     _Documentation = 'These values represent the type of drill/core bit.'
-BitType._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=BitType, enum_prefix=None)
+BitType._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=BitType)
 BitType.diamond = BitType._CF_enumeration.addEnumeration(unicode_value='diamond', tag='diamond')
 BitType.diamond_core = BitType._CF_enumeration.addEnumeration(unicode_value='diamond core', tag='diamond_core')
 BitType.insert_roller_cone = BitType._CF_enumeration.addEnumeration(unicode_value='insert roller cone', tag='insert_roller_cone')
@@ -811,6 +882,7 @@ BitType.roller_cone = BitType._CF_enumeration.addEnumeration(unicode_value='roll
 BitType.unknown = BitType._CF_enumeration.addEnumeration(unicode_value='unknown', tag='unknown')
 BitType._InitializeFacetMap(BitType._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'BitType', BitType)
+_module_typeBindings.BitType = BitType
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}BhaStatus
 class BhaStatus (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
@@ -818,15 +890,16 @@ class BhaStatus (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'BhaStatus')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 440, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 440, 1)
     _Documentation = None
-BhaStatus._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=BhaStatus, enum_prefix=None)
+BhaStatus._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=BhaStatus)
 BhaStatus.final = BhaStatus._CF_enumeration.addEnumeration(unicode_value='final', tag='final')
 BhaStatus.progress = BhaStatus._CF_enumeration.addEnumeration(unicode_value='progress', tag='progress')
 BhaStatus.plan = BhaStatus._CF_enumeration.addEnumeration(unicode_value='plan', tag='plan')
 BhaStatus.unknown = BhaStatus._CF_enumeration.addEnumeration(unicode_value='unknown', tag='unknown')
 BhaStatus._InitializeFacetMap(BhaStatus._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'BhaStatus', BhaStatus)
+_module_typeBindings.BhaStatus = BhaStatus
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}BladeShapeType
 class BladeShapeType (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
@@ -834,9 +907,9 @@ class BladeShapeType (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'BladeShapeType')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 467, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 467, 1)
     _Documentation = None
-BladeShapeType._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=BladeShapeType, enum_prefix=None)
+BladeShapeType._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=BladeShapeType)
 BladeShapeType.dynamic = BladeShapeType._CF_enumeration.addEnumeration(unicode_value='dynamic', tag='dynamic')
 BladeShapeType.melon = BladeShapeType._CF_enumeration.addEnumeration(unicode_value='melon', tag='melon')
 BladeShapeType.spiral = BladeShapeType._CF_enumeration.addEnumeration(unicode_value='spiral', tag='spiral')
@@ -845,6 +918,7 @@ BladeShapeType.variable = BladeShapeType._CF_enumeration.addEnumeration(unicode_
 BladeShapeType.unknown = BladeShapeType._CF_enumeration.addEnumeration(unicode_value='unknown', tag='unknown')
 BladeShapeType._InitializeFacetMap(BladeShapeType._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'BladeShapeType', BladeShapeType)
+_module_typeBindings.BladeShapeType = BladeShapeType
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}BladeType
 class BladeType (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
@@ -852,9 +926,9 @@ class BladeType (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'BladeType')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 504, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 504, 1)
     _Documentation = None
-BladeType._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=BladeType, enum_prefix=None)
+BladeType._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=BladeType)
 BladeType.clamp_on = BladeType._CF_enumeration.addEnumeration(unicode_value='clamp-on', tag='clamp_on')
 BladeType.integral = BladeType._CF_enumeration.addEnumeration(unicode_value='integral', tag='integral')
 BladeType.sleeve = BladeType._CF_enumeration.addEnumeration(unicode_value='sleeve', tag='sleeve')
@@ -862,6 +936,7 @@ BladeType.welded = BladeType._CF_enumeration.addEnumeration(unicode_value='welde
 BladeType.unknown = BladeType._CF_enumeration.addEnumeration(unicode_value='unknown', tag='unknown')
 BladeType._InitializeFacetMap(BladeType._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'BladeType', BladeType)
+_module_typeBindings.BladeType = BladeType
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}BopType
 class BopType (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
@@ -869,9 +944,9 @@ class BopType (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'BopType')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 536, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 536, 1)
     _Documentation = None
-BopType._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=BopType, enum_prefix=None)
+BopType._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=BopType)
 BopType.annular_preventer = BopType._CF_enumeration.addEnumeration(unicode_value='annular preventer', tag='annular_preventer')
 BopType.shear_ram = BopType._CF_enumeration.addEnumeration(unicode_value='shear ram', tag='shear_ram')
 BopType.blind_ram = BopType._CF_enumeration.addEnumeration(unicode_value='blind ram', tag='blind_ram')
@@ -882,6 +957,7 @@ BopType.connector = BopType._CF_enumeration.addEnumeration(unicode_value='connec
 BopType.unknown = BopType._CF_enumeration.addEnumeration(unicode_value='unknown', tag='unknown')
 BopType._InitializeFacetMap(BopType._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'BopType', BopType)
+_module_typeBindings.BopType = BopType
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}BoxPinConfig
 class BoxPinConfig (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
@@ -889,9 +965,9 @@ class BoxPinConfig (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
     """These values represent the type of Box/Pin configuration."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'BoxPinConfig')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 583, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 583, 1)
     _Documentation = 'These values represent the type of Box/Pin configuration.'
-BoxPinConfig._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=BoxPinConfig, enum_prefix=None)
+BoxPinConfig._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=BoxPinConfig)
 BoxPinConfig.bottom_box_top_box = BoxPinConfig._CF_enumeration.addEnumeration(unicode_value='bottom box, top box', tag='bottom_box_top_box')
 BoxPinConfig.bottom_box_top_pin = BoxPinConfig._CF_enumeration.addEnumeration(unicode_value='bottom box, top pin', tag='bottom_box_top_pin')
 BoxPinConfig.bottom_pin_top_box = BoxPinConfig._CF_enumeration.addEnumeration(unicode_value='bottom pin top box', tag='bottom_pin_top_box')
@@ -899,6 +975,7 @@ BoxPinConfig.bottom_pin = BoxPinConfig._CF_enumeration.addEnumeration(unicode_va
 BoxPinConfig.unknown = BoxPinConfig._CF_enumeration.addEnumeration(unicode_value='unknown', tag='unknown')
 BoxPinConfig._InitializeFacetMap(BoxPinConfig._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'BoxPinConfig', BoxPinConfig)
+_module_typeBindings.BoxPinConfig = BoxPinConfig
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}CementJobType
 class CementJobType (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
@@ -906,15 +983,16 @@ class CementJobType (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'CementJobType')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 618, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 618, 1)
     _Documentation = None
-CementJobType._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=CementJobType, enum_prefix=None)
+CementJobType._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=CementJobType)
 CementJobType.primary = CementJobType._CF_enumeration.addEnumeration(unicode_value='primary', tag='primary')
 CementJobType.plug = CementJobType._CF_enumeration.addEnumeration(unicode_value='plug', tag='plug')
 CementJobType.squeeze = CementJobType._CF_enumeration.addEnumeration(unicode_value='squeeze', tag='squeeze')
 CementJobType.unknown = CementJobType._CF_enumeration.addEnumeration(unicode_value='unknown', tag='unknown')
 CementJobType._InitializeFacetMap(CementJobType._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'CementJobType', CementJobType)
+_module_typeBindings.CementJobType = CementJobType
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}ConnectionPosition
 class ConnectionPosition (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
@@ -922,15 +1000,16 @@ class ConnectionPosition (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin
     """These values represent the position of a connection."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'ConnectionPosition')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 645, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 645, 1)
     _Documentation = 'These values represent the position of a connection.'
-ConnectionPosition._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=ConnectionPosition, enum_prefix=None)
+ConnectionPosition._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=ConnectionPosition)
 ConnectionPosition.both = ConnectionPosition._CF_enumeration.addEnumeration(unicode_value='both', tag='both')
 ConnectionPosition.bottom = ConnectionPosition._CF_enumeration.addEnumeration(unicode_value='bottom', tag='bottom')
 ConnectionPosition.top = ConnectionPosition._CF_enumeration.addEnumeration(unicode_value='top', tag='top')
 ConnectionPosition.unknown = ConnectionPosition._CF_enumeration.addEnumeration(unicode_value='unknown', tag='unknown')
 ConnectionPosition._InitializeFacetMap(ConnectionPosition._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'ConnectionPosition', ConnectionPosition)
+_module_typeBindings.ConnectionPosition = ConnectionPosition
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}DeflectionMethod
 class DeflectionMethod (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
@@ -939,13 +1018,14 @@ class DeflectionMethod (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
 			deviation of the trajectory."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'DeflectionMethod')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 675, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 675, 1)
     _Documentation = 'These values represent method used to direct the \n\t\t\tdeviation of the trajectory.'
-DeflectionMethod._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=DeflectionMethod, enum_prefix=None)
+DeflectionMethod._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=DeflectionMethod)
 DeflectionMethod.point_bit = DeflectionMethod._CF_enumeration.addEnumeration(unicode_value='point bit', tag='point_bit')
 DeflectionMethod.push_bit = DeflectionMethod._CF_enumeration.addEnumeration(unicode_value='push bit', tag='push_bit')
 DeflectionMethod._InitializeFacetMap(DeflectionMethod._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'DeflectionMethod', DeflectionMethod)
+_module_typeBindings.DeflectionMethod = DeflectionMethod
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}DerrickType
 class DerrickType (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
@@ -953,9 +1033,9 @@ class DerrickType (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
     """These values represent the type of drilling derrick."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'DerrickType')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 698, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 698, 1)
     _Documentation = 'These values represent the type of drilling derrick.'
-DerrickType._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=DerrickType, enum_prefix=None)
+DerrickType._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=DerrickType)
 DerrickType.double = DerrickType._CF_enumeration.addEnumeration(unicode_value='double', tag='double')
 DerrickType.quadruple = DerrickType._CF_enumeration.addEnumeration(unicode_value='quadruple', tag='quadruple')
 DerrickType.slant = DerrickType._CF_enumeration.addEnumeration(unicode_value='slant', tag='slant')
@@ -963,6 +1043,7 @@ DerrickType.triple = DerrickType._CF_enumeration.addEnumeration(unicode_value='t
 DerrickType.unknown = DerrickType._CF_enumeration.addEnumeration(unicode_value='unknown', tag='unknown')
 DerrickType._InitializeFacetMap(DerrickType._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'DerrickType', DerrickType)
+_module_typeBindings.DerrickType = DerrickType
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}DrawWorksType
 class DrawWorksType (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
@@ -970,9 +1051,9 @@ class DrawWorksType (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'DrawWorksType')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 733, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 733, 1)
     _Documentation = None
-DrawWorksType._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=DrawWorksType, enum_prefix=None)
+DrawWorksType._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=DrawWorksType)
 DrawWorksType.mechanical = DrawWorksType._CF_enumeration.addEnumeration(unicode_value='mechanical', tag='mechanical')
 DrawWorksType.standard_electric = DrawWorksType._CF_enumeration.addEnumeration(unicode_value='standard electric', tag='standard_electric')
 DrawWorksType.diesel_electric = DrawWorksType._CF_enumeration.addEnumeration(unicode_value='diesel electric', tag='diesel_electric')
@@ -980,6 +1061,7 @@ DrawWorksType.ram_rig = DrawWorksType._CF_enumeration.addEnumeration(unicode_val
 DrawWorksType.unknown = DrawWorksType._CF_enumeration.addEnumeration(unicode_value='unknown', tag='unknown')
 DrawWorksType._InitializeFacetMap(DrawWorksType._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'DrawWorksType', DrawWorksType)
+_module_typeBindings.DrawWorksType = DrawWorksType
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}DriveType
 class DriveType (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
@@ -987,15 +1069,16 @@ class DriveType (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
     """These values represent the type of work string drive (rotary system)."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'DriveType')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 765, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 765, 1)
     _Documentation = 'These values represent the type of work string drive (rotary system).'
-DriveType._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=DriveType, enum_prefix=None)
+DriveType._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=DriveType)
 DriveType.coiled_tubing = DriveType._CF_enumeration.addEnumeration(unicode_value='coiled tubing', tag='coiled_tubing')
 DriveType.rotary_kelly_drive = DriveType._CF_enumeration.addEnumeration(unicode_value='rotary kelly drive', tag='rotary_kelly_drive')
 DriveType.top_drive = DriveType._CF_enumeration.addEnumeration(unicode_value='top drive', tag='top_drive')
 DriveType.unknown = DriveType._CF_enumeration.addEnumeration(unicode_value='unknown', tag='unknown')
 DriveType._InitializeFacetMap(DriveType._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'DriveType', DriveType)
+_module_typeBindings.DriveType = DriveType
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}ElevCodeEnum
 class ElevCodeEnum (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
@@ -1006,9 +1089,9 @@ class ElevCodeEnum (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
 			vertical reference datums (e.g., mean sea level)."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'ElevCodeEnum')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 795, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 795, 1)
     _Documentation = 'The type of local or permanent reference datum for vertical gravity based \n\t\t\t(i.e., elevation and vertical depth) and measured depth coordinates within the context of a well.\n\t\t\tThis list includes local points (e.g., kelly bushing) used as a datum and \n\t\t\tvertical reference datums (e.g., mean sea level).'
-ElevCodeEnum._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=ElevCodeEnum, enum_prefix=None)
+ElevCodeEnum._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=ElevCodeEnum)
 ElevCodeEnum.CF = ElevCodeEnum._CF_enumeration.addEnumeration(unicode_value='CF', tag='CF')
 ElevCodeEnum.CV = ElevCodeEnum._CF_enumeration.addEnumeration(unicode_value='CV', tag='CV')
 ElevCodeEnum.DF = ElevCodeEnum._CF_enumeration.addEnumeration(unicode_value='DF', tag='DF')
@@ -1028,6 +1111,7 @@ ElevCodeEnum.KO = ElevCodeEnum._CF_enumeration.addEnumeration(unicode_value='KO'
 ElevCodeEnum.unknown = ElevCodeEnum._CF_enumeration.addEnumeration(unicode_value='unknown', tag='unknown')
 ElevCodeEnum._InitializeFacetMap(ElevCodeEnum._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'ElevCodeEnum', ElevCodeEnum)
+_module_typeBindings.ElevCodeEnum = ElevCodeEnum
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}Ellipsoid
 class Ellipsoid (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
@@ -1036,9 +1120,9 @@ class Ellipsoid (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
 			defining geographic or planar coordinates. """
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'Ellipsoid')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 903, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 903, 1)
     _Documentation = 'These values represent the type of ellipsoid (spheroid) \n\t\t\tdefining geographic or planar coordinates. '
-Ellipsoid._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=Ellipsoid, enum_prefix=None)
+Ellipsoid._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=Ellipsoid)
 Ellipsoid.AGD66 = Ellipsoid._CF_enumeration.addEnumeration(unicode_value='AGD66', tag='AGD66')
 Ellipsoid.AIRY_MOD = Ellipsoid._CF_enumeration.addEnumeration(unicode_value='AIRY_MOD', tag='AIRY_MOD')
 Ellipsoid.AIRY30 = Ellipsoid._CF_enumeration.addEnumeration(unicode_value='AIRY30', tag='AIRY30')
@@ -1120,6 +1204,7 @@ Ellipsoid.WGS84 = Ellipsoid._CF_enumeration.addEnumeration(unicode_value='WGS84'
 Ellipsoid.unknown = Ellipsoid._CF_enumeration.addEnumeration(unicode_value='unknown', tag='unknown')
 Ellipsoid._InitializeFacetMap(Ellipsoid._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'Ellipsoid', Ellipsoid)
+_module_typeBindings.Ellipsoid = Ellipsoid
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}FiberMode
 class FiberMode (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
@@ -1127,15 +1212,16 @@ class FiberMode (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
     """The mode of a Distributed Temperature Survey (DTS) fiber."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'FiberMode')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 1309, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 1309, 1)
     _Documentation = 'The mode of a Distributed Temperature Survey (DTS) fiber.'
-FiberMode._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=FiberMode, enum_prefix=None)
+FiberMode._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=FiberMode)
 FiberMode.singlemode = FiberMode._CF_enumeration.addEnumeration(unicode_value='singlemode', tag='singlemode')
 FiberMode.multimode = FiberMode._CF_enumeration.addEnumeration(unicode_value='multimode', tag='multimode')
 FiberMode.other = FiberMode._CF_enumeration.addEnumeration(unicode_value='other', tag='other')
 FiberMode.unknown = FiberMode._CF_enumeration.addEnumeration(unicode_value='unknown', tag='unknown')
 FiberMode._InitializeFacetMap(FiberMode._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'FiberMode', FiberMode)
+_module_typeBindings.FiberMode = FiberMode
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}GasPeakType
 class GasPeakType (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
@@ -1143,9 +1229,9 @@ class GasPeakType (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'GasPeakType')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 1342, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 1342, 1)
     _Documentation = None
-GasPeakType._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=GasPeakType, enum_prefix=None)
+GasPeakType._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=GasPeakType)
 GasPeakType.circulating_background_gas = GasPeakType._CF_enumeration.addEnumeration(unicode_value='circulating background gas', tag='circulating_background_gas')
 GasPeakType.connection_gas = GasPeakType._CF_enumeration.addEnumeration(unicode_value='connection gas', tag='connection_gas')
 GasPeakType.drilling_background_gas = GasPeakType._CF_enumeration.addEnumeration(unicode_value='drilling background gas', tag='drilling_background_gas')
@@ -1158,6 +1244,7 @@ GasPeakType.trip_gas = GasPeakType._CF_enumeration.addEnumeration(unicode_value=
 GasPeakType.unknown = GasPeakType._CF_enumeration.addEnumeration(unicode_value='unknown', tag='unknown')
 GasPeakType._InitializeFacetMap(GasPeakType._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'GasPeakType', GasPeakType)
+_module_typeBindings.GasPeakType = GasPeakType
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}GeodeticDatum
 class GeodeticDatum (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
@@ -1167,9 +1254,9 @@ class GeodeticDatum (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
 			and the descriptions is Geoshare V13."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'GeodeticDatum')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 1399, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 1399, 1)
     _Documentation = 'These values represent the type of geodetic datum. \n\t\t\tThe source (except for "none", "unknown" and "UserDefined") of the values \n\t\t\tand the descriptions is Geoshare V13.'
-GeodeticDatum._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=GeodeticDatum, enum_prefix=None)
+GeodeticDatum._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=GeodeticDatum)
 GeodeticDatum.ADND = GeodeticDatum._CF_enumeration.addEnumeration(unicode_value='ADND', tag='ADND')
 GeodeticDatum.ARC50 = GeodeticDatum._CF_enumeration.addEnumeration(unicode_value='ARC50', tag='ARC50')
 GeodeticDatum.AUSG = GeodeticDatum._CF_enumeration.addEnumeration(unicode_value='AUSG', tag='AUSG')
@@ -1213,6 +1300,7 @@ GeodeticDatum.YACR = GeodeticDatum._CF_enumeration.addEnumeration(unicode_value=
 GeodeticDatum.unknown = GeodeticDatum._CF_enumeration.addEnumeration(unicode_value='unknown', tag='unknown')
 GeodeticDatum._InitializeFacetMap(GeodeticDatum._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'GeodeticDatum', GeodeticDatum)
+_module_typeBindings.GeodeticDatum = GeodeticDatum
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}Hemispheres
 class Hemispheres (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
@@ -1220,14 +1308,15 @@ class Hemispheres (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'Hemispheres')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 1616, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 1616, 1)
     _Documentation = None
-Hemispheres._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=Hemispheres, enum_prefix=None)
+Hemispheres._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=Hemispheres)
 Hemispheres.northern = Hemispheres._CF_enumeration.addEnumeration(unicode_value='northern', tag='northern')
 Hemispheres.southern = Hemispheres._CF_enumeration.addEnumeration(unicode_value='southern', tag='southern')
 Hemispheres.unknown = Hemispheres._CF_enumeration.addEnumeration(unicode_value='unknown', tag='unknown')
 Hemispheres._InitializeFacetMap(Hemispheres._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'Hemispheres', Hemispheres)
+_module_typeBindings.Hemispheres = Hemispheres
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}HoleCasingType
 class HoleCasingType (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
@@ -1235,9 +1324,9 @@ class HoleCasingType (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'HoleCasingType')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 1638, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 1638, 1)
     _Documentation = None
-HoleCasingType._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=HoleCasingType, enum_prefix=None)
+HoleCasingType._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=HoleCasingType)
 HoleCasingType.blow_out_preventer = HoleCasingType._CF_enumeration.addEnumeration(unicode_value='blow out preventer', tag='blow_out_preventer')
 HoleCasingType.casing = HoleCasingType._CF_enumeration.addEnumeration(unicode_value='casing', tag='casing')
 HoleCasingType.conductor = HoleCasingType._CF_enumeration.addEnumeration(unicode_value='conductor', tag='conductor')
@@ -1249,6 +1338,7 @@ HoleCasingType.tubing = HoleCasingType._CF_enumeration.addEnumeration(unicode_va
 HoleCasingType.unknown = HoleCasingType._CF_enumeration.addEnumeration(unicode_value='unknown', tag='unknown')
 HoleCasingType._InitializeFacetMap(HoleCasingType._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'HoleCasingType', HoleCasingType)
+_module_typeBindings.HoleCasingType = HoleCasingType
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}HoleOpenerType
 class HoleOpenerType (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
@@ -1256,14 +1346,15 @@ class HoleOpenerType (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'HoleOpenerType')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 1690, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 1690, 1)
     _Documentation = None
-HoleOpenerType._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=HoleOpenerType, enum_prefix=None)
+HoleOpenerType._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=HoleOpenerType)
 HoleOpenerType.under_reamer = HoleOpenerType._CF_enumeration.addEnumeration(unicode_value='under-reamer', tag='under_reamer')
 HoleOpenerType.fixed_blade = HoleOpenerType._CF_enumeration.addEnumeration(unicode_value='fixed blade', tag='fixed_blade')
 HoleOpenerType.unknown = HoleOpenerType._CF_enumeration.addEnumeration(unicode_value='unknown', tag='unknown')
 HoleOpenerType._InitializeFacetMap(HoleOpenerType._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'HoleOpenerType', HoleOpenerType)
+_module_typeBindings.HoleOpenerType = HoleOpenerType
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}IntervalMethod
 class IntervalMethod (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
@@ -1271,9 +1362,9 @@ class IntervalMethod (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'IntervalMethod')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 1712, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 1712, 1)
     _Documentation = None
-IntervalMethod._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=IntervalMethod, enum_prefix=None)
+IntervalMethod._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=IntervalMethod)
 IntervalMethod.average = IntervalMethod._CF_enumeration.addEnumeration(unicode_value='average', tag='average')
 IntervalMethod.maximum = IntervalMethod._CF_enumeration.addEnumeration(unicode_value='maximum', tag='maximum')
 IntervalMethod.minimum = IntervalMethod._CF_enumeration.addEnumeration(unicode_value='minimum', tag='minimum')
@@ -1282,6 +1373,7 @@ IntervalMethod.spot_sample = IntervalMethod._CF_enumeration.addEnumeration(unico
 IntervalMethod.unknown = IntervalMethod._CF_enumeration.addEnumeration(unicode_value='unknown', tag='unknown')
 IntervalMethod._InitializeFacetMap(IntervalMethod._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'IntervalMethod', IntervalMethod)
+_module_typeBindings.IntervalMethod = IntervalMethod
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}IntervalType
 class IntervalType (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
@@ -1289,14 +1381,15 @@ class IntervalType (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'IntervalType')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 1749, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 1749, 1)
     _Documentation = None
-IntervalType._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=IntervalType, enum_prefix=None)
+IntervalType._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=IntervalType)
 IntervalType.time = IntervalType._CF_enumeration.addEnumeration(unicode_value='time', tag='time')
 IntervalType.depth = IntervalType._CF_enumeration.addEnumeration(unicode_value='depth', tag='depth')
 IntervalType.unknown = IntervalType._CF_enumeration.addEnumeration(unicode_value='unknown', tag='unknown')
 IntervalType._InitializeFacetMap(IntervalType._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'IntervalType', IntervalType)
+_module_typeBindings.IntervalType = IntervalType
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}ItemState
 class ItemState (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
@@ -1304,15 +1397,16 @@ class ItemState (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
     """These values represent the state of a WITSML object. """
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'ItemState')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 1771, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 1771, 1)
     _Documentation = 'These values represent the state of a WITSML object. '
-ItemState._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=ItemState, enum_prefix=None)
+ItemState._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=ItemState)
 ItemState.actual = ItemState._CF_enumeration.addEnumeration(unicode_value='actual', tag='actual')
 ItemState.model = ItemState._CF_enumeration.addEnumeration(unicode_value='model', tag='model')
 ItemState.plan = ItemState._CF_enumeration.addEnumeration(unicode_value='plan', tag='plan')
 ItemState.unknown = ItemState._CF_enumeration.addEnumeration(unicode_value='unknown', tag='unknown')
 ItemState._InitializeFacetMap(ItemState._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'ItemState', ItemState)
+_module_typeBindings.ItemState = ItemState
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}InstalledFiberPoint
 class InstalledFiberPoint (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
@@ -1320,9 +1414,9 @@ class InstalledFiberPoint (abstractTypeEnum, pyxb.binding.basis.enumeration_mixi
     """The type of Distributed Temperature Survey (DTS) fiber point."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'InstalledFiberPoint')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 1801, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 1801, 1)
     _Documentation = 'The type of Distributed Temperature Survey (DTS) fiber point.'
-InstalledFiberPoint._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=InstalledFiberPoint, enum_prefix=None)
+InstalledFiberPoint._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=InstalledFiberPoint)
 InstalledFiberPoint.splice = InstalledFiberPoint._CF_enumeration.addEnumeration(unicode_value='splice', tag='splice')
 InstalledFiberPoint.connector = InstalledFiberPoint._CF_enumeration.addEnumeration(unicode_value='connector', tag='connector')
 InstalledFiberPoint.end_of_fiber = InstalledFiberPoint._CF_enumeration.addEnumeration(unicode_value='end of fiber', tag='end_of_fiber')
@@ -1346,6 +1440,7 @@ InstalledFiberPoint.base_completion_zone = InstalledFiberPoint._CF_enumeration.a
 InstalledFiberPoint.unknown = InstalledFiberPoint._CF_enumeration.addEnumeration(unicode_value='unknown', tag='unknown')
 InstalledFiberPoint._InitializeFacetMap(InstalledFiberPoint._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'InstalledFiberPoint', InstalledFiberPoint)
+_module_typeBindings.InstalledFiberPoint = InstalledFiberPoint
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}JarType
 class JarType (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
@@ -1353,15 +1448,16 @@ class JarType (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'JarType')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 1939, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 1939, 1)
     _Documentation = None
-JarType._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=JarType, enum_prefix=None)
+JarType._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=JarType)
 JarType.mechanical = JarType._CF_enumeration.addEnumeration(unicode_value='mechanical', tag='mechanical')
 JarType.hydraulic = JarType._CF_enumeration.addEnumeration(unicode_value='hydraulic', tag='hydraulic')
 JarType.hydro_mechanical = JarType._CF_enumeration.addEnumeration(unicode_value='hydro mechanical', tag='hydro_mechanical')
 JarType.unknown = JarType._CF_enumeration.addEnumeration(unicode_value='unknown', tag='unknown')
 JarType._InitializeFacetMap(JarType._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'JarType', JarType)
+_module_typeBindings.JarType = JarType
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}JarAction
 class JarAction (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
@@ -1369,9 +1465,9 @@ class JarAction (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'JarAction')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 1966, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 1966, 1)
     _Documentation = None
-JarAction._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=JarAction, enum_prefix=None)
+JarAction._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=JarAction)
 JarAction.up = JarAction._CF_enumeration.addEnumeration(unicode_value='up', tag='up')
 JarAction.down = JarAction._CF_enumeration.addEnumeration(unicode_value='down', tag='down')
 JarAction.both = JarAction._CF_enumeration.addEnumeration(unicode_value='both', tag='both')
@@ -1379,6 +1475,7 @@ JarAction.vibrating = JarAction._CF_enumeration.addEnumeration(unicode_value='vi
 JarAction.unknown = JarAction._CF_enumeration.addEnumeration(unicode_value='unknown', tag='unknown')
 JarAction._InitializeFacetMap(JarAction._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'JarAction', JarAction)
+_module_typeBindings.JarAction = JarAction
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}LithologySource
 class LithologySource (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
@@ -1386,15 +1483,16 @@ class LithologySource (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
     """Specifies the source of lithology information."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'LithologySource')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 1998, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 1998, 1)
     _Documentation = 'Specifies the source of lithology information.'
-LithologySource._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=LithologySource, enum_prefix=None)
+LithologySource._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=LithologySource)
 LithologySource.interpreted = LithologySource._CF_enumeration.addEnumeration(unicode_value='interpreted', tag='interpreted')
 LithologySource.core = LithologySource._CF_enumeration.addEnumeration(unicode_value='core', tag='core')
 LithologySource.cuttings = LithologySource._CF_enumeration.addEnumeration(unicode_value='cuttings', tag='cuttings')
 LithologySource.unknown = LithologySource._CF_enumeration.addEnumeration(unicode_value='unknown', tag='unknown')
 LithologySource._InitializeFacetMap(LithologySource._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'LithologySource', LithologySource)
+_module_typeBindings.LithologySource = LithologySource
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}LithologyType
 class LithologyType (abstractTypeEnum):
@@ -1403,10 +1501,11 @@ class LithologyType (abstractTypeEnum):
 			The list of standard values is contained in the WITSML enumValues.xml file. """
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'LithologyType')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 2031, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 2031, 1)
     _Documentation = 'The type of lithology.\n\t\t\tThe list of standard values is contained in the WITSML enumValues.xml file. '
 LithologyType._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'LithologyType', LithologyType)
+_module_typeBindings.LithologyType = LithologyType
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}LogDataType
 class LogDataType (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
@@ -1414,9 +1513,9 @@ class LogDataType (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
     """The endcoding allowed in a realtime channel value or log curve value."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'LogDataType')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 2040, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 2040, 1)
     _Documentation = 'The endcoding allowed in a realtime channel value or log curve value.'
-LogDataType._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=LogDataType, enum_prefix=None)
+LogDataType._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=LogDataType)
 LogDataType.date_time = LogDataType._CF_enumeration.addEnumeration(unicode_value='date time', tag='date_time')
 LogDataType.double = LogDataType._CF_enumeration.addEnumeration(unicode_value='double', tag='double')
 LogDataType.long = LogDataType._CF_enumeration.addEnumeration(unicode_value='long', tag='long')
@@ -1424,6 +1523,7 @@ LogDataType.string = LogDataType._CF_enumeration.addEnumeration(unicode_value='s
 LogDataType.unknown = LogDataType._CF_enumeration.addEnumeration(unicode_value='unknown', tag='unknown')
 LogDataType._InitializeFacetMap(LogDataType._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'LogDataType', LogDataType)
+_module_typeBindings.LogDataType = LogDataType
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}LogIndexDirection
 class LogIndexDirection (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
@@ -1431,14 +1531,15 @@ class LogIndexDirection (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin)
     """These values represent the direction of movement within a wellbore."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'LogIndexDirection')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 2075, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 2075, 1)
     _Documentation = 'These values represent the direction of movement within a wellbore.'
-LogIndexDirection._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=LogIndexDirection, enum_prefix=None)
+LogIndexDirection._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=LogIndexDirection)
 LogIndexDirection.decreasing = LogIndexDirection._CF_enumeration.addEnumeration(unicode_value='decreasing', tag='decreasing')
 LogIndexDirection.increasing = LogIndexDirection._CF_enumeration.addEnumeration(unicode_value='increasing', tag='increasing')
 LogIndexDirection.unknown = LogIndexDirection._CF_enumeration.addEnumeration(unicode_value='unknown', tag='unknown')
 LogIndexDirection._InitializeFacetMap(LogIndexDirection._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'LogIndexDirection', LogIndexDirection)
+_module_typeBindings.LogIndexDirection = LogIndexDirection
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}LogIndexType
 class LogIndexType (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
@@ -1446,9 +1547,9 @@ class LogIndexType (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
     """These values represent the type of data used as an index value for a log. """
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'LogIndexType')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 2102, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 2102, 1)
     _Documentation = 'These values represent the type of data used as an index value for a log. '
-LogIndexType._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=LogIndexType, enum_prefix=None)
+LogIndexType._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=LogIndexType)
 LogIndexType.date_time = LogIndexType._CF_enumeration.addEnumeration(unicode_value='date time', tag='date_time')
 LogIndexType.elapsed_time = LogIndexType._CF_enumeration.addEnumeration(unicode_value='elapsed time', tag='elapsed_time')
 LogIndexType.length = LogIndexType._CF_enumeration.addEnumeration(unicode_value='length', tag='length')
@@ -1458,6 +1559,7 @@ LogIndexType.other = LogIndexType._CF_enumeration.addEnumeration(unicode_value='
 LogIndexType.unknown = LogIndexType._CF_enumeration.addEnumeration(unicode_value='unknown', tag='unknown')
 LogIndexType._InitializeFacetMap(LogIndexType._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'LogIndexType', LogIndexType)
+_module_typeBindings.LogIndexType = LogIndexType
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}LogTraceOrigin
 class LogTraceOrigin (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
@@ -1465,14 +1567,15 @@ class LogTraceOrigin (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'LogTraceOrigin')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 2147, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 2147, 1)
     _Documentation = None
-LogTraceOrigin._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=LogTraceOrigin, enum_prefix=None)
+LogTraceOrigin._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=LogTraceOrigin)
 LogTraceOrigin.realtime = LogTraceOrigin._CF_enumeration.addEnumeration(unicode_value='realtime', tag='realtime')
 LogTraceOrigin.modeled = LogTraceOrigin._CF_enumeration.addEnumeration(unicode_value='modeled', tag='modeled')
 LogTraceOrigin.unknown = LogTraceOrigin._CF_enumeration.addEnumeration(unicode_value='unknown', tag='unknown')
 LogTraceOrigin._InitializeFacetMap(LogTraceOrigin._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'LogTraceOrigin', LogTraceOrigin)
+_module_typeBindings.LogTraceOrigin = LogTraceOrigin
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}LogTraceState
 class LogTraceState (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
@@ -1480,9 +1583,9 @@ class LogTraceState (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'LogTraceState')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 2169, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 2169, 1)
     _Documentation = None
-LogTraceState._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=LogTraceState, enum_prefix=None)
+LogTraceState._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=LogTraceState)
 LogTraceState.depth_adjusted = LogTraceState._CF_enumeration.addEnumeration(unicode_value='depth adjusted', tag='depth_adjusted')
 LogTraceState.edited = LogTraceState._CF_enumeration.addEnumeration(unicode_value='edited', tag='edited')
 LogTraceState.joined = LogTraceState._CF_enumeration.addEnumeration(unicode_value='joined', tag='joined')
@@ -1491,6 +1594,7 @@ LogTraceState.raw = LogTraceState._CF_enumeration.addEnumeration(unicode_value='
 LogTraceState.unknown = LogTraceState._CF_enumeration.addEnumeration(unicode_value='unknown', tag='unknown')
 LogTraceState._InitializeFacetMap(LogTraceState._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'LogTraceState', LogTraceState)
+_module_typeBindings.LogTraceState = LogTraceState
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}MaterialType
 class MaterialType (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
@@ -1498,9 +1602,9 @@ class MaterialType (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'MaterialType')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 2206, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 2206, 1)
     _Documentation = None
-MaterialType._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=MaterialType, enum_prefix=None)
+MaterialType._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=MaterialType)
 MaterialType.aluminum = MaterialType._CF_enumeration.addEnumeration(unicode_value='aluminum', tag='aluminum')
 MaterialType.beryllium_copper = MaterialType._CF_enumeration.addEnumeration(unicode_value='beryllium copper', tag='beryllium_copper')
 MaterialType.chrome_alloy = MaterialType._CF_enumeration.addEnumeration(unicode_value='chrome alloy', tag='chrome_alloy')
@@ -1514,6 +1618,7 @@ MaterialType.titanium = MaterialType._CF_enumeration.addEnumeration(unicode_valu
 MaterialType.unknown = MaterialType._CF_enumeration.addEnumeration(unicode_value='unknown', tag='unknown')
 MaterialType._InitializeFacetMap(MaterialType._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'MaterialType', MaterialType)
+_module_typeBindings.MaterialType = MaterialType
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}MeasurementType
 class MeasurementType (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
@@ -1525,9 +1630,9 @@ class MeasurementType (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
 			characteristic they are meant to measure." """
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'MeasurementType')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 2268, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 2268, 1)
     _Documentation = 'The source (except for "CH density porosity", "CH neutron porosity", "OH density porosity"\n\t\t\tand "OH neutron porosity") of the values and the descriptions is the POSC V2.2 "well log trace class" \n\t\t\tstandard instance values which are documented as "A classification of well log traces based on \n\t\t\tspecification of a range of characteristics. Traces may be classed according to the type of physical \n\t\t\tcharacteristic they are meant to measure."'
-MeasurementType._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=MeasurementType, enum_prefix=None)
+MeasurementType._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=MeasurementType)
 MeasurementType.acceleration = MeasurementType._CF_enumeration.addEnumeration(unicode_value='acceleration', tag='acceleration')
 MeasurementType.acoustic_caliper = MeasurementType._CF_enumeration.addEnumeration(unicode_value='acoustic caliper', tag='acoustic_caliper')
 MeasurementType.acoustic_casing_collar_locator = MeasurementType._CF_enumeration.addEnumeration(unicode_value='acoustic casing collar locator', tag='acoustic_casing_collar_locator')
@@ -1825,6 +1930,7 @@ MeasurementType.water_saturation = MeasurementType._CF_enumeration.addEnumeratio
 MeasurementType.unknown = MeasurementType._CF_enumeration.addEnumeration(unicode_value='unknown', tag='unknown')
 MeasurementType._InitializeFacetMap(MeasurementType._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'MeasurementType', MeasurementType)
+_module_typeBindings.MeasurementType = MeasurementType
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}MessageProbability
 class MessageProbability (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
@@ -1832,15 +1938,16 @@ class MessageProbability (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'MessageProbability')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 3757, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 3757, 1)
     _Documentation = None
-MessageProbability._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=MessageProbability, enum_prefix=None)
+MessageProbability._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=MessageProbability)
 MessageProbability.low = MessageProbability._CF_enumeration.addEnumeration(unicode_value='low', tag='low')
 MessageProbability.medium = MessageProbability._CF_enumeration.addEnumeration(unicode_value='medium', tag='medium')
 MessageProbability.high = MessageProbability._CF_enumeration.addEnumeration(unicode_value='high', tag='high')
 MessageProbability.unknown = MessageProbability._CF_enumeration.addEnumeration(unicode_value='unknown', tag='unknown')
 MessageProbability._InitializeFacetMap(MessageProbability._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'MessageProbability', MessageProbability)
+_module_typeBindings.MessageProbability = MessageProbability
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}MessageSeverity
 class MessageSeverity (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
@@ -1848,15 +1955,16 @@ class MessageSeverity (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'MessageSeverity')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 3784, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 3784, 1)
     _Documentation = None
-MessageSeverity._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=MessageSeverity, enum_prefix=None)
+MessageSeverity._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=MessageSeverity)
 MessageSeverity.catastrophic = MessageSeverity._CF_enumeration.addEnumeration(unicode_value='catastrophic', tag='catastrophic')
 MessageSeverity.major = MessageSeverity._CF_enumeration.addEnumeration(unicode_value='major', tag='major')
 MessageSeverity.minor = MessageSeverity._CF_enumeration.addEnumeration(unicode_value='minor', tag='minor')
 MessageSeverity.unknown = MessageSeverity._CF_enumeration.addEnumeration(unicode_value='unknown', tag='unknown')
 MessageSeverity._InitializeFacetMap(MessageSeverity._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'MessageSeverity', MessageSeverity)
+_module_typeBindings.MessageSeverity = MessageSeverity
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}MessageType
 class MessageType (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
@@ -1864,9 +1972,9 @@ class MessageType (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
     """These values represent the type of a message. """
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'MessageType')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 3811, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 3811, 1)
     _Documentation = 'These values represent the type of a message. '
-MessageType._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=MessageType, enum_prefix=None)
+MessageType._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=MessageType)
 MessageType.alarm = MessageType._CF_enumeration.addEnumeration(unicode_value='alarm', tag='alarm')
 MessageType.event = MessageType._CF_enumeration.addEnumeration(unicode_value='event', tag='event')
 MessageType.informational = MessageType._CF_enumeration.addEnumeration(unicode_value='informational', tag='informational')
@@ -1874,6 +1982,7 @@ MessageType.warning = MessageType._CF_enumeration.addEnumeration(unicode_value='
 MessageType.unknown = MessageType._CF_enumeration.addEnumeration(unicode_value='unknown', tag='unknown')
 MessageType._InitializeFacetMap(MessageType._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'MessageType', MessageType)
+_module_typeBindings.MessageType = MessageType
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}MudLogParameterType
 class MudLogParameterType (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
@@ -1887,9 +1996,9 @@ class MudLogParameterType (abstractTypeEnum, pyxb.binding.basis.enumeration_mixi
 			"Only" indicates that no other value is expected."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'MudLogParameterType')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 3846, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 3846, 1)
     _Documentation = '"Text value" indicates that a text value is expected. \n\t\t\t"Pressure value" indicates that an equivalentMudWeight value is expected.\n\t\t\t"Pressure gradient value" indicates that an equivalentMudWeight value is \n\t\t\t  commonly expected but a pressureGradient value may also be specified.\n\t\t\t"Concentration value" indicates that a concentration value is expected.\n\t\t\t"Force value" indicates that a force value is expected.\n\t\t\t"Only" indicates that no other value is expected.'
-MudLogParameterType._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=MudLogParameterType, enum_prefix=None)
+MudLogParameterType._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=MudLogParameterType)
 MudLogParameterType.bit_parameters = MudLogParameterType._CF_enumeration.addEnumeration(unicode_value='bit parameters', tag='bit_parameters')
 MudLogParameterType.bit_type_comment = MudLogParameterType._CF_enumeration.addEnumeration(unicode_value='bit type comment', tag='bit_type_comment')
 MudLogParameterType.casing_point_comment = MudLogParameterType._CF_enumeration.addEnumeration(unicode_value='casing point comment', tag='casing_point_comment')
@@ -1932,6 +2041,7 @@ MudLogParameterType.wireline_log_comment = MudLogParameterType._CF_enumeration.a
 MudLogParameterType.unknown = MudLogParameterType._CF_enumeration.addEnumeration(unicode_value='unknown', tag='unknown')
 MudLogParameterType._InitializeFacetMap(MudLogParameterType._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'MudLogParameterType', MudLogParameterType)
+_module_typeBindings.MudLogParameterType = MudLogParameterType
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}NADTypes
 class NADTypes (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
@@ -1939,14 +2049,15 @@ class NADTypes (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'NADTypes')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 4108, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 4108, 1)
     _Documentation = None
-NADTypes._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=NADTypes, enum_prefix=None)
+NADTypes._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=NADTypes)
 NADTypes.NAD27 = NADTypes._CF_enumeration.addEnumeration(unicode_value='NAD27', tag='NAD27')
 NADTypes.NAD83 = NADTypes._CF_enumeration.addEnumeration(unicode_value='NAD83', tag='NAD83')
 NADTypes.unknown = NADTypes._CF_enumeration.addEnumeration(unicode_value='unknown', tag='unknown')
 NADTypes._InitializeFacetMap(NADTypes._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'NADTypes', NADTypes)
+_module_typeBindings.NADTypes = NADTypes
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}NameTagLocation
 class NameTagLocation (abstractTypeEnum):
@@ -1955,10 +2066,11 @@ class NameTagLocation (abstractTypeEnum):
 			The list of standard values is contained in the WITSML enumValues.xml file. """
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'NameTagLocation')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 4130, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 4130, 1)
     _Documentation = 'Defines the locations where an equipment tag might be found..\n\t\t\tThe list of standard values is contained in the WITSML enumValues.xml file. '
 NameTagLocation._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'NameTagLocation', NameTagLocation)
+_module_typeBindings.NameTagLocation = NameTagLocation
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}NameTagNumberingScheme
 class NameTagNumberingScheme (abstractTypeEnum):
@@ -1967,10 +2079,11 @@ class NameTagNumberingScheme (abstractTypeEnum):
 			The list of standard values is contained in the WITSML enumValues.xml file. """
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'NameTagNumberingScheme')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 4139, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 4139, 1)
     _Documentation = 'Defines the specifications for creating equipment tags..\n\t\t\tThe list of standard values is contained in the WITSML enumValues.xml file. '
 NameTagNumberingScheme._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'NameTagNumberingScheme', NameTagNumberingScheme)
+_module_typeBindings.NameTagNumberingScheme = NameTagNumberingScheme
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}NameTagTechnology
 class NameTagTechnology (abstractTypeEnum):
@@ -1979,10 +2092,11 @@ class NameTagTechnology (abstractTypeEnum):
 			The list of standard values is contained in the WITSML enumValues.xml file. """
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'NameTagTechnology')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 4148, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 4148, 1)
     _Documentation = 'Defines the mechanisms for attaching an equipment tag to an item..\n\t\t\tThe list of standard values is contained in the WITSML enumValues.xml file. '
 NameTagTechnology._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'NameTagTechnology', NameTagTechnology)
+_module_typeBindings.NameTagTechnology = NameTagTechnology
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}NozzleType
 class NozzleType (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
@@ -1990,14 +2104,15 @@ class NozzleType (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'NozzleType')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 4157, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 4157, 1)
     _Documentation = None
-NozzleType._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=NozzleType, enum_prefix=None)
+NozzleType._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=NozzleType)
 NozzleType.extended = NozzleType._CF_enumeration.addEnumeration(unicode_value='extended', tag='extended')
 NozzleType.normal = NozzleType._CF_enumeration.addEnumeration(unicode_value='normal', tag='normal')
 NozzleType.unknown = NozzleType._CF_enumeration.addEnumeration(unicode_value='unknown', tag='unknown')
 NozzleType._InitializeFacetMap(NozzleType._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'NozzleType', NozzleType)
+_module_typeBindings.NozzleType = NozzleType
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}OTDRReason
 class OTDRReason (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
@@ -2006,9 +2121,9 @@ class OTDRReason (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
 			test was run within a  Distributed Temperature Survey (DTS)."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'OTDRReason')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 4179, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 4179, 1)
     _Documentation = 'The reason an Optical Time Domain Reflectometry (OTDR) \n\t\t\ttest was run within a  Distributed Temperature Survey (DTS).'
-OTDRReason._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=OTDRReason, enum_prefix=None)
+OTDRReason._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=OTDRReason)
 OTDRReason.pre_installation = OTDRReason._CF_enumeration.addEnumeration(unicode_value='pre-installation', tag='pre_installation')
 OTDRReason.post_installation = OTDRReason._CF_enumeration.addEnumeration(unicode_value='post-installation', tag='post_installation')
 OTDRReason.DTS_run = OTDRReason._CF_enumeration.addEnumeration(unicode_value='DTS run', tag='DTS_run')
@@ -2016,6 +2131,7 @@ OTDRReason.other = OTDRReason._CF_enumeration.addEnumeration(unicode_value='othe
 OTDRReason.unknown = OTDRReason._CF_enumeration.addEnumeration(unicode_value='unknown', tag='unknown')
 OTDRReason._InitializeFacetMap(OTDRReason._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'OTDRReason', OTDRReason)
+_module_typeBindings.OTDRReason = OTDRReason
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}PitType
 class PitType (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
@@ -2023,9 +2139,9 @@ class PitType (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'PitType')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 4217, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 4217, 1)
     _Documentation = None
-PitType._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=PitType, enum_prefix=None)
+PitType._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=PitType)
 PitType.bulk = PitType._CF_enumeration.addEnumeration(unicode_value='bulk', tag='bulk')
 PitType.chemical = PitType._CF_enumeration.addEnumeration(unicode_value='chemical', tag='chemical')
 PitType.drilling = PitType._CF_enumeration.addEnumeration(unicode_value='drilling', tag='drilling')
@@ -2039,6 +2155,7 @@ PitType.trip_tank = PitType._CF_enumeration.addEnumeration(unicode_value='trip t
 PitType.unknown = PitType._CF_enumeration.addEnumeration(unicode_value='unknown', tag='unknown')
 PitType._InitializeFacetMap(PitType._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'PitType', PitType)
+_module_typeBindings.PitType = PitType
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}Projection
 class Projection (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
@@ -2049,9 +2166,9 @@ class Projection (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
 			indicated "217" object at http://w3.posc.org/GeoshareSIG/technical/GDM/v13.0/."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'Projection')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 4283, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 4283, 1)
     _Documentation = 'These values represent the type of coordinate system projection method.\n\t\t\tThe source (except for "UserDefined") of the values is Geoshare V13. \n\t\t\tFor a detailed description of each value, see the Geoshare documentation of the \n\t\t\tindicated "217" object at http://w3.posc.org/GeoshareSIG/technical/GDM/v13.0/.'
-Projection._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=Projection, enum_prefix=None)
+Projection._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=Projection)
 Projection.Albers_equal_area = Projection._CF_enumeration.addEnumeration(unicode_value='Albers equal area', tag='Albers_equal_area')
 Projection.azimuthal_equidistant = Projection._CF_enumeration.addEnumeration(unicode_value='azimuthal equidistant', tag='azimuthal_equidistant')
 Projection.Cassini = Projection._CF_enumeration.addEnumeration(unicode_value='Cassini', tag='Cassini')
@@ -2077,6 +2194,7 @@ Projection.Van_der_Grinten = Projection._CF_enumeration.addEnumeration(unicode_v
 Projection.unknown = Projection._CF_enumeration.addEnumeration(unicode_value='unknown', tag='unknown')
 Projection._InitializeFacetMap(Projection._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'Projection', Projection)
+_module_typeBindings.Projection = Projection
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}ProjectionVariantsObliqueMercator
 class ProjectionVariantsObliqueMercator (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
@@ -2084,9 +2202,9 @@ class ProjectionVariantsObliqueMercator (abstractTypeEnum, pyxb.binding.basis.en
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'ProjectionVariantsObliqueMercator')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 4411, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 4411, 1)
     _Documentation = None
-ProjectionVariantsObliqueMercator._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=ProjectionVariantsObliqueMercator, enum_prefix=None)
+ProjectionVariantsObliqueMercator._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=ProjectionVariantsObliqueMercator)
 ProjectionVariantsObliqueMercator.default = ProjectionVariantsObliqueMercator._CF_enumeration.addEnumeration(unicode_value='default', tag='default')
 ProjectionVariantsObliqueMercator.rectified = ProjectionVariantsObliqueMercator._CF_enumeration.addEnumeration(unicode_value='rectified', tag='rectified')
 ProjectionVariantsObliqueMercator.rectified_skew = ProjectionVariantsObliqueMercator._CF_enumeration.addEnumeration(unicode_value='rectified skew', tag='rectified_skew')
@@ -2094,6 +2212,7 @@ ProjectionVariantsObliqueMercator.rectified_skew_center_origin = ProjectionVaria
 ProjectionVariantsObliqueMercator.unknown = ProjectionVariantsObliqueMercator._CF_enumeration.addEnumeration(unicode_value='unknown', tag='unknown')
 ProjectionVariantsObliqueMercator._InitializeFacetMap(ProjectionVariantsObliqueMercator._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'ProjectionVariantsObliqueMercator', ProjectionVariantsObliqueMercator)
+_module_typeBindings.ProjectionVariantsObliqueMercator = ProjectionVariantsObliqueMercator
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}PumpType
 class PumpType (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
@@ -2101,15 +2220,16 @@ class PumpType (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
     """These values represent the type of a pump. """
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'PumpType')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 4443, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 4443, 1)
     _Documentation = 'These values represent the type of a pump. '
-PumpType._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=PumpType, enum_prefix=None)
+PumpType._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=PumpType)
 PumpType.centrifugal = PumpType._CF_enumeration.addEnumeration(unicode_value='centrifugal', tag='centrifugal')
 PumpType.duplex = PumpType._CF_enumeration.addEnumeration(unicode_value='duplex', tag='duplex')
 PumpType.triplex = PumpType._CF_enumeration.addEnumeration(unicode_value='triplex', tag='triplex')
 PumpType.unknown = PumpType._CF_enumeration.addEnumeration(unicode_value='unknown', tag='unknown')
 PumpType._InitializeFacetMap(PumpType._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'PumpType', PumpType)
+_module_typeBindings.PumpType = PumpType
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}PumpOpType
 class PumpOpType (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
@@ -2117,9 +2237,9 @@ class PumpOpType (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'PumpOpType')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 4473, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 4473, 1)
     _Documentation = None
-PumpOpType._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=PumpOpType, enum_prefix=None)
+PumpOpType._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=PumpOpType)
 PumpOpType.drilling = PumpOpType._CF_enumeration.addEnumeration(unicode_value='drilling', tag='drilling')
 PumpOpType.reaming = PumpOpType._CF_enumeration.addEnumeration(unicode_value='reaming', tag='reaming')
 PumpOpType.circulating = PumpOpType._CF_enumeration.addEnumeration(unicode_value='circulating', tag='circulating')
@@ -2127,6 +2247,7 @@ PumpOpType.slow_pump = PumpOpType._CF_enumeration.addEnumeration(unicode_value='
 PumpOpType.unknown = PumpOpType._CF_enumeration.addEnumeration(unicode_value='unknown', tag='unknown')
 PumpOpType._InitializeFacetMap(PumpOpType._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'PumpOpType', PumpOpType)
+_module_typeBindings.PumpOpType = PumpOpType
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}QualifierType
 class QualifierType (abstractTypeEnum):
@@ -2135,10 +2256,11 @@ class QualifierType (abstractTypeEnum):
 			The list of standard values is contained in the WITSML enumValues.xml file. """
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'QualifierType')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 4505, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 4505, 1)
     _Documentation = 'The type of qualifier of a lithology.\n\t\t\tThe list of standard values is contained in the WITSML enumValues.xml file. '
 QualifierType._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'QualifierType', QualifierType)
+_module_typeBindings.QualifierType = QualifierType
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}RealtimeData
 class RealtimeData (abstractTypeEnum):
@@ -2147,10 +2269,11 @@ class RealtimeData (abstractTypeEnum):
 			The list of standard values is contained in the WITSML enumValues.xml file. """
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'RealtimeData')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 4514, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 4514, 1)
     _Documentation = 'These values represent the name of a recording channel.\n\t\t\tThe list of standard values is contained in the WITSML enumValues.xml file. '
 RealtimeData._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'RealtimeData', RealtimeData)
+_module_typeBindings.RealtimeData = RealtimeData
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}RigType
 class RigType (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
@@ -2158,9 +2281,9 @@ class RigType (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
     """These values represent the type of drilling rig. """
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'RigType')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 4523, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 4523, 1)
     _Documentation = 'These values represent the type of drilling rig. '
-RigType._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=RigType, enum_prefix=None)
+RigType._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=RigType)
 RigType.barge = RigType._CF_enumeration.addEnumeration(unicode_value='barge', tag='barge')
 RigType.coiled_tubing = RigType._CF_enumeration.addEnumeration(unicode_value='coiled tubing', tag='coiled_tubing')
 RigType.floater = RigType._CF_enumeration.addEnumeration(unicode_value='floater', tag='floater')
@@ -2171,6 +2294,7 @@ RigType.semi_submersible = RigType._CF_enumeration.addEnumeration(unicode_value=
 RigType.unknown = RigType._CF_enumeration.addEnumeration(unicode_value='unknown', tag='unknown')
 RigType._InitializeFacetMap(RigType._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'RigType', RigType)
+_module_typeBindings.RigType = RigType
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}RiskAffectedPersonnel
 class RiskAffectedPersonnel (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
@@ -2178,9 +2302,9 @@ class RiskAffectedPersonnel (abstractTypeEnum, pyxb.binding.basis.enumeration_mi
     """Personnel affected by a risk."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'RiskAffectedPersonnel')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 4573, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 4573, 1)
     _Documentation = 'Personnel affected by a risk.'
-RiskAffectedPersonnel._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=RiskAffectedPersonnel, enum_prefix=None)
+RiskAffectedPersonnel._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=RiskAffectedPersonnel)
 RiskAffectedPersonnel.cementer = RiskAffectedPersonnel._CF_enumeration.addEnumeration(unicode_value='cementer', tag='cementer')
 RiskAffectedPersonnel.company_man = RiskAffectedPersonnel._CF_enumeration.addEnumeration(unicode_value='company man', tag='company_man')
 RiskAffectedPersonnel.contractor = RiskAffectedPersonnel._CF_enumeration.addEnumeration(unicode_value='contractor', tag='contractor')
@@ -2210,6 +2334,7 @@ RiskAffectedPersonnel.tool_pusher = RiskAffectedPersonnel._CF_enumeration.addEnu
 RiskAffectedPersonnel.wireline_engineer = RiskAffectedPersonnel._CF_enumeration.addEnumeration(unicode_value='wireline engineer', tag='wireline_engineer')
 RiskAffectedPersonnel._InitializeFacetMap(RiskAffectedPersonnel._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'RiskAffectedPersonnel', RiskAffectedPersonnel)
+_module_typeBindings.RiskAffectedPersonnel = RiskAffectedPersonnel
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}RiskCategory
 class RiskCategory (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
@@ -2217,9 +2342,9 @@ class RiskCategory (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
     """Type of slow circulation rate."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'RiskCategory')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 4716, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 4716, 1)
     _Documentation = 'Type of slow circulation rate.'
-RiskCategory._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=RiskCategory, enum_prefix=None)
+RiskCategory._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=RiskCategory)
 RiskCategory.hydraulics = RiskCategory._CF_enumeration.addEnumeration(unicode_value='hydraulics', tag='hydraulics')
 RiskCategory.mechanical = RiskCategory._CF_enumeration.addEnumeration(unicode_value='mechanical', tag='mechanical')
 RiskCategory.time_related = RiskCategory._CF_enumeration.addEnumeration(unicode_value='time related', tag='time_related')
@@ -2234,6 +2359,7 @@ RiskCategory.HSE = RiskCategory._CF_enumeration.addEnumeration(unicode_value='HS
 RiskCategory.unknown = RiskCategory._CF_enumeration.addEnumeration(unicode_value='unknown', tag='unknown')
 RiskCategory._InitializeFacetMap(RiskCategory._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'RiskCategory', RiskCategory)
+_module_typeBindings.RiskCategory = RiskCategory
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}RiskSubCategory
 class RiskSubCategory (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
@@ -2241,9 +2367,9 @@ class RiskSubCategory (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
     """Risk Sub-Categories."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'RiskSubCategory')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 4786, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 4786, 1)
     _Documentation = 'Risk Sub-Categories.'
-RiskSubCategory._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=RiskSubCategory, enum_prefix=None)
+RiskSubCategory._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=RiskSubCategory)
 RiskSubCategory.gas_kick = RiskSubCategory._CF_enumeration.addEnumeration(unicode_value='gas kick', tag='gas_kick')
 RiskSubCategory.shallow_water_influx = RiskSubCategory._CF_enumeration.addEnumeration(unicode_value='shallow water influx', tag='shallow_water_influx')
 RiskSubCategory.other_influx_or_kicks = RiskSubCategory._CF_enumeration.addEnumeration(unicode_value='other influx or kicks', tag='other_influx_or_kicks')
@@ -2357,6 +2483,7 @@ RiskSubCategory.time = RiskSubCategory._CF_enumeration.addEnumeration(unicode_va
 RiskSubCategory.HSE = RiskSubCategory._CF_enumeration.addEnumeration(unicode_value='HSE', tag='HSE')
 RiskSubCategory._InitializeFacetMap(RiskSubCategory._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'RiskSubCategory', RiskSubCategory)
+_module_typeBindings.RiskSubCategory = RiskSubCategory
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}RiskType
 class RiskType (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
@@ -2364,9 +2491,9 @@ class RiskType (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
     """Types of risk."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'RiskType')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 5349, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 5349, 1)
     _Documentation = 'Types of risk.'
-RiskType._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=RiskType, enum_prefix=None)
+RiskType._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=RiskType)
 RiskType.risk = RiskType._CF_enumeration.addEnumeration(unicode_value='risk', tag='risk')
 RiskType.event = RiskType._CF_enumeration.addEnumeration(unicode_value='event', tag='event')
 RiskType.near_miss = RiskType._CF_enumeration.addEnumeration(unicode_value='near miss', tag='near_miss')
@@ -2376,6 +2503,7 @@ RiskType.other = RiskType._CF_enumeration.addEnumeration(unicode_value='other', 
 RiskType.unknown = RiskType._CF_enumeration.addEnumeration(unicode_value='unknown', tag='unknown')
 RiskType._InitializeFacetMap(RiskType._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'RiskType', RiskType)
+_module_typeBindings.RiskType = RiskType
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}ScrType
 class ScrType (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
@@ -2383,15 +2511,16 @@ class ScrType (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
     """Type of slow circulation rate."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'ScrType')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 5394, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 5394, 1)
     _Documentation = 'Type of slow circulation rate.'
-ScrType._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=ScrType, enum_prefix=None)
+ScrType._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=ScrType)
 ScrType.string_annulus = ScrType._CF_enumeration.addEnumeration(unicode_value='string annulus', tag='string_annulus')
 ScrType.string_kill_line = ScrType._CF_enumeration.addEnumeration(unicode_value='string kill line', tag='string_kill_line')
 ScrType.string_choke_line = ScrType._CF_enumeration.addEnumeration(unicode_value='string choke line', tag='string_choke_line')
 ScrType.unknown = ScrType._CF_enumeration.addEnumeration(unicode_value='unknown', tag='unknown')
 ScrType._InitializeFacetMap(ScrType._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'ScrType', ScrType)
+_module_typeBindings.ScrType = ScrType
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}ShowFluorescence
 class ShowFluorescence (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
@@ -2399,15 +2528,16 @@ class ShowFluorescence (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'ShowFluorescence')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 5424, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 5424, 1)
     _Documentation = None
-ShowFluorescence._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=ShowFluorescence, enum_prefix=None)
+ShowFluorescence._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=ShowFluorescence)
 ShowFluorescence.faint = ShowFluorescence._CF_enumeration.addEnumeration(unicode_value='faint', tag='faint')
 ShowFluorescence.bright = ShowFluorescence._CF_enumeration.addEnumeration(unicode_value='bright', tag='bright')
 ShowFluorescence.none = ShowFluorescence._CF_enumeration.addEnumeration(unicode_value='none', tag='none')
 ShowFluorescence.unknown = ShowFluorescence._CF_enumeration.addEnumeration(unicode_value='unknown', tag='unknown')
 ShowFluorescence._InitializeFacetMap(ShowFluorescence._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'ShowFluorescence', ShowFluorescence)
+_module_typeBindings.ShowFluorescence = ShowFluorescence
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}ShowLevel
 class ShowLevel (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
@@ -2415,14 +2545,15 @@ class ShowLevel (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'ShowLevel')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 5451, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 5451, 1)
     _Documentation = None
-ShowLevel._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=ShowLevel, enum_prefix=None)
+ShowLevel._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=ShowLevel)
 ShowLevel.blooming = ShowLevel._CF_enumeration.addEnumeration(unicode_value='blooming', tag='blooming')
 ShowLevel.streaming = ShowLevel._CF_enumeration.addEnumeration(unicode_value='streaming', tag='streaming')
 ShowLevel.unknown = ShowLevel._CF_enumeration.addEnumeration(unicode_value='unknown', tag='unknown')
 ShowLevel._InitializeFacetMap(ShowLevel._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'ShowLevel', ShowLevel)
+_module_typeBindings.ShowLevel = ShowLevel
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}ShowRating
 class ShowRating (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
@@ -2430,9 +2561,9 @@ class ShowRating (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'ShowRating')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 5473, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 5473, 1)
     _Documentation = None
-ShowRating._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=ShowRating, enum_prefix=None)
+ShowRating._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=ShowRating)
 ShowRating.none = ShowRating._CF_enumeration.addEnumeration(unicode_value='none', tag='none')
 ShowRating.very_poor = ShowRating._CF_enumeration.addEnumeration(unicode_value='very poor', tag='very_poor')
 ShowRating.poor = ShowRating._CF_enumeration.addEnumeration(unicode_value='poor', tag='poor')
@@ -2442,6 +2573,7 @@ ShowRating.very_good = ShowRating._CF_enumeration.addEnumeration(unicode_value='
 ShowRating.unknown = ShowRating._CF_enumeration.addEnumeration(unicode_value='unknown', tag='unknown')
 ShowRating._InitializeFacetMap(ShowRating._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'ShowRating', ShowRating)
+_module_typeBindings.ShowRating = ShowRating
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}ShowSpeed
 class ShowSpeed (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
@@ -2449,9 +2581,9 @@ class ShowSpeed (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'ShowSpeed')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 5515, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 5515, 1)
     _Documentation = None
-ShowSpeed._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=ShowSpeed, enum_prefix=None)
+ShowSpeed._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=ShowSpeed)
 ShowSpeed.slow = ShowSpeed._CF_enumeration.addEnumeration(unicode_value='slow', tag='slow')
 ShowSpeed.moderately_fast = ShowSpeed._CF_enumeration.addEnumeration(unicode_value='moderately fast', tag='moderately_fast')
 ShowSpeed.fast = ShowSpeed._CF_enumeration.addEnumeration(unicode_value='fast', tag='fast')
@@ -2460,6 +2592,7 @@ ShowSpeed.none = ShowSpeed._CF_enumeration.addEnumeration(unicode_value='none', 
 ShowSpeed.unknown = ShowSpeed._CF_enumeration.addEnumeration(unicode_value='unknown', tag='unknown')
 ShowSpeed._InitializeFacetMap(ShowSpeed._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'ShowSpeed', ShowSpeed)
+_module_typeBindings.ShowSpeed = ShowSpeed
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}SupportCraft
 class SupportCraft (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
@@ -2467,9 +2600,9 @@ class SupportCraft (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'SupportCraft')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 5552, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 5552, 1)
     _Documentation = None
-SupportCraft._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=SupportCraft, enum_prefix=None)
+SupportCraft._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=SupportCraft)
 SupportCraft.barge = SupportCraft._CF_enumeration.addEnumeration(unicode_value='barge', tag='barge')
 SupportCraft.standby_boat = SupportCraft._CF_enumeration.addEnumeration(unicode_value='standby boat', tag='standby_boat')
 SupportCraft.helicopter = SupportCraft._CF_enumeration.addEnumeration(unicode_value='helicopter', tag='helicopter')
@@ -2480,6 +2613,7 @@ SupportCraft.tug_boat = SupportCraft._CF_enumeration.addEnumeration(unicode_valu
 SupportCraft.unknown = SupportCraft._CF_enumeration.addEnumeration(unicode_value='unknown', tag='unknown')
 SupportCraft._InitializeFacetMap(SupportCraft._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'SupportCraft', SupportCraft)
+_module_typeBindings.SupportCraft = SupportCraft
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}SurfEquipType
 class SurfEquipType (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
@@ -2487,15 +2621,16 @@ class SurfEquipType (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'SurfEquipType')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 5600, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 5600, 1)
     _Documentation = None
-SurfEquipType._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=SurfEquipType, enum_prefix=None)
+SurfEquipType._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=SurfEquipType)
 SurfEquipType.IADC = SurfEquipType._CF_enumeration.addEnumeration(unicode_value='IADC', tag='IADC')
 SurfEquipType.custom = SurfEquipType._CF_enumeration.addEnumeration(unicode_value='custom', tag='custom')
 SurfEquipType.coiled_tubing = SurfEquipType._CF_enumeration.addEnumeration(unicode_value='coiled tubing', tag='coiled_tubing')
 SurfEquipType.unknown = SurfEquipType._CF_enumeration.addEnumeration(unicode_value='unknown', tag='unknown')
 SurfEquipType._InitializeFacetMap(SurfEquipType._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'SurfEquipType', SurfEquipType)
+_module_typeBindings.SurfEquipType = SurfEquipType
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}TargetCategory
 class TargetCategory (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
@@ -2503,13 +2638,14 @@ class TargetCategory (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'TargetCategory')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 5627, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 5627, 1)
     _Documentation = None
-TargetCategory._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=TargetCategory, enum_prefix=None)
+TargetCategory._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=TargetCategory)
 TargetCategory.geological = TargetCategory._CF_enumeration.addEnumeration(unicode_value='geological', tag='geological')
 TargetCategory.unknown = TargetCategory._CF_enumeration.addEnumeration(unicode_value='unknown', tag='unknown')
 TargetCategory._InitializeFacetMap(TargetCategory._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'TargetCategory', TargetCategory)
+_module_typeBindings.TargetCategory = TargetCategory
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}TargetScope
 class TargetScope (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
@@ -2517,9 +2653,9 @@ class TargetScope (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
     """These values represent the type of scope of the drilling target. """
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'TargetScope')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 5644, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 5644, 1)
     _Documentation = 'These values represent the type of scope of the drilling target. '
-TargetScope._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=TargetScope, enum_prefix=None)
+TargetScope._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=TargetScope)
 TargetScope.n3D_volume = TargetScope._CF_enumeration.addEnumeration(unicode_value='3D volume', tag='n3D_volume')
 TargetScope.ellipsoid = TargetScope._CF_enumeration.addEnumeration(unicode_value='ellipsoid', tag='ellipsoid')
 TargetScope.elliptical = TargetScope._CF_enumeration.addEnumeration(unicode_value='elliptical', tag='elliptical')
@@ -2533,6 +2669,7 @@ TargetScope.rectangular = TargetScope._CF_enumeration.addEnumeration(unicode_val
 TargetScope.unknown = TargetScope._CF_enumeration.addEnumeration(unicode_value='unknown', tag='unknown')
 TargetScope._InitializeFacetMap(TargetScope._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'TargetScope', TargetScope)
+_module_typeBindings.TargetScope = TargetScope
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}TargetSectionScope
 class TargetSectionScope (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
@@ -2540,14 +2677,15 @@ class TargetSectionScope (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin
     """These values represent the type of scope of a section that describes a target. """
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'TargetSectionScope')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 5710, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 5710, 1)
     _Documentation = 'These values represent the type of scope of a section that describes a target. '
-TargetSectionScope._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=TargetSectionScope, enum_prefix=None)
+TargetSectionScope._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=TargetSectionScope)
 TargetSectionScope.arc = TargetSectionScope._CF_enumeration.addEnumeration(unicode_value='arc', tag='arc')
 TargetSectionScope.line = TargetSectionScope._CF_enumeration.addEnumeration(unicode_value='line', tag='line')
 TargetSectionScope.unknown = TargetSectionScope._CF_enumeration.addEnumeration(unicode_value='unknown', tag='unknown')
 TargetSectionScope._InitializeFacetMap(TargetSectionScope._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'TargetSectionScope', TargetSectionScope)
+_module_typeBindings.TargetSectionScope = TargetSectionScope
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}TrajStationStatus
 class TrajStationStatus (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
@@ -2555,9 +2693,9 @@ class TrajStationStatus (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin)
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'TrajStationStatus')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 5736, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 5736, 1)
     _Documentation = None
-TrajStationStatus._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=TrajStationStatus, enum_prefix=None)
+TrajStationStatus._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=TrajStationStatus)
 TrajStationStatus.locked = TrajStationStatus._CF_enumeration.addEnumeration(unicode_value='locked', tag='locked')
 TrajStationStatus.open = TrajStationStatus._CF_enumeration.addEnumeration(unicode_value='open', tag='open')
 TrajStationStatus.rejected = TrajStationStatus._CF_enumeration.addEnumeration(unicode_value='rejected', tag='rejected')
@@ -2566,6 +2704,7 @@ TrajStationStatus.position = TrajStationStatus._CF_enumeration.addEnumeration(un
 TrajStationStatus.unknown = TrajStationStatus._CF_enumeration.addEnumeration(unicode_value='unknown', tag='unknown')
 TrajStationStatus._InitializeFacetMap(TrajStationStatus._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'TrajStationStatus', TrajStationStatus)
+_module_typeBindings.TrajStationStatus = TrajStationStatus
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}TrajStationType
 class TrajStationType (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
@@ -2573,9 +2712,9 @@ class TrajStationType (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
     """These values represent the type of a directional survey station. """
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'TrajStationType')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 5773, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 5773, 1)
     _Documentation = 'These values represent the type of a directional survey station. '
-TrajStationType._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=TrajStationType, enum_prefix=None)
+TrajStationType._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=TrajStationType)
 TrajStationType.azimuth_on_plane = TrajStationType._CF_enumeration.addEnumeration(unicode_value='azimuth on plane', tag='azimuth_on_plane')
 TrajStationType.buildrate_to_delta_MD = TrajStationType._CF_enumeration.addEnumeration(unicode_value='buildrate to delta-MD', tag='buildrate_to_delta_MD')
 TrajStationType.buildrate_to_INCL = TrajStationType._CF_enumeration.addEnumeration(unicode_value='buildrate to INCL', tag='buildrate_to_INCL')
@@ -2628,6 +2767,7 @@ TrajStationType.turnrate_to_TVD = TrajStationType._CF_enumeration.addEnumeration
 TrajStationType.unknown = TrajStationType._CF_enumeration.addEnumeration(unicode_value='unknown', tag='unknown')
 TrajStationType._InitializeFacetMap(TrajStationType._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'TrajStationType', TrajStationType)
+_module_typeBindings.TrajStationType = TrajStationType
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}TubularAssembly
 class TubularAssembly (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
@@ -2635,9 +2775,9 @@ class TubularAssembly (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'TubularAssembly')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 6033, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 6033, 1)
     _Documentation = None
-TubularAssembly._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=TubularAssembly, enum_prefix=None)
+TubularAssembly._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=TubularAssembly)
 TubularAssembly.drilling = TubularAssembly._CF_enumeration.addEnumeration(unicode_value='drilling', tag='drilling')
 TubularAssembly.directional_drilling = TubularAssembly._CF_enumeration.addEnumeration(unicode_value='directional drilling', tag='directional_drilling')
 TubularAssembly.fishing = TubularAssembly._CF_enumeration.addEnumeration(unicode_value='fishing', tag='fishing')
@@ -2654,6 +2794,7 @@ TubularAssembly.wiper_or_check_or_reaming = TubularAssembly._CF_enumeration.addE
 TubularAssembly.unknown = TubularAssembly._CF_enumeration.addEnumeration(unicode_value='unknown', tag='unknown')
 TubularAssembly._InitializeFacetMap(TubularAssembly._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'TubularAssembly', TubularAssembly)
+_module_typeBindings.TubularAssembly = TubularAssembly
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}TubularComponent
 class TubularComponent (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
@@ -2661,9 +2802,9 @@ class TubularComponent (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'TubularComponent')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 6110, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 6110, 1)
     _Documentation = None
-TubularComponent._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=TubularComponent, enum_prefix=None)
+TubularComponent._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=TubularComponent)
 TubularComponent.non_magnetic_stabilizer = TubularComponent._CF_enumeration.addEnumeration(unicode_value='non-magnetic stabilizer', tag='non_magnetic_stabilizer')
 TubularComponent.non_magnetic_collar = TubularComponent._CF_enumeration.addEnumeration(unicode_value='non-magnetic collar', tag='non_magnetic_collar')
 TubularComponent.stabilizer = TubularComponent._CF_enumeration.addEnumeration(unicode_value='stabilizer', tag='stabilizer')
@@ -2817,6 +2958,7 @@ TubularComponent.reamer = TubularComponent._CF_enumeration.addEnumeration(unicod
 TubularComponent.unknown = TubularComponent._CF_enumeration.addEnumeration(unicode_value='unknown', tag='unknown')
 TubularComponent._InitializeFacetMap(TubularComponent._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'TubularComponent', TubularComponent)
+_module_typeBindings.TubularComponent = TubularComponent
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}TypeSurveyTool
 class TypeSurveyTool (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
@@ -2824,9 +2966,9 @@ class TypeSurveyTool (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
     """Type of direcional survey tool; very generic classification"""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'TypeSurveyTool')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 6937, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 6937, 1)
     _Documentation = 'Type of direcional survey tool; very generic classification'
-TypeSurveyTool._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=TypeSurveyTool, enum_prefix=None)
+TypeSurveyTool._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=TypeSurveyTool)
 TypeSurveyTool.magnetic_MWD = TypeSurveyTool._CF_enumeration.addEnumeration(unicode_value='magnetic MWD', tag='magnetic_MWD')
 TypeSurveyTool.gyroscopic__MWD = TypeSurveyTool._CF_enumeration.addEnumeration(unicode_value='gyroscopic  MWD', tag='gyroscopic__MWD')
 TypeSurveyTool.gyroscopic_north_seeking = TypeSurveyTool._CF_enumeration.addEnumeration(unicode_value='gyroscopic north seeking', tag='gyroscopic_north_seeking')
@@ -2836,6 +2978,7 @@ TypeSurveyTool.magnetic_multiple_shot = TypeSurveyTool._CF_enumeration.addEnumer
 TypeSurveyTool.unknown = TypeSurveyTool._CF_enumeration.addEnumeration(unicode_value='unknown', tag='unknown')
 TypeSurveyTool._InitializeFacetMap(TypeSurveyTool._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'TypeSurveyTool', TypeSurveyTool)
+_module_typeBindings.TypeSurveyTool = TypeSurveyTool
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}WellDirection
 class WellDirection (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
@@ -2844,9 +2987,9 @@ class WellDirection (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
 			(generally, injected or produced, or some combination)."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'WellDirection')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 6982, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 6982, 1)
     _Documentation = 'The direction of flow of the fluids in a well facility\n\t\t\t(generally, injected or produced, or some combination).'
-WellDirection._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=WellDirection, enum_prefix=None)
+WellDirection._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=WellDirection)
 WellDirection.huff_n_puff = WellDirection._CF_enumeration.addEnumeration(unicode_value='huff-n-puff', tag='huff_n_puff')
 WellDirection.injector = WellDirection._CF_enumeration.addEnumeration(unicode_value='injector', tag='injector')
 WellDirection.producer = WellDirection._CF_enumeration.addEnumeration(unicode_value='producer', tag='producer')
@@ -2854,6 +2997,7 @@ WellDirection.uncertain = WellDirection._CF_enumeration.addEnumeration(unicode_v
 WellDirection.unknown = WellDirection._CF_enumeration.addEnumeration(unicode_value='unknown', tag='unknown')
 WellDirection._InitializeFacetMap(WellDirection._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'WellDirection', WellDirection)
+_module_typeBindings.WellDirection = WellDirection
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}WellFluid
 class WellFluid (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
@@ -2862,9 +3006,9 @@ class WellFluid (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
 			into a well facility."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'WellFluid')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 7023, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 7023, 1)
     _Documentation = 'The type of fluid being produced from or injected \n\t\t\tinto a well facility.'
-WellFluid._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=WellFluid, enum_prefix=None)
+WellFluid._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=WellFluid)
 WellFluid.air = WellFluid._CF_enumeration.addEnumeration(unicode_value='air', tag='air')
 WellFluid.condensate = WellFluid._CF_enumeration.addEnumeration(unicode_value='condensate', tag='condensate')
 WellFluid.dry = WellFluid._CF_enumeration.addEnumeration(unicode_value='dry', tag='dry')
@@ -2882,6 +3026,7 @@ WellFluid.water____fresh_water = WellFluid._CF_enumeration.addEnumeration(unicod
 WellFluid.unknown = WellFluid._CF_enumeration.addEnumeration(unicode_value='unknown', tag='unknown')
 WellFluid._InitializeFacetMap(WellFluid._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'WellFluid', WellFluid)
+_module_typeBindings.WellFluid = WellFluid
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}WellboreShape
 class WellboreShape (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
@@ -2892,9 +3037,9 @@ class WellboreShape (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
 			"POSC wellbore trajectory shape". """
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'WellboreShape')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 7140, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 7140, 1)
     _Documentation = 'These values represent the classification of a wellbore \n\t\t\tbased on its shape. The source of the values and the descriptions is the \n\t\t\tPOSC V2.2 "facility class" standard instance values in classification system \n\t\t\t"POSC wellbore trajectory shape". '
-WellboreShape._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=WellboreShape, enum_prefix=None)
+WellboreShape._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=WellboreShape)
 WellboreShape.build_and_hold = WellboreShape._CF_enumeration.addEnumeration(unicode_value='build and hold', tag='build_and_hold')
 WellboreShape.deviated = WellboreShape._CF_enumeration.addEnumeration(unicode_value='deviated', tag='deviated')
 WellboreShape.double_kickoff = WellboreShape._CF_enumeration.addEnumeration(unicode_value='double kickoff', tag='double_kickoff')
@@ -2904,6 +3049,7 @@ WellboreShape.vertical = WellboreShape._CF_enumeration.addEnumeration(unicode_va
 WellboreShape.unknown = WellboreShape._CF_enumeration.addEnumeration(unicode_value='unknown', tag='unknown')
 WellboreShape._InitializeFacetMap(WellboreShape._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'WellboreShape', WellboreShape)
+_module_typeBindings.WellboreShape = WellboreShape
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}WellboreType
 class WellboreType (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
@@ -2912,9 +3058,9 @@ class WellboreType (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
 			well/wellbore."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'WellboreType')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 7196, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 7196, 1)
     _Documentation = 'The classification of a wellbore with respect to its parent \n\t\t\twell/wellbore.'
-WellboreType._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=WellboreType, enum_prefix=None)
+WellboreType._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=WellboreType)
 WellboreType.bypass = WellboreType._CF_enumeration.addEnumeration(unicode_value='bypass', tag='bypass')
 WellboreType.initial = WellboreType._CF_enumeration.addEnumeration(unicode_value='initial', tag='initial')
 WellboreType.redrill = WellboreType._CF_enumeration.addEnumeration(unicode_value='redrill', tag='redrill')
@@ -2924,6 +3070,7 @@ WellboreType.sidetrack = WellboreType._CF_enumeration.addEnumeration(unicode_val
 WellboreType.unknown = WellboreType._CF_enumeration.addEnumeration(unicode_value='unknown', tag='unknown')
 WellboreType._InitializeFacetMap(WellboreType._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'WellboreType', WellboreType)
+_module_typeBindings.WellboreType = WellboreType
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}WellPurpose
 class WellPurpose (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
@@ -2932,9 +3079,9 @@ class WellPurpose (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
 			wellbore by the purpose for which it was initially drilled."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'WellPurpose')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 7252, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 7252, 1)
     _Documentation = 'These values represent the classification of a well or \n\t\t\twellbore by the purpose for which it was initially drilled.'
-WellPurpose._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=WellPurpose, enum_prefix=None)
+WellPurpose._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=WellPurpose)
 WellPurpose.appraisal = WellPurpose._CF_enumeration.addEnumeration(unicode_value='appraisal', tag='appraisal')
 WellPurpose.appraisal____confirmation_appraisal = WellPurpose._CF_enumeration.addEnumeration(unicode_value='appraisal -- confirmation appraisal', tag='appraisal____confirmation_appraisal')
 WellPurpose.appraisal____exploratory_appraisal = WellPurpose._CF_enumeration.addEnumeration(unicode_value='appraisal -- exploratory appraisal', tag='appraisal____exploratory_appraisal')
@@ -2962,6 +3109,7 @@ WellPurpose.mineral = WellPurpose._CF_enumeration.addEnumeration(unicode_value='
 WellPurpose.unknown = WellPurpose._CF_enumeration.addEnumeration(unicode_value='unknown', tag='unknown')
 WellPurpose._InitializeFacetMap(WellPurpose._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'WellPurpose', WellPurpose)
+_module_typeBindings.WellPurpose = WellPurpose
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}WellStatus
 class WellStatus (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
@@ -2969,9 +3117,9 @@ class WellStatus (abstractTypeEnum, pyxb.binding.basis.enumeration_mixin):
     """These values represent the status of a well or wellbore."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'WellStatus')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_catalog.xsd', 7388, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_catalog.xsd', 7388, 1)
     _Documentation = 'These values represent the status of a well or wellbore.'
-WellStatus._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=WellStatus, enum_prefix=None)
+WellStatus._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=WellStatus)
 WellStatus.abandoned = WellStatus._CF_enumeration.addEnumeration(unicode_value='abandoned', tag='abandoned')
 WellStatus.active = WellStatus._CF_enumeration.addEnumeration(unicode_value='active', tag='active')
 WellStatus.active____injecting = WellStatus._CF_enumeration.addEnumeration(unicode_value='active -- injecting', tag='active____injecting')
@@ -2991,6 +3139,7 @@ WellStatus.working_over = WellStatus._CF_enumeration.addEnumeration(unicode_valu
 WellStatus.unknown = WellStatus._CF_enumeration.addEnumeration(unicode_value='unknown', tag='unknown')
 WellStatus._InitializeFacetMap(WellStatus._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'WellStatus', WellStatus)
+_module_typeBindings.WellStatus = WellStatus
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}PercentUom
 class PercentUom (abstractUomEnum, pyxb.binding.basis.enumeration_mixin):
@@ -2998,12 +3147,13 @@ class PercentUom (abstractUomEnum, pyxb.binding.basis.enumeration_mixin):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'PercentUom')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 139, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 139, 1)
     _Documentation = None
-PercentUom._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=PercentUom, enum_prefix=None)
+PercentUom._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=PercentUom)
 PercentUom.emptyString = PercentUom._CF_enumeration.addEnumeration(unicode_value='%', tag='emptyString')
 PercentUom._InitializeFacetMap(PercentUom._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'PercentUom', PercentUom)
+_module_typeBindings.PercentUom = PercentUom
 
 # List simple type: {http://www.witsml.org/schemas/131}listOfString
 # superclasses pyxb.binding.datatypes.anySimpleType
@@ -3013,12 +3163,13 @@ class listOfString (pyxb.binding.basis.STD_list):
 			restricted to strings without embedded whitespace."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'listOfString')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 216, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 216, 1)
     _Documentation = 'A representation of a list of xsd:string values,\n\t\t\trestricted to strings without embedded whitespace.'
 
     _ItemType = str32
 listOfString._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'listOfString', listOfString)
+_module_typeBindings.listOfString = listOfString
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}refWellDatum
 class refWellDatum (abstractUidString):
@@ -3034,10 +3185,11 @@ class refWellDatum (abstractUidString):
 			and still be usable both within the context of a server and outside the context of a server."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'refWellDatum')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 295, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 295, 1)
     _Documentation = "A reference to a wellDatum in the current well. \n\t\t\tThis value must match the uid value in a WellDatum. \n\t\t\tThis value represents a foreign key from one element to another.\n\t\t\tThis is an exception to the convention that a foreign key must utilize both \n\t\t\ta human contextual name and a uid value. For messages outside the context of\n\t\t\ta server then this value will commonly match the value of the name of the \n\t\t\twellDatum (e.g., 'KB') if uids are not not used in that context.\n\t\t\tThis was a compromise in order to allow the coordinate structures to be simple\n\t\t\tand still be usable both within the context of a server and outside the context of a server."
 refWellDatum._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'refWellDatum', refWellDatum)
+_module_typeBindings.refWellDatum = refWellDatum
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}nameString
 class nameString (abstractNameString):
@@ -3047,10 +3199,11 @@ class nameString (abstractNameString):
 			This type of value is generally not guaranteed to be unique and is not a candidate to be replaced by an enumeration."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'nameString')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 312, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 312, 1)
     _Documentation = 'A user assigned human recognizable contextual name of something. \n\t\t\tThere should be no assumption that (interoperable) semantic information will be extracted from the name by a third party.\n\t\t\tThis type of value is generally not guaranteed to be unique and is not a candidate to be replaced by an enumeration.'
 nameString._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'nameString', nameString)
+_module_typeBindings.nameString = nameString
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}kindString
 class kindString (abstractTypeEnum):
@@ -3059,10 +3212,11 @@ class kindString (abstractTypeEnum):
 			This type of value is intended to be unique and is generally a candidate to be constrained to an enumerated list."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'kindString')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 375, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 375, 1)
     _Documentation = 'A community assigned human recognizable name. \n\t\t\tThis type of value is intended to be unique and is generally a candidate to be constrained to an enumerated list.'
 kindString._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'kindString', kindString)
+_module_typeBindings.kindString = kindString
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}uomString
 class uomString (abstractUomEnum):
@@ -3070,10 +3224,11 @@ class uomString (abstractUomEnum):
     """A unit of measure acronym from the POSC unit of measure file."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'uomString')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 384, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 384, 1)
     _Documentation = 'A unit of measure acronym from the POSC unit of measure file.'
 uomString._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'uomString', uomString)
+_module_typeBindings.uomString = uomString
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}uidString
 class uidString (abstractUidString):
@@ -3085,10 +3240,11 @@ class uidString (abstractUidString):
 			unless enforced by the source of the document (e.g., a document server)."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'uidString')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 391, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 391, 1)
     _Documentation = 'A locally unique identifier. \n\t\t\tThe value is not intended to convey any semantic content (e.g., it may be computer generated). \n\t\t\tThe value is only required to be unique within a context in a document (e.g., defined via key and keyref). \n\t\t\tThere is no guarantee that the same data in multiple documents will utilize the same uid value \n\t\t\tunless enforced by the source of the document (e.g., a document server).'
 uidString._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'uidString', uidString)
+_module_typeBindings.uidString = uidString
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}refString
 class refString (abstractUidString):
@@ -3098,10 +3254,11 @@ class refString (abstractUidString):
 			The value should match the value of an attribute of type uidString."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'refString')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 402, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 402, 1)
     _Documentation = 'A reference to the unique identifier of another element. \n\t\t\tThis value represents a foreign key from one element to another.\n\t\t\tThe value should match the value of an attribute of type uidString.'
 refString._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'refString', refString)
+_module_typeBindings.refString = refString
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}MeasuredDepthUom
 class MeasuredDepthUom (abstractUomEnum, pyxb.binding.basis.enumeration_mixin):
@@ -3109,14 +3266,15 @@ class MeasuredDepthUom (abstractUomEnum, pyxb.binding.basis.enumeration_mixin):
     """The units of measure that are valid for measured depths in a wellbore."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'MeasuredDepthUom')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 518, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 518, 1)
     _Documentation = 'The units of measure that are valid for measured depths in a wellbore.'
-MeasuredDepthUom._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=MeasuredDepthUom, enum_prefix=None)
+MeasuredDepthUom._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=MeasuredDepthUom)
 MeasuredDepthUom.m = MeasuredDepthUom._CF_enumeration.addEnumeration(unicode_value='m', tag='m')
 MeasuredDepthUom.ft = MeasuredDepthUom._CF_enumeration.addEnumeration(unicode_value='ft', tag='ft')
 MeasuredDepthUom.ftUS = MeasuredDepthUom._CF_enumeration.addEnumeration(unicode_value='ftUS', tag='ftUS')
 MeasuredDepthUom._InitializeFacetMap(MeasuredDepthUom._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'MeasuredDepthUom', MeasuredDepthUom)
+_module_typeBindings.MeasuredDepthUom = MeasuredDepthUom
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}WellVerticalCoordinateUom
 class WellVerticalCoordinateUom (abstractUomEnum, pyxb.binding.basis.enumeration_mixin):
@@ -3125,15 +3283,16 @@ class WellVerticalCoordinateUom (abstractUomEnum, pyxb.binding.basis.enumeration
 			coordinates (i.e., elevation or vertical depth) within the context of a well."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'WellVerticalCoordinateUom')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 593, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 593, 1)
     _Documentation = 'The units of measure that are valid for vertical gravity based \n\t\t\tcoordinates (i.e., elevation or vertical depth) within the context of a well.'
-WellVerticalCoordinateUom._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=WellVerticalCoordinateUom, enum_prefix=None)
+WellVerticalCoordinateUom._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=WellVerticalCoordinateUom)
 WellVerticalCoordinateUom.m = WellVerticalCoordinateUom._CF_enumeration.addEnumeration(unicode_value='m', tag='m')
 WellVerticalCoordinateUom.ft = WellVerticalCoordinateUom._CF_enumeration.addEnumeration(unicode_value='ft', tag='ft')
 WellVerticalCoordinateUom.ftUS = WellVerticalCoordinateUom._CF_enumeration.addEnumeration(unicode_value='ftUS', tag='ftUS')
 WellVerticalCoordinateUom.ftBr65 = WellVerticalCoordinateUom._CF_enumeration.addEnumeration(unicode_value='ftBr(65)', tag='ftBr65')
 WellVerticalCoordinateUom._InitializeFacetMap(WellVerticalCoordinateUom._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'WellVerticalCoordinateUom', WellVerticalCoordinateUom)
+_module_typeBindings.WellVerticalCoordinateUom = WellVerticalCoordinateUom
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}positiveCount
 class positiveCount (abstractPositiveCount):
@@ -3141,11 +3300,12 @@ class positiveCount (abstractPositiveCount):
     """A positive integer (one based count or index)."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'positiveCount')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 638, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 638, 1)
     _Documentation = 'A positive integer (one based count or index).'
-positiveCount._CF_minInclusive = pyxb.binding.facets.CF_minInclusive(value_datatype=positiveCount, value=pyxb.binding.datatypes.short(1))
+positiveCount._CF_minInclusive = pyxb.binding.facets.CF_minInclusive(value=pyxb.binding.datatypes.short(1), value_datatype=positiveCount)
 positiveCount._InitializeFacetMap(positiveCount._CF_minInclusive)
 Namespace.addCategoryObject('typeBinding', 'positiveCount', positiveCount)
+_module_typeBindings.positiveCount = positiveCount
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}accelerationLinearUom
 class accelerationLinearUom (abstractUomEnum, pyxb.binding.basis.enumeration_mixin):
@@ -3153,9 +3313,9 @@ class accelerationLinearUom (abstractUomEnum, pyxb.binding.basis.enumeration_mix
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'accelerationLinearUom')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_quantityClass.xsd', 25, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_quantityClass.xsd', 25, 1)
     _Documentation = None
-accelerationLinearUom._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=accelerationLinearUom, enum_prefix=None)
+accelerationLinearUom._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=accelerationLinearUom)
 accelerationLinearUom.ms2 = accelerationLinearUom._CF_enumeration.addEnumeration(unicode_value='m/s2', tag='ms2')
 accelerationLinearUom.cms2 = accelerationLinearUom._CF_enumeration.addEnumeration(unicode_value='cm/s2', tag='cms2')
 accelerationLinearUom.fts2 = accelerationLinearUom._CF_enumeration.addEnumeration(unicode_value='ft/s2', tag='fts2')
@@ -3165,6 +3325,7 @@ accelerationLinearUom.gn = accelerationLinearUom._CF_enumeration.addEnumeration(
 accelerationLinearUom.mGal = accelerationLinearUom._CF_enumeration.addEnumeration(unicode_value='mGal', tag='mGal')
 accelerationLinearUom._InitializeFacetMap(accelerationLinearUom._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'accelerationLinearUom', accelerationLinearUom)
+_module_typeBindings.accelerationLinearUom = accelerationLinearUom
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}anglePerLengthUom
 class anglePerLengthUom (abstractUomEnum, pyxb.binding.basis.enumeration_mixin):
@@ -3172,9 +3333,9 @@ class anglePerLengthUom (abstractUomEnum, pyxb.binding.basis.enumeration_mixin):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'anglePerLengthUom')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_quantityClass.xsd', 37, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_quantityClass.xsd', 37, 1)
     _Documentation = None
-anglePerLengthUom._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=anglePerLengthUom, enum_prefix=None)
+anglePerLengthUom._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=anglePerLengthUom)
 anglePerLengthUom.radm = anglePerLengthUom._CF_enumeration.addEnumeration(unicode_value='rad/m', tag='radm')
 anglePerLengthUom.dega30ft = anglePerLengthUom._CF_enumeration.addEnumeration(unicode_value='dega/30ft', tag='dega30ft')
 anglePerLengthUom.degaft = anglePerLengthUom._CF_enumeration.addEnumeration(unicode_value='dega/ft', tag='degaft')
@@ -3184,6 +3345,7 @@ anglePerLengthUom.dega30m = anglePerLengthUom._CF_enumeration.addEnumeration(uni
 anglePerLengthUom.radft = anglePerLengthUom._CF_enumeration.addEnumeration(unicode_value='rad/ft', tag='radft')
 anglePerLengthUom._InitializeFacetMap(anglePerLengthUom._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'anglePerLengthUom', anglePerLengthUom)
+_module_typeBindings.anglePerLengthUom = anglePerLengthUom
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}anglePerTimeUom
 class anglePerTimeUom (abstractUomEnum, pyxb.binding.basis.enumeration_mixin):
@@ -3191,9 +3353,9 @@ class anglePerTimeUom (abstractUomEnum, pyxb.binding.basis.enumeration_mixin):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'anglePerTimeUom')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_quantityClass.xsd', 49, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_quantityClass.xsd', 49, 1)
     _Documentation = None
-anglePerTimeUom._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=anglePerTimeUom, enum_prefix=None)
+anglePerTimeUom._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=anglePerTimeUom)
 anglePerTimeUom.rads = anglePerTimeUom._CF_enumeration.addEnumeration(unicode_value='rad/s', tag='rads')
 anglePerTimeUom.cs = anglePerTimeUom._CF_enumeration.addEnumeration(unicode_value='c/s', tag='cs')
 anglePerTimeUom.degah = anglePerTimeUom._CF_enumeration.addEnumeration(unicode_value='dega/h', tag='degah')
@@ -3203,6 +3365,7 @@ anglePerTimeUom.revs = anglePerTimeUom._CF_enumeration.addEnumeration(unicode_va
 anglePerTimeUom.rpm = anglePerTimeUom._CF_enumeration.addEnumeration(unicode_value='rpm', tag='rpm')
 anglePerTimeUom._InitializeFacetMap(anglePerTimeUom._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'anglePerTimeUom', anglePerTimeUom)
+_module_typeBindings.anglePerTimeUom = anglePerTimeUom
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}areaUom
 class areaUom (abstractUomEnum, pyxb.binding.basis.enumeration_mixin):
@@ -3210,9 +3373,9 @@ class areaUom (abstractUomEnum, pyxb.binding.basis.enumeration_mixin):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'areaUom')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_quantityClass.xsd', 61, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_quantityClass.xsd', 61, 1)
     _Documentation = None
-areaUom._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=areaUom, enum_prefix=None)
+areaUom._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=areaUom)
 areaUom.m2 = areaUom._CF_enumeration.addEnumeration(unicode_value='m2', tag='m2')
 areaUom.acre = areaUom._CF_enumeration.addEnumeration(unicode_value='acre', tag='acre')
 areaUom.b = areaUom._CF_enumeration.addEnumeration(unicode_value='b', tag='b')
@@ -3228,6 +3391,7 @@ areaUom.um2 = areaUom._CF_enumeration.addEnumeration(unicode_value='um2', tag='u
 areaUom.yd2 = areaUom._CF_enumeration.addEnumeration(unicode_value='yd2', tag='yd2')
 areaUom._InitializeFacetMap(areaUom._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'areaUom', areaUom)
+_module_typeBindings.areaUom = areaUom
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}areaPerAreaUom
 class areaPerAreaUom (abstractUomEnum, pyxb.binding.basis.enumeration_mixin):
@@ -3235,9 +3399,9 @@ class areaPerAreaUom (abstractUomEnum, pyxb.binding.basis.enumeration_mixin):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'areaPerAreaUom')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_quantityClass.xsd', 79, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_quantityClass.xsd', 79, 1)
     _Documentation = None
-areaPerAreaUom._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=areaPerAreaUom, enum_prefix=None)
+areaPerAreaUom._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=areaPerAreaUom)
 areaPerAreaUom.Euc = areaPerAreaUom._CF_enumeration.addEnumeration(unicode_value='Euc', tag='Euc')
 areaPerAreaUom.emptyString = areaPerAreaUom._CF_enumeration.addEnumeration(unicode_value='%', tag='emptyString')
 areaPerAreaUom.in2ft2 = areaPerAreaUom._CF_enumeration.addEnumeration(unicode_value='in2/ft2', tag='in2ft2')
@@ -3246,6 +3410,7 @@ areaPerAreaUom.m2m2 = areaPerAreaUom._CF_enumeration.addEnumeration(unicode_valu
 areaPerAreaUom.mm2mm2 = areaPerAreaUom._CF_enumeration.addEnumeration(unicode_value='mm2/mm2', tag='mm2mm2')
 areaPerAreaUom._InitializeFacetMap(areaPerAreaUom._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'areaPerAreaUom', areaPerAreaUom)
+_module_typeBindings.areaPerAreaUom = areaPerAreaUom
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}densityUom
 class densityUom (abstractUomEnum, pyxb.binding.basis.enumeration_mixin):
@@ -3253,9 +3418,9 @@ class densityUom (abstractUomEnum, pyxb.binding.basis.enumeration_mixin):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'densityUom')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_quantityClass.xsd', 90, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_quantityClass.xsd', 90, 1)
     _Documentation = None
-densityUom._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=densityUom, enum_prefix=None)
+densityUom._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=densityUom)
 densityUom.kgm3 = densityUom._CF_enumeration.addEnumeration(unicode_value='kg/m3', tag='kgm3')
 densityUom.n10Mgm3 = densityUom._CF_enumeration.addEnumeration(unicode_value='10Mg/m3', tag='n10Mgm3')
 densityUom.dAPI = densityUom._CF_enumeration.addEnumeration(unicode_value='dAPI', tag='dAPI')
@@ -3287,6 +3452,7 @@ densityUom.mgm3 = densityUom._CF_enumeration.addEnumeration(unicode_value='mg/m3
 densityUom.ugcm3 = densityUom._CF_enumeration.addEnumeration(unicode_value='ug/cm3', tag='ugcm3')
 densityUom._InitializeFacetMap(densityUom._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'densityUom', densityUom)
+_module_typeBindings.densityUom = densityUom
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}dimensionlessUom
 class dimensionlessUom (abstractUomEnum, pyxb.binding.basis.enumeration_mixin):
@@ -3294,9 +3460,9 @@ class dimensionlessUom (abstractUomEnum, pyxb.binding.basis.enumeration_mixin):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'dimensionlessUom')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_quantityClass.xsd', 124, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_quantityClass.xsd', 124, 1)
     _Documentation = None
-dimensionlessUom._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=dimensionlessUom, enum_prefix=None)
+dimensionlessUom._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=dimensionlessUom)
 dimensionlessUom.Euc = dimensionlessUom._CF_enumeration.addEnumeration(unicode_value='Euc', tag='Euc')
 dimensionlessUom.emptyString = dimensionlessUom._CF_enumeration.addEnumeration(unicode_value='%', tag='emptyString')
 dimensionlessUom.cEuc = dimensionlessUom._CF_enumeration.addEnumeration(unicode_value='cEuc', tag='cEuc')
@@ -3305,6 +3471,7 @@ dimensionlessUom.nEuc = dimensionlessUom._CF_enumeration.addEnumeration(unicode_
 dimensionlessUom.uEuc = dimensionlessUom._CF_enumeration.addEnumeration(unicode_value='uEuc', tag='uEuc')
 dimensionlessUom._InitializeFacetMap(dimensionlessUom._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'dimensionlessUom', dimensionlessUom)
+_module_typeBindings.dimensionlessUom = dimensionlessUom
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}dynamicViscosityUom
 class dynamicViscosityUom (abstractUomEnum, pyxb.binding.basis.enumeration_mixin):
@@ -3312,9 +3479,9 @@ class dynamicViscosityUom (abstractUomEnum, pyxb.binding.basis.enumeration_mixin
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'dynamicViscosityUom')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_quantityClass.xsd', 135, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_quantityClass.xsd', 135, 1)
     _Documentation = None
-dynamicViscosityUom._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=dynamicViscosityUom, enum_prefix=None)
+dynamicViscosityUom._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=dynamicViscosityUom)
 dynamicViscosityUom.Pa_s = dynamicViscosityUom._CF_enumeration.addEnumeration(unicode_value='Pa.s', tag='Pa_s')
 dynamicViscosityUom.cP = dynamicViscosityUom._CF_enumeration.addEnumeration(unicode_value='cP', tag='cP')
 dynamicViscosityUom.P = dynamicViscosityUom._CF_enumeration.addEnumeration(unicode_value='P', tag='P')
@@ -3327,6 +3494,7 @@ dynamicViscosityUom.mPa_s = dynamicViscosityUom._CF_enumeration.addEnumeration(u
 dynamicViscosityUom.N_sm2 = dynamicViscosityUom._CF_enumeration.addEnumeration(unicode_value='N.s/m2', tag='N_sm2')
 dynamicViscosityUom._InitializeFacetMap(dynamicViscosityUom._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'dynamicViscosityUom', dynamicViscosityUom)
+_module_typeBindings.dynamicViscosityUom = dynamicViscosityUom
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}electricCurrentUom
 class electricCurrentUom (abstractUomEnum, pyxb.binding.basis.enumeration_mixin):
@@ -3334,9 +3502,9 @@ class electricCurrentUom (abstractUomEnum, pyxb.binding.basis.enumeration_mixin)
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'electricCurrentUom')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_quantityClass.xsd', 150, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_quantityClass.xsd', 150, 1)
     _Documentation = None
-electricCurrentUom._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=electricCurrentUom, enum_prefix=None)
+electricCurrentUom._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=electricCurrentUom)
 electricCurrentUom.A = electricCurrentUom._CF_enumeration.addEnumeration(unicode_value='A', tag='A')
 electricCurrentUom.MA = electricCurrentUom._CF_enumeration.addEnumeration(unicode_value='MA', tag='MA')
 electricCurrentUom.kA = electricCurrentUom._CF_enumeration.addEnumeration(unicode_value='kA', tag='kA')
@@ -3346,6 +3514,7 @@ electricCurrentUom.pA = electricCurrentUom._CF_enumeration.addEnumeration(unicod
 electricCurrentUom.uA = electricCurrentUom._CF_enumeration.addEnumeration(unicode_value='uA', tag='uA')
 electricCurrentUom._InitializeFacetMap(electricCurrentUom._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'electricCurrentUom', electricCurrentUom)
+_module_typeBindings.electricCurrentUom = electricCurrentUom
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}electricPotentialUom
 class electricPotentialUom (abstractUomEnum, pyxb.binding.basis.enumeration_mixin):
@@ -3353,9 +3522,9 @@ class electricPotentialUom (abstractUomEnum, pyxb.binding.basis.enumeration_mixi
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'electricPotentialUom')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_quantityClass.xsd', 162, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_quantityClass.xsd', 162, 1)
     _Documentation = None
-electricPotentialUom._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=electricPotentialUom, enum_prefix=None)
+electricPotentialUom._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=electricPotentialUom)
 electricPotentialUom.V = electricPotentialUom._CF_enumeration.addEnumeration(unicode_value='V', tag='V')
 electricPotentialUom.kV = electricPotentialUom._CF_enumeration.addEnumeration(unicode_value='kV', tag='kV')
 electricPotentialUom.mV = electricPotentialUom._CF_enumeration.addEnumeration(unicode_value='mV', tag='mV')
@@ -3363,6 +3532,7 @@ electricPotentialUom.MV = electricPotentialUom._CF_enumeration.addEnumeration(un
 electricPotentialUom.uV = electricPotentialUom._CF_enumeration.addEnumeration(unicode_value='uV', tag='uV')
 electricPotentialUom._InitializeFacetMap(electricPotentialUom._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'electricPotentialUom', electricPotentialUom)
+_module_typeBindings.electricPotentialUom = electricPotentialUom
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}energyPerAreaUom
 class energyPerAreaUom (abstractUomEnum, pyxb.binding.basis.enumeration_mixin):
@@ -3370,9 +3540,9 @@ class energyPerAreaUom (abstractUomEnum, pyxb.binding.basis.enumeration_mixin):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'energyPerAreaUom')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_quantityClass.xsd', 172, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_quantityClass.xsd', 172, 1)
     _Documentation = None
-energyPerAreaUom._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=energyPerAreaUom, enum_prefix=None)
+energyPerAreaUom._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=energyPerAreaUom)
 energyPerAreaUom.Nm = energyPerAreaUom._CF_enumeration.addEnumeration(unicode_value='N/m', tag='Nm')
 energyPerAreaUom.ergcm2 = energyPerAreaUom._CF_enumeration.addEnumeration(unicode_value='erg/cm2', tag='ergcm2')
 energyPerAreaUom.Jcm2 = energyPerAreaUom._CF_enumeration.addEnumeration(unicode_value='J/cm2', tag='Jcm2')
@@ -3383,6 +3553,7 @@ energyPerAreaUom.mJcm2 = energyPerAreaUom._CF_enumeration.addEnumeration(unicode
 energyPerAreaUom.mJm2 = energyPerAreaUom._CF_enumeration.addEnumeration(unicode_value='mJ/m2', tag='mJm2')
 energyPerAreaUom._InitializeFacetMap(energyPerAreaUom._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'energyPerAreaUom', energyPerAreaUom)
+_module_typeBindings.energyPerAreaUom = energyPerAreaUom
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}equivalentPerMassUom
 class equivalentPerMassUom (abstractUomEnum, pyxb.binding.basis.enumeration_mixin):
@@ -3390,14 +3561,15 @@ class equivalentPerMassUom (abstractUomEnum, pyxb.binding.basis.enumeration_mixi
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'equivalentPerMassUom')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_quantityClass.xsd', 185, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_quantityClass.xsd', 185, 1)
     _Documentation = None
-equivalentPerMassUom._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=equivalentPerMassUom, enum_prefix=None)
+equivalentPerMassUom._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=equivalentPerMassUom)
 equivalentPerMassUom.eqkg = equivalentPerMassUom._CF_enumeration.addEnumeration(unicode_value='eq/kg', tag='eqkg')
 equivalentPerMassUom.meqg = equivalentPerMassUom._CF_enumeration.addEnumeration(unicode_value='meq/g', tag='meqg')
 equivalentPerMassUom.meq100g = equivalentPerMassUom._CF_enumeration.addEnumeration(unicode_value='meq/100g', tag='meq100g')
 equivalentPerMassUom._InitializeFacetMap(equivalentPerMassUom._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'equivalentPerMassUom', equivalentPerMassUom)
+_module_typeBindings.equivalentPerMassUom = equivalentPerMassUom
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}forceUom
 class forceUom (abstractUomEnum, pyxb.binding.basis.enumeration_mixin):
@@ -3405,9 +3577,9 @@ class forceUom (abstractUomEnum, pyxb.binding.basis.enumeration_mixin):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'forceUom')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_quantityClass.xsd', 193, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_quantityClass.xsd', 193, 1)
     _Documentation = None
-forceUom._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=forceUom, enum_prefix=None)
+forceUom._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=forceUom)
 forceUom.N = forceUom._CF_enumeration.addEnumeration(unicode_value='N', tag='N')
 forceUom.daN = forceUom._CF_enumeration.addEnumeration(unicode_value='daN', tag='daN')
 forceUom.dyne = forceUom._CF_enumeration.addEnumeration(unicode_value='dyne', tag='dyne')
@@ -3427,6 +3599,7 @@ forceUom.tonfUS = forceUom._CF_enumeration.addEnumeration(unicode_value='tonfUS'
 forceUom.uN = forceUom._CF_enumeration.addEnumeration(unicode_value='uN', tag='uN')
 forceUom._InitializeFacetMap(forceUom._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'forceUom', forceUom)
+_module_typeBindings.forceUom = forceUom
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}forcePerLengthUom
 class forcePerLengthUom (abstractUomEnum, pyxb.binding.basis.enumeration_mixin):
@@ -3434,9 +3607,9 @@ class forcePerLengthUom (abstractUomEnum, pyxb.binding.basis.enumeration_mixin):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'forcePerLengthUom')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_quantityClass.xsd', 215, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_quantityClass.xsd', 215, 1)
     _Documentation = None
-forcePerLengthUom._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=forcePerLengthUom, enum_prefix=None)
+forcePerLengthUom._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=forcePerLengthUom)
 forcePerLengthUom.N30m = forcePerLengthUom._CF_enumeration.addEnumeration(unicode_value='N/30m', tag='N30m')
 forcePerLengthUom.Nm = forcePerLengthUom._CF_enumeration.addEnumeration(unicode_value='N/m', tag='Nm')
 forcePerLengthUom.dynecm = forcePerLengthUom._CF_enumeration.addEnumeration(unicode_value='dyne/cm', tag='dynecm')
@@ -3453,6 +3626,7 @@ forcePerLengthUom.tonfUKft = forcePerLengthUom._CF_enumeration.addEnumeration(un
 forcePerLengthUom.tonfUSft = forcePerLengthUom._CF_enumeration.addEnumeration(unicode_value='tonfUS/ft', tag='tonfUSft')
 forcePerLengthUom._InitializeFacetMap(forcePerLengthUom._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'forcePerLengthUom', forcePerLengthUom)
+_module_typeBindings.forcePerLengthUom = forcePerLengthUom
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}forcePerVolumeUom
 class forcePerVolumeUom (abstractUomEnum, pyxb.binding.basis.enumeration_mixin):
@@ -3460,9 +3634,9 @@ class forcePerVolumeUom (abstractUomEnum, pyxb.binding.basis.enumeration_mixin):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'forcePerVolumeUom')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_quantityClass.xsd', 234, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_quantityClass.xsd', 234, 1)
     _Documentation = None
-forcePerVolumeUom._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=forcePerVolumeUom, enum_prefix=None)
+forcePerVolumeUom._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=forcePerVolumeUom)
 forcePerVolumeUom.Nm3 = forcePerVolumeUom._CF_enumeration.addEnumeration(unicode_value='N/m3', tag='Nm3')
 forcePerVolumeUom.atm100m = forcePerVolumeUom._CF_enumeration.addEnumeration(unicode_value='atm/100m', tag='atm100m')
 forcePerVolumeUom.atmm = forcePerVolumeUom._CF_enumeration.addEnumeration(unicode_value='atm/m', tag='atmm')
@@ -3482,6 +3656,7 @@ forcePerVolumeUom.Pam = forcePerVolumeUom._CF_enumeration.addEnumeration(unicode
 forcePerVolumeUom.atmft = forcePerVolumeUom._CF_enumeration.addEnumeration(unicode_value='atm/ft', tag='atmft')
 forcePerVolumeUom._InitializeFacetMap(forcePerVolumeUom._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'forcePerVolumeUom', forcePerVolumeUom)
+_module_typeBindings.forcePerVolumeUom = forcePerVolumeUom
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}frequencyUom
 class frequencyUom (abstractUomEnum, pyxb.binding.basis.enumeration_mixin):
@@ -3489,9 +3664,9 @@ class frequencyUom (abstractUomEnum, pyxb.binding.basis.enumeration_mixin):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'frequencyUom')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_quantityClass.xsd', 256, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_quantityClass.xsd', 256, 1)
     _Documentation = None
-frequencyUom._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=frequencyUom, enum_prefix=None)
+frequencyUom._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=frequencyUom)
 frequencyUom.Hz = frequencyUom._CF_enumeration.addEnumeration(unicode_value='Hz', tag='Hz')
 frequencyUom.cs = frequencyUom._CF_enumeration.addEnumeration(unicode_value='c/s', tag='cs')
 frequencyUom.GHz = frequencyUom._CF_enumeration.addEnumeration(unicode_value='GHz', tag='GHz')
@@ -3508,6 +3683,7 @@ frequencyUom.n1wk = frequencyUom._CF_enumeration.addEnumeration(unicode_value='1
 frequencyUom.kEucs = frequencyUom._CF_enumeration.addEnumeration(unicode_value='kEuc/s', tag='kEucs')
 frequencyUom._InitializeFacetMap(frequencyUom._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'frequencyUom', frequencyUom)
+_module_typeBindings.frequencyUom = frequencyUom
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}illuminanceUom
 class illuminanceUom (abstractUomEnum, pyxb.binding.basis.enumeration_mixin):
@@ -3515,15 +3691,16 @@ class illuminanceUom (abstractUomEnum, pyxb.binding.basis.enumeration_mixin):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'illuminanceUom')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_quantityClass.xsd', 275, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_quantityClass.xsd', 275, 1)
     _Documentation = None
-illuminanceUom._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=illuminanceUom, enum_prefix=None)
+illuminanceUom._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=illuminanceUom)
 illuminanceUom.lx = illuminanceUom._CF_enumeration.addEnumeration(unicode_value='lx', tag='lx')
 illuminanceUom.lmm2 = illuminanceUom._CF_enumeration.addEnumeration(unicode_value='lm/m2', tag='lmm2')
 illuminanceUom.footcandle = illuminanceUom._CF_enumeration.addEnumeration(unicode_value='footcandle', tag='footcandle')
 illuminanceUom.klx = illuminanceUom._CF_enumeration.addEnumeration(unicode_value='klx', tag='klx')
 illuminanceUom._InitializeFacetMap(illuminanceUom._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'illuminanceUom', illuminanceUom)
+_module_typeBindings.illuminanceUom = illuminanceUom
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}lengthUom
 class lengthUom (abstractUomEnum, pyxb.binding.basis.enumeration_mixin):
@@ -3531,9 +3708,9 @@ class lengthUom (abstractUomEnum, pyxb.binding.basis.enumeration_mixin):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'lengthUom')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_quantityClass.xsd', 284, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_quantityClass.xsd', 284, 1)
     _Documentation = None
-lengthUom._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=lengthUom, enum_prefix=None)
+lengthUom._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=lengthUom)
 lengthUom.m = lengthUom._CF_enumeration.addEnumeration(unicode_value='m', tag='m')
 lengthUom.angstrom = lengthUom._CF_enumeration.addEnumeration(unicode_value='angstrom', tag='angstrom')
 lengthUom.chBnA = lengthUom._CF_enumeration.addEnumeration(unicode_value='chBnA', tag='chBnA')
@@ -3592,6 +3769,7 @@ lengthUom.ydInd75 = lengthUom._CF_enumeration.addEnumeration(unicode_value='ydIn
 lengthUom.ydSe = lengthUom._CF_enumeration.addEnumeration(unicode_value='ydSe', tag='ydSe')
 lengthUom._InitializeFacetMap(lengthUom._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'lengthUom', lengthUom)
+_module_typeBindings.lengthUom = lengthUom
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}lengthPerLengthUom
 class lengthPerLengthUom (abstractUomEnum, pyxb.binding.basis.enumeration_mixin):
@@ -3599,9 +3777,9 @@ class lengthPerLengthUom (abstractUomEnum, pyxb.binding.basis.enumeration_mixin)
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'lengthPerLengthUom')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_quantityClass.xsd', 345, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_quantityClass.xsd', 345, 1)
     _Documentation = None
-lengthPerLengthUom._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=lengthPerLengthUom, enum_prefix=None)
+lengthPerLengthUom._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=lengthPerLengthUom)
 lengthPerLengthUom.emptyString = lengthPerLengthUom._CF_enumeration.addEnumeration(unicode_value='%', tag='emptyString')
 lengthPerLengthUom.ft100ft = lengthPerLengthUom._CF_enumeration.addEnumeration(unicode_value='ft/100ft', tag='ft100ft')
 lengthPerLengthUom.ftft = lengthPerLengthUom._CF_enumeration.addEnumeration(unicode_value='ft/ft', tag='ftft')
@@ -3616,6 +3794,7 @@ lengthPerLengthUom.mm = lengthPerLengthUom._CF_enumeration.addEnumeration(unicod
 lengthPerLengthUom.miin = lengthPerLengthUom._CF_enumeration.addEnumeration(unicode_value='mi/in', tag='miin')
 lengthPerLengthUom._InitializeFacetMap(lengthPerLengthUom._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'lengthPerLengthUom', lengthPerLengthUom)
+_module_typeBindings.lengthPerLengthUom = lengthPerLengthUom
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}magneticFieldStrengthUom
 class magneticFieldStrengthUom (abstractUomEnum, pyxb.binding.basis.enumeration_mixin):
@@ -3623,15 +3802,16 @@ class magneticFieldStrengthUom (abstractUomEnum, pyxb.binding.basis.enumeration_
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'magneticFieldStrengthUom')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_quantityClass.xsd', 362, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_quantityClass.xsd', 362, 1)
     _Documentation = None
-magneticFieldStrengthUom._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=magneticFieldStrengthUom, enum_prefix=None)
+magneticFieldStrengthUom._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=magneticFieldStrengthUom)
 magneticFieldStrengthUom.Am = magneticFieldStrengthUom._CF_enumeration.addEnumeration(unicode_value='A/m', tag='Am')
 magneticFieldStrengthUom.Amm = magneticFieldStrengthUom._CF_enumeration.addEnumeration(unicode_value='A/mm', tag='Amm')
 magneticFieldStrengthUom.gamma = magneticFieldStrengthUom._CF_enumeration.addEnumeration(unicode_value='gamma', tag='gamma')
 magneticFieldStrengthUom.Oe = magneticFieldStrengthUom._CF_enumeration.addEnumeration(unicode_value='Oe', tag='Oe')
 magneticFieldStrengthUom._InitializeFacetMap(magneticFieldStrengthUom._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'magneticFieldStrengthUom', magneticFieldStrengthUom)
+_module_typeBindings.magneticFieldStrengthUom = magneticFieldStrengthUom
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}magneticInductionUom
 class magneticInductionUom (abstractUomEnum, pyxb.binding.basis.enumeration_mixin):
@@ -3639,9 +3819,9 @@ class magneticInductionUom (abstractUomEnum, pyxb.binding.basis.enumeration_mixi
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'magneticInductionUom')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_quantityClass.xsd', 371, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_quantityClass.xsd', 371, 1)
     _Documentation = None
-magneticInductionUom._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=magneticInductionUom, enum_prefix=None)
+magneticInductionUom._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=magneticInductionUom)
 magneticInductionUom.T = magneticInductionUom._CF_enumeration.addEnumeration(unicode_value='T', tag='T')
 magneticInductionUom.gauss = magneticInductionUom._CF_enumeration.addEnumeration(unicode_value='gauss', tag='gauss')
 magneticInductionUom.mT = magneticInductionUom._CF_enumeration.addEnumeration(unicode_value='mT', tag='mT')
@@ -3650,6 +3830,7 @@ magneticInductionUom.nT = magneticInductionUom._CF_enumeration.addEnumeration(un
 magneticInductionUom.uT = magneticInductionUom._CF_enumeration.addEnumeration(unicode_value='uT', tag='uT')
 magneticInductionUom._InitializeFacetMap(magneticInductionUom._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'magneticInductionUom', magneticInductionUom)
+_module_typeBindings.magneticInductionUom = magneticInductionUom
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}massConcentrationUom
 class massConcentrationUom (abstractUomEnum, pyxb.binding.basis.enumeration_mixin):
@@ -3657,9 +3838,9 @@ class massConcentrationUom (abstractUomEnum, pyxb.binding.basis.enumeration_mixi
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'massConcentrationUom')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_quantityClass.xsd', 382, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_quantityClass.xsd', 382, 1)
     _Documentation = None
-massConcentrationUom._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=massConcentrationUom, enum_prefix=None)
+massConcentrationUom._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=massConcentrationUom)
 massConcentrationUom.Euc = massConcentrationUom._CF_enumeration.addEnumeration(unicode_value='Euc', tag='Euc')
 massConcentrationUom.emptyString = massConcentrationUom._CF_enumeration.addEnumeration(unicode_value='%', tag='emptyString')
 massConcentrationUom.gkg = massConcentrationUom._CF_enumeration.addEnumeration(unicode_value='g/kg', tag='gkg')
@@ -3672,6 +3853,7 @@ massConcentrationUom.ppk = massConcentrationUom._CF_enumeration.addEnumeration(u
 massConcentrationUom.ppm = massConcentrationUom._CF_enumeration.addEnumeration(unicode_value='ppm', tag='ppm')
 massConcentrationUom._InitializeFacetMap(massConcentrationUom._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'massConcentrationUom', massConcentrationUom)
+_module_typeBindings.massConcentrationUom = massConcentrationUom
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}massUom
 class massUom (abstractUomEnum, pyxb.binding.basis.enumeration_mixin):
@@ -3679,9 +3861,9 @@ class massUom (abstractUomEnum, pyxb.binding.basis.enumeration_mixin):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'massUom')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_quantityClass.xsd', 397, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_quantityClass.xsd', 397, 1)
     _Documentation = None
-massUom._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=massUom, enum_prefix=None)
+massUom._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=massUom)
 massUom.kg = massUom._CF_enumeration.addEnumeration(unicode_value='kg', tag='kg')
 massUom.ag = massUom._CF_enumeration.addEnumeration(unicode_value='ag', tag='ag')
 massUom.ct = massUom._CF_enumeration.addEnumeration(unicode_value='ct', tag='ct')
@@ -3703,6 +3885,7 @@ massUom.tonUS = massUom._CF_enumeration.addEnumeration(unicode_value='tonUS', ta
 massUom.ug = massUom._CF_enumeration.addEnumeration(unicode_value='ug', tag='ug')
 massUom._InitializeFacetMap(massUom._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'massUom', massUom)
+_module_typeBindings.massUom = massUom
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}massPerLengthUom
 class massPerLengthUom (abstractUomEnum, pyxb.binding.basis.enumeration_mixin):
@@ -3710,9 +3893,9 @@ class massPerLengthUom (abstractUomEnum, pyxb.binding.basis.enumeration_mixin):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'massPerLengthUom')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_quantityClass.xsd', 421, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_quantityClass.xsd', 421, 1)
     _Documentation = None
-massPerLengthUom._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=massPerLengthUom, enum_prefix=None)
+massPerLengthUom._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=massPerLengthUom)
 massPerLengthUom.kgm = massPerLengthUom._CF_enumeration.addEnumeration(unicode_value='kg/m', tag='kgm')
 massPerLengthUom.klbmin = massPerLengthUom._CF_enumeration.addEnumeration(unicode_value='klbm/in', tag='klbmin')
 massPerLengthUom.lbmft = massPerLengthUom._CF_enumeration.addEnumeration(unicode_value='lbm/ft', tag='lbmft')
@@ -3720,6 +3903,7 @@ massPerLengthUom.Mgin = massPerLengthUom._CF_enumeration.addEnumeration(unicode_
 massPerLengthUom.kg_mcm2 = massPerLengthUom._CF_enumeration.addEnumeration(unicode_value='kg.m/cm2', tag='kg_mcm2')
 massPerLengthUom._InitializeFacetMap(massPerLengthUom._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'massPerLengthUom', massPerLengthUom)
+_module_typeBindings.massPerLengthUom = massPerLengthUom
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}momentOfForceUom
 class momentOfForceUom (abstractUomEnum, pyxb.binding.basis.enumeration_mixin):
@@ -3727,9 +3911,9 @@ class momentOfForceUom (abstractUomEnum, pyxb.binding.basis.enumeration_mixin):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'momentOfForceUom')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_quantityClass.xsd', 431, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_quantityClass.xsd', 431, 1)
     _Documentation = None
-momentOfForceUom._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=momentOfForceUom, enum_prefix=None)
+momentOfForceUom._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=momentOfForceUom)
 momentOfForceUom.J = momentOfForceUom._CF_enumeration.addEnumeration(unicode_value='J', tag='J')
 momentOfForceUom.dN_m = momentOfForceUom._CF_enumeration.addEnumeration(unicode_value='dN.m', tag='dN_m')
 momentOfForceUom.daN_m = momentOfForceUom._CF_enumeration.addEnumeration(unicode_value='daN.m', tag='daN_m')
@@ -3746,6 +3930,7 @@ momentOfForceUom.tonfUS_ft = momentOfForceUom._CF_enumeration.addEnumeration(uni
 momentOfForceUom.tonfUS_mi = momentOfForceUom._CF_enumeration.addEnumeration(unicode_value='tonfUS.mi', tag='tonfUS_mi')
 momentOfForceUom._InitializeFacetMap(momentOfForceUom._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'momentOfForceUom', momentOfForceUom)
+_module_typeBindings.momentOfForceUom = momentOfForceUom
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}perLengthUom
 class perLengthUom (abstractUomEnum, pyxb.binding.basis.enumeration_mixin):
@@ -3753,9 +3938,9 @@ class perLengthUom (abstractUomEnum, pyxb.binding.basis.enumeration_mixin):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'perLengthUom')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_quantityClass.xsd', 450, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_quantityClass.xsd', 450, 1)
     _Documentation = None
-perLengthUom._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=perLengthUom, enum_prefix=None)
+perLengthUom._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=perLengthUom)
 perLengthUom.n1m = perLengthUom._CF_enumeration.addEnumeration(unicode_value='1/m', tag='n1m')
 perLengthUom.n1angstrom = perLengthUom._CF_enumeration.addEnumeration(unicode_value='1/angstrom', tag='n1angstrom')
 perLengthUom.n1cm = perLengthUom._CF_enumeration.addEnumeration(unicode_value='1/cm', tag='n1cm')
@@ -3767,6 +3952,7 @@ perLengthUom.n1nm = perLengthUom._CF_enumeration.addEnumeration(unicode_value='1
 perLengthUom.n1yd = perLengthUom._CF_enumeration.addEnumeration(unicode_value='1/yd', tag='n1yd')
 perLengthUom._InitializeFacetMap(perLengthUom._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'perLengthUom', perLengthUom)
+_module_typeBindings.perLengthUom = perLengthUom
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}planeAngleUom
 class planeAngleUom (abstractUomEnum, pyxb.binding.basis.enumeration_mixin):
@@ -3774,9 +3960,9 @@ class planeAngleUom (abstractUomEnum, pyxb.binding.basis.enumeration_mixin):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'planeAngleUom')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_quantityClass.xsd', 464, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_quantityClass.xsd', 464, 1)
     _Documentation = None
-planeAngleUom._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=planeAngleUom, enum_prefix=None)
+planeAngleUom._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=planeAngleUom)
 planeAngleUom.rad = planeAngleUom._CF_enumeration.addEnumeration(unicode_value='rad', tag='rad')
 planeAngleUom.c = planeAngleUom._CF_enumeration.addEnumeration(unicode_value='c', tag='c')
 planeAngleUom.ccgr = planeAngleUom._CF_enumeration.addEnumeration(unicode_value='ccgr', tag='ccgr')
@@ -3795,6 +3981,7 @@ planeAngleUom.seca = planeAngleUom._CF_enumeration.addEnumeration(unicode_value=
 planeAngleUom.urad = planeAngleUom._CF_enumeration.addEnumeration(unicode_value='urad', tag='urad')
 planeAngleUom._InitializeFacetMap(planeAngleUom._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'planeAngleUom', planeAngleUom)
+_module_typeBindings.planeAngleUom = planeAngleUom
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}powerUom
 class powerUom (abstractUomEnum, pyxb.binding.basis.enumeration_mixin):
@@ -3802,9 +3989,9 @@ class powerUom (abstractUomEnum, pyxb.binding.basis.enumeration_mixin):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'powerUom')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_quantityClass.xsd', 485, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_quantityClass.xsd', 485, 1)
     _Documentation = None
-powerUom._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=powerUom, enum_prefix=None)
+powerUom._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=powerUom)
 powerUom.W = powerUom._CF_enumeration.addEnumeration(unicode_value='W', tag='W')
 powerUom.ch = powerUom._CF_enumeration.addEnumeration(unicode_value='ch', tag='ch')
 powerUom.CV = powerUom._CF_enumeration.addEnumeration(unicode_value='CV', tag='CV')
@@ -3823,6 +4010,7 @@ powerUom.TW = powerUom._CF_enumeration.addEnumeration(unicode_value='TW', tag='T
 powerUom.uW = powerUom._CF_enumeration.addEnumeration(unicode_value='uW', tag='uW')
 powerUom._InitializeFacetMap(powerUom._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'powerUom', powerUom)
+_module_typeBindings.powerUom = powerUom
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}pressureUom
 class pressureUom (abstractUomEnum, pyxb.binding.basis.enumeration_mixin):
@@ -3830,9 +4018,9 @@ class pressureUom (abstractUomEnum, pyxb.binding.basis.enumeration_mixin):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'pressureUom')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_quantityClass.xsd', 506, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_quantityClass.xsd', 506, 1)
     _Documentation = None
-pressureUom._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=pressureUom, enum_prefix=None)
+pressureUom._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=pressureUom)
 pressureUom.Pa = pressureUom._CF_enumeration.addEnumeration(unicode_value='Pa', tag='Pa')
 pressureUom.at = pressureUom._CF_enumeration.addEnumeration(unicode_value='at', tag='at')
 pressureUom.atm = pressureUom._CF_enumeration.addEnumeration(unicode_value='atm', tag='atm')
@@ -3874,6 +4062,7 @@ pressureUom.uPa = pressureUom._CF_enumeration.addEnumeration(unicode_value='uPa'
 pressureUom.upsi = pressureUom._CF_enumeration.addEnumeration(unicode_value='upsi', tag='upsi')
 pressureUom._InitializeFacetMap(pressureUom._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'pressureUom', pressureUom)
+_module_typeBindings.pressureUom = pressureUom
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}relativePowerUom
 class relativePowerUom (abstractUomEnum, pyxb.binding.basis.enumeration_mixin):
@@ -3881,15 +4070,16 @@ class relativePowerUom (abstractUomEnum, pyxb.binding.basis.enumeration_mixin):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'relativePowerUom')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_quantityClass.xsd', 550, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_quantityClass.xsd', 550, 1)
     _Documentation = None
-relativePowerUom._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=relativePowerUom, enum_prefix=None)
+relativePowerUom._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=relativePowerUom)
 relativePowerUom.emptyString = relativePowerUom._CF_enumeration.addEnumeration(unicode_value='%', tag='emptyString')
 relativePowerUom.Btubhp_hr = relativePowerUom._CF_enumeration.addEnumeration(unicode_value='Btu/bhp.hr', tag='Btubhp_hr')
 relativePowerUom.WkW = relativePowerUom._CF_enumeration.addEnumeration(unicode_value='W/kW', tag='WkW')
 relativePowerUom.WW = relativePowerUom._CF_enumeration.addEnumeration(unicode_value='W/W', tag='WW')
 relativePowerUom._InitializeFacetMap(relativePowerUom._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'relativePowerUom', relativePowerUom)
+_module_typeBindings.relativePowerUom = relativePowerUom
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}specificVolumeUom
 class specificVolumeUom (abstractUomEnum, pyxb.binding.basis.enumeration_mixin):
@@ -3897,9 +4087,9 @@ class specificVolumeUom (abstractUomEnum, pyxb.binding.basis.enumeration_mixin):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'specificVolumeUom')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_quantityClass.xsd', 559, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_quantityClass.xsd', 559, 1)
     _Documentation = None
-specificVolumeUom._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=specificVolumeUom, enum_prefix=None)
+specificVolumeUom._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=specificVolumeUom)
 specificVolumeUom.m3kg = specificVolumeUom._CF_enumeration.addEnumeration(unicode_value='m3/kg', tag='m3kg')
 specificVolumeUom.bbltonUK = specificVolumeUom._CF_enumeration.addEnumeration(unicode_value='bbl/tonUK', tag='bbltonUK')
 specificVolumeUom.bbltonUS = specificVolumeUom._CF_enumeration.addEnumeration(unicode_value='bbl/tonUS', tag='bbltonUS')
@@ -3924,6 +4114,7 @@ specificVolumeUom.m3tonUK = specificVolumeUom._CF_enumeration.addEnumeration(uni
 specificVolumeUom.m3tonUS = specificVolumeUom._CF_enumeration.addEnumeration(unicode_value='m3/tonUS', tag='m3tonUS')
 specificVolumeUom._InitializeFacetMap(specificVolumeUom._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'specificVolumeUom', specificVolumeUom)
+_module_typeBindings.specificVolumeUom = specificVolumeUom
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}thermodynamicTemperatureUom
 class thermodynamicTemperatureUom (abstractUomEnum, pyxb.binding.basis.enumeration_mixin):
@@ -3931,15 +4122,16 @@ class thermodynamicTemperatureUom (abstractUomEnum, pyxb.binding.basis.enumerati
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'thermodynamicTemperatureUom')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_quantityClass.xsd', 586, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_quantityClass.xsd', 586, 1)
     _Documentation = None
-thermodynamicTemperatureUom._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=thermodynamicTemperatureUom, enum_prefix=None)
+thermodynamicTemperatureUom._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=thermodynamicTemperatureUom)
 thermodynamicTemperatureUom.K = thermodynamicTemperatureUom._CF_enumeration.addEnumeration(unicode_value='K', tag='K')
 thermodynamicTemperatureUom.degC = thermodynamicTemperatureUom._CF_enumeration.addEnumeration(unicode_value='degC', tag='degC')
 thermodynamicTemperatureUom.degF = thermodynamicTemperatureUom._CF_enumeration.addEnumeration(unicode_value='degF', tag='degF')
 thermodynamicTemperatureUom.degR = thermodynamicTemperatureUom._CF_enumeration.addEnumeration(unicode_value='degR', tag='degR')
 thermodynamicTemperatureUom._InitializeFacetMap(thermodynamicTemperatureUom._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'thermodynamicTemperatureUom', thermodynamicTemperatureUom)
+_module_typeBindings.thermodynamicTemperatureUom = thermodynamicTemperatureUom
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}timeUom
 class timeUom (abstractUomEnum, pyxb.binding.basis.enumeration_mixin):
@@ -3947,9 +4139,9 @@ class timeUom (abstractUomEnum, pyxb.binding.basis.enumeration_mixin):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'timeUom')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_quantityClass.xsd', 595, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_quantityClass.xsd', 595, 1)
     _Documentation = None
-timeUom._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=timeUom, enum_prefix=None)
+timeUom._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=timeUom)
 timeUom.s = timeUom._CF_enumeration.addEnumeration(unicode_value='s', tag='s')
 timeUom.a = timeUom._CF_enumeration.addEnumeration(unicode_value='a', tag='a')
 timeUom.cs = timeUom._CF_enumeration.addEnumeration(unicode_value='cs', tag='cs')
@@ -3968,6 +4160,7 @@ timeUom.wk = timeUom._CF_enumeration.addEnumeration(unicode_value='wk', tag='wk'
 timeUom.n100ka = timeUom._CF_enumeration.addEnumeration(unicode_value='100ka', tag='n100ka')
 timeUom._InitializeFacetMap(timeUom._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'timeUom', timeUom)
+_module_typeBindings.timeUom = timeUom
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}velocityUom
 class velocityUom (abstractUomEnum, pyxb.binding.basis.enumeration_mixin):
@@ -3975,9 +4168,9 @@ class velocityUom (abstractUomEnum, pyxb.binding.basis.enumeration_mixin):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'velocityUom')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_quantityClass.xsd', 616, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_quantityClass.xsd', 616, 1)
     _Documentation = None
-velocityUom._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=velocityUom, enum_prefix=None)
+velocityUom._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=velocityUom)
 velocityUom.ms = velocityUom._CF_enumeration.addEnumeration(unicode_value='m/s', tag='ms')
 velocityUom.cma = velocityUom._CF_enumeration.addEnumeration(unicode_value='cm/a', tag='cma')
 velocityUom.cms = velocityUom._CF_enumeration.addEnumeration(unicode_value='cm/s', tag='cms')
@@ -4008,6 +4201,7 @@ velocityUom.nms = velocityUom._CF_enumeration.addEnumeration(unicode_value='nm/s
 velocityUom.ums = velocityUom._CF_enumeration.addEnumeration(unicode_value='um/s', tag='ums')
 velocityUom._InitializeFacetMap(velocityUom._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'velocityUom', velocityUom)
+_module_typeBindings.velocityUom = velocityUom
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}volumeUom
 class volumeUom (abstractUomEnum, pyxb.binding.basis.enumeration_mixin):
@@ -4015,9 +4209,9 @@ class volumeUom (abstractUomEnum, pyxb.binding.basis.enumeration_mixin):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'volumeUom')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_quantityClass.xsd', 649, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_quantityClass.xsd', 649, 1)
     _Documentation = None
-volumeUom._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=volumeUom, enum_prefix=None)
+volumeUom._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=volumeUom)
 volumeUom.m3 = volumeUom._CF_enumeration.addEnumeration(unicode_value='m3', tag='m3')
 volumeUom.acre_ft = volumeUom._CF_enumeration.addEnumeration(unicode_value='acre.ft', tag='acre_ft')
 volumeUom.bbl = volumeUom._CF_enumeration.addEnumeration(unicode_value='bbl', tag='bbl')
@@ -4052,6 +4246,7 @@ volumeUom.um2_m = volumeUom._CF_enumeration.addEnumeration(unicode_value='um2.m'
 volumeUom.yd3 = volumeUom._CF_enumeration.addEnumeration(unicode_value='yd3', tag='yd3')
 volumeUom._InitializeFacetMap(volumeUom._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'volumeUom', volumeUom)
+_module_typeBindings.volumeUom = volumeUom
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}volumeFlowRateUom
 class volumeFlowRateUom (abstractUomEnum, pyxb.binding.basis.enumeration_mixin):
@@ -4059,9 +4254,9 @@ class volumeFlowRateUom (abstractUomEnum, pyxb.binding.basis.enumeration_mixin):
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'volumeFlowRateUom')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_quantityClass.xsd', 686, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_quantityClass.xsd', 686, 1)
     _Documentation = None
-volumeFlowRateUom._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=volumeFlowRateUom, enum_prefix=None)
+volumeFlowRateUom._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=volumeFlowRateUom)
 volumeFlowRateUom.m3s = volumeFlowRateUom._CF_enumeration.addEnumeration(unicode_value='m3/s', tag='m3s')
 volumeFlowRateUom.bbld = volumeFlowRateUom._CF_enumeration.addEnumeration(unicode_value='bbl/d', tag='bbld')
 volumeFlowRateUom.bblhr = volumeFlowRateUom._CF_enumeration.addEnumeration(unicode_value='bbl/hr', tag='bblhr')
@@ -4096,6 +4291,7 @@ volumeFlowRateUom.Mft3d = volumeFlowRateUom._CF_enumeration.addEnumeration(unico
 volumeFlowRateUom.Mm3d = volumeFlowRateUom._CF_enumeration.addEnumeration(unicode_value='M(m3)/d', tag='Mm3d')
 volumeFlowRateUom._InitializeFacetMap(volumeFlowRateUom._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'volumeFlowRateUom', volumeFlowRateUom)
+_module_typeBindings.volumeFlowRateUom = volumeFlowRateUom
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}volumePerVolumeUom
 class volumePerVolumeUom (abstractUomEnum, pyxb.binding.basis.enumeration_mixin):
@@ -4103,9 +4299,9 @@ class volumePerVolumeUom (abstractUomEnum, pyxb.binding.basis.enumeration_mixin)
     """An atomic simple type."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'volumePerVolumeUom')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_quantityClass.xsd', 723, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_quantityClass.xsd', 723, 1)
     _Documentation = None
-volumePerVolumeUom._CF_enumeration = pyxb.binding.facets.CF_enumeration(value_datatype=volumePerVolumeUom, enum_prefix=None)
+volumePerVolumeUom._CF_enumeration = pyxb.binding.facets.CF_enumeration(enum_prefix=None, value_datatype=volumePerVolumeUom)
 volumePerVolumeUom.Euc = volumePerVolumeUom._CF_enumeration.addEnumeration(unicode_value='Euc', tag='Euc')
 volumePerVolumeUom.emptyString = volumePerVolumeUom._CF_enumeration.addEnumeration(unicode_value='%', tag='emptyString')
 volumePerVolumeUom.permil = volumePerVolumeUom._CF_enumeration.addEnumeration(unicode_value='permil', tag='permil')
@@ -4157,6 +4353,7 @@ volumePerVolumeUom.stb60Mscm15 = volumePerVolumeUom._CF_enumeration.addEnumerati
 volumePerVolumeUom.stb60scm15 = volumePerVolumeUom._CF_enumeration.addEnumeration(unicode_value='stb60/scm15', tag='stb60scm15')
 volumePerVolumeUom._InitializeFacetMap(volumePerVolumeUom._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'volumePerVolumeUom', volumePerVolumeUom)
+_module_typeBindings.volumePerVolumeUom = volumePerVolumeUom
 
 # Atomic simple type: {http://www.witsml.org/schemas/131}commentString
 class commentString (abstractCommentString):
@@ -4167,10 +4364,11 @@ class commentString (abstractCommentString):
 			in the same way (i.e., it may not be interoperable)."""
 
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'commentString')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 321, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 321, 1)
     _Documentation = 'A comment or remark intended for human consumption. \n\t\t\tThere should be no assumption that semantics can be extracted from this field by a computer. \n\t\t\tNeither should there be an assumption that any two humans will interpret the information \n\t\t\tin the same way (i.e., it may not be interoperable).'
 commentString._InitializeFacetMap()
 Namespace.addCategoryObject('typeBinding', 'commentString', commentString)
+_module_typeBindings.commentString = commentString
 
 # Complex type {http://www.witsml.org/schemas/131}cs_bitRecord with content type ELEMENT_ONLY
 class cs_bitRecord (pyxb.binding.basis.complexTypeDefinition):
@@ -4179,199 +4377,200 @@ class cs_bitRecord (pyxb.binding.basis.complexTypeDefinition):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_ELEMENT_ONLY
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'cs_bitRecord')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 19, 1)
+    _XSDLocation = pyxb.utils.utility.Location('cs_bitRecord.xsd', 19, 1)
+    _ElementMap = {}
+    _AttributeMap = {}
     # Base type is pyxb.binding.datatypes.anyType
     
     # Element {http://www.witsml.org/schemas/131}numBit uses Python identifier numBit
-    __numBit = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'numBit'), 'numBit', '__httpwww_witsml_orgschemas131_cs_bitRecord_httpwww_witsml_orgschemas131numBit', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 24, 3), )
+    __numBit = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'numBit'), 'numBit', '__httpwww_witsml_orgschemas131_cs_bitRecord_httpwww_witsml_orgschemas131numBit', False, pyxb.utils.utility.Location('cs_bitRecord.xsd', 24, 3), )
 
     
     numBit = property(__numBit.value, __numBit.set, None, 'Bit number and rerun number e.g. "4.1" for the first rerun of bit 4.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}diaBit uses Python identifier diaBit
-    __diaBit = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'diaBit'), 'diaBit', '__httpwww_witsml_orgschemas131_cs_bitRecord_httpwww_witsml_orgschemas131diaBit', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 29, 3), )
+    __diaBit = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'diaBit'), 'diaBit', '__httpwww_witsml_orgschemas131_cs_bitRecord_httpwww_witsml_orgschemas131diaBit', False, pyxb.utils.utility.Location('cs_bitRecord.xsd', 29, 3), )
 
     
     diaBit = property(__diaBit.value, __diaBit.set, None, 'Diameter of drilled hole.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}diaPassThru uses Python identifier diaPassThru
-    __diaPassThru = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'diaPassThru'), 'diaPassThru', '__httpwww_witsml_orgschemas131_cs_bitRecord_httpwww_witsml_orgschemas131diaPassThru', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 34, 3), )
+    __diaPassThru = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'diaPassThru'), 'diaPassThru', '__httpwww_witsml_orgschemas131_cs_bitRecord_httpwww_witsml_orgschemas131diaPassThru', False, pyxb.utils.utility.Location('cs_bitRecord.xsd', 34, 3), )
 
     
     diaPassThru = property(__diaPassThru.value, __diaPassThru.set, None, 'Minimum hole or tubing which bit will pass through (for bi-center bits).  ')
 
     
     # Element {http://www.witsml.org/schemas/131}diaPilot uses Python identifier diaPilot
-    __diaPilot = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'diaPilot'), 'diaPilot', '__httpwww_witsml_orgschemas131_cs_bitRecord_httpwww_witsml_orgschemas131diaPilot', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 39, 3), )
+    __diaPilot = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'diaPilot'), 'diaPilot', '__httpwww_witsml_orgschemas131_cs_bitRecord_httpwww_witsml_orgschemas131diaPilot', False, pyxb.utils.utility.Location('cs_bitRecord.xsd', 39, 3), )
 
     
     diaPilot = property(__diaPilot.value, __diaPilot.set, None, 'Diameter of pilot bit (for bi-center bits).  ')
 
     
     # Element {http://www.witsml.org/schemas/131}manufacturer uses Python identifier manufacturer
-    __manufacturer = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'manufacturer'), 'manufacturer', '__httpwww_witsml_orgschemas131_cs_bitRecord_httpwww_witsml_orgschemas131manufacturer', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 44, 3), )
+    __manufacturer = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'manufacturer'), 'manufacturer', '__httpwww_witsml_orgschemas131_cs_bitRecord_httpwww_witsml_orgschemas131manufacturer', False, pyxb.utils.utility.Location('cs_bitRecord.xsd', 44, 3), )
 
     
     manufacturer = property(__manufacturer.value, __manufacturer.set, None, 'Manufacturer / supplier of the item.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}typeBit uses Python identifier typeBit
-    __typeBit = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'typeBit'), 'typeBit', '__httpwww_witsml_orgschemas131_cs_bitRecord_httpwww_witsml_orgschemas131typeBit', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 49, 3), )
+    __typeBit = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'typeBit'), 'typeBit', '__httpwww_witsml_orgschemas131_cs_bitRecord_httpwww_witsml_orgschemas131typeBit', False, pyxb.utils.utility.Location('cs_bitRecord.xsd', 49, 3), )
 
     
     typeBit = property(__typeBit.value, __typeBit.set, None, 'Type of bit.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}cost uses Python identifier cost
-    __cost = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'cost'), 'cost', '__httpwww_witsml_orgschemas131_cs_bitRecord_httpwww_witsml_orgschemas131cost', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 54, 3), )
+    __cost = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'cost'), 'cost', '__httpwww_witsml_orgschemas131_cs_bitRecord_httpwww_witsml_orgschemas131cost', False, pyxb.utils.utility.Location('cs_bitRecord.xsd', 54, 3), )
 
     
     cost = property(__cost.value, __cost.set, None, 'Bit cost in local currency.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}codeIADC uses Python identifier codeIADC
-    __codeIADC = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'codeIADC'), 'codeIADC', '__httpwww_witsml_orgschemas131_cs_bitRecord_httpwww_witsml_orgschemas131codeIADC', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 59, 3), )
+    __codeIADC = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'codeIADC'), 'codeIADC', '__httpwww_witsml_orgschemas131_cs_bitRecord_httpwww_witsml_orgschemas131codeIADC', False, pyxb.utils.utility.Location('cs_bitRecord.xsd', 59, 3), )
 
     
     codeIADC = property(__codeIADC.value, __codeIADC.set, None, 'IADC bit code.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}condInitInner uses Python identifier condInitInner
-    __condInitInner = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'condInitInner'), 'condInitInner', '__httpwww_witsml_orgschemas131_cs_bitRecord_httpwww_witsml_orgschemas131condInitInner', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 64, 3), )
+    __condInitInner = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'condInitInner'), 'condInitInner', '__httpwww_witsml_orgschemas131_cs_bitRecord_httpwww_witsml_orgschemas131condInitInner', False, pyxb.utils.utility.Location('cs_bitRecord.xsd', 64, 3), )
 
     
     condInitInner = property(__condInitInner.value, __condInitInner.set, None, 'Condition of inner tooth rows (inner 2/3 of bit) (0-8).  ')
 
     
     # Element {http://www.witsml.org/schemas/131}condInitOuter uses Python identifier condInitOuter
-    __condInitOuter = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'condInitOuter'), 'condInitOuter', '__httpwww_witsml_orgschemas131_cs_bitRecord_httpwww_witsml_orgschemas131condInitOuter', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 69, 3), )
+    __condInitOuter = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'condInitOuter'), 'condInitOuter', '__httpwww_witsml_orgschemas131_cs_bitRecord_httpwww_witsml_orgschemas131condInitOuter', False, pyxb.utils.utility.Location('cs_bitRecord.xsd', 69, 3), )
 
     
     condInitOuter = property(__condInitOuter.value, __condInitOuter.set, None, 'Condition of outer tooth rows (outer 1/3 of bit) (0-8).  ')
 
     
     # Element {http://www.witsml.org/schemas/131}condInitDull uses Python identifier condInitDull
-    __condInitDull = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'condInitDull'), 'condInitDull', '__httpwww_witsml_orgschemas131_cs_bitRecord_httpwww_witsml_orgschemas131condInitDull', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 74, 3), )
+    __condInitDull = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'condInitDull'), 'condInitDull', '__httpwww_witsml_orgschemas131_cs_bitRecord_httpwww_witsml_orgschemas131condInitDull', False, pyxb.utils.utility.Location('cs_bitRecord.xsd', 74, 3), )
 
     
     condInitDull = property(__condInitDull.value, __condInitDull.set, None, 'Overall dull condition from IADC bit wear 2 character codes.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}condInitLocation uses Python identifier condInitLocation
-    __condInitLocation = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'condInitLocation'), 'condInitLocation', '__httpwww_witsml_orgschemas131_cs_bitRecord_httpwww_witsml_orgschemas131condInitLocation', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 79, 3), )
+    __condInitLocation = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'condInitLocation'), 'condInitLocation', '__httpwww_witsml_orgschemas131_cs_bitRecord_httpwww_witsml_orgschemas131condInitLocation', False, pyxb.utils.utility.Location('cs_bitRecord.xsd', 79, 3), )
 
     
     condInitLocation = property(__condInitLocation.value, __condInitLocation.set, None, 'Row and cone numbers for items which need location information (e.g. Cracked Cone, Lost Cone etc).  ')
 
     
     # Element {http://www.witsml.org/schemas/131}condInitBearing uses Python identifier condInitBearing
-    __condInitBearing = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'condInitBearing'), 'condInitBearing', '__httpwww_witsml_orgschemas131_cs_bitRecord_httpwww_witsml_orgschemas131condInitBearing', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 84, 3), )
+    __condInitBearing = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'condInitBearing'), 'condInitBearing', '__httpwww_witsml_orgschemas131_cs_bitRecord_httpwww_witsml_orgschemas131condInitBearing', False, pyxb.utils.utility.Location('cs_bitRecord.xsd', 84, 3), )
 
     
     condInitBearing = property(__condInitBearing.value, __condInitBearing.set, None, 'Condition of bit bearings (integer 0-8 or E, F, N or X)).  ')
 
     
     # Element {http://www.witsml.org/schemas/131}condInitGauge uses Python identifier condInitGauge
-    __condInitGauge = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'condInitGauge'), 'condInitGauge', '__httpwww_witsml_orgschemas131_cs_bitRecord_httpwww_witsml_orgschemas131condInitGauge', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 89, 3), )
+    __condInitGauge = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'condInitGauge'), 'condInitGauge', '__httpwww_witsml_orgschemas131_cs_bitRecord_httpwww_witsml_orgschemas131condInitGauge', False, pyxb.utils.utility.Location('cs_bitRecord.xsd', 89, 3), )
 
     
     condInitGauge = property(__condInitGauge.value, __condInitGauge.set, None, 'Condition of bit gauge in 1/16 of an inch. I = in gauge, else number of 16ths out of gauge.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}condInitOther uses Python identifier condInitOther
-    __condInitOther = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'condInitOther'), 'condInitOther', '__httpwww_witsml_orgschemas131_cs_bitRecord_httpwww_witsml_orgschemas131condInitOther', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 94, 3), )
+    __condInitOther = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'condInitOther'), 'condInitOther', '__httpwww_witsml_orgschemas131_cs_bitRecord_httpwww_witsml_orgschemas131condInitOther', False, pyxb.utils.utility.Location('cs_bitRecord.xsd', 94, 3), )
 
     
     condInitOther = property(__condInitOther.value, __condInitOther.set, None, 'Other comments on bit condition from IADC list (BitDullCode in standard list).  ')
 
     
     # Element {http://www.witsml.org/schemas/131}condInitReason uses Python identifier condInitReason
-    __condInitReason = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'condInitReason'), 'condInitReason', '__httpwww_witsml_orgschemas131_cs_bitRecord_httpwww_witsml_orgschemas131condInitReason', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 99, 3), )
+    __condInitReason = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'condInitReason'), 'condInitReason', '__httpwww_witsml_orgschemas131_cs_bitRecord_httpwww_witsml_orgschemas131condInitReason', False, pyxb.utils.utility.Location('cs_bitRecord.xsd', 99, 3), )
 
     
     condInitReason = property(__condInitReason.value, __condInitReason.set, None, 'Reason bit was pulled from IADC codes.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}condFinalInner uses Python identifier condFinalInner
-    __condFinalInner = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'condFinalInner'), 'condFinalInner', '__httpwww_witsml_orgschemas131_cs_bitRecord_httpwww_witsml_orgschemas131condFinalInner', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 104, 3), )
+    __condFinalInner = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'condFinalInner'), 'condFinalInner', '__httpwww_witsml_orgschemas131_cs_bitRecord_httpwww_witsml_orgschemas131condFinalInner', False, pyxb.utils.utility.Location('cs_bitRecord.xsd', 104, 3), )
 
     
     condFinalInner = property(__condFinalInner.value, __condFinalInner.set, None, 'Condition of inner tooth rows (inner 2/3 of bit) (0-8).  ')
 
     
     # Element {http://www.witsml.org/schemas/131}condFinalOuter uses Python identifier condFinalOuter
-    __condFinalOuter = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'condFinalOuter'), 'condFinalOuter', '__httpwww_witsml_orgschemas131_cs_bitRecord_httpwww_witsml_orgschemas131condFinalOuter', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 109, 3), )
+    __condFinalOuter = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'condFinalOuter'), 'condFinalOuter', '__httpwww_witsml_orgschemas131_cs_bitRecord_httpwww_witsml_orgschemas131condFinalOuter', False, pyxb.utils.utility.Location('cs_bitRecord.xsd', 109, 3), )
 
     
     condFinalOuter = property(__condFinalOuter.value, __condFinalOuter.set, None, 'Condition of outer tooth rows (outer 1/3 of bit) (0-8).  ')
 
     
     # Element {http://www.witsml.org/schemas/131}condFinalDull uses Python identifier condFinalDull
-    __condFinalDull = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'condFinalDull'), 'condFinalDull', '__httpwww_witsml_orgschemas131_cs_bitRecord_httpwww_witsml_orgschemas131condFinalDull', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 114, 3), )
+    __condFinalDull = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'condFinalDull'), 'condFinalDull', '__httpwww_witsml_orgschemas131_cs_bitRecord_httpwww_witsml_orgschemas131condFinalDull', False, pyxb.utils.utility.Location('cs_bitRecord.xsd', 114, 3), )
 
     
     condFinalDull = property(__condFinalDull.value, __condFinalDull.set, None, 'Overall dull condition from IADC bit wear 2 character codes.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}condFinalLocation uses Python identifier condFinalLocation
-    __condFinalLocation = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'condFinalLocation'), 'condFinalLocation', '__httpwww_witsml_orgschemas131_cs_bitRecord_httpwww_witsml_orgschemas131condFinalLocation', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 119, 3), )
+    __condFinalLocation = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'condFinalLocation'), 'condFinalLocation', '__httpwww_witsml_orgschemas131_cs_bitRecord_httpwww_witsml_orgschemas131condFinalLocation', False, pyxb.utils.utility.Location('cs_bitRecord.xsd', 119, 3), )
 
     
     condFinalLocation = property(__condFinalLocation.value, __condFinalLocation.set, None, 'Row and cone numbers for items which need location information (e.g. Cracked Cone, Lost Cone etc).  ')
 
     
     # Element {http://www.witsml.org/schemas/131}condFinalBearing uses Python identifier condFinalBearing
-    __condFinalBearing = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'condFinalBearing'), 'condFinalBearing', '__httpwww_witsml_orgschemas131_cs_bitRecord_httpwww_witsml_orgschemas131condFinalBearing', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 124, 3), )
+    __condFinalBearing = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'condFinalBearing'), 'condFinalBearing', '__httpwww_witsml_orgschemas131_cs_bitRecord_httpwww_witsml_orgschemas131condFinalBearing', False, pyxb.utils.utility.Location('cs_bitRecord.xsd', 124, 3), )
 
     
     condFinalBearing = property(__condFinalBearing.value, __condFinalBearing.set, None, 'Condition of bit bearings (integer 0-8 or E, F, N or X).  ')
 
     
     # Element {http://www.witsml.org/schemas/131}condFinalGauge uses Python identifier condFinalGauge
-    __condFinalGauge = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'condFinalGauge'), 'condFinalGauge', '__httpwww_witsml_orgschemas131_cs_bitRecord_httpwww_witsml_orgschemas131condFinalGauge', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 129, 3), )
+    __condFinalGauge = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'condFinalGauge'), 'condFinalGauge', '__httpwww_witsml_orgschemas131_cs_bitRecord_httpwww_witsml_orgschemas131condFinalGauge', False, pyxb.utils.utility.Location('cs_bitRecord.xsd', 129, 3), )
 
     
     condFinalGauge = property(__condFinalGauge.value, __condFinalGauge.set, None, 'Condition of bit gauge in 1/16 of a inch. I = in gauge, else number of 16ths out of gauge.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}condFinalOther uses Python identifier condFinalOther
-    __condFinalOther = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'condFinalOther'), 'condFinalOther', '__httpwww_witsml_orgschemas131_cs_bitRecord_httpwww_witsml_orgschemas131condFinalOther', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 134, 3), )
+    __condFinalOther = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'condFinalOther'), 'condFinalOther', '__httpwww_witsml_orgschemas131_cs_bitRecord_httpwww_witsml_orgschemas131condFinalOther', False, pyxb.utils.utility.Location('cs_bitRecord.xsd', 134, 3), )
 
     
     condFinalOther = property(__condFinalOther.value, __condFinalOther.set, None, 'Other comments on bit condition from IADC list (BitDullCode in Standard LISTS).  ')
 
     
     # Element {http://www.witsml.org/schemas/131}condFinalReason uses Python identifier condFinalReason
-    __condFinalReason = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'condFinalReason'), 'condFinalReason', '__httpwww_witsml_orgschemas131_cs_bitRecord_httpwww_witsml_orgschemas131condFinalReason', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 139, 3), )
+    __condFinalReason = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'condFinalReason'), 'condFinalReason', '__httpwww_witsml_orgschemas131_cs_bitRecord_httpwww_witsml_orgschemas131condFinalReason', False, pyxb.utils.utility.Location('cs_bitRecord.xsd', 139, 3), )
 
     
     condFinalReason = property(__condFinalReason.value, __condFinalReason.set, None, 'Reason bit was pulled from IADC codes.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}drive uses Python identifier drive
-    __drive = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'drive'), 'drive', '__httpwww_witsml_orgschemas131_cs_bitRecord_httpwww_witsml_orgschemas131drive', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 144, 3), )
+    __drive = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'drive'), 'drive', '__httpwww_witsml_orgschemas131_cs_bitRecord_httpwww_witsml_orgschemas131drive', False, pyxb.utils.utility.Location('cs_bitRecord.xsd', 144, 3), )
 
     
     drive = property(__drive.value, __drive.set, None, 'Bit drive type (Motor, rotary table etc).  ')
 
     
     # Element {http://www.witsml.org/schemas/131}bitClass uses Python identifier bitClass
-    __bitClass = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'bitClass'), 'bitClass', '__httpwww_witsml_orgschemas131_cs_bitRecord_httpwww_witsml_orgschemas131bitClass', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 149, 3), )
+    __bitClass = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'bitClass'), 'bitClass', '__httpwww_witsml_orgschemas131_cs_bitRecord_httpwww_witsml_orgschemas131bitClass', False, pyxb.utils.utility.Location('cs_bitRecord.xsd', 149, 3), )
 
     
     bitClass = property(__bitClass.value, __bitClass.set, None, 'N = new, U = used.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}customData uses Python identifier customData
-    __customData = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'customData'), 'customData', '__httpwww_witsml_orgschemas131_cs_bitRecord_httpwww_witsml_orgschemas131customData', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 154, 3), )
+    __customData = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'customData'), 'customData', '__httpwww_witsml_orgschemas131_cs_bitRecord_httpwww_witsml_orgschemas131customData', False, pyxb.utils.utility.Location('cs_bitRecord.xsd', 154, 3), )
 
     
     customData = property(__customData.value, __customData.set, None, 'A container element that can contain custom or user defined \n\t\t\t\t\tdata elements.')
 
-
-    _ElementMap = {
+    _ElementMap.update({
         __numBit.name() : __numBit,
         __diaBit.name() : __diaBit,
         __diaPassThru.name() : __diaPassThru,
@@ -4399,10 +4598,11 @@ class cs_bitRecord (pyxb.binding.basis.complexTypeDefinition):
         __drive.name() : __drive,
         __bitClass.name() : __bitClass,
         __customData.name() : __customData
-    }
-    _AttributeMap = {
+    })
+    _AttributeMap.update({
         
-    }
+    })
+_module_typeBindings.cs_bitRecord = cs_bitRecord
 Namespace.addCategoryObject('typeBinding', 'cs_bitRecord', cs_bitRecord)
 
 
@@ -4413,54 +4613,56 @@ class cs_commonData (pyxb.binding.basis.complexTypeDefinition):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_ELEMENT_ONLY
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'cs_commonData')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_commonData.xsd', 18, 1)
+    _XSDLocation = pyxb.utils.utility.Location('cs_commonData.xsd', 18, 1)
+    _ElementMap = {}
+    _AttributeMap = {}
     # Base type is pyxb.binding.datatypes.anyType
     
     # Element {http://www.witsml.org/schemas/131}sourceName uses Python identifier sourceName
-    __sourceName = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'sourceName'), 'sourceName', '__httpwww_witsml_orgschemas131_cs_commonData_httpwww_witsml_orgschemas131sourceName', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_commonData.xsd', 23, 3), )
+    __sourceName = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'sourceName'), 'sourceName', '__httpwww_witsml_orgschemas131_cs_commonData_httpwww_witsml_orgschemas131sourceName', False, pyxb.utils.utility.Location('cs_commonData.xsd', 23, 3), )
 
     
     sourceName = property(__sourceName.value, __sourceName.set, None, 'An identifier to indicate the data originator.\n\t\t\t\t\tThis identifies the server that originally created \n\t\t\t\t\tthe object and thus most of the uids in the object (but not \n\t\t\t\t\tnecessarily the uids of the parents). This is typically a url. ')
 
     
     # Element {http://www.witsml.org/schemas/131}dTimCreation uses Python identifier dTimCreation
-    __dTimCreation = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'dTimCreation'), 'dTimCreation', '__httpwww_witsml_orgschemas131_cs_commonData_httpwww_witsml_orgschemas131dTimCreation', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_commonData.xsd', 31, 3), )
+    __dTimCreation = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'dTimCreation'), 'dTimCreation', '__httpwww_witsml_orgschemas131_cs_commonData_httpwww_witsml_orgschemas131dTimCreation', False, pyxb.utils.utility.Location('cs_commonData.xsd', 31, 3), )
 
     
     dTimCreation = property(__dTimCreation.value, __dTimCreation.set, None, 'When the data was created at the persistent data store.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}dTimLastChange uses Python identifier dTimLastChange
-    __dTimLastChange = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'dTimLastChange'), 'dTimLastChange', '__httpwww_witsml_orgschemas131_cs_commonData_httpwww_witsml_orgschemas131dTimLastChange', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_commonData.xsd', 36, 3), )
+    __dTimLastChange = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'dTimLastChange'), 'dTimLastChange', '__httpwww_witsml_orgschemas131_cs_commonData_httpwww_witsml_orgschemas131dTimLastChange', False, pyxb.utils.utility.Location('cs_commonData.xsd', 36, 3), )
 
     
     dTimLastChange = property(__dTimLastChange.value, __dTimLastChange.set, None, 'Last change of any element of the data at the persistent data store.\n\t\t\t\t\tThe change time is not updated for a growing object while it is growing.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}itemState uses Python identifier itemState
-    __itemState = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'itemState'), 'itemState', '__httpwww_witsml_orgschemas131_cs_commonData_httpwww_witsml_orgschemas131itemState', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_commonData.xsd', 42, 3), )
+    __itemState = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'itemState'), 'itemState', '__httpwww_witsml_orgschemas131_cs_commonData_httpwww_witsml_orgschemas131itemState', False, pyxb.utils.utility.Location('cs_commonData.xsd', 42, 3), )
 
     
     itemState = property(__itemState.value, __itemState.set, None, 'The item state for the data object.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}comments uses Python identifier comments
-    __comments = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'comments'), 'comments', '__httpwww_witsml_orgschemas131_cs_commonData_httpwww_witsml_orgschemas131comments', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_commonData.xsd', 47, 3), )
+    __comments = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'comments'), 'comments', '__httpwww_witsml_orgschemas131_cs_commonData_httpwww_witsml_orgschemas131comments', False, pyxb.utils.utility.Location('cs_commonData.xsd', 47, 3), )
 
     
     comments = property(__comments.value, __comments.set, None, 'Comments and remarks.  ')
 
-
-    _ElementMap = {
+    _ElementMap.update({
         __sourceName.name() : __sourceName,
         __dTimCreation.name() : __dTimCreation,
         __dTimLastChange.name() : __dTimLastChange,
         __itemState.name() : __itemState,
         __comments.name() : __comments
-    }
-    _AttributeMap = {
+    })
+    _AttributeMap.update({
         
-    }
+    })
+_module_typeBindings.cs_commonData = cs_commonData
 Namespace.addCategoryObject('typeBinding', 'cs_commonData', cs_commonData)
 
 
@@ -4472,16 +4674,18 @@ class cs_customData (pyxb.binding.basis.complexTypeDefinition):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_ELEMENT_ONLY
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'cs_customData')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_customData.xsd', 16, 1)
+    _XSDLocation = pyxb.utils.utility.Location('cs_customData.xsd', 16, 1)
+    _ElementMap = {}
+    _AttributeMap = {}
     # Base type is pyxb.binding.datatypes.anyType
     _HasWildcardElement = True
-
-    _ElementMap = {
+    _ElementMap.update({
         
-    }
-    _AttributeMap = {
+    })
+    _AttributeMap.update({
         
-    }
+    })
+_module_typeBindings.cs_customData = cs_customData
 Namespace.addCategoryObject('typeBinding', 'cs_customData', cs_customData)
 
 
@@ -4495,80 +4699,81 @@ class cs_documentInfo (pyxb.binding.basis.complexTypeDefinition):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_ELEMENT_ONLY
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'cs_documentInfo')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 18, 1)
+    _XSDLocation = pyxb.utils.utility.Location('cs_documentInfo.xsd', 18, 1)
+    _ElementMap = {}
+    _AttributeMap = {}
     # Base type is pyxb.binding.datatypes.anyType
     
     # Element {http://www.witsml.org/schemas/131}DocumentName uses Python identifier DocumentName
-    __DocumentName = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'DocumentName'), 'DocumentName', '__httpwww_witsml_orgschemas131_cs_documentInfo_httpwww_witsml_orgschemas131DocumentName', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 26, 3), )
+    __DocumentName = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'DocumentName'), 'DocumentName', '__httpwww_witsml_orgschemas131_cs_documentInfo_httpwww_witsml_orgschemas131DocumentName', False, pyxb.utils.utility.Location('cs_documentInfo.xsd', 26, 3), )
 
     
     DocumentName = property(__DocumentName.value, __DocumentName.set, None, 'An identifier for the document. This is \n\t\t\t\t\tintended to be unique within the context of the NamingSystem.')
 
     
     # Element {http://www.witsml.org/schemas/131}DocumentAlias uses Python identifier DocumentAlias
-    __DocumentAlias = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'DocumentAlias'), 'DocumentAlias', '__httpwww_witsml_orgschemas131_cs_documentInfo_httpwww_witsml_orgschemas131DocumentAlias', True, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 32, 3), )
+    __DocumentAlias = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'DocumentAlias'), 'DocumentAlias', '__httpwww_witsml_orgschemas131_cs_documentInfo_httpwww_witsml_orgschemas131DocumentAlias', True, pyxb.utils.utility.Location('cs_documentInfo.xsd', 32, 3), )
 
     
     DocumentAlias = property(__DocumentAlias.value, __DocumentAlias.set, None, 'Zero or more alternate names for the document. \n\t\t\t\t\tThese names do not need to be unique within the naming system.')
 
     
     # Element {http://www.witsml.org/schemas/131}DocumentDate uses Python identifier DocumentDate
-    __DocumentDate = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'DocumentDate'), 'DocumentDate', '__httpwww_witsml_orgschemas131_cs_documentInfo_httpwww_witsml_orgschemas131DocumentDate', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 38, 3), )
+    __DocumentDate = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'DocumentDate'), 'DocumentDate', '__httpwww_witsml_orgschemas131_cs_documentInfo_httpwww_witsml_orgschemas131DocumentDate', False, pyxb.utils.utility.Location('cs_documentInfo.xsd', 38, 3), )
 
     
     DocumentDate = property(__DocumentDate.value, __DocumentDate.set, None, 'The date of the creation of the document. \n\t\t\t\t\tThis is not the same as the date that the file was created. \n\t\t\t\t\tFor this date, the document is considered to be the set of \n\t\t\t\t\tinformation associated with this document information. \n\t\t\t\t\tFor example, the document may be a seismic binset. \n\t\t\t\t\tThis represents the date that the binset was created. \n\t\t\t\t\tThe FileCreation information would capture the date that \n\t\t\t\t\tthe XML file was created to send or exchange the binset.')
 
     
     # Element {http://www.witsml.org/schemas/131}documentClass uses Python identifier documentClass
-    __documentClass = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'documentClass'), 'documentClass', '__httpwww_witsml_orgschemas131_cs_documentInfo_httpwww_witsml_orgschemas131documentClass', True, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 50, 3), )
+    __documentClass = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'documentClass'), 'documentClass', '__httpwww_witsml_orgschemas131_cs_documentInfo_httpwww_witsml_orgschemas131documentClass', True, pyxb.utils.utility.Location('cs_documentInfo.xsd', 50, 3), )
 
     
     documentClass = property(__documentClass.value, __documentClass.set, None, 'A document class. Examples of classes would be a \n\t\t\t\t\tmetadata classification or a set of keywords. ')
 
     
     # Element {http://www.witsml.org/schemas/131}FileCreationInformation uses Python identifier FileCreationInformation
-    __FileCreationInformation = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'FileCreationInformation'), 'FileCreationInformation', '__httpwww_witsml_orgschemas131_cs_documentInfo_httpwww_witsml_orgschemas131FileCreationInformation', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 56, 3), )
+    __FileCreationInformation = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'FileCreationInformation'), 'FileCreationInformation', '__httpwww_witsml_orgschemas131_cs_documentInfo_httpwww_witsml_orgschemas131FileCreationInformation', False, pyxb.utils.utility.Location('cs_documentInfo.xsd', 56, 3), )
 
     
     FileCreationInformation = property(__FileCreationInformation.value, __FileCreationInformation.set, None, 'The information about the creation of the \n\t\t\t\t\texchange file. This is not about the creation of the data within \n\t\t\t\t\tthe file, but the creation of the file itself.')
 
     
     # Element {http://www.witsml.org/schemas/131}SecurityInformation uses Python identifier SecurityInformation
-    __SecurityInformation = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'SecurityInformation'), 'SecurityInformation', '__httpwww_witsml_orgschemas131_cs_documentInfo_httpwww_witsml_orgschemas131SecurityInformation', True, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 63, 3), )
+    __SecurityInformation = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'SecurityInformation'), 'SecurityInformation', '__httpwww_witsml_orgschemas131_cs_documentInfo_httpwww_witsml_orgschemas131SecurityInformation', True, pyxb.utils.utility.Location('cs_documentInfo.xsd', 63, 3), )
 
     
     SecurityInformation = property(__SecurityInformation.value, __SecurityInformation.set, None, 'Information about the security to be applied to \n\t\t\t\t\tthis file. More than one classification can be given.')
 
     
     # Element {http://www.witsml.org/schemas/131}Disclaimer uses Python identifier Disclaimer
-    __Disclaimer = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'Disclaimer'), 'Disclaimer', '__httpwww_witsml_orgschemas131_cs_documentInfo_httpwww_witsml_orgschemas131Disclaimer', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 69, 3), )
+    __Disclaimer = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'Disclaimer'), 'Disclaimer', '__httpwww_witsml_orgschemas131_cs_documentInfo_httpwww_witsml_orgschemas131Disclaimer', False, pyxb.utils.utility.Location('cs_documentInfo.xsd', 69, 3), )
 
     
     Disclaimer = property(__Disclaimer.value, __Disclaimer.set, None, 'A free-form string that allows a disclaimer to \n\t\t\t\t\taccompany the information.')
 
     
     # Element {http://www.witsml.org/schemas/131}AuditTrail uses Python identifier AuditTrail
-    __AuditTrail = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'AuditTrail'), 'AuditTrail', '__httpwww_witsml_orgschemas131_cs_documentInfo_httpwww_witsml_orgschemas131AuditTrail', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 75, 3), )
+    __AuditTrail = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'AuditTrail'), 'AuditTrail', '__httpwww_witsml_orgschemas131_cs_documentInfo_httpwww_witsml_orgschemas131AuditTrail', False, pyxb.utils.utility.Location('cs_documentInfo.xsd', 75, 3), )
 
     
     AuditTrail = property(__AuditTrail.value, __AuditTrail.set, None, 'A collection of events that can document the \n\t\t\t\t\thistory of the data.')
 
     
     # Element {http://www.witsml.org/schemas/131}Owner uses Python identifier Owner
-    __Owner = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'Owner'), 'Owner', '__httpwww_witsml_orgschemas131_cs_documentInfo_httpwww_witsml_orgschemas131Owner', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 81, 3), )
+    __Owner = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'Owner'), 'Owner', '__httpwww_witsml_orgschemas131_cs_documentInfo_httpwww_witsml_orgschemas131Owner', False, pyxb.utils.utility.Location('cs_documentInfo.xsd', 81, 3), )
 
     
     Owner = property(__Owner.value, __Owner.set, None, 'The owner of the data.')
 
     
     # Element {http://www.witsml.org/schemas/131}Comment uses Python identifier Comment
-    __Comment = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'Comment'), 'Comment', '__httpwww_witsml_orgschemas131_cs_documentInfo_httpwww_witsml_orgschemas131Comment', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 86, 3), )
+    __Comment = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'Comment'), 'Comment', '__httpwww_witsml_orgschemas131_cs_documentInfo_httpwww_witsml_orgschemas131Comment', False, pyxb.utils.utility.Location('cs_documentInfo.xsd', 86, 3), )
 
     
     Comment = property(__Comment.value, __Comment.set, None, 'An optional comment about the document.')
 
-
-    _ElementMap = {
+    _ElementMap.update({
         __DocumentName.name() : __DocumentName,
         __DocumentAlias.name() : __DocumentAlias,
         __DocumentDate.name() : __DocumentDate,
@@ -4579,10 +4784,11 @@ class cs_documentInfo (pyxb.binding.basis.complexTypeDefinition):
         __AuditTrail.name() : __AuditTrail,
         __Owner.name() : __Owner,
         __Comment.name() : __Comment
-    }
-    _AttributeMap = {
+    })
+    _AttributeMap.update({
         
-    }
+    })
+_module_typeBindings.cs_documentInfo = cs_documentInfo
 Namespace.addCategoryObject('typeBinding', 'cs_documentInfo', cs_documentInfo)
 
 
@@ -4594,46 +4800,48 @@ class fileCreationType (pyxb.binding.basis.complexTypeDefinition):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_ELEMENT_ONLY
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'fileCreationType')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 94, 1)
+    _XSDLocation = pyxb.utils.utility.Location('cs_documentInfo.xsd', 94, 1)
+    _ElementMap = {}
+    _AttributeMap = {}
     # Base type is pyxb.binding.datatypes.anyType
     
     # Element {http://www.witsml.org/schemas/131}FileCreationDate uses Python identifier FileCreationDate
-    __FileCreationDate = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'FileCreationDate'), 'FileCreationDate', '__httpwww_witsml_orgschemas131_fileCreationType_httpwww_witsml_orgschemas131FileCreationDate', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 100, 3), )
+    __FileCreationDate = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'FileCreationDate'), 'FileCreationDate', '__httpwww_witsml_orgschemas131_fileCreationType_httpwww_witsml_orgschemas131FileCreationDate', False, pyxb.utils.utility.Location('cs_documentInfo.xsd', 100, 3), )
 
     
     FileCreationDate = property(__FileCreationDate.value, __FileCreationDate.set, None, 'The date and time that the file was created.')
 
     
     # Element {http://www.witsml.org/schemas/131}SoftwareName uses Python identifier SoftwareName
-    __SoftwareName = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'SoftwareName'), 'SoftwareName', '__httpwww_witsml_orgschemas131_fileCreationType_httpwww_witsml_orgschemas131SoftwareName', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 105, 3), )
+    __SoftwareName = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'SoftwareName'), 'SoftwareName', '__httpwww_witsml_orgschemas131_fileCreationType_httpwww_witsml_orgschemas131SoftwareName', False, pyxb.utils.utility.Location('cs_documentInfo.xsd', 105, 3), )
 
     
     SoftwareName = property(__SoftwareName.value, __SoftwareName.set, None, 'If appropriate, the software that created the file. \n\t\t\t\t\tThis is a free form string, and may include whatever information \n\t\t\t\t\tis deemed relevant.')
 
     
     # Element {http://www.witsml.org/schemas/131}FileCreator uses Python identifier FileCreator
-    __FileCreator = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'FileCreator'), 'FileCreator', '__httpwww_witsml_orgschemas131_fileCreationType_httpwww_witsml_orgschemas131FileCreator', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 112, 3), )
+    __FileCreator = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'FileCreator'), 'FileCreator', '__httpwww_witsml_orgschemas131_fileCreationType_httpwww_witsml_orgschemas131FileCreator', False, pyxb.utils.utility.Location('cs_documentInfo.xsd', 112, 3), )
 
     
     FileCreator = property(__FileCreator.value, __FileCreator.set, None, 'The person or business associate that created \n\t\t\t\t\tthe file.')
 
     
     # Element {http://www.witsml.org/schemas/131}Comment uses Python identifier Comment
-    __Comment = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'Comment'), 'Comment', '__httpwww_witsml_orgschemas131_fileCreationType_httpwww_witsml_orgschemas131Comment', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 118, 3), )
+    __Comment = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'Comment'), 'Comment', '__httpwww_witsml_orgschemas131_fileCreationType_httpwww_witsml_orgschemas131Comment', False, pyxb.utils.utility.Location('cs_documentInfo.xsd', 118, 3), )
 
     
     Comment = property(__Comment.value, __Comment.set, None, 'Any comment that would be useful to further \n\t\t\t\t\texplain the creation of this instance document.')
 
-
-    _ElementMap = {
+    _ElementMap.update({
         __FileCreationDate.name() : __FileCreationDate,
         __SoftwareName.name() : __SoftwareName,
         __FileCreator.name() : __FileCreator,
         __Comment.name() : __Comment
-    }
-    _AttributeMap = {
+    })
+    _AttributeMap.update({
         
-    }
+    })
+_module_typeBindings.fileCreationType = fileCreationType
 Namespace.addCategoryObject('typeBinding', 'fileCreationType', fileCreationType)
 
 
@@ -4650,46 +4858,48 @@ class securityInfoType (pyxb.binding.basis.complexTypeDefinition):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_ELEMENT_ONLY
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'securityInfoType')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 127, 1)
+    _XSDLocation = pyxb.utils.utility.Location('cs_documentInfo.xsd', 127, 1)
+    _ElementMap = {}
+    _AttributeMap = {}
     # Base type is pyxb.binding.datatypes.anyType
     
     # Element {http://www.witsml.org/schemas/131}Class uses Python identifier Class
-    __Class = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'Class'), 'Class', '__httpwww_witsml_orgschemas131_securityInfoType_httpwww_witsml_orgschemas131Class', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 138, 3), )
+    __Class = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'Class'), 'Class', '__httpwww_witsml_orgschemas131_securityInfoType_httpwww_witsml_orgschemas131Class', False, pyxb.utils.utility.Location('cs_documentInfo.xsd', 138, 3), )
 
     
     Class = property(__Class.value, __Class.set, None, 'The security class in which this document is \n\t\t\t\t\tclassified. Examples would be confidential, partner confidential, \n\t\t\t\t\ttight. The meaning of the class is determined by the System in which \n\t\t\t\t\tit is defined.')
 
     
     # Element {http://www.witsml.org/schemas/131}System uses Python identifier System
-    __System = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'System'), 'System', '__httpwww_witsml_orgschemas131_securityInfoType_httpwww_witsml_orgschemas131System', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 146, 3), )
+    __System = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'System'), 'System', '__httpwww_witsml_orgschemas131_securityInfoType_httpwww_witsml_orgschemas131System', False, pyxb.utils.utility.Location('cs_documentInfo.xsd', 146, 3), )
 
     
     System = property(__System.value, __System.set, None, 'The security classification system. \n\t\t\t\t\tThis gives context to the meaning of the Class value.')
 
     
     # Element {http://www.witsml.org/schemas/131}EndDate uses Python identifier EndDate
-    __EndDate = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'EndDate'), 'EndDate', '__httpwww_witsml_orgschemas131_securityInfoType_httpwww_witsml_orgschemas131EndDate', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 152, 3), )
+    __EndDate = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'EndDate'), 'EndDate', '__httpwww_witsml_orgschemas131_securityInfoType_httpwww_witsml_orgschemas131EndDate', False, pyxb.utils.utility.Location('cs_documentInfo.xsd', 152, 3), )
 
     
     EndDate = property(__EndDate.value, __EndDate.set, None, 'The date on which this security class is no \n\t\t\t\t\tlonger applicable.')
 
     
     # Element {http://www.witsml.org/schemas/131}Comment uses Python identifier Comment
-    __Comment = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'Comment'), 'Comment', '__httpwww_witsml_orgschemas131_securityInfoType_httpwww_witsml_orgschemas131Comment', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 158, 3), )
+    __Comment = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'Comment'), 'Comment', '__httpwww_witsml_orgschemas131_securityInfoType_httpwww_witsml_orgschemas131Comment', False, pyxb.utils.utility.Location('cs_documentInfo.xsd', 158, 3), )
 
     
     Comment = property(__Comment.value, __Comment.set, None, 'A general comment to further define the security \n\t\t\t\t\tclass.')
 
-
-    _ElementMap = {
+    _ElementMap.update({
         __Class.name() : __Class,
         __System.name() : __System,
         __EndDate.name() : __EndDate,
         __Comment.name() : __Comment
-    }
-    _AttributeMap = {
+    })
+    _AttributeMap.update({
         
-    }
+    })
+_module_typeBindings.securityInfoType = securityInfoType
 Namespace.addCategoryObject('typeBinding', 'securityInfoType', securityInfoType)
 
 
@@ -4701,22 +4911,24 @@ class auditType (pyxb.binding.basis.complexTypeDefinition):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_ELEMENT_ONLY
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'auditType')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 167, 1)
+    _XSDLocation = pyxb.utils.utility.Location('cs_documentInfo.xsd', 167, 1)
+    _ElementMap = {}
+    _AttributeMap = {}
     # Base type is pyxb.binding.datatypes.anyType
     
     # Element {http://www.witsml.org/schemas/131}Event uses Python identifier Event
-    __Event = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'Event'), 'Event', '__httpwww_witsml_orgschemas131_auditType_httpwww_witsml_orgschemas131Event', True, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 173, 3), )
+    __Event = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'Event'), 'Event', '__httpwww_witsml_orgschemas131_auditType_httpwww_witsml_orgschemas131Event', True, pyxb.utils.utility.Location('cs_documentInfo.xsd', 173, 3), )
 
     
     Event = property(__Event.value, __Event.set, None, None)
 
-
-    _ElementMap = {
+    _ElementMap.update({
         __Event.name() : __Event
-    }
-    _AttributeMap = {
+    })
+    _AttributeMap.update({
         
-    }
+    })
+_module_typeBindings.auditType = auditType
 Namespace.addCategoryObject('typeBinding', 'auditType', auditType)
 
 
@@ -4728,38 +4940,40 @@ class eventType (pyxb.binding.basis.complexTypeDefinition):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_ELEMENT_ONLY
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'eventType')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 177, 1)
+    _XSDLocation = pyxb.utils.utility.Location('cs_documentInfo.xsd', 177, 1)
+    _ElementMap = {}
+    _AttributeMap = {}
     # Base type is pyxb.binding.datatypes.anyType
     
     # Element {http://www.witsml.org/schemas/131}EventDate uses Python identifier EventDate
-    __EventDate = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'EventDate'), 'EventDate', '__httpwww_witsml_orgschemas131_eventType_httpwww_witsml_orgschemas131EventDate', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 183, 3), )
+    __EventDate = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'EventDate'), 'EventDate', '__httpwww_witsml_orgschemas131_eventType_httpwww_witsml_orgschemas131EventDate', False, pyxb.utils.utility.Location('cs_documentInfo.xsd', 183, 3), )
 
     
     EventDate = property(__EventDate.value, __EventDate.set, None, 'The date on which the event took place.')
 
     
     # Element {http://www.witsml.org/schemas/131}ResponsibleParty uses Python identifier ResponsibleParty
-    __ResponsibleParty = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'ResponsibleParty'), 'ResponsibleParty', '__httpwww_witsml_orgschemas131_eventType_httpwww_witsml_orgschemas131ResponsibleParty', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 188, 3), )
+    __ResponsibleParty = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'ResponsibleParty'), 'ResponsibleParty', '__httpwww_witsml_orgschemas131_eventType_httpwww_witsml_orgschemas131ResponsibleParty', False, pyxb.utils.utility.Location('cs_documentInfo.xsd', 188, 3), )
 
     
     ResponsibleParty = property(__ResponsibleParty.value, __ResponsibleParty.set, None, 'The party responsible for the event.')
 
     
     # Element {http://www.witsml.org/schemas/131}Comment uses Python identifier Comment
-    __Comment = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'Comment'), 'Comment', '__httpwww_witsml_orgschemas131_eventType_httpwww_witsml_orgschemas131Comment', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 193, 3), )
+    __Comment = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'Comment'), 'Comment', '__httpwww_witsml_orgschemas131_eventType_httpwww_witsml_orgschemas131Comment', False, pyxb.utils.utility.Location('cs_documentInfo.xsd', 193, 3), )
 
     
     Comment = property(__Comment.value, __Comment.set, None, 'A free form comment that can further \n\t\t\t\t\tdefine the event that occurred.')
 
-
-    _ElementMap = {
+    _ElementMap.update({
         __EventDate.name() : __EventDate,
         __ResponsibleParty.name() : __ResponsibleParty,
         __Comment.name() : __Comment
-    }
-    _AttributeMap = {
+    })
+    _AttributeMap.update({
         
-    }
+    })
+_module_typeBindings.eventType = eventType
 Namespace.addCategoryObject('typeBinding', 'eventType', eventType)
 
 
@@ -4770,54 +4984,56 @@ class cs_holeOpener (pyxb.binding.basis.complexTypeDefinition):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_ELEMENT_ONLY
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'cs_holeOpener')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_holeOpener.xsd', 19, 1)
+    _XSDLocation = pyxb.utils.utility.Location('cs_holeOpener.xsd', 19, 1)
+    _ElementMap = {}
+    _AttributeMap = {}
     # Base type is pyxb.binding.datatypes.anyType
     
     # Element {http://www.witsml.org/schemas/131}typeHoleOpener uses Python identifier typeHoleOpener
-    __typeHoleOpener = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'typeHoleOpener'), 'typeHoleOpener', '__httpwww_witsml_orgschemas131_cs_holeOpener_httpwww_witsml_orgschemas131typeHoleOpener', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_holeOpener.xsd', 24, 3), )
+    __typeHoleOpener = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'typeHoleOpener'), 'typeHoleOpener', '__httpwww_witsml_orgschemas131_cs_holeOpener_httpwww_witsml_orgschemas131typeHoleOpener', False, pyxb.utils.utility.Location('cs_holeOpener.xsd', 24, 3), )
 
     
     typeHoleOpener = property(__typeHoleOpener.value, __typeHoleOpener.set, None, 'Under reamer or fixed blade.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}numCutter uses Python identifier numCutter
-    __numCutter = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'numCutter'), 'numCutter', '__httpwww_witsml_orgschemas131_cs_holeOpener_httpwww_witsml_orgschemas131numCutter', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_holeOpener.xsd', 29, 3), )
+    __numCutter = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'numCutter'), 'numCutter', '__httpwww_witsml_orgschemas131_cs_holeOpener_httpwww_witsml_orgschemas131numCutter', False, pyxb.utils.utility.Location('cs_holeOpener.xsd', 29, 3), )
 
     
     numCutter = property(__numCutter.value, __numCutter.set, None, 'Number of cutters.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}manufacturer uses Python identifier manufacturer
-    __manufacturer = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'manufacturer'), 'manufacturer', '__httpwww_witsml_orgschemas131_cs_holeOpener_httpwww_witsml_orgschemas131manufacturer', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_holeOpener.xsd', 34, 3), )
+    __manufacturer = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'manufacturer'), 'manufacturer', '__httpwww_witsml_orgschemas131_cs_holeOpener_httpwww_witsml_orgschemas131manufacturer', False, pyxb.utils.utility.Location('cs_holeOpener.xsd', 34, 3), )
 
     
     manufacturer = property(__manufacturer.value, __manufacturer.set, None, 'Manufacturer / supplier of the item.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}diaHoleOpener uses Python identifier diaHoleOpener
-    __diaHoleOpener = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'diaHoleOpener'), 'diaHoleOpener', '__httpwww_witsml_orgschemas131_cs_holeOpener_httpwww_witsml_orgschemas131diaHoleOpener', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_holeOpener.xsd', 39, 3), )
+    __diaHoleOpener = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'diaHoleOpener'), 'diaHoleOpener', '__httpwww_witsml_orgschemas131_cs_holeOpener_httpwww_witsml_orgschemas131diaHoleOpener', False, pyxb.utils.utility.Location('cs_holeOpener.xsd', 39, 3), )
 
     
     diaHoleOpener = property(__diaHoleOpener.value, __diaHoleOpener.set, None, 'Diameter of the reamer.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}customData uses Python identifier customData
-    __customData = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'customData'), 'customData', '__httpwww_witsml_orgschemas131_cs_holeOpener_httpwww_witsml_orgschemas131customData', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_holeOpener.xsd', 44, 3), )
+    __customData = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'customData'), 'customData', '__httpwww_witsml_orgschemas131_cs_holeOpener_httpwww_witsml_orgschemas131customData', False, pyxb.utils.utility.Location('cs_holeOpener.xsd', 44, 3), )
 
     
     customData = property(__customData.value, __customData.set, None, 'A container element that can contain custom or user defined \n\t\t\t\t\tdata elements.')
 
-
-    _ElementMap = {
+    _ElementMap.update({
         __typeHoleOpener.name() : __typeHoleOpener,
         __numCutter.name() : __numCutter,
         __manufacturer.name() : __manufacturer,
         __diaHoleOpener.name() : __diaHoleOpener,
         __customData.name() : __customData
-    }
-    _AttributeMap = {
+    })
+    _AttributeMap.update({
         
-    }
+    })
+_module_typeBindings.cs_holeOpener = cs_holeOpener
 Namespace.addCategoryObject('typeBinding', 'cs_holeOpener', cs_holeOpener)
 
 
@@ -4828,73 +5044,74 @@ class cs_jar (pyxb.binding.basis.complexTypeDefinition):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_ELEMENT_ONLY
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'cs_jar')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_jar.xsd', 19, 1)
+    _XSDLocation = pyxb.utils.utility.Location('cs_jar.xsd', 19, 1)
+    _ElementMap = {}
+    _AttributeMap = {}
     # Base type is pyxb.binding.datatypes.anyType
     
     # Element {http://www.witsml.org/schemas/131}forUpSet uses Python identifier forUpSet
-    __forUpSet = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'forUpSet'), 'forUpSet', '__httpwww_witsml_orgschemas131_cs_jar_httpwww_witsml_orgschemas131forUpSet', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_jar.xsd', 24, 3), )
+    __forUpSet = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'forUpSet'), 'forUpSet', '__httpwww_witsml_orgschemas131_cs_jar_httpwww_witsml_orgschemas131forUpSet', False, pyxb.utils.utility.Location('cs_jar.xsd', 24, 3), )
 
     
     forUpSet = property(__forUpSet.value, __forUpSet.set, None, 'Up set force.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}forDownSet uses Python identifier forDownSet
-    __forDownSet = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'forDownSet'), 'forDownSet', '__httpwww_witsml_orgschemas131_cs_jar_httpwww_witsml_orgschemas131forDownSet', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_jar.xsd', 29, 3), )
+    __forDownSet = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'forDownSet'), 'forDownSet', '__httpwww_witsml_orgschemas131_cs_jar_httpwww_witsml_orgschemas131forDownSet', False, pyxb.utils.utility.Location('cs_jar.xsd', 29, 3), )
 
     
     forDownSet = property(__forDownSet.value, __forDownSet.set, None, 'Down set force.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}forUpTrip uses Python identifier forUpTrip
-    __forUpTrip = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'forUpTrip'), 'forUpTrip', '__httpwww_witsml_orgschemas131_cs_jar_httpwww_witsml_orgschemas131forUpTrip', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_jar.xsd', 34, 3), )
+    __forUpTrip = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'forUpTrip'), 'forUpTrip', '__httpwww_witsml_orgschemas131_cs_jar_httpwww_witsml_orgschemas131forUpTrip', False, pyxb.utils.utility.Location('cs_jar.xsd', 34, 3), )
 
     
     forUpTrip = property(__forUpTrip.value, __forUpTrip.set, None, 'Up trip force.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}forDownTrip uses Python identifier forDownTrip
-    __forDownTrip = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'forDownTrip'), 'forDownTrip', '__httpwww_witsml_orgschemas131_cs_jar_httpwww_witsml_orgschemas131forDownTrip', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_jar.xsd', 39, 3), )
+    __forDownTrip = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'forDownTrip'), 'forDownTrip', '__httpwww_witsml_orgschemas131_cs_jar_httpwww_witsml_orgschemas131forDownTrip', False, pyxb.utils.utility.Location('cs_jar.xsd', 39, 3), )
 
     
     forDownTrip = property(__forDownTrip.value, __forDownTrip.set, None, 'Down trip force.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}forPmpOpen uses Python identifier forPmpOpen
-    __forPmpOpen = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'forPmpOpen'), 'forPmpOpen', '__httpwww_witsml_orgschemas131_cs_jar_httpwww_witsml_orgschemas131forPmpOpen', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_jar.xsd', 44, 3), )
+    __forPmpOpen = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'forPmpOpen'), 'forPmpOpen', '__httpwww_witsml_orgschemas131_cs_jar_httpwww_witsml_orgschemas131forPmpOpen', False, pyxb.utils.utility.Location('cs_jar.xsd', 44, 3), )
 
     
     forPmpOpen = property(__forPmpOpen.value, __forPmpOpen.set, None, 'Pump open force.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}forSealFric uses Python identifier forSealFric
-    __forSealFric = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'forSealFric'), 'forSealFric', '__httpwww_witsml_orgschemas131_cs_jar_httpwww_witsml_orgschemas131forSealFric', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_jar.xsd', 49, 3), )
+    __forSealFric = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'forSealFric'), 'forSealFric', '__httpwww_witsml_orgschemas131_cs_jar_httpwww_witsml_orgschemas131forSealFric', False, pyxb.utils.utility.Location('cs_jar.xsd', 49, 3), )
 
     
     forSealFric = property(__forSealFric.value, __forSealFric.set, None, 'Seal friction force.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}typeJar uses Python identifier typeJar
-    __typeJar = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'typeJar'), 'typeJar', '__httpwww_witsml_orgschemas131_cs_jar_httpwww_witsml_orgschemas131typeJar', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_jar.xsd', 54, 3), )
+    __typeJar = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'typeJar'), 'typeJar', '__httpwww_witsml_orgschemas131_cs_jar_httpwww_witsml_orgschemas131typeJar', False, pyxb.utils.utility.Location('cs_jar.xsd', 54, 3), )
 
     
     typeJar = property(__typeJar.value, __typeJar.set, None, 'The kind of jar.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}jarAction uses Python identifier jarAction
-    __jarAction = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'jarAction'), 'jarAction', '__httpwww_witsml_orgschemas131_cs_jar_httpwww_witsml_orgschemas131jarAction', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_jar.xsd', 59, 3), )
+    __jarAction = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'jarAction'), 'jarAction', '__httpwww_witsml_orgschemas131_cs_jar_httpwww_witsml_orgschemas131jarAction', False, pyxb.utils.utility.Location('cs_jar.xsd', 59, 3), )
 
     
     jarAction = property(__jarAction.value, __jarAction.set, None, 'The jar action.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}customData uses Python identifier customData
-    __customData = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'customData'), 'customData', '__httpwww_witsml_orgschemas131_cs_jar_httpwww_witsml_orgschemas131customData', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_jar.xsd', 64, 3), )
+    __customData = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'customData'), 'customData', '__httpwww_witsml_orgschemas131_cs_jar_httpwww_witsml_orgschemas131customData', False, pyxb.utils.utility.Location('cs_jar.xsd', 64, 3), )
 
     
     customData = property(__customData.value, __customData.set, None, 'A container element that can contain custom or user defined \n\t\t\t\t\tdata elements.')
 
-
-    _ElementMap = {
+    _ElementMap.update({
         __forUpSet.name() : __forUpSet,
         __forDownSet.name() : __forDownSet,
         __forUpTrip.name() : __forUpTrip,
@@ -4904,10 +5121,11 @@ class cs_jar (pyxb.binding.basis.complexTypeDefinition):
         __typeJar.name() : __typeJar,
         __jarAction.name() : __jarAction,
         __customData.name() : __customData
-    }
-    _AttributeMap = {
+    })
+    _AttributeMap.update({
         
-    }
+    })
+_module_typeBindings.cs_jar = cs_jar
 Namespace.addCategoryObject('typeBinding', 'cs_jar', cs_jar)
 
 
@@ -4918,129 +5136,130 @@ class cs_motor (pyxb.binding.basis.complexTypeDefinition):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_ELEMENT_ONLY
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'cs_motor')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_motor.xsd', 19, 1)
+    _XSDLocation = pyxb.utils.utility.Location('cs_motor.xsd', 19, 1)
+    _ElementMap = {}
+    _AttributeMap = {}
     # Base type is pyxb.binding.datatypes.anyType
     
     # Element {http://www.witsml.org/schemas/131}offsetTool uses Python identifier offsetTool
-    __offsetTool = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'offsetTool'), 'offsetTool', '__httpwww_witsml_orgschemas131_cs_motor_httpwww_witsml_orgschemas131offsetTool', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_motor.xsd', 24, 3), )
+    __offsetTool = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'offsetTool'), 'offsetTool', '__httpwww_witsml_orgschemas131_cs_motor_httpwww_witsml_orgschemas131offsetTool', False, pyxb.utils.utility.Location('cs_motor.xsd', 24, 3), )
 
     
     offsetTool = property(__offsetTool.value, __offsetTool.set, None, 'Tool offset from bottom.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}presLossFact uses Python identifier presLossFact
-    __presLossFact = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'presLossFact'), 'presLossFact', '__httpwww_witsml_orgschemas131_cs_motor_httpwww_witsml_orgschemas131presLossFact', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_motor.xsd', 29, 3), )
+    __presLossFact = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'presLossFact'), 'presLossFact', '__httpwww_witsml_orgschemas131_cs_motor_httpwww_witsml_orgschemas131presLossFact', False, pyxb.utils.utility.Location('cs_motor.xsd', 29, 3), )
 
     
     presLossFact = property(__presLossFact.value, __presLossFact.set, None, 'Pressure loss factor.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}flowrateMn uses Python identifier flowrateMn
-    __flowrateMn = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'flowrateMn'), 'flowrateMn', '__httpwww_witsml_orgschemas131_cs_motor_httpwww_witsml_orgschemas131flowrateMn', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_motor.xsd', 34, 3), )
+    __flowrateMn = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'flowrateMn'), 'flowrateMn', '__httpwww_witsml_orgschemas131_cs_motor_httpwww_witsml_orgschemas131flowrateMn', False, pyxb.utils.utility.Location('cs_motor.xsd', 34, 3), )
 
     
     flowrateMn = property(__flowrateMn.value, __flowrateMn.set, None, 'Minimum flow rate.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}flowrateMx uses Python identifier flowrateMx
-    __flowrateMx = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'flowrateMx'), 'flowrateMx', '__httpwww_witsml_orgschemas131_cs_motor_httpwww_witsml_orgschemas131flowrateMx', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_motor.xsd', 39, 3), )
+    __flowrateMx = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'flowrateMx'), 'flowrateMx', '__httpwww_witsml_orgschemas131_cs_motor_httpwww_witsml_orgschemas131flowrateMx', False, pyxb.utils.utility.Location('cs_motor.xsd', 39, 3), )
 
     
     flowrateMx = property(__flowrateMx.value, __flowrateMx.set, None, 'Maximum flow rate.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}diaRotorNozzle uses Python identifier diaRotorNozzle
-    __diaRotorNozzle = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'diaRotorNozzle'), 'diaRotorNozzle', '__httpwww_witsml_orgschemas131_cs_motor_httpwww_witsml_orgschemas131diaRotorNozzle', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_motor.xsd', 44, 3), )
+    __diaRotorNozzle = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'diaRotorNozzle'), 'diaRotorNozzle', '__httpwww_witsml_orgschemas131_cs_motor_httpwww_witsml_orgschemas131diaRotorNozzle', False, pyxb.utils.utility.Location('cs_motor.xsd', 44, 3), )
 
     
     diaRotorNozzle = property(__diaRotorNozzle.value, __diaRotorNozzle.set, None, 'Diameter of rotor at nozzle.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}clearanceBearBox uses Python identifier clearanceBearBox
-    __clearanceBearBox = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'clearanceBearBox'), 'clearanceBearBox', '__httpwww_witsml_orgschemas131_cs_motor_httpwww_witsml_orgschemas131clearanceBearBox', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_motor.xsd', 49, 3), )
+    __clearanceBearBox = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'clearanceBearBox'), 'clearanceBearBox', '__httpwww_witsml_orgschemas131_cs_motor_httpwww_witsml_orgschemas131clearanceBearBox', False, pyxb.utils.utility.Location('cs_motor.xsd', 49, 3), )
 
     
     clearanceBearBox = property(__clearanceBearBox.value, __clearanceBearBox.set, None, 'Clearance inside bearing box.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}lobesRotor uses Python identifier lobesRotor
-    __lobesRotor = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'lobesRotor'), 'lobesRotor', '__httpwww_witsml_orgschemas131_cs_motor_httpwww_witsml_orgschemas131lobesRotor', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_motor.xsd', 54, 3), )
+    __lobesRotor = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'lobesRotor'), 'lobesRotor', '__httpwww_witsml_orgschemas131_cs_motor_httpwww_witsml_orgschemas131lobesRotor', False, pyxb.utils.utility.Location('cs_motor.xsd', 54, 3), )
 
     
     lobesRotor = property(__lobesRotor.value, __lobesRotor.set, None, 'Number of rotor lobes.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}lobesStator uses Python identifier lobesStator
-    __lobesStator = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'lobesStator'), 'lobesStator', '__httpwww_witsml_orgschemas131_cs_motor_httpwww_witsml_orgschemas131lobesStator', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_motor.xsd', 59, 3), )
+    __lobesStator = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'lobesStator'), 'lobesStator', '__httpwww_witsml_orgschemas131_cs_motor_httpwww_witsml_orgschemas131lobesStator', False, pyxb.utils.utility.Location('cs_motor.xsd', 59, 3), )
 
     
     lobesStator = property(__lobesStator.value, __lobesStator.set, None, 'Number of stator lobes.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}typeBearing uses Python identifier typeBearing
-    __typeBearing = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'typeBearing'), 'typeBearing', '__httpwww_witsml_orgschemas131_cs_motor_httpwww_witsml_orgschemas131typeBearing', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_motor.xsd', 64, 3), )
+    __typeBearing = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'typeBearing'), 'typeBearing', '__httpwww_witsml_orgschemas131_cs_motor_httpwww_witsml_orgschemas131typeBearing', False, pyxb.utils.utility.Location('cs_motor.xsd', 64, 3), )
 
     
     typeBearing = property(__typeBearing.value, __typeBearing.set, None, 'Type of bearing. ')
 
     
     # Element {http://www.witsml.org/schemas/131}tempOpMx uses Python identifier tempOpMx
-    __tempOpMx = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'tempOpMx'), 'tempOpMx', '__httpwww_witsml_orgschemas131_cs_motor_httpwww_witsml_orgschemas131tempOpMx', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_motor.xsd', 69, 3), )
+    __tempOpMx = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'tempOpMx'), 'tempOpMx', '__httpwww_witsml_orgschemas131_cs_motor_httpwww_witsml_orgschemas131tempOpMx', False, pyxb.utils.utility.Location('cs_motor.xsd', 69, 3), )
 
     
     tempOpMx = property(__tempOpMx.value, __tempOpMx.set, None, 'Maximum operating temperature.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}rotorCatcher uses Python identifier rotorCatcher
-    __rotorCatcher = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'rotorCatcher'), 'rotorCatcher', '__httpwww_witsml_orgschemas131_cs_motor_httpwww_witsml_orgschemas131rotorCatcher', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_motor.xsd', 74, 3), )
+    __rotorCatcher = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'rotorCatcher'), 'rotorCatcher', '__httpwww_witsml_orgschemas131_cs_motor_httpwww_witsml_orgschemas131rotorCatcher', False, pyxb.utils.utility.Location('cs_motor.xsd', 74, 3), )
 
     
     rotorCatcher = property(__rotorCatcher.value, __rotorCatcher.set, None, 'Is rotor catcher present?  \n\t\t\t\t\tValues are "true" (or "1") and "false" (or "0").')
 
     
     # Element {http://www.witsml.org/schemas/131}dumpValve uses Python identifier dumpValve
-    __dumpValve = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'dumpValve'), 'dumpValve', '__httpwww_witsml_orgschemas131_cs_motor_httpwww_witsml_orgschemas131dumpValve', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_motor.xsd', 80, 3), )
+    __dumpValve = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'dumpValve'), 'dumpValve', '__httpwww_witsml_orgschemas131_cs_motor_httpwww_witsml_orgschemas131dumpValve', False, pyxb.utils.utility.Location('cs_motor.xsd', 80, 3), )
 
     
     dumpValve = property(__dumpValve.value, __dumpValve.set, None, 'Is dump valve present?  \n\t\t\t\t\tValues are "true" (or "1") and "false" (or "0").')
 
     
     # Element {http://www.witsml.org/schemas/131}diaNozzle uses Python identifier diaNozzle
-    __diaNozzle = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'diaNozzle'), 'diaNozzle', '__httpwww_witsml_orgschemas131_cs_motor_httpwww_witsml_orgschemas131diaNozzle', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_motor.xsd', 86, 3), )
+    __diaNozzle = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'diaNozzle'), 'diaNozzle', '__httpwww_witsml_orgschemas131_cs_motor_httpwww_witsml_orgschemas131diaNozzle', False, pyxb.utils.utility.Location('cs_motor.xsd', 86, 3), )
 
     
     diaNozzle = property(__diaNozzle.value, __diaNozzle.set, None, 'Nozzle diameter.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}rotatable uses Python identifier rotatable
-    __rotatable = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'rotatable'), 'rotatable', '__httpwww_witsml_orgschemas131_cs_motor_httpwww_witsml_orgschemas131rotatable', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_motor.xsd', 91, 3), )
+    __rotatable = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'rotatable'), 'rotatable', '__httpwww_witsml_orgschemas131_cs_motor_httpwww_witsml_orgschemas131rotatable', False, pyxb.utils.utility.Location('cs_motor.xsd', 91, 3), )
 
     
     rotatable = property(__rotatable.value, __rotatable.set, None, 'Is motor rotatable?  \n\t\t\t\t\tValues are "true" (or "1") and "false" (or "0").')
 
     
     # Element {http://www.witsml.org/schemas/131}bendSettingsMn uses Python identifier bendSettingsMn
-    __bendSettingsMn = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'bendSettingsMn'), 'bendSettingsMn', '__httpwww_witsml_orgschemas131_cs_motor_httpwww_witsml_orgschemas131bendSettingsMn', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_motor.xsd', 97, 3), )
+    __bendSettingsMn = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'bendSettingsMn'), 'bendSettingsMn', '__httpwww_witsml_orgschemas131_cs_motor_httpwww_witsml_orgschemas131bendSettingsMn', False, pyxb.utils.utility.Location('cs_motor.xsd', 97, 3), )
 
     
     bendSettingsMn = property(__bendSettingsMn.value, __bendSettingsMn.set, None, 'Minimum bend angle setting.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}bendSettingsMx uses Python identifier bendSettingsMx
-    __bendSettingsMx = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'bendSettingsMx'), 'bendSettingsMx', '__httpwww_witsml_orgschemas131_cs_motor_httpwww_witsml_orgschemas131bendSettingsMx', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_motor.xsd', 102, 3), )
+    __bendSettingsMx = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'bendSettingsMx'), 'bendSettingsMx', '__httpwww_witsml_orgschemas131_cs_motor_httpwww_witsml_orgschemas131bendSettingsMx', False, pyxb.utils.utility.Location('cs_motor.xsd', 102, 3), )
 
     
     bendSettingsMx = property(__bendSettingsMx.value, __bendSettingsMx.set, None, 'Maximum bend angle setting.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}customData uses Python identifier customData
-    __customData = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'customData'), 'customData', '__httpwww_witsml_orgschemas131_cs_motor_httpwww_witsml_orgschemas131customData', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_motor.xsd', 107, 3), )
+    __customData = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'customData'), 'customData', '__httpwww_witsml_orgschemas131_cs_motor_httpwww_witsml_orgschemas131customData', False, pyxb.utils.utility.Location('cs_motor.xsd', 107, 3), )
 
     
     customData = property(__customData.value, __customData.set, None, 'A container element that can contain custom or user defined \n\t\t\t\t\tdata elements.')
 
-
-    _ElementMap = {
+    _ElementMap.update({
         __offsetTool.name() : __offsetTool,
         __presLossFact.name() : __presLossFact,
         __flowrateMn.name() : __flowrateMn,
@@ -5058,10 +5277,11 @@ class cs_motor (pyxb.binding.basis.complexTypeDefinition):
         __bendSettingsMn.name() : __bendSettingsMn,
         __bendSettingsMx.name() : __bendSettingsMx,
         __customData.name() : __customData
-    }
-    _AttributeMap = {
+    })
+    _AttributeMap.update({
         
-    }
+    })
+_module_typeBindings.cs_motor = cs_motor
 Namespace.addCategoryObject('typeBinding', 'cs_motor', cs_motor)
 
 
@@ -5072,62 +5292,64 @@ class cs_mwdTool (pyxb.binding.basis.complexTypeDefinition):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_ELEMENT_ONLY
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'cs_mwdTool')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_mwdTool.xsd', 19, 1)
+    _XSDLocation = pyxb.utils.utility.Location('cs_mwdTool.xsd', 19, 1)
+    _ElementMap = {}
+    _AttributeMap = {}
     # Base type is pyxb.binding.datatypes.anyType
     
     # Element {http://www.witsml.org/schemas/131}flowrateMn uses Python identifier flowrateMn
-    __flowrateMn = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'flowrateMn'), 'flowrateMn', '__httpwww_witsml_orgschemas131_cs_mwdTool_httpwww_witsml_orgschemas131flowrateMn', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_mwdTool.xsd', 24, 3), )
+    __flowrateMn = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'flowrateMn'), 'flowrateMn', '__httpwww_witsml_orgschemas131_cs_mwdTool_httpwww_witsml_orgschemas131flowrateMn', False, pyxb.utils.utility.Location('cs_mwdTool.xsd', 24, 3), )
 
     
     flowrateMn = property(__flowrateMn.value, __flowrateMn.set, None, 'Minimum flow rate.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}flowrateMx uses Python identifier flowrateMx
-    __flowrateMx = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'flowrateMx'), 'flowrateMx', '__httpwww_witsml_orgschemas131_cs_mwdTool_httpwww_witsml_orgschemas131flowrateMx', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_mwdTool.xsd', 29, 3), )
+    __flowrateMx = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'flowrateMx'), 'flowrateMx', '__httpwww_witsml_orgschemas131_cs_mwdTool_httpwww_witsml_orgschemas131flowrateMx', False, pyxb.utils.utility.Location('cs_mwdTool.xsd', 29, 3), )
 
     
     flowrateMx = property(__flowrateMx.value, __flowrateMx.set, None, 'Maximum flow rate.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}tempMx uses Python identifier tempMx
-    __tempMx = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'tempMx'), 'tempMx', '__httpwww_witsml_orgschemas131_cs_mwdTool_httpwww_witsml_orgschemas131tempMx', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_mwdTool.xsd', 34, 3), )
+    __tempMx = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'tempMx'), 'tempMx', '__httpwww_witsml_orgschemas131_cs_mwdTool_httpwww_witsml_orgschemas131tempMx', False, pyxb.utils.utility.Location('cs_mwdTool.xsd', 34, 3), )
 
     
     tempMx = property(__tempMx.value, __tempMx.set, None, 'Maximum Temperature.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}idEquv uses Python identifier idEquv
-    __idEquv = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'idEquv'), 'idEquv', '__httpwww_witsml_orgschemas131_cs_mwdTool_httpwww_witsml_orgschemas131idEquv', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_mwdTool.xsd', 39, 3), )
+    __idEquv = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'idEquv'), 'idEquv', '__httpwww_witsml_orgschemas131_cs_mwdTool_httpwww_witsml_orgschemas131idEquv', False, pyxb.utils.utility.Location('cs_mwdTool.xsd', 39, 3), )
 
     
     idEquv = property(__idEquv.value, __idEquv.set, None, 'Equivalent inner diameter.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}sensor uses Python identifier sensor
-    __sensor = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'sensor'), 'sensor', '__httpwww_witsml_orgschemas131_cs_mwdTool_httpwww_witsml_orgschemas131sensor', True, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_mwdTool.xsd', 44, 3), )
+    __sensor = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'sensor'), 'sensor', '__httpwww_witsml_orgschemas131_cs_mwdTool_httpwww_witsml_orgschemas131sensor', True, pyxb.utils.utility.Location('cs_mwdTool.xsd', 44, 3), )
 
     
     sensor = property(__sensor.value, __sensor.set, None, 'Sensor object.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}customData uses Python identifier customData
-    __customData = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'customData'), 'customData', '__httpwww_witsml_orgschemas131_cs_mwdTool_httpwww_witsml_orgschemas131customData', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_mwdTool.xsd', 49, 3), )
+    __customData = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'customData'), 'customData', '__httpwww_witsml_orgschemas131_cs_mwdTool_httpwww_witsml_orgschemas131customData', False, pyxb.utils.utility.Location('cs_mwdTool.xsd', 49, 3), )
 
     
     customData = property(__customData.value, __customData.set, None, 'A container element that can contain custom or user defined \n\t\t\t\t\tdata elements.')
 
-
-    _ElementMap = {
+    _ElementMap.update({
         __flowrateMn.name() : __flowrateMn,
         __flowrateMx.name() : __flowrateMx,
         __tempMx.name() : __tempMx,
         __idEquv.name() : __idEquv,
         __sensor.name() : __sensor,
         __customData.name() : __customData
-    }
-    _AttributeMap = {
+    })
+    _AttributeMap.update({
         
-    }
+    })
+_module_typeBindings.cs_mwdTool = cs_mwdTool
 Namespace.addCategoryObject('typeBinding', 'cs_mwdTool', cs_mwdTool)
 
 
@@ -5138,157 +5360,158 @@ class cs_rotarySteerableTool (pyxb.binding.basis.complexTypeDefinition):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_ELEMENT_ONLY
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'cs_rotarySteerableTool')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 19, 1)
+    _XSDLocation = pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 19, 1)
+    _ElementMap = {}
+    _AttributeMap = {}
     # Base type is pyxb.binding.datatypes.anyType
     
     # Element {http://www.witsml.org/schemas/131}deflectionMethod uses Python identifier deflectionMethod
-    __deflectionMethod = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'deflectionMethod'), 'deflectionMethod', '__httpwww_witsml_orgschemas131_cs_rotarySteerableTool_httpwww_witsml_orgschemas131deflectionMethod', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 24, 3), )
+    __deflectionMethod = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'deflectionMethod'), 'deflectionMethod', '__httpwww_witsml_orgschemas131_cs_rotarySteerableTool_httpwww_witsml_orgschemas131deflectionMethod', False, pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 24, 3), )
 
     
     deflectionMethod = property(__deflectionMethod.value, __deflectionMethod.set, None, 'Method used to direct the deviation of the trajectory:\n\t\t\t\t\tPointBit or PushBit.')
 
     
     # Element {http://www.witsml.org/schemas/131}bendAngle uses Python identifier bendAngle
-    __bendAngle = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'bendAngle'), 'bendAngle', '__httpwww_witsml_orgschemas131_cs_rotarySteerableTool_httpwww_witsml_orgschemas131bendAngle', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 31, 4), )
+    __bendAngle = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'bendAngle'), 'bendAngle', '__httpwww_witsml_orgschemas131_cs_rotarySteerableTool_httpwww_witsml_orgschemas131bendAngle', False, pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 31, 4), )
 
     
     bendAngle = property(__bendAngle.value, __bendAngle.set, None, 'Used with PointTheBit type RSS tools, describes the \n\t\t\t\t\t\tangle of the bit.')
 
     
     # Element {http://www.witsml.org/schemas/131}bendOffset uses Python identifier bendOffset
-    __bendOffset = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'bendOffset'), 'bendOffset', '__httpwww_witsml_orgschemas131_cs_rotarySteerableTool_httpwww_witsml_orgschemas131bendOffset', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 37, 4), )
+    __bendOffset = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'bendOffset'), 'bendOffset', '__httpwww_witsml_orgschemas131_cs_rotarySteerableTool_httpwww_witsml_orgschemas131bendOffset', False, pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 37, 4), )
 
     
     bendOffset = property(__bendOffset.value, __bendOffset.set, None, 'Offset from bottom connection to bend.')
 
     
     # Element {http://www.witsml.org/schemas/131}holeSizeMn uses Python identifier holeSizeMn
-    __holeSizeMn = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'holeSizeMn'), 'holeSizeMn', '__httpwww_witsml_orgschemas131_cs_rotarySteerableTool_httpwww_witsml_orgschemas131holeSizeMn', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 43, 3), )
+    __holeSizeMn = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'holeSizeMn'), 'holeSizeMn', '__httpwww_witsml_orgschemas131_cs_rotarySteerableTool_httpwww_witsml_orgschemas131holeSizeMn', False, pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 43, 3), )
 
     
     holeSizeMn = property(__holeSizeMn.value, __holeSizeMn.set, None, 'Minimum size of hole in which the tool can operate.')
 
     
     # Element {http://www.witsml.org/schemas/131}holeSizeMx uses Python identifier holeSizeMx
-    __holeSizeMx = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'holeSizeMx'), 'holeSizeMx', '__httpwww_witsml_orgschemas131_cs_rotarySteerableTool_httpwww_witsml_orgschemas131holeSizeMx', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 48, 3), )
+    __holeSizeMx = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'holeSizeMx'), 'holeSizeMx', '__httpwww_witsml_orgschemas131_cs_rotarySteerableTool_httpwww_witsml_orgschemas131holeSizeMx', False, pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 48, 3), )
 
     
     holeSizeMx = property(__holeSizeMx.value, __holeSizeMx.set, None, 'Maximum size of hole in which the tool can operate.')
 
     
     # Element {http://www.witsml.org/schemas/131}wobMx uses Python identifier wobMx
-    __wobMx = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'wobMx'), 'wobMx', '__httpwww_witsml_orgschemas131_cs_rotarySteerableTool_httpwww_witsml_orgschemas131wobMx', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 53, 3), )
+    __wobMx = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'wobMx'), 'wobMx', '__httpwww_witsml_orgschemas131_cs_rotarySteerableTool_httpwww_witsml_orgschemas131wobMx', False, pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 53, 3), )
 
     
     wobMx = property(__wobMx.value, __wobMx.set, None, 'Maximum weight on the bit.')
 
     
     # Element {http://www.witsml.org/schemas/131}operatingSpeed uses Python identifier operatingSpeed
-    __operatingSpeed = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'operatingSpeed'), 'operatingSpeed', '__httpwww_witsml_orgschemas131_cs_rotarySteerableTool_httpwww_witsml_orgschemas131operatingSpeed', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 58, 3), )
+    __operatingSpeed = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'operatingSpeed'), 'operatingSpeed', '__httpwww_witsml_orgschemas131_cs_rotarySteerableTool_httpwww_witsml_orgschemas131operatingSpeed', False, pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 58, 3), )
 
     
     operatingSpeed = property(__operatingSpeed.value, __operatingSpeed.set, None, 'Suggested operating speed.')
 
     
     # Element {http://www.witsml.org/schemas/131}speedMx uses Python identifier speedMx
-    __speedMx = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'speedMx'), 'speedMx', '__httpwww_witsml_orgschemas131_cs_rotarySteerableTool_httpwww_witsml_orgschemas131speedMx', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 63, 3), )
+    __speedMx = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'speedMx'), 'speedMx', '__httpwww_witsml_orgschemas131_cs_rotarySteerableTool_httpwww_witsml_orgschemas131speedMx', False, pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 63, 3), )
 
     
     speedMx = property(__speedMx.value, __speedMx.set, None, 'Maximum rotation speed.')
 
     
     # Element {http://www.witsml.org/schemas/131}flowRateMn uses Python identifier flowRateMn
-    __flowRateMn = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'flowRateMn'), 'flowRateMn', '__httpwww_witsml_orgschemas131_cs_rotarySteerableTool_httpwww_witsml_orgschemas131flowRateMn', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 68, 3), )
+    __flowRateMn = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'flowRateMn'), 'flowRateMn', '__httpwww_witsml_orgschemas131_cs_rotarySteerableTool_httpwww_witsml_orgschemas131flowRateMn', False, pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 68, 3), )
 
     
     flowRateMn = property(__flowRateMn.value, __flowRateMn.set, None, 'Minimum flow rate for tool operation.')
 
     
     # Element {http://www.witsml.org/schemas/131}flowRateMx uses Python identifier flowRateMx
-    __flowRateMx = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'flowRateMx'), 'flowRateMx', '__httpwww_witsml_orgschemas131_cs_rotarySteerableTool_httpwww_witsml_orgschemas131flowRateMx', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 73, 3), )
+    __flowRateMx = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'flowRateMx'), 'flowRateMx', '__httpwww_witsml_orgschemas131_cs_rotarySteerableTool_httpwww_witsml_orgschemas131flowRateMx', False, pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 73, 3), )
 
     
     flowRateMx = property(__flowRateMx.value, __flowRateMx.set, None, 'Maximum flow rate for tool operation.')
 
     
     # Element {http://www.witsml.org/schemas/131}downLinkFlowRateMn uses Python identifier downLinkFlowRateMn
-    __downLinkFlowRateMn = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'downLinkFlowRateMn'), 'downLinkFlowRateMn', '__httpwww_witsml_orgschemas131_cs_rotarySteerableTool_httpwww_witsml_orgschemas131downLinkFlowRateMn', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 78, 3), )
+    __downLinkFlowRateMn = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'downLinkFlowRateMn'), 'downLinkFlowRateMn', '__httpwww_witsml_orgschemas131_cs_rotarySteerableTool_httpwww_witsml_orgschemas131downLinkFlowRateMn', False, pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 78, 3), )
 
     
     downLinkFlowRateMn = property(__downLinkFlowRateMn.value, __downLinkFlowRateMn.set, None, 'Minimum flow rate for programming tool.')
 
     
     # Element {http://www.witsml.org/schemas/131}downLinkFlowRateMx uses Python identifier downLinkFlowRateMx
-    __downLinkFlowRateMx = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'downLinkFlowRateMx'), 'downLinkFlowRateMx', '__httpwww_witsml_orgschemas131_cs_rotarySteerableTool_httpwww_witsml_orgschemas131downLinkFlowRateMx', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 83, 3), )
+    __downLinkFlowRateMx = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'downLinkFlowRateMx'), 'downLinkFlowRateMx', '__httpwww_witsml_orgschemas131_cs_rotarySteerableTool_httpwww_witsml_orgschemas131downLinkFlowRateMx', False, pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 83, 3), )
 
     
     downLinkFlowRateMx = property(__downLinkFlowRateMx.value, __downLinkFlowRateMx.set, None, 'Maximum flow rate for programming tool.')
 
     
     # Element {http://www.witsml.org/schemas/131}pressLossFact uses Python identifier pressLossFact
-    __pressLossFact = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'pressLossFact'), 'pressLossFact', '__httpwww_witsml_orgschemas131_cs_rotarySteerableTool_httpwww_witsml_orgschemas131pressLossFact', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 88, 3), )
+    __pressLossFact = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'pressLossFact'), 'pressLossFact', '__httpwww_witsml_orgschemas131_cs_rotarySteerableTool_httpwww_witsml_orgschemas131pressLossFact', False, pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 88, 3), )
 
     
     pressLossFact = property(__pressLossFact.value, __pressLossFact.set, None, 'Pressure drop across tool.')
 
     
     # Element {http://www.witsml.org/schemas/131}padCount uses Python identifier padCount
-    __padCount = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'padCount'), 'padCount', '__httpwww_witsml_orgschemas131_cs_rotarySteerableTool_httpwww_witsml_orgschemas131padCount', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 93, 3), )
+    __padCount = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'padCount'), 'padCount', '__httpwww_witsml_orgschemas131_cs_rotarySteerableTool_httpwww_witsml_orgschemas131padCount', False, pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 93, 3), )
 
     
     padCount = property(__padCount.value, __padCount.set, None, 'The number of contact pads.')
 
     
     # Element {http://www.witsml.org/schemas/131}padLen uses Python identifier padLen
-    __padLen = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'padLen'), 'padLen', '__httpwww_witsml_orgschemas131_cs_rotarySteerableTool_httpwww_witsml_orgschemas131padLen', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 98, 3), )
+    __padLen = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'padLen'), 'padLen', '__httpwww_witsml_orgschemas131_cs_rotarySteerableTool_httpwww_witsml_orgschemas131padLen', False, pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 98, 3), )
 
     
     padLen = property(__padLen.value, __padLen.set, None, 'Length of contact pad.')
 
     
     # Element {http://www.witsml.org/schemas/131}padWidth uses Python identifier padWidth
-    __padWidth = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'padWidth'), 'padWidth', '__httpwww_witsml_orgschemas131_cs_rotarySteerableTool_httpwww_witsml_orgschemas131padWidth', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 103, 3), )
+    __padWidth = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'padWidth'), 'padWidth', '__httpwww_witsml_orgschemas131_cs_rotarySteerableTool_httpwww_witsml_orgschemas131padWidth', False, pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 103, 3), )
 
     
     padWidth = property(__padWidth.value, __padWidth.set, None, 'Width of contact pad.')
 
     
     # Element {http://www.witsml.org/schemas/131}padOffset uses Python identifier padOffset
-    __padOffset = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'padOffset'), 'padOffset', '__httpwww_witsml_orgschemas131_cs_rotarySteerableTool_httpwww_witsml_orgschemas131padOffset', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 108, 3), )
+    __padOffset = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'padOffset'), 'padOffset', '__httpwww_witsml_orgschemas131_cs_rotarySteerableTool_httpwww_witsml_orgschemas131padOffset', False, pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 108, 3), )
 
     
     padOffset = property(__padOffset.value, __padOffset.set, None, 'Offset from bottom of pad to bottom connector.')
 
     
     # Element {http://www.witsml.org/schemas/131}openPadOd uses Python identifier openPadOd
-    __openPadOd = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'openPadOd'), 'openPadOd', '__httpwww_witsml_orgschemas131_cs_rotarySteerableTool_httpwww_witsml_orgschemas131openPadOd', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 113, 3), )
+    __openPadOd = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'openPadOd'), 'openPadOd', '__httpwww_witsml_orgschemas131_cs_rotarySteerableTool_httpwww_witsml_orgschemas131openPadOd', False, pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 113, 3), )
 
     
     openPadOd = property(__openPadOd.value, __openPadOd.set, None, 'Outside diameter of tool when pads are activated.')
 
     
     # Element {http://www.witsml.org/schemas/131}closePadOd uses Python identifier closePadOd
-    __closePadOd = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'closePadOd'), 'closePadOd', '__httpwww_witsml_orgschemas131_cs_rotarySteerableTool_httpwww_witsml_orgschemas131closePadOd', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 118, 3), )
+    __closePadOd = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'closePadOd'), 'closePadOd', '__httpwww_witsml_orgschemas131_cs_rotarySteerableTool_httpwww_witsml_orgschemas131closePadOd', False, pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 118, 3), )
 
     
     closePadOd = property(__closePadOd.value, __closePadOd.set, None, 'Outiside diameter of tool when pads are closed.')
 
     
     # Element {http://www.witsml.org/schemas/131}sensor uses Python identifier sensor
-    __sensor = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'sensor'), 'sensor', '__httpwww_witsml_orgschemas131_cs_rotarySteerableTool_httpwww_witsml_orgschemas131sensor', True, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 123, 3), )
+    __sensor = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'sensor'), 'sensor', '__httpwww_witsml_orgschemas131_cs_rotarySteerableTool_httpwww_witsml_orgschemas131sensor', True, pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 123, 3), )
 
     
     sensor = property(__sensor.value, __sensor.set, None, 'A sensor.')
 
     
     # Element {http://www.witsml.org/schemas/131}customData uses Python identifier customData
-    __customData = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'customData'), 'customData', '__httpwww_witsml_orgschemas131_cs_rotarySteerableTool_httpwww_witsml_orgschemas131customData', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 128, 3), )
+    __customData = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'customData'), 'customData', '__httpwww_witsml_orgschemas131_cs_rotarySteerableTool_httpwww_witsml_orgschemas131customData', False, pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 128, 3), )
 
     
     customData = property(__customData.value, __customData.set, None, 'A container element that can contain custom or user defined \n\t\t\t\t\tdata elements.')
 
-
-    _ElementMap = {
+    _ElementMap.update({
         __deflectionMethod.name() : __deflectionMethod,
         __bendAngle.name() : __bendAngle,
         __bendOffset.name() : __bendOffset,
@@ -5310,10 +5533,11 @@ class cs_rotarySteerableTool (pyxb.binding.basis.complexTypeDefinition):
         __closePadOd.name() : __closePadOd,
         __sensor.name() : __sensor,
         __customData.name() : __customData
-    }
-    _AttributeMap = {
+    })
+    _AttributeMap.update({
         
-    }
+    })
+_module_typeBindings.cs_rotarySteerableTool = cs_rotarySteerableTool
 Namespace.addCategoryObject('typeBinding', 'cs_rotarySteerableTool', cs_rotarySteerableTool)
 
 
@@ -5326,15 +5550,17 @@ class abstractMeasure (pyxb.binding.basis.complexTypeDefinition):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_SIMPLE
     _Abstract = True
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'abstractMeasure')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_baseType.xsd', 118, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_baseType.xsd', 118, 1)
+    _ElementMap = {}
+    _AttributeMap = {}
     # Base type is abstractDouble
-
-    _ElementMap = {
+    _ElementMap.update({
         
-    }
-    _AttributeMap = {
+    })
+    _AttributeMap.update({
         
-    }
+    })
+_module_typeBindings.abstractMeasure = abstractMeasure
 Namespace.addCategoryObject('typeBinding', 'abstractMeasure', abstractMeasure)
 
 
@@ -5345,38 +5571,40 @@ class obj_tubulars (pyxb.binding.basis.complexTypeDefinition):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_ELEMENT_ONLY
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'obj_tubulars')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\obj_tubular.xsd', 33, 1)
+    _XSDLocation = pyxb.utils.utility.Location('obj_tubular.xsd', 33, 1)
+    _ElementMap = {}
+    _AttributeMap = {}
     # Base type is pyxb.binding.datatypes.anyType
     
     # Element {http://www.witsml.org/schemas/131}documentInfo uses Python identifier documentInfo
-    __documentInfo = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'documentInfo'), 'documentInfo', '__httpwww_witsml_orgschemas131_obj_tubulars_httpwww_witsml_orgschemas131documentInfo', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\obj_tubular.xsd', 35, 3), )
+    __documentInfo = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'documentInfo'), 'documentInfo', '__httpwww_witsml_orgschemas131_obj_tubulars_httpwww_witsml_orgschemas131documentInfo', False, pyxb.utils.utility.Location('obj_tubular.xsd', 35, 3), )
 
     
     documentInfo = property(__documentInfo.value, __documentInfo.set, None, 'Information about the XML message instance.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}tubular uses Python identifier tubular
-    __tubular = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'tubular'), 'tubular', '__httpwww_witsml_orgschemas131_obj_tubulars_httpwww_witsml_orgschemas131tubular', True, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\obj_tubular.xsd', 40, 3), )
+    __tubular = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'tubular'), 'tubular', '__httpwww_witsml_orgschemas131_obj_tubulars_httpwww_witsml_orgschemas131tubular', True, pyxb.utils.utility.Location('obj_tubular.xsd', 40, 3), )
 
     
     tubular = property(__tubular.value, __tubular.set, None, 'A single tubular (assembly). \n\t\t\t\t\tThis represents the "transient" assemblies used in drilling a well as opposed\n\t\t\t\t\tto the "fixed" assemblies (see wbGeometry).')
 
     
     # Attribute version uses Python identifier version
-    __version = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'version'), 'version', '__httpwww_witsml_orgschemas131_obj_tubulars_version', schemaVersionString, required=True)
-    __version._DeclarationLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\obj_tubular.xsd', 48, 2)
-    __version._UseLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\obj_tubular.xsd', 48, 2)
+    __version = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'version'), 'version', '__httpwww_witsml_orgschemas131_obj_tubulars_version', _module_typeBindings.schemaVersionString, required=True)
+    __version._DeclarationLocation = pyxb.utils.utility.Location('obj_tubular.xsd', 48, 2)
+    __version._UseLocation = pyxb.utils.utility.Location('obj_tubular.xsd', 48, 2)
     
     version = property(__version.value, __version.set, None, 'Data object schema version.  The fourth level must match the \n\t\t\t\tversion of the schema constraints (enumerations and XML loader files) that are assumed\n\t\t\t\tby the document instance.')
 
-
-    _ElementMap = {
+    _ElementMap.update({
         __documentInfo.name() : __documentInfo,
         __tubular.name() : __tubular
-    }
-    _AttributeMap = {
+    })
+    _AttributeMap.update({
         __version.name() : __version
-    }
+    })
+_module_typeBindings.obj_tubulars = obj_tubulars
 Namespace.addCategoryObject('typeBinding', 'obj_tubulars', obj_tubulars)
 
 
@@ -5388,23 +5616,25 @@ class indexCurve (pyxb.binding.basis.complexTypeDefinition):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_SIMPLE
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'indexCurve')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 171, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 171, 1)
+    _ElementMap = {}
+    _AttributeMap = {}
     # Base type is str32
     
     # Attribute columnIndex uses Python identifier columnIndex
-    __columnIndex = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'columnIndex'), 'columnIndex', '__httpwww_witsml_orgschemas131_indexCurve_columnIndex', nonNegativeCount, required=True)
-    __columnIndex._DeclarationLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 178, 4)
-    __columnIndex._UseLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 178, 4)
+    __columnIndex = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'columnIndex'), 'columnIndex', '__httpwww_witsml_orgschemas131_indexCurve_columnIndex', _module_typeBindings.nonNegativeCount, required=True)
+    __columnIndex._DeclarationLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 178, 4)
+    __columnIndex._UseLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 178, 4)
     
     columnIndex = property(__columnIndex.value, __columnIndex.set, None, 'The column index of the curve.')
 
-
-    _ElementMap = {
+    _ElementMap.update({
         
-    }
-    _AttributeMap = {
+    })
+    _AttributeMap.update({
         __columnIndex.name() : __columnIndex
-    }
+    })
+_module_typeBindings.indexCurve = indexCurve
 Namespace.addCategoryObject('typeBinding', 'indexCurve', indexCurve)
 
 
@@ -5415,46 +5645,48 @@ class cs_bend (pyxb.binding.basis.complexTypeDefinition):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_ELEMENT_ONLY
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'cs_bend')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bend.xsd', 20, 1)
+    _XSDLocation = pyxb.utils.utility.Location('cs_bend.xsd', 20, 1)
+    _ElementMap = {}
+    _AttributeMap = {}
     # Base type is pyxb.binding.datatypes.anyType
     
     # Element {http://www.witsml.org/schemas/131}angle uses Python identifier angle
-    __angle = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'angle'), 'angle', '__httpwww_witsml_orgschemas131_cs_bend_httpwww_witsml_orgschemas131angle', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bend.xsd', 25, 3), )
+    __angle = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'angle'), 'angle', '__httpwww_witsml_orgschemas131_cs_bend_httpwww_witsml_orgschemas131angle', False, pyxb.utils.utility.Location('cs_bend.xsd', 25, 3), )
 
     
     angle = property(__angle.value, __angle.set, None, 'Angle of the bend.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}distBendBot uses Python identifier distBendBot
-    __distBendBot = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'distBendBot'), 'distBendBot', '__httpwww_witsml_orgschemas131_cs_bend_httpwww_witsml_orgschemas131distBendBot', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bend.xsd', 30, 3), )
+    __distBendBot = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'distBendBot'), 'distBendBot', '__httpwww_witsml_orgschemas131_cs_bend_httpwww_witsml_orgschemas131distBendBot', False, pyxb.utils.utility.Location('cs_bend.xsd', 30, 3), )
 
     
     distBendBot = property(__distBendBot.value, __distBendBot.set, None, 'Distance of bend from bottom of component.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}customData uses Python identifier customData
-    __customData = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'customData'), 'customData', '__httpwww_witsml_orgschemas131_cs_bend_httpwww_witsml_orgschemas131customData', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bend.xsd', 35, 3), )
+    __customData = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'customData'), 'customData', '__httpwww_witsml_orgschemas131_cs_bend_httpwww_witsml_orgschemas131customData', False, pyxb.utils.utility.Location('cs_bend.xsd', 35, 3), )
 
     
     customData = property(__customData.value, __customData.set, None, 'A container element that can contain custom or user defined \n\t\t\t\t\tdata elements.')
 
     
     # Attribute uid uses Python identifier uid
-    __uid = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uid'), 'uid', '__httpwww_witsml_orgschemas131_cs_bend_uid', uidString)
-    __uid._DeclarationLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\attgrp_uid.xsd', 20, 2)
-    __uid._UseLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\attgrp_uid.xsd', 20, 2)
+    __uid = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uid'), 'uid', '__httpwww_witsml_orgschemas131_cs_bend_uid', _module_typeBindings.uidString)
+    __uid._DeclarationLocation = pyxb.utils.utility.Location('attgrp_uid.xsd', 20, 2)
+    __uid._UseLocation = pyxb.utils.utility.Location('attgrp_uid.xsd', 20, 2)
     
     uid = property(__uid.value, __uid.set, None, 'The unique identifier of a container element.\n\t\t\t\tThis attribute is generally required within the context of a WITSML server.\n\t\t\t\tThere should be no assumption as to the semantic content of this attribute.\n\t\t\t\tThis should only be used with recurring container types (i.e., maxOccurs greater than one).\n\t\t\t\tThe value is only required to be unique within the context of the nearest recurring parent element.')
 
-
-    _ElementMap = {
+    _ElementMap.update({
         __angle.name() : __angle,
         __distBendBot.name() : __distBendBot,
         __customData.name() : __customData
-    }
-    _AttributeMap = {
+    })
+    _AttributeMap.update({
         __uid.name() : __uid
-    }
+    })
+_module_typeBindings.cs_bend = cs_bend
 Namespace.addCategoryObject('typeBinding', 'cs_bend', cs_bend)
 
 
@@ -5465,102 +5697,103 @@ class cs_connection (pyxb.binding.basis.complexTypeDefinition):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_ELEMENT_ONLY
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'cs_connection')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_connection.xsd', 20, 1)
+    _XSDLocation = pyxb.utils.utility.Location('cs_connection.xsd', 20, 1)
+    _ElementMap = {}
+    _AttributeMap = {}
     # Base type is pyxb.binding.datatypes.anyType
     
     # Element {http://www.witsml.org/schemas/131}id uses Python identifier id
-    __id = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'id'), 'id', '__httpwww_witsml_orgschemas131_cs_connection_httpwww_witsml_orgschemas131id', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_connection.xsd', 25, 3), )
+    __id = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'id'), 'id', '__httpwww_witsml_orgschemas131_cs_connection_httpwww_witsml_orgschemas131id', False, pyxb.utils.utility.Location('cs_connection.xsd', 25, 3), )
 
     
     id = property(__id.value, __id.set, None, 'Internal diameter of object.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}od uses Python identifier od
-    __od = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'od'), 'od', '__httpwww_witsml_orgschemas131_cs_connection_httpwww_witsml_orgschemas131od', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_connection.xsd', 30, 3), )
+    __od = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'od'), 'od', '__httpwww_witsml_orgschemas131_cs_connection_httpwww_witsml_orgschemas131od', False, pyxb.utils.utility.Location('cs_connection.xsd', 30, 3), )
 
     
     od = property(__od.value, __od.set, None, 'Outside diameter of the body of the item.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}len uses Python identifier len
-    __len = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'len'), 'len', '__httpwww_witsml_orgschemas131_cs_connection_httpwww_witsml_orgschemas131len', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_connection.xsd', 35, 3), )
+    __len = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'len'), 'len', '__httpwww_witsml_orgschemas131_cs_connection_httpwww_witsml_orgschemas131len', False, pyxb.utils.utility.Location('cs_connection.xsd', 35, 3), )
 
     
     len = property(__len.value, __len.set, None, 'Length of the item.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}typeThread uses Python identifier typeThread
-    __typeThread = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'typeThread'), 'typeThread', '__httpwww_witsml_orgschemas131_cs_connection_httpwww_witsml_orgschemas131typeThread', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_connection.xsd', 40, 3), )
+    __typeThread = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'typeThread'), 'typeThread', '__httpwww_witsml_orgschemas131_cs_connection_httpwww_witsml_orgschemas131typeThread', False, pyxb.utils.utility.Location('cs_connection.xsd', 40, 3), )
 
     
     typeThread = property(__typeThread.value, __typeThread.set, None, 'Thread type from API RP7G, 5CT.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}sizeThread uses Python identifier sizeThread
-    __sizeThread = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'sizeThread'), 'sizeThread', '__httpwww_witsml_orgschemas131_cs_connection_httpwww_witsml_orgschemas131sizeThread', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_connection.xsd', 45, 3), )
+    __sizeThread = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'sizeThread'), 'sizeThread', '__httpwww_witsml_orgschemas131_cs_connection_httpwww_witsml_orgschemas131sizeThread', False, pyxb.utils.utility.Location('cs_connection.xsd', 45, 3), )
 
     
     sizeThread = property(__sizeThread.value, __sizeThread.set, None, 'Thread size.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}tensYield uses Python identifier tensYield
-    __tensYield = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'tensYield'), 'tensYield', '__httpwww_witsml_orgschemas131_cs_connection_httpwww_witsml_orgschemas131tensYield', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_connection.xsd', 50, 3), )
+    __tensYield = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'tensYield'), 'tensYield', '__httpwww_witsml_orgschemas131_cs_connection_httpwww_witsml_orgschemas131tensYield', False, pyxb.utils.utility.Location('cs_connection.xsd', 50, 3), )
 
     
     tensYield = property(__tensYield.value, __tensYield.set, None, 'Yield stress of steel - worn stress.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}tqYield uses Python identifier tqYield
-    __tqYield = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'tqYield'), 'tqYield', '__httpwww_witsml_orgschemas131_cs_connection_httpwww_witsml_orgschemas131tqYield', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_connection.xsd', 55, 3), )
+    __tqYield = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'tqYield'), 'tqYield', '__httpwww_witsml_orgschemas131_cs_connection_httpwww_witsml_orgschemas131tqYield', False, pyxb.utils.utility.Location('cs_connection.xsd', 55, 3), )
 
     
     tqYield = property(__tqYield.value, __tqYield.set, None, 'Torque yield stress.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}position uses Python identifier position
-    __position = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'position'), 'position', '__httpwww_witsml_orgschemas131_cs_connection_httpwww_witsml_orgschemas131position', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_connection.xsd', 60, 3), )
+    __position = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'position'), 'position', '__httpwww_witsml_orgschemas131_cs_connection_httpwww_witsml_orgschemas131position', False, pyxb.utils.utility.Location('cs_connection.xsd', 60, 3), )
 
     
     position = property(__position.value, __position.set, None, 'Where connected.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}criticalCrossSection uses Python identifier criticalCrossSection
-    __criticalCrossSection = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'criticalCrossSection'), 'criticalCrossSection', '__httpwww_witsml_orgschemas131_cs_connection_httpwww_witsml_orgschemas131criticalCrossSection', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_connection.xsd', 65, 3), )
+    __criticalCrossSection = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'criticalCrossSection'), 'criticalCrossSection', '__httpwww_witsml_orgschemas131_cs_connection_httpwww_witsml_orgschemas131criticalCrossSection', False, pyxb.utils.utility.Location('cs_connection.xsd', 65, 3), )
 
     
     criticalCrossSection = property(__criticalCrossSection.value, __criticalCrossSection.set, None, 'For bending stiffness ratio.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}presLeak uses Python identifier presLeak
-    __presLeak = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'presLeak'), 'presLeak', '__httpwww_witsml_orgschemas131_cs_connection_httpwww_witsml_orgschemas131presLeak', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_connection.xsd', 70, 3), )
+    __presLeak = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'presLeak'), 'presLeak', '__httpwww_witsml_orgschemas131_cs_connection_httpwww_witsml_orgschemas131presLeak', False, pyxb.utils.utility.Location('cs_connection.xsd', 70, 3), )
 
     
     presLeak = property(__presLeak.value, __presLeak.set, None, 'Leak pressure rating.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}tqMakeup uses Python identifier tqMakeup
-    __tqMakeup = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'tqMakeup'), 'tqMakeup', '__httpwww_witsml_orgschemas131_cs_connection_httpwww_witsml_orgschemas131tqMakeup', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_connection.xsd', 75, 3), )
+    __tqMakeup = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'tqMakeup'), 'tqMakeup', '__httpwww_witsml_orgschemas131_cs_connection_httpwww_witsml_orgschemas131tqMakeup', False, pyxb.utils.utility.Location('cs_connection.xsd', 75, 3), )
 
     
     tqMakeup = property(__tqMakeup.value, __tqMakeup.set, None, 'Make up torque.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}customData uses Python identifier customData
-    __customData = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'customData'), 'customData', '__httpwww_witsml_orgschemas131_cs_connection_httpwww_witsml_orgschemas131customData', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_connection.xsd', 80, 3), )
+    __customData = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'customData'), 'customData', '__httpwww_witsml_orgschemas131_cs_connection_httpwww_witsml_orgschemas131customData', False, pyxb.utils.utility.Location('cs_connection.xsd', 80, 3), )
 
     
     customData = property(__customData.value, __customData.set, None, 'A container element that can contain custom or user defined \n\t\t\t\t\tdata elements.')
 
     
     # Attribute uid uses Python identifier uid
-    __uid = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uid'), 'uid', '__httpwww_witsml_orgschemas131_cs_connection_uid', uidString)
-    __uid._DeclarationLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\attgrp_uid.xsd', 20, 2)
-    __uid._UseLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\attgrp_uid.xsd', 20, 2)
+    __uid = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uid'), 'uid', '__httpwww_witsml_orgschemas131_cs_connection_uid', _module_typeBindings.uidString)
+    __uid._DeclarationLocation = pyxb.utils.utility.Location('attgrp_uid.xsd', 20, 2)
+    __uid._UseLocation = pyxb.utils.utility.Location('attgrp_uid.xsd', 20, 2)
     
     uid = property(__uid.value, __uid.set, None, 'The unique identifier of a container element.\n\t\t\t\tThis attribute is generally required within the context of a WITSML server.\n\t\t\t\tThere should be no assumption as to the semantic content of this attribute.\n\t\t\t\tThis should only be used with recurring container types (i.e., maxOccurs greater than one).\n\t\t\t\tThe value is only required to be unique within the context of the nearest recurring parent element.')
 
-
-    _ElementMap = {
+    _ElementMap.update({
         __id.name() : __id,
         __od.name() : __od,
         __len.name() : __len,
@@ -5573,10 +5806,11 @@ class cs_connection (pyxb.binding.basis.complexTypeDefinition):
         __presLeak.name() : __presLeak,
         __tqMakeup.name() : __tqMakeup,
         __customData.name() : __customData
-    }
-    _AttributeMap = {
+    })
+    _AttributeMap.update({
         __uid.name() : __uid
-    }
+    })
+_module_typeBindings.cs_connection = cs_connection
 Namespace.addCategoryObject('typeBinding', 'cs_connection', cs_connection)
 
 
@@ -5587,74 +5821,75 @@ class cs_nameTag (pyxb.binding.basis.complexTypeDefinition):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_ELEMENT_ONLY
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'cs_nameTag')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_nameTag.xsd', 19, 1)
+    _XSDLocation = pyxb.utils.utility.Location('cs_nameTag.xsd', 19, 1)
+    _ElementMap = {}
+    _AttributeMap = {}
     # Base type is pyxb.binding.datatypes.anyType
     
     # Element {http://www.witsml.org/schemas/131}name uses Python identifier name
-    __name = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'name'), 'name', '__httpwww_witsml_orgschemas131_cs_nameTag_httpwww_witsml_orgschemas131name', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_nameTag.xsd', 24, 3), )
+    __name = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'name'), 'name', '__httpwww_witsml_orgschemas131_cs_nameTag_httpwww_witsml_orgschemas131name', False, pyxb.utils.utility.Location('cs_nameTag.xsd', 24, 3), )
 
     
     name = property(__name.value, __name.set, None, 'The physical identification string of the equipment tag.')
 
     
     # Element {http://www.witsml.org/schemas/131}numberingScheme uses Python identifier numberingScheme
-    __numberingScheme = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'numberingScheme'), 'numberingScheme', '__httpwww_witsml_orgschemas131_cs_nameTag_httpwww_witsml_orgschemas131numberingScheme', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_nameTag.xsd', 29, 3), )
+    __numberingScheme = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'numberingScheme'), 'numberingScheme', '__httpwww_witsml_orgschemas131_cs_nameTag_httpwww_witsml_orgschemas131numberingScheme', False, pyxb.utils.utility.Location('cs_nameTag.xsd', 29, 3), )
 
     
     numberingScheme = property(__numberingScheme.value, __numberingScheme.set, None, 'The format or encoding specification of the equipment tag. \n\t\t\t\t\tThe tag may contain may different pieces of information and knowledge of that \n\t\t\t\t\tinformation is inherent in the specification. \n\t\t\t\t\tThe "identification string" is a mandatory part of the information in a tag.')
 
     
     # Element {http://www.witsml.org/schemas/131}technology uses Python identifier technology
-    __technology = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'technology'), 'technology', '__httpwww_witsml_orgschemas131_cs_nameTag_httpwww_witsml_orgschemas131technology', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_nameTag.xsd', 37, 3), )
+    __technology = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'technology'), 'technology', '__httpwww_witsml_orgschemas131_cs_nameTag_httpwww_witsml_orgschemas131technology', False, pyxb.utils.utility.Location('cs_nameTag.xsd', 37, 3), )
 
     
     technology = property(__technology.value, __technology.set, None, "Identifies the general type of identifier on an\n\t\t\t\t\titem.  If multiple identifiers exist on an item, a separate\n\t\t\t\t\tdescription set for each identifier should be created.  \n\t\t\t\t\tFor example, a joint of casing may have a barcode label on it along with a\n\t\t\t\t\tpainted-on code and an RFID tag attached or embedded into the coupling.  The\n\t\t\t\t\tbarcode label may in turn be an RFID equipped label. This particular\n\t\t\t\t\tscenario would require populating five nameTags to fully describe\n\t\t\t\t\tand decode all the possible identifiers as follows:\n\t\t\t\t\t'tagged' - RFID tag embedded in the coupling,\n\t\t\t\t\t'label'  - Serial number printed on the label,\n\t\t\t\t\t'tagged' - RFID tag embedded into the label,\n\t\t\t\t\t'label'  - Barcode printed on the label,\n\t\t\t\t\t'painted'- Mill number painted on the pipe body.")
 
     
     # Element {http://www.witsml.org/schemas/131}location uses Python identifier location
-    __location = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'location'), 'location', '__httpwww_witsml_orgschemas131_cs_nameTag_httpwww_witsml_orgschemas131location', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_nameTag.xsd', 54, 3), )
+    __location = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'location'), 'location', '__httpwww_witsml_orgschemas131_cs_nameTag_httpwww_witsml_orgschemas131location', False, pyxb.utils.utility.Location('cs_nameTag.xsd', 54, 3), )
 
     
     location = property(__location.value, __location.set, None, "An indicator of where the tag is attached to the item.\n\t\t\t\t\tThis is used to assist the user in finding where an identifier is\n\t\t\t\t\tlocated on an item.  This optional field also helps to differentiate\n\t\t\t\t\twhere an identifier is located when multiple identifiers exist on an\n\t\t\t\t\titem. Most downhole components have a box (female thread) and pin (male\n\t\t\t\t\tthread) end as well as a pipe body in between the ends.\n\t\t\t\t\tWhere multiple identifiers are used on an item, it is convenient to have\n\t\t\t\t\ta reference as to which end, or somewhere in the middle, an identifier may\n\t\t\t\t\tbe closer to. Some items may have an identifier on a non-standard location,\n\t\t\t\t\tsuch as on the arm of a hole opener.  'other', by exclusion, tells a user to\n\t\t\t\t\tlook elsewhere than on the body or near the ends of an item.  Most\n\t\t\t\t\tnon-downhole tools will use either 'body', 'other' or not specified\n\t\t\t\t\tas the location tends to lose value with smaller or non threaded items.")
 
     
     # Element {http://www.witsml.org/schemas/131}installationDate uses Python identifier installationDate
-    __installationDate = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'installationDate'), 'installationDate', '__httpwww_witsml_orgschemas131_cs_nameTag_httpwww_witsml_orgschemas131installationDate', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_nameTag.xsd', 71, 3), )
+    __installationDate = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'installationDate'), 'installationDate', '__httpwww_witsml_orgschemas131_cs_nameTag_httpwww_witsml_orgschemas131installationDate', False, pyxb.utils.utility.Location('cs_nameTag.xsd', 71, 3), )
 
     
     installationDate = property(__installationDate.value, __installationDate.set, None, 'When the tag was installed in or on the item.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}installationCompany uses Python identifier installationCompany
-    __installationCompany = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'installationCompany'), 'installationCompany', '__httpwww_witsml_orgschemas131_cs_nameTag_httpwww_witsml_orgschemas131installationCompany', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_nameTag.xsd', 76, 3), )
+    __installationCompany = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'installationCompany'), 'installationCompany', '__httpwww_witsml_orgschemas131_cs_nameTag_httpwww_witsml_orgschemas131installationCompany', False, pyxb.utils.utility.Location('cs_nameTag.xsd', 76, 3), )
 
     
     installationCompany = property(__installationCompany.value, __installationCompany.set, None, 'The name of the company that installed the tag.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}mountingCode uses Python identifier mountingCode
-    __mountingCode = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'mountingCode'), 'mountingCode', '__httpwww_witsml_orgschemas131_cs_nameTag_httpwww_witsml_orgschemas131mountingCode', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_nameTag.xsd', 81, 3), )
+    __mountingCode = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'mountingCode'), 'mountingCode', '__httpwww_witsml_orgschemas131_cs_nameTag_httpwww_witsml_orgschemas131mountingCode', False, pyxb.utils.utility.Location('cs_nameTag.xsd', 81, 3), )
 
     
     mountingCode = property(__mountingCode.value, __mountingCode.set, None, 'Reference to a manufacturers or installers installation \n\t\t\t\t\tdescription, code, or method.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}comment uses Python identifier comment
-    __comment = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'comment'), 'comment', '__httpwww_witsml_orgschemas131_cs_nameTag_httpwww_witsml_orgschemas131comment', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_nameTag.xsd', 87, 3), )
+    __comment = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'comment'), 'comment', '__httpwww_witsml_orgschemas131_cs_nameTag_httpwww_witsml_orgschemas131comment', False, pyxb.utils.utility.Location('cs_nameTag.xsd', 87, 3), )
 
     
     comment = property(__comment.value, __comment.set, None, 'A comment or remark about the tag.')
 
     
     # Attribute uid uses Python identifier uid
-    __uid = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uid'), 'uid', '__httpwww_witsml_orgschemas131_cs_nameTag_uid', uidString)
-    __uid._DeclarationLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\attgrp_uid.xsd', 20, 2)
-    __uid._UseLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\attgrp_uid.xsd', 20, 2)
+    __uid = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uid'), 'uid', '__httpwww_witsml_orgschemas131_cs_nameTag_uid', _module_typeBindings.uidString)
+    __uid._DeclarationLocation = pyxb.utils.utility.Location('attgrp_uid.xsd', 20, 2)
+    __uid._UseLocation = pyxb.utils.utility.Location('attgrp_uid.xsd', 20, 2)
     
     uid = property(__uid.value, __uid.set, None, 'The unique identifier of a container element.\n\t\t\t\tThis attribute is generally required within the context of a WITSML server.\n\t\t\t\tThere should be no assumption as to the semantic content of this attribute.\n\t\t\t\tThis should only be used with recurring container types (i.e., maxOccurs greater than one).\n\t\t\t\tThe value is only required to be unique within the context of the nearest recurring parent element.')
 
-
-    _ElementMap = {
+    _ElementMap.update({
         __name.name() : __name,
         __numberingScheme.name() : __numberingScheme,
         __technology.name() : __technology,
@@ -5663,10 +5898,11 @@ class cs_nameTag (pyxb.binding.basis.complexTypeDefinition):
         __installationCompany.name() : __installationCompany,
         __mountingCode.name() : __mountingCode,
         __comment.name() : __comment
-    }
-    _AttributeMap = {
+    })
+    _AttributeMap.update({
         __uid.name() : __uid
-    }
+    })
+_module_typeBindings.cs_nameTag = cs_nameTag
 Namespace.addCategoryObject('typeBinding', 'cs_nameTag', cs_nameTag)
 
 
@@ -5677,70 +5913,72 @@ class cs_nozzle (pyxb.binding.basis.complexTypeDefinition):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_ELEMENT_ONLY
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'cs_nozzle')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_nozzle.xsd', 20, 1)
+    _XSDLocation = pyxb.utils.utility.Location('cs_nozzle.xsd', 20, 1)
+    _ElementMap = {}
+    _AttributeMap = {}
     # Base type is pyxb.binding.datatypes.anyType
     
     # Element {http://www.witsml.org/schemas/131}index uses Python identifier index
-    __index = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'index'), 'index', '__httpwww_witsml_orgschemas131_cs_nozzle_httpwww_witsml_orgschemas131index', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_nozzle.xsd', 25, 3), )
+    __index = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'index'), 'index', '__httpwww_witsml_orgschemas131_cs_nozzle_httpwww_witsml_orgschemas131index', False, pyxb.utils.utility.Location('cs_nozzle.xsd', 25, 3), )
 
     
     index = property(__index.value, __index.set, None, 'Index if this is an indexed object.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}diaNozzle uses Python identifier diaNozzle
-    __diaNozzle = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'diaNozzle'), 'diaNozzle', '__httpwww_witsml_orgschemas131_cs_nozzle_httpwww_witsml_orgschemas131diaNozzle', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_nozzle.xsd', 30, 3), )
+    __diaNozzle = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'diaNozzle'), 'diaNozzle', '__httpwww_witsml_orgschemas131_cs_nozzle_httpwww_witsml_orgschemas131diaNozzle', False, pyxb.utils.utility.Location('cs_nozzle.xsd', 30, 3), )
 
     
     diaNozzle = property(__diaNozzle.value, __diaNozzle.set, None, 'Nozzle diameter.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}typeNozzle uses Python identifier typeNozzle
-    __typeNozzle = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'typeNozzle'), 'typeNozzle', '__httpwww_witsml_orgschemas131_cs_nozzle_httpwww_witsml_orgschemas131typeNozzle', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_nozzle.xsd', 35, 3), )
+    __typeNozzle = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'typeNozzle'), 'typeNozzle', '__httpwww_witsml_orgschemas131_cs_nozzle_httpwww_witsml_orgschemas131typeNozzle', False, pyxb.utils.utility.Location('cs_nozzle.xsd', 35, 3), )
 
     
     typeNozzle = property(__typeNozzle.value, __typeNozzle.set, None, 'Nozzle type.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}len uses Python identifier len
-    __len = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'len'), 'len', '__httpwww_witsml_orgschemas131_cs_nozzle_httpwww_witsml_orgschemas131len', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_nozzle.xsd', 40, 3), )
+    __len = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'len'), 'len', '__httpwww_witsml_orgschemas131_cs_nozzle_httpwww_witsml_orgschemas131len', False, pyxb.utils.utility.Location('cs_nozzle.xsd', 40, 3), )
 
     
     len = property(__len.value, __len.set, None, 'Length of the nozzle.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}orientation uses Python identifier orientation
-    __orientation = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'orientation'), 'orientation', '__httpwww_witsml_orgschemas131_cs_nozzle_httpwww_witsml_orgschemas131orientation', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_nozzle.xsd', 45, 3), )
+    __orientation = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'orientation'), 'orientation', '__httpwww_witsml_orgschemas131_cs_nozzle_httpwww_witsml_orgschemas131orientation', False, pyxb.utils.utility.Location('cs_nozzle.xsd', 45, 3), )
 
     
     orientation = property(__orientation.value, __orientation.set, None, 'Nozzle orientation.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}customData uses Python identifier customData
-    __customData = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'customData'), 'customData', '__httpwww_witsml_orgschemas131_cs_nozzle_httpwww_witsml_orgschemas131customData', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_nozzle.xsd', 50, 3), )
+    __customData = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'customData'), 'customData', '__httpwww_witsml_orgschemas131_cs_nozzle_httpwww_witsml_orgschemas131customData', False, pyxb.utils.utility.Location('cs_nozzle.xsd', 50, 3), )
 
     
     customData = property(__customData.value, __customData.set, None, 'A container element that can contain custom or user defined \n\t\t\t\t\tdata elements.')
 
     
     # Attribute uid uses Python identifier uid
-    __uid = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uid'), 'uid', '__httpwww_witsml_orgschemas131_cs_nozzle_uid', uidString)
-    __uid._DeclarationLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\attgrp_uid.xsd', 20, 2)
-    __uid._UseLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\attgrp_uid.xsd', 20, 2)
+    __uid = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uid'), 'uid', '__httpwww_witsml_orgschemas131_cs_nozzle_uid', _module_typeBindings.uidString)
+    __uid._DeclarationLocation = pyxb.utils.utility.Location('attgrp_uid.xsd', 20, 2)
+    __uid._UseLocation = pyxb.utils.utility.Location('attgrp_uid.xsd', 20, 2)
     
     uid = property(__uid.value, __uid.set, None, 'The unique identifier of a container element.\n\t\t\t\tThis attribute is generally required within the context of a WITSML server.\n\t\t\t\tThere should be no assumption as to the semantic content of this attribute.\n\t\t\t\tThis should only be used with recurring container types (i.e., maxOccurs greater than one).\n\t\t\t\tThe value is only required to be unique within the context of the nearest recurring parent element.')
 
-
-    _ElementMap = {
+    _ElementMap.update({
         __index.name() : __index,
         __diaNozzle.name() : __diaNozzle,
         __typeNozzle.name() : __typeNozzle,
         __len.name() : __len,
         __orientation.name() : __orientation,
         __customData.name() : __customData
-    }
-    _AttributeMap = {
+    })
+    _AttributeMap.update({
         __uid.name() : __uid
-    }
+    })
+_module_typeBindings.cs_nozzle = cs_nozzle
 Namespace.addCategoryObject('typeBinding', 'cs_nozzle', cs_nozzle)
 
 
@@ -5751,54 +5989,56 @@ class cs_sensor (pyxb.binding.basis.complexTypeDefinition):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_ELEMENT_ONLY
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'cs_sensor')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_sensor.xsd', 20, 1)
+    _XSDLocation = pyxb.utils.utility.Location('cs_sensor.xsd', 20, 1)
+    _ElementMap = {}
+    _AttributeMap = {}
     # Base type is pyxb.binding.datatypes.anyType
     
     # Element {http://www.witsml.org/schemas/131}typeMeasurement uses Python identifier typeMeasurement
-    __typeMeasurement = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'typeMeasurement'), 'typeMeasurement', '__httpwww_witsml_orgschemas131_cs_sensor_httpwww_witsml_orgschemas131typeMeasurement', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_sensor.xsd', 25, 3), )
+    __typeMeasurement = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'typeMeasurement'), 'typeMeasurement', '__httpwww_witsml_orgschemas131_cs_sensor_httpwww_witsml_orgschemas131typeMeasurement', False, pyxb.utils.utility.Location('cs_sensor.xsd', 25, 3), )
 
     
     typeMeasurement = property(__typeMeasurement.value, __typeMeasurement.set, None, 'Type from POSC.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}offsetBot uses Python identifier offsetBot
-    __offsetBot = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'offsetBot'), 'offsetBot', '__httpwww_witsml_orgschemas131_cs_sensor_httpwww_witsml_orgschemas131offsetBot', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_sensor.xsd', 30, 3), )
+    __offsetBot = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'offsetBot'), 'offsetBot', '__httpwww_witsml_orgschemas131_cs_sensor_httpwww_witsml_orgschemas131offsetBot', False, pyxb.utils.utility.Location('cs_sensor.xsd', 30, 3), )
 
     
     offsetBot = property(__offsetBot.value, __offsetBot.set, None, 'Offset from bottom of measurement while drilling tool.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}comments uses Python identifier comments
-    __comments = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'comments'), 'comments', '__httpwww_witsml_orgschemas131_cs_sensor_httpwww_witsml_orgschemas131comments', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_sensor.xsd', 35, 3), )
+    __comments = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'comments'), 'comments', '__httpwww_witsml_orgschemas131_cs_sensor_httpwww_witsml_orgschemas131comments', False, pyxb.utils.utility.Location('cs_sensor.xsd', 35, 3), )
 
     
     comments = property(__comments.value, __comments.set, None, 'Comments and remarks.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}customData uses Python identifier customData
-    __customData = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'customData'), 'customData', '__httpwww_witsml_orgschemas131_cs_sensor_httpwww_witsml_orgschemas131customData', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_sensor.xsd', 40, 3), )
+    __customData = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'customData'), 'customData', '__httpwww_witsml_orgschemas131_cs_sensor_httpwww_witsml_orgschemas131customData', False, pyxb.utils.utility.Location('cs_sensor.xsd', 40, 3), )
 
     
     customData = property(__customData.value, __customData.set, None, 'A container element that can contain custom or user defined \n\t\t\t\t\tdata elements.')
 
     
     # Attribute uid uses Python identifier uid
-    __uid = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uid'), 'uid', '__httpwww_witsml_orgschemas131_cs_sensor_uid', uidString)
-    __uid._DeclarationLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\attgrp_uid.xsd', 20, 2)
-    __uid._UseLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\attgrp_uid.xsd', 20, 2)
+    __uid = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uid'), 'uid', '__httpwww_witsml_orgschemas131_cs_sensor_uid', _module_typeBindings.uidString)
+    __uid._DeclarationLocation = pyxb.utils.utility.Location('attgrp_uid.xsd', 20, 2)
+    __uid._UseLocation = pyxb.utils.utility.Location('attgrp_uid.xsd', 20, 2)
     
     uid = property(__uid.value, __uid.set, None, 'The unique identifier of a container element.\n\t\t\t\tThis attribute is generally required within the context of a WITSML server.\n\t\t\t\tThere should be no assumption as to the semantic content of this attribute.\n\t\t\t\tThis should only be used with recurring container types (i.e., maxOccurs greater than one).\n\t\t\t\tThe value is only required to be unique within the context of the nearest recurring parent element.')
 
-
-    _ElementMap = {
+    _ElementMap.update({
         __typeMeasurement.name() : __typeMeasurement,
         __offsetBot.name() : __offsetBot,
         __comments.name() : __comments,
         __customData.name() : __customData
-    }
-    _AttributeMap = {
+    })
+    _AttributeMap.update({
         __uid.name() : __uid
-    }
+    })
+_module_typeBindings.cs_sensor = cs_sensor
 Namespace.addCategoryObject('typeBinding', 'cs_sensor', cs_sensor)
 
 
@@ -5809,81 +6049,82 @@ class cs_stabilizer (pyxb.binding.basis.complexTypeDefinition):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_ELEMENT_ONLY
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'cs_stabilizer')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_stabilizer.xsd', 20, 1)
+    _XSDLocation = pyxb.utils.utility.Location('cs_stabilizer.xsd', 20, 1)
+    _ElementMap = {}
+    _AttributeMap = {}
     # Base type is pyxb.binding.datatypes.anyType
     
     # Element {http://www.witsml.org/schemas/131}lenBlade uses Python identifier lenBlade
-    __lenBlade = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'lenBlade'), 'lenBlade', '__httpwww_witsml_orgschemas131_cs_stabilizer_httpwww_witsml_orgschemas131lenBlade', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_stabilizer.xsd', 25, 3), )
+    __lenBlade = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'lenBlade'), 'lenBlade', '__httpwww_witsml_orgschemas131_cs_stabilizer_httpwww_witsml_orgschemas131lenBlade', False, pyxb.utils.utility.Location('cs_stabilizer.xsd', 25, 3), )
 
     
     lenBlade = property(__lenBlade.value, __lenBlade.set, None, 'Length of blade.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}lenBladeGauge uses Python identifier lenBladeGauge
-    __lenBladeGauge = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'lenBladeGauge'), 'lenBladeGauge', '__httpwww_witsml_orgschemas131_cs_stabilizer_httpwww_witsml_orgschemas131lenBladeGauge', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_stabilizer.xsd', 30, 3), )
+    __lenBladeGauge = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'lenBladeGauge'), 'lenBladeGauge', '__httpwww_witsml_orgschemas131_cs_stabilizer_httpwww_witsml_orgschemas131lenBladeGauge', False, pyxb.utils.utility.Location('cs_stabilizer.xsd', 30, 3), )
 
     
     lenBladeGauge = property(__lenBladeGauge.value, __lenBladeGauge.set, None, 'Gauge Length of blade. That is, the length of the\n\t\t\t\t\tblade which measures at the odBladeMx.')
 
     
     # Element {http://www.witsml.org/schemas/131}odBladeMx uses Python identifier odBladeMx
-    __odBladeMx = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'odBladeMx'), 'odBladeMx', '__httpwww_witsml_orgschemas131_cs_stabilizer_httpwww_witsml_orgschemas131odBladeMx', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_stabilizer.xsd', 36, 3), )
+    __odBladeMx = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'odBladeMx'), 'odBladeMx', '__httpwww_witsml_orgschemas131_cs_stabilizer_httpwww_witsml_orgschemas131odBladeMx', False, pyxb.utils.utility.Location('cs_stabilizer.xsd', 36, 3), )
 
     
     odBladeMx = property(__odBladeMx.value, __odBladeMx.set, None, 'Maximum outer diameter of blade.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}odBladeMn uses Python identifier odBladeMn
-    __odBladeMn = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'odBladeMn'), 'odBladeMn', '__httpwww_witsml_orgschemas131_cs_stabilizer_httpwww_witsml_orgschemas131odBladeMn', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_stabilizer.xsd', 41, 3), )
+    __odBladeMn = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'odBladeMn'), 'odBladeMn', '__httpwww_witsml_orgschemas131_cs_stabilizer_httpwww_witsml_orgschemas131odBladeMn', False, pyxb.utils.utility.Location('cs_stabilizer.xsd', 41, 3), )
 
     
     odBladeMn = property(__odBladeMn.value, __odBladeMn.set, None, 'Minimum outer diameter of blade.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}distBladeBot uses Python identifier distBladeBot
-    __distBladeBot = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'distBladeBot'), 'distBladeBot', '__httpwww_witsml_orgschemas131_cs_stabilizer_httpwww_witsml_orgschemas131distBladeBot', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_stabilizer.xsd', 46, 3), )
+    __distBladeBot = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'distBladeBot'), 'distBladeBot', '__httpwww_witsml_orgschemas131_cs_stabilizer_httpwww_witsml_orgschemas131distBladeBot', False, pyxb.utils.utility.Location('cs_stabilizer.xsd', 46, 3), )
 
     
     distBladeBot = property(__distBladeBot.value, __distBladeBot.set, None, 'Distance of blade bottom from bottom of component.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}shapeBlade uses Python identifier shapeBlade
-    __shapeBlade = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'shapeBlade'), 'shapeBlade', '__httpwww_witsml_orgschemas131_cs_stabilizer_httpwww_witsml_orgschemas131shapeBlade', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_stabilizer.xsd', 51, 3), )
+    __shapeBlade = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'shapeBlade'), 'shapeBlade', '__httpwww_witsml_orgschemas131_cs_stabilizer_httpwww_witsml_orgschemas131shapeBlade', False, pyxb.utils.utility.Location('cs_stabilizer.xsd', 51, 3), )
 
     
     shapeBlade = property(__shapeBlade.value, __shapeBlade.set, None, 'Blade shape. ')
 
     
     # Element {http://www.witsml.org/schemas/131}factFric uses Python identifier factFric
-    __factFric = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'factFric'), 'factFric', '__httpwww_witsml_orgschemas131_cs_stabilizer_httpwww_witsml_orgschemas131factFric', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_stabilizer.xsd', 56, 3), )
+    __factFric = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'factFric'), 'factFric', '__httpwww_witsml_orgschemas131_cs_stabilizer_httpwww_witsml_orgschemas131factFric', False, pyxb.utils.utility.Location('cs_stabilizer.xsd', 56, 3), )
 
     
     factFric = property(__factFric.value, __factFric.set, None, 'Friction factor.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}typeBlade uses Python identifier typeBlade
-    __typeBlade = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'typeBlade'), 'typeBlade', '__httpwww_witsml_orgschemas131_cs_stabilizer_httpwww_witsml_orgschemas131typeBlade', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_stabilizer.xsd', 61, 3), )
+    __typeBlade = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'typeBlade'), 'typeBlade', '__httpwww_witsml_orgschemas131_cs_stabilizer_httpwww_witsml_orgschemas131typeBlade', False, pyxb.utils.utility.Location('cs_stabilizer.xsd', 61, 3), )
 
     
     typeBlade = property(__typeBlade.value, __typeBlade.set, None, 'Blade type.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}customData uses Python identifier customData
-    __customData = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'customData'), 'customData', '__httpwww_witsml_orgschemas131_cs_stabilizer_httpwww_witsml_orgschemas131customData', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_stabilizer.xsd', 66, 3), )
+    __customData = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'customData'), 'customData', '__httpwww_witsml_orgschemas131_cs_stabilizer_httpwww_witsml_orgschemas131customData', False, pyxb.utils.utility.Location('cs_stabilizer.xsd', 66, 3), )
 
     
     customData = property(__customData.value, __customData.set, None, 'A container element that can contain custom or user defined \n\t\t\t\t\tdata elements.')
 
     
     # Attribute uid uses Python identifier uid
-    __uid = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uid'), 'uid', '__httpwww_witsml_orgschemas131_cs_stabilizer_uid', uidString)
-    __uid._DeclarationLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\attgrp_uid.xsd', 20, 2)
-    __uid._UseLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\attgrp_uid.xsd', 20, 2)
+    __uid = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uid'), 'uid', '__httpwww_witsml_orgschemas131_cs_stabilizer_uid', _module_typeBindings.uidString)
+    __uid._DeclarationLocation = pyxb.utils.utility.Location('attgrp_uid.xsd', 20, 2)
+    __uid._UseLocation = pyxb.utils.utility.Location('attgrp_uid.xsd', 20, 2)
     
     uid = property(__uid.value, __uid.set, None, 'The unique identifier of a container element.\n\t\t\t\tThis attribute is generally required within the context of a WITSML server.\n\t\t\t\tThere should be no assumption as to the semantic content of this attribute.\n\t\t\t\tThis should only be used with recurring container types (i.e., maxOccurs greater than one).\n\t\t\t\tThe value is only required to be unique within the context of the nearest recurring parent element.')
 
-
-    _ElementMap = {
+    _ElementMap.update({
         __lenBlade.name() : __lenBlade,
         __lenBladeGauge.name() : __lenBladeGauge,
         __odBladeMx.name() : __odBladeMx,
@@ -5893,10 +6134,11 @@ class cs_stabilizer (pyxb.binding.basis.complexTypeDefinition):
         __factFric.name() : __factFric,
         __typeBlade.name() : __typeBlade,
         __customData.name() : __customData
-    }
-    _AttributeMap = {
+    })
+    _AttributeMap.update({
         __uid.name() : __uid
-    }
+    })
+_module_typeBindings.cs_stabilizer = cs_stabilizer
 Namespace.addCategoryObject('typeBinding', 'cs_stabilizer', cs_stabilizer)
 
 
@@ -5910,333 +6152,334 @@ class cs_tubularComponent (pyxb.binding.basis.complexTypeDefinition):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_ELEMENT_ONLY
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'cs_tubularComponent')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 30, 1)
+    _XSDLocation = pyxb.utils.utility.Location('cs_tubularComponent.xsd', 30, 1)
+    _ElementMap = {}
+    _AttributeMap = {}
     # Base type is pyxb.binding.datatypes.anyType
     
     # Element {http://www.witsml.org/schemas/131}typeTubularComp uses Python identifier typeTubularComp
-    __typeTubularComp = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'typeTubularComp'), 'typeTubularComp', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131typeTubularComp', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 38, 3), )
+    __typeTubularComp = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'typeTubularComp'), 'typeTubularComp', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131typeTubularComp', False, pyxb.utils.utility.Location('cs_tubularComponent.xsd', 38, 3), )
 
     
     typeTubularComp = property(__typeTubularComp.value, __typeTubularComp.set, None, 'Type of component.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}sequence uses Python identifier sequence
-    __sequence = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'sequence'), 'sequence', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131sequence', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 43, 3), )
+    __sequence = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'sequence'), 'sequence', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131sequence', False, pyxb.utils.utility.Location('cs_tubularComponent.xsd', 43, 3), )
 
     
     sequence = property(__sequence.value, __sequence.set, None, 'The sequence within which the components entered the hole.\n\t\t\t\t\tThat is, a sequence number of 1 entered first, 2 entered next, etc.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}description uses Python identifier description
-    __description = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'description'), 'description', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131description', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 49, 3), )
+    __description = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'description'), 'description', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131description', False, pyxb.utils.utility.Location('cs_tubularComponent.xsd', 49, 3), )
 
     
     description = property(__description.value, __description.set, None, 'Description of item and details.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}id uses Python identifier id
-    __id = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'id'), 'id', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131id', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 54, 3), )
+    __id = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'id'), 'id', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131id', False, pyxb.utils.utility.Location('cs_tubularComponent.xsd', 54, 3), )
 
     
     id = property(__id.value, __id.set, None, 'Internal diameter of object.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}od uses Python identifier od
-    __od = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'od'), 'od', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131od', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 59, 3), )
+    __od = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'od'), 'od', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131od', False, pyxb.utils.utility.Location('cs_tubularComponent.xsd', 59, 3), )
 
     
     od = property(__od.value, __od.set, None, 'Outside diameter of the body of the item.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}odMx uses Python identifier odMx
-    __odMx = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'odMx'), 'odMx', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131odMx', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 64, 3), )
+    __odMx = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'odMx'), 'odMx', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131odMx', False, pyxb.utils.utility.Location('cs_tubularComponent.xsd', 64, 3), )
 
     
     odMx = property(__odMx.value, __odMx.set, None, 'Maximum outside diameter.')
 
     
     # Element {http://www.witsml.org/schemas/131}len uses Python identifier len
-    __len = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'len'), 'len', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131len', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 69, 3), )
+    __len = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'len'), 'len', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131len', False, pyxb.utils.utility.Location('cs_tubularComponent.xsd', 69, 3), )
 
     
     len = property(__len.value, __len.set, None, 'Length of the item.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}lenJointAv uses Python identifier lenJointAv
-    __lenJointAv = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'lenJointAv'), 'lenJointAv', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131lenJointAv', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 74, 3), )
+    __lenJointAv = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'lenJointAv'), 'lenJointAv', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131lenJointAv', False, pyxb.utils.utility.Location('cs_tubularComponent.xsd', 74, 3), )
 
     
     lenJointAv = property(__lenJointAv.value, __lenJointAv.set, None, 'Average length of joint for tubulars.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}numJointStand uses Python identifier numJointStand
-    __numJointStand = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'numJointStand'), 'numJointStand', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131numJointStand', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 79, 3), )
+    __numJointStand = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'numJointStand'), 'numJointStand', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131numJointStand', False, pyxb.utils.utility.Location('cs_tubularComponent.xsd', 79, 3), )
 
     
     numJointStand = property(__numJointStand.value, __numJointStand.set, None, 'Number of joints per stand of tubular.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}wtPerLen uses Python identifier wtPerLen
-    __wtPerLen = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'wtPerLen'), 'wtPerLen', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131wtPerLen', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 84, 3), )
+    __wtPerLen = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'wtPerLen'), 'wtPerLen', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131wtPerLen', False, pyxb.utils.utility.Location('cs_tubularComponent.xsd', 84, 3), )
 
     
     wtPerLen = property(__wtPerLen.value, __wtPerLen.set, None, 'Weight per unit length.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}grade uses Python identifier grade
-    __grade = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'grade'), 'grade', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131grade', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 89, 3), )
+    __grade = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'grade'), 'grade', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131grade', False, pyxb.utils.utility.Location('cs_tubularComponent.xsd', 89, 3), )
 
     
     grade = property(__grade.value, __grade.set, None, 'Material grade for the tubular section.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}odDrift uses Python identifier odDrift
-    __odDrift = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'odDrift'), 'odDrift', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131odDrift', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 94, 3), )
+    __odDrift = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'odDrift'), 'odDrift', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131odDrift', False, pyxb.utils.utility.Location('cs_tubularComponent.xsd', 94, 3), )
 
     
     odDrift = property(__odDrift.value, __odDrift.set, None, 'Minimum pass through diameter.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}tensYield uses Python identifier tensYield
-    __tensYield = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'tensYield'), 'tensYield', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131tensYield', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 99, 3), )
+    __tensYield = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'tensYield'), 'tensYield', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131tensYield', False, pyxb.utils.utility.Location('cs_tubularComponent.xsd', 99, 3), )
 
     
     tensYield = property(__tensYield.value, __tensYield.set, None, 'Yield stress of steel - worn stress.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}tqYield uses Python identifier tqYield
-    __tqYield = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'tqYield'), 'tqYield', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131tqYield', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 104, 3), )
+    __tqYield = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'tqYield'), 'tqYield', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131tqYield', False, pyxb.utils.utility.Location('cs_tubularComponent.xsd', 104, 3), )
 
     
     tqYield = property(__tqYield.value, __tqYield.set, None, 'Torque yield stress - worn stress.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}stressFatig uses Python identifier stressFatig
-    __stressFatig = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'stressFatig'), 'stressFatig', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131stressFatig', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 109, 3), )
+    __stressFatig = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'stressFatig'), 'stressFatig', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131stressFatig', False, pyxb.utils.utility.Location('cs_tubularComponent.xsd', 109, 3), )
 
     
     stressFatig = property(__stressFatig.value, __stressFatig.set, None, 'Fatigue endurance limit.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}lenFishneck uses Python identifier lenFishneck
-    __lenFishneck = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'lenFishneck'), 'lenFishneck', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131lenFishneck', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 114, 3), )
+    __lenFishneck = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'lenFishneck'), 'lenFishneck', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131lenFishneck', False, pyxb.utils.utility.Location('cs_tubularComponent.xsd', 114, 3), )
 
     
     lenFishneck = property(__lenFishneck.value, __lenFishneck.set, None, 'Fish neck length.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}idFishneck uses Python identifier idFishneck
-    __idFishneck = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'idFishneck'), 'idFishneck', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131idFishneck', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 119, 3), )
+    __idFishneck = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'idFishneck'), 'idFishneck', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131idFishneck', False, pyxb.utils.utility.Location('cs_tubularComponent.xsd', 119, 3), )
 
     
     idFishneck = property(__idFishneck.value, __idFishneck.set, None, 'Fish neck inside diameter.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}odFishneck uses Python identifier odFishneck
-    __odFishneck = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'odFishneck'), 'odFishneck', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131odFishneck', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 124, 3), )
+    __odFishneck = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'odFishneck'), 'odFishneck', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131odFishneck', False, pyxb.utils.utility.Location('cs_tubularComponent.xsd', 124, 3), )
 
     
     odFishneck = property(__odFishneck.value, __odFishneck.set, None, 'Fish neck outside diameter.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}disp uses Python identifier disp
-    __disp = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'disp'), 'disp', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131disp', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 129, 3), )
+    __disp = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'disp'), 'disp', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131disp', False, pyxb.utils.utility.Location('cs_tubularComponent.xsd', 129, 3), )
 
     
     disp = property(__disp.value, __disp.set, None, 'Closed end displacement.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}presBurst uses Python identifier presBurst
-    __presBurst = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'presBurst'), 'presBurst', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131presBurst', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 134, 3), )
+    __presBurst = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'presBurst'), 'presBurst', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131presBurst', False, pyxb.utils.utility.Location('cs_tubularComponent.xsd', 134, 3), )
 
     
     presBurst = property(__presBurst.value, __presBurst.set, None, 'Burst pressure.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}presCollapse uses Python identifier presCollapse
-    __presCollapse = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'presCollapse'), 'presCollapse', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131presCollapse', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 139, 3), )
+    __presCollapse = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'presCollapse'), 'presCollapse', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131presCollapse', False, pyxb.utils.utility.Location('cs_tubularComponent.xsd', 139, 3), )
 
     
     presCollapse = property(__presCollapse.value, __presCollapse.set, None, 'Collapse pressure.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}classService uses Python identifier classService
-    __classService = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'classService'), 'classService', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131classService', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 144, 3), )
+    __classService = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'classService'), 'classService', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131classService', False, pyxb.utils.utility.Location('cs_tubularComponent.xsd', 144, 3), )
 
     
     classService = property(__classService.value, __classService.set, None, 'Service class.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}wearWall uses Python identifier wearWall
-    __wearWall = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'wearWall'), 'wearWall', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131wearWall', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 149, 3), )
+    __wearWall = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'wearWall'), 'wearWall', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131wearWall', False, pyxb.utils.utility.Location('cs_tubularComponent.xsd', 149, 3), )
 
     
     wearWall = property(__wearWall.value, __wearWall.set, None, 'Wall thickness wear (commonly in percent).  ')
 
     
     # Element {http://www.witsml.org/schemas/131}thickWall uses Python identifier thickWall
-    __thickWall = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'thickWall'), 'thickWall', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131thickWall', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 154, 3), )
+    __thickWall = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'thickWall'), 'thickWall', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131thickWall', False, pyxb.utils.utility.Location('cs_tubularComponent.xsd', 154, 3), )
 
     
     thickWall = property(__thickWall.value, __thickWall.set, None, 'Wall thickness.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}configCon uses Python identifier configCon
-    __configCon = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'configCon'), 'configCon', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131configCon', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 159, 3), )
+    __configCon = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'configCon'), 'configCon', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131configCon', False, pyxb.utils.utility.Location('cs_tubularComponent.xsd', 159, 3), )
 
     
     configCon = property(__configCon.value, __configCon.set, None, 'Box/Pin configuration.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}bendStiffness uses Python identifier bendStiffness
-    __bendStiffness = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'bendStiffness'), 'bendStiffness', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131bendStiffness', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 164, 3), )
+    __bendStiffness = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'bendStiffness'), 'bendStiffness', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131bendStiffness', False, pyxb.utils.utility.Location('cs_tubularComponent.xsd', 164, 3), )
 
     
     bendStiffness = property(__bendStiffness.value, __bendStiffness.set, None, 'Bending stiffness of tubular.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}axialStiffness uses Python identifier axialStiffness
-    __axialStiffness = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'axialStiffness'), 'axialStiffness', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131axialStiffness', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 169, 3), )
+    __axialStiffness = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'axialStiffness'), 'axialStiffness', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131axialStiffness', False, pyxb.utils.utility.Location('cs_tubularComponent.xsd', 169, 3), )
 
     
     axialStiffness = property(__axialStiffness.value, __axialStiffness.set, None, 'Axial stiffness of tubular.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}torsionalStiffness uses Python identifier torsionalStiffness
-    __torsionalStiffness = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'torsionalStiffness'), 'torsionalStiffness', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131torsionalStiffness', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 174, 3), )
+    __torsionalStiffness = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'torsionalStiffness'), 'torsionalStiffness', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131torsionalStiffness', False, pyxb.utils.utility.Location('cs_tubularComponent.xsd', 174, 3), )
 
     
     torsionalStiffness = property(__torsionalStiffness.value, __torsionalStiffness.set, None, 'Torsional stiffness of tubular.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}typeMaterial uses Python identifier typeMaterial
-    __typeMaterial = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'typeMaterial'), 'typeMaterial', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131typeMaterial', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 179, 3), )
+    __typeMaterial = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'typeMaterial'), 'typeMaterial', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131typeMaterial', False, pyxb.utils.utility.Location('cs_tubularComponent.xsd', 179, 3), )
 
     
     typeMaterial = property(__typeMaterial.value, __typeMaterial.set, None, 'Type of material.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}doglegMx uses Python identifier doglegMx
-    __doglegMx = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'doglegMx'), 'doglegMx', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131doglegMx', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 184, 3), )
+    __doglegMx = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'doglegMx'), 'doglegMx', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131doglegMx', False, pyxb.utils.utility.Location('cs_tubularComponent.xsd', 184, 3), )
 
     
     doglegMx = property(__doglegMx.value, __doglegMx.set, None, 'Maximum dogleg severity.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}vendor uses Python identifier vendor
-    __vendor = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'vendor'), 'vendor', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131vendor', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 189, 3), )
+    __vendor = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'vendor'), 'vendor', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131vendor', False, pyxb.utils.utility.Location('cs_tubularComponent.xsd', 189, 3), )
 
     
     vendor = property(__vendor.value, __vendor.set, None, 'Name of vendor.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}model uses Python identifier model
-    __model = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'model'), 'model', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131model', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 194, 3), )
+    __model = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'model'), 'model', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131model', False, pyxb.utils.utility.Location('cs_tubularComponent.xsd', 194, 3), )
 
     
     model = property(__model.value, __model.set, None, 'Component name from manufacturer.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}nameTag uses Python identifier nameTag
-    __nameTag = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'nameTag'), 'nameTag', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131nameTag', True, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 199, 3), )
+    __nameTag = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'nameTag'), 'nameTag', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131nameTag', True, pyxb.utils.utility.Location('cs_tubularComponent.xsd', 199, 3), )
 
     
     nameTag = property(__nameTag.value, __nameTag.set, None, 'An identification tag for the component tool.\n\t\t\t\t\tA serial number is a type of identification tag however\n\t\t\t\t\tsome tags contain many pieces of information.\n\t\t\t\t\tThis structure just identifies the tag and does not describe the contents.')
 
     
     # Element {http://www.witsml.org/schemas/131}bitRecord uses Python identifier bitRecord
-    __bitRecord = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'bitRecord'), 'bitRecord', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131bitRecord', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 207, 3), )
+    __bitRecord = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'bitRecord'), 'bitRecord', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131bitRecord', False, pyxb.utils.utility.Location('cs_tubularComponent.xsd', 207, 3), )
 
     
     bitRecord = property(__bitRecord.value, __bitRecord.set, None, 'Bit object.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}areaNozzleFlow uses Python identifier areaNozzleFlow
-    __areaNozzleFlow = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'areaNozzleFlow'), 'areaNozzleFlow', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131areaNozzleFlow', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 212, 3), )
+    __areaNozzleFlow = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'areaNozzleFlow'), 'areaNozzleFlow', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131areaNozzleFlow', False, pyxb.utils.utility.Location('cs_tubularComponent.xsd', 212, 3), )
 
     
     areaNozzleFlow = property(__areaNozzleFlow.value, __areaNozzleFlow.set, None, 'Total area of nozzles.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}nozzle uses Python identifier nozzle
-    __nozzle = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'nozzle'), 'nozzle', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131nozzle', True, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 217, 3), )
+    __nozzle = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'nozzle'), 'nozzle', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131nozzle', True, pyxb.utils.utility.Location('cs_tubularComponent.xsd', 217, 3), )
 
     
     nozzle = property(__nozzle.value, __nozzle.set, None, 'Set of nozzle objects.  Examples of items that have nozzles\n\t\t\t\t\tare bit, hole opener, circulation sub, jetting sub, pressure relief sub. ')
 
     
     # Element {http://www.witsml.org/schemas/131}connection uses Python identifier connection
-    __connection = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'connection'), 'connection', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131connection', True, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 223, 3), )
+    __connection = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'connection'), 'connection', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131connection', True, pyxb.utils.utility.Location('cs_tubularComponent.xsd', 223, 3), )
 
     
     connection = property(__connection.value, __connection.set, None, 'Connection object.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}jar uses Python identifier jar
-    __jar = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'jar'), 'jar', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131jar', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 228, 3), )
+    __jar = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'jar'), 'jar', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131jar', False, pyxb.utils.utility.Location('cs_tubularComponent.xsd', 228, 3), )
 
     
     jar = property(__jar.value, __jar.set, None, 'Jar object.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}mwdTool uses Python identifier mwdTool
-    __mwdTool = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'mwdTool'), 'mwdTool', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131mwdTool', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 233, 3), )
+    __mwdTool = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'mwdTool'), 'mwdTool', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131mwdTool', False, pyxb.utils.utility.Location('cs_tubularComponent.xsd', 233, 3), )
 
     
     mwdTool = property(__mwdTool.value, __mwdTool.set, None, 'MWD (measurement while drilling) tool object.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}motor uses Python identifier motor
-    __motor = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'motor'), 'motor', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131motor', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 238, 3), )
+    __motor = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'motor'), 'motor', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131motor', False, pyxb.utils.utility.Location('cs_tubularComponent.xsd', 238, 3), )
 
     
     motor = property(__motor.value, __motor.set, None, 'Motor object.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}stabilizer uses Python identifier stabilizer
-    __stabilizer = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'stabilizer'), 'stabilizer', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131stabilizer', True, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 243, 3), )
+    __stabilizer = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'stabilizer'), 'stabilizer', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131stabilizer', True, pyxb.utils.utility.Location('cs_tubularComponent.xsd', 243, 3), )
 
     
     stabilizer = property(__stabilizer.value, __stabilizer.set, None, 'Stabilizer object.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}bend uses Python identifier bend
-    __bend = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'bend'), 'bend', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131bend', True, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 248, 3), )
+    __bend = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'bend'), 'bend', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131bend', True, pyxb.utils.utility.Location('cs_tubularComponent.xsd', 248, 3), )
 
     
     bend = property(__bend.value, __bend.set, None, 'Bend object.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}holeOpener uses Python identifier holeOpener
-    __holeOpener = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'holeOpener'), 'holeOpener', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131holeOpener', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 253, 3), )
+    __holeOpener = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'holeOpener'), 'holeOpener', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131holeOpener', False, pyxb.utils.utility.Location('cs_tubularComponent.xsd', 253, 3), )
 
     
     holeOpener = property(__holeOpener.value, __holeOpener.set, None, 'Hole opener object.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}rotarySteerableTool uses Python identifier rotarySteerableTool
-    __rotarySteerableTool = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'rotarySteerableTool'), 'rotarySteerableTool', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131rotarySteerableTool', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 258, 3), )
+    __rotarySteerableTool = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'rotarySteerableTool'), 'rotarySteerableTool', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131rotarySteerableTool', False, pyxb.utils.utility.Location('cs_tubularComponent.xsd', 258, 3), )
 
     
     rotarySteerableTool = property(__rotarySteerableTool.value, __rotarySteerableTool.set, None, 'Rotary Steerable Tool.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}customData uses Python identifier customData
-    __customData = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'customData'), 'customData', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131customData', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 263, 3), )
+    __customData = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'customData'), 'customData', '__httpwww_witsml_orgschemas131_cs_tubularComponent_httpwww_witsml_orgschemas131customData', False, pyxb.utils.utility.Location('cs_tubularComponent.xsd', 263, 3), )
 
     
     customData = property(__customData.value, __customData.set, None, 'A container element that can contain custom or user defined \n\t\t\t\t\tdata elements.')
 
     
     # Attribute uid uses Python identifier uid
-    __uid = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uid'), 'uid', '__httpwww_witsml_orgschemas131_cs_tubularComponent_uid', uidString)
-    __uid._DeclarationLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\attgrp_uid.xsd', 20, 2)
-    __uid._UseLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\attgrp_uid.xsd', 20, 2)
+    __uid = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uid'), 'uid', '__httpwww_witsml_orgschemas131_cs_tubularComponent_uid', _module_typeBindings.uidString)
+    __uid._DeclarationLocation = pyxb.utils.utility.Location('attgrp_uid.xsd', 20, 2)
+    __uid._UseLocation = pyxb.utils.utility.Location('attgrp_uid.xsd', 20, 2)
     
     uid = property(__uid.value, __uid.set, None, 'The unique identifier of a container element.\n\t\t\t\tThis attribute is generally required within the context of a WITSML server.\n\t\t\t\tThere should be no assumption as to the semantic content of this attribute.\n\t\t\t\tThis should only be used with recurring container types (i.e., maxOccurs greater than one).\n\t\t\t\tThe value is only required to be unique within the context of the nearest recurring parent element.')
 
-
-    _ElementMap = {
+    _ElementMap.update({
         __typeTubularComp.name() : __typeTubularComp,
         __sequence.name() : __sequence,
         __description.name() : __description,
@@ -6282,10 +6525,11 @@ class cs_tubularComponent (pyxb.binding.basis.complexTypeDefinition):
         __holeOpener.name() : __holeOpener,
         __rotarySteerableTool.name() : __rotarySteerableTool,
         __customData.name() : __customData
-    }
-    _AttributeMap = {
+    })
+    _AttributeMap.update({
         __uid.name() : __uid
-    }
+    })
+_module_typeBindings.cs_tubularComponent = cs_tubularComponent
 Namespace.addCategoryObject('typeBinding', 'cs_tubularComponent', cs_tubularComponent)
 
 
@@ -6296,104 +6540,105 @@ class obj_tubular (pyxb.binding.basis.complexTypeDefinition):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_ELEMENT_ONLY
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'obj_tubular')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\obj_tubular.xsd', 57, 1)
+    _XSDLocation = pyxb.utils.utility.Location('obj_tubular.xsd', 57, 1)
+    _ElementMap = {}
+    _AttributeMap = {}
     # Base type is pyxb.binding.datatypes.anyType
     
     # Element {http://www.witsml.org/schemas/131}typeTubularAssy uses Python identifier typeTubularAssy
-    __typeTubularAssy = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'typeTubularAssy'), 'typeTubularAssy', '__httpwww_witsml_orgschemas131_obj_tubular_httpwww_witsml_orgschemas131typeTubularAssy', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\grp_tubular.xsd', 23, 3), )
+    __typeTubularAssy = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'typeTubularAssy'), 'typeTubularAssy', '__httpwww_witsml_orgschemas131_obj_tubular_httpwww_witsml_orgschemas131typeTubularAssy', False, pyxb.utils.utility.Location('grp_tubular.xsd', 23, 3), )
 
     
     typeTubularAssy = property(__typeTubularAssy.value, __typeTubularAssy.set, None, 'Type of tubular assembly.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}valveFloat uses Python identifier valveFloat
-    __valveFloat = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'valveFloat'), 'valveFloat', '__httpwww_witsml_orgschemas131_obj_tubular_httpwww_witsml_orgschemas131valveFloat', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\grp_tubular.xsd', 28, 3), )
+    __valveFloat = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'valveFloat'), 'valveFloat', '__httpwww_witsml_orgschemas131_obj_tubular_httpwww_witsml_orgschemas131valveFloat', False, pyxb.utils.utility.Location('grp_tubular.xsd', 28, 3), )
 
     
     valveFloat = property(__valveFloat.value, __valveFloat.set, None, 'Is float valve present?  Values are "true" (or "1") and "false" (or "0").')
 
     
     # Element {http://www.witsml.org/schemas/131}sourceNuclear uses Python identifier sourceNuclear
-    __sourceNuclear = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'sourceNuclear'), 'sourceNuclear', '__httpwww_witsml_orgschemas131_obj_tubular_httpwww_witsml_orgschemas131sourceNuclear', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\grp_tubular.xsd', 33, 3), )
+    __sourceNuclear = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'sourceNuclear'), 'sourceNuclear', '__httpwww_witsml_orgschemas131_obj_tubular_httpwww_witsml_orgschemas131sourceNuclear', False, pyxb.utils.utility.Location('grp_tubular.xsd', 33, 3), )
 
     
     sourceNuclear = property(__sourceNuclear.value, __sourceNuclear.set, None, 'Is nuclear tool present?  Values are "true" (or "1") and "false" (or "0").')
 
     
     # Element {http://www.witsml.org/schemas/131}diaHoleAssy uses Python identifier diaHoleAssy
-    __diaHoleAssy = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'diaHoleAssy'), 'diaHoleAssy', '__httpwww_witsml_orgschemas131_obj_tubular_httpwww_witsml_orgschemas131diaHoleAssy', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\grp_tubular.xsd', 38, 3), )
+    __diaHoleAssy = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'diaHoleAssy'), 'diaHoleAssy', '__httpwww_witsml_orgschemas131_obj_tubular_httpwww_witsml_orgschemas131diaHoleAssy', False, pyxb.utils.utility.Location('grp_tubular.xsd', 38, 3), )
 
     
     diaHoleAssy = property(__diaHoleAssy.value, __diaHoleAssy.set, None, 'Maximum hole size generated by assembly.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}tubularComponent uses Python identifier tubularComponent
-    __tubularComponent = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'tubularComponent'), 'tubularComponent', '__httpwww_witsml_orgschemas131_obj_tubular_httpwww_witsml_orgschemas131tubularComponent', True, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\grp_tubular.xsd', 43, 3), )
+    __tubularComponent = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'tubularComponent'), 'tubularComponent', '__httpwww_witsml_orgschemas131_obj_tubular_httpwww_witsml_orgschemas131tubularComponent', True, pyxb.utils.utility.Location('grp_tubular.xsd', 43, 3), )
 
     
     tubularComponent = property(__tubularComponent.value, __tubularComponent.set, None, 'Container element for the tubular component elements.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}nameWell uses Python identifier nameWell
-    __nameWell = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'nameWell'), 'nameWell', '__httpwww_witsml_orgschemas131_obj_tubular_httpwww_witsml_orgschemas131nameWell', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\obj_tubular.xsd', 59, 3), )
+    __nameWell = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'nameWell'), 'nameWell', '__httpwww_witsml_orgschemas131_obj_tubular_httpwww_witsml_orgschemas131nameWell', False, pyxb.utils.utility.Location('obj_tubular.xsd', 59, 3), )
 
     
     nameWell = property(__nameWell.value, __nameWell.set, None, 'Human recognizable context for the well that contains the wellbore.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}nameWellbore uses Python identifier nameWellbore
-    __nameWellbore = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'nameWellbore'), 'nameWellbore', '__httpwww_witsml_orgschemas131_obj_tubular_httpwww_witsml_orgschemas131nameWellbore', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\obj_tubular.xsd', 64, 3), )
+    __nameWellbore = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'nameWellbore'), 'nameWellbore', '__httpwww_witsml_orgschemas131_obj_tubular_httpwww_witsml_orgschemas131nameWellbore', False, pyxb.utils.utility.Location('obj_tubular.xsd', 64, 3), )
 
     
     nameWellbore = property(__nameWellbore.value, __nameWellbore.set, None, 'Human recognizable context for the wellbore that contains the tubular.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}name uses Python identifier name
-    __name = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'name'), 'name', '__httpwww_witsml_orgschemas131_obj_tubular_httpwww_witsml_orgschemas131name', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\obj_tubular.xsd', 69, 3), )
+    __name = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'name'), 'name', '__httpwww_witsml_orgschemas131_obj_tubular_httpwww_witsml_orgschemas131name', False, pyxb.utils.utility.Location('obj_tubular.xsd', 69, 3), )
 
     
     name = property(__name.value, __name.set, None, 'Human recognizable context for the tubular (assembly).  ')
 
     
     # Element {http://www.witsml.org/schemas/131}commonData uses Python identifier commonData
-    __commonData = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'commonData'), 'commonData', '__httpwww_witsml_orgschemas131_obj_tubular_httpwww_witsml_orgschemas131commonData', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\obj_tubular.xsd', 79, 3), )
+    __commonData = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'commonData'), 'commonData', '__httpwww_witsml_orgschemas131_obj_tubular_httpwww_witsml_orgschemas131commonData', False, pyxb.utils.utility.Location('obj_tubular.xsd', 79, 3), )
 
     
     commonData = property(__commonData.value, __commonData.set, None, 'A container element that contains elements that are common to all data \n\t\t\t\t\tobjects.  ')
 
     
     # Element {http://www.witsml.org/schemas/131}customData uses Python identifier customData
-    __customData = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'customData'), 'customData', '__httpwww_witsml_orgschemas131_obj_tubular_httpwww_witsml_orgschemas131customData', False, pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\obj_tubular.xsd', 85, 3), )
+    __customData = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'customData'), 'customData', '__httpwww_witsml_orgschemas131_obj_tubular_httpwww_witsml_orgschemas131customData', False, pyxb.utils.utility.Location('obj_tubular.xsd', 85, 3), )
 
     
     customData = property(__customData.value, __customData.set, None, 'A container element that can contain custom or user defined \n\t\t\t\t\tdata elements.')
 
     
     # Attribute uid uses Python identifier uid
-    __uid = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uid'), 'uid', '__httpwww_witsml_orgschemas131_obj_tubular_uid', uidString)
-    __uid._DeclarationLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\attgrp_uid.xsd', 20, 2)
-    __uid._UseLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\attgrp_uid.xsd', 20, 2)
+    __uid = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uid'), 'uid', '__httpwww_witsml_orgschemas131_obj_tubular_uid', _module_typeBindings.uidString)
+    __uid._DeclarationLocation = pyxb.utils.utility.Location('attgrp_uid.xsd', 20, 2)
+    __uid._UseLocation = pyxb.utils.utility.Location('attgrp_uid.xsd', 20, 2)
     
     uid = property(__uid.value, __uid.set, None, 'The unique identifier of a container element.\n\t\t\t\tThis attribute is generally required within the context of a WITSML server.\n\t\t\t\tThere should be no assumption as to the semantic content of this attribute.\n\t\t\t\tThis should only be used with recurring container types (i.e., maxOccurs greater than one).\n\t\t\t\tThe value is only required to be unique within the context of the nearest recurring parent element.')
 
     
     # Attribute uidWell uses Python identifier uidWell
-    __uidWell = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uidWell'), 'uidWell', '__httpwww_witsml_orgschemas131_obj_tubular_uidWell', uidString)
-    __uidWell._DeclarationLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\obj_tubular.xsd', 92, 2)
-    __uidWell._UseLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\obj_tubular.xsd', 92, 2)
+    __uidWell = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uidWell'), 'uidWell', '__httpwww_witsml_orgschemas131_obj_tubular_uidWell', _module_typeBindings.uidString)
+    __uidWell._DeclarationLocation = pyxb.utils.utility.Location('obj_tubular.xsd', 92, 2)
+    __uidWell._UseLocation = pyxb.utils.utility.Location('obj_tubular.xsd', 92, 2)
     
     uidWell = property(__uidWell.value, __uidWell.set, None, 'Unique identifier for the well. This uniquely represents \n\t\t\t\tthe well referenced by the (possibly non-unique) nameWell. ')
 
     
     # Attribute uidWellbore uses Python identifier uidWellbore
-    __uidWellbore = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uidWellbore'), 'uidWellbore', '__httpwww_witsml_orgschemas131_obj_tubular_uidWellbore', uidString)
-    __uidWellbore._DeclarationLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\obj_tubular.xsd', 98, 2)
-    __uidWellbore._UseLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\obj_tubular.xsd', 98, 2)
+    __uidWellbore = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uidWellbore'), 'uidWellbore', '__httpwww_witsml_orgschemas131_obj_tubular_uidWellbore', _module_typeBindings.uidString)
+    __uidWellbore._DeclarationLocation = pyxb.utils.utility.Location('obj_tubular.xsd', 98, 2)
+    __uidWellbore._UseLocation = pyxb.utils.utility.Location('obj_tubular.xsd', 98, 2)
     
     uidWellbore = property(__uidWellbore.value, __uidWellbore.set, None, 'Unique identifier for the wellbore. This uniquely represents \n\t\t\t\tthe wellbore referenced by the (possibly non-unique) nameWellbore. ')
 
-
-    _ElementMap = {
+    _ElementMap.update({
         __typeTubularAssy.name() : __typeTubularAssy,
         __valveFloat.name() : __valveFloat,
         __sourceNuclear.name() : __sourceNuclear,
@@ -6404,12 +6649,13 @@ class obj_tubular (pyxb.binding.basis.complexTypeDefinition):
         __name.name() : __name,
         __commonData.name() : __commonData,
         __customData.name() : __customData
-    }
-    _AttributeMap = {
+    })
+    _AttributeMap.update({
         __uid.name() : __uid,
         __uidWell.name() : __uidWell,
         __uidWellbore.name() : __uidWellbore
-    }
+    })
+_module_typeBindings.obj_tubular = obj_tubular
 Namespace.addCategoryObject('typeBinding', 'obj_tubular', obj_tubular)
 
 
@@ -6420,25 +6666,25 @@ class generalMeasureType (abstractMeasure):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_SIMPLE
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'generalMeasureType')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 27, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 27, 1)
+    _ElementMap = abstractMeasure._ElementMap.copy()
+    _AttributeMap = abstractMeasure._AttributeMap.copy()
     # Base type is abstractMeasure
     
     # Attribute uom uses Python identifier uom
-    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_generalMeasureType_uom', uomString)
-    __uom._DeclarationLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 30, 4)
-    __uom._UseLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 30, 4)
+    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_generalMeasureType_uom', _module_typeBindings.uomString)
+    __uom._DeclarationLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 30, 4)
+    __uom._UseLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 30, 4)
     
     uom = property(__uom.value, __uom.set, None, None)
 
-
-    _ElementMap = abstractMeasure._ElementMap.copy()
     _ElementMap.update({
         
     })
-    _AttributeMap = abstractMeasure._AttributeMap.copy()
     _AttributeMap.update({
         __uom.name() : __uom
     })
+_module_typeBindings.generalMeasureType = generalMeasureType
 Namespace.addCategoryObject('typeBinding', 'generalMeasureType', generalMeasureType)
 
 
@@ -6449,25 +6695,25 @@ class temperatureSlopeMeasure (abstractMeasure):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_SIMPLE
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'temperatureSlopeMeasure')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 35, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 35, 1)
+    _ElementMap = abstractMeasure._ElementMap.copy()
+    _AttributeMap = abstractMeasure._AttributeMap.copy()
     # Base type is abstractMeasure
     
     # Attribute uom uses Python identifier uom
-    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_temperatureSlopeMeasure_uom', uomString)
-    __uom._DeclarationLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 38, 4)
-    __uom._UseLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 38, 4)
+    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_temperatureSlopeMeasure_uom', _module_typeBindings.uomString)
+    __uom._DeclarationLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 38, 4)
+    __uom._UseLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 38, 4)
     
     uom = property(__uom.value, __uom.set, None, None)
 
-
-    _ElementMap = abstractMeasure._ElementMap.copy()
     _ElementMap.update({
         
     })
-    _AttributeMap = abstractMeasure._AttributeMap.copy()
     _AttributeMap.update({
         __uom.name() : __uom
     })
+_module_typeBindings.temperatureSlopeMeasure = temperatureSlopeMeasure
 Namespace.addCategoryObject('typeBinding', 'temperatureSlopeMeasure', temperatureSlopeMeasure)
 
 
@@ -6480,23 +6726,25 @@ class typeOptionalClassString (pyxb.binding.basis.complexTypeDefinition):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_SIMPLE
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'typeOptionalClassString')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 43, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 43, 1)
+    _ElementMap = {}
+    _AttributeMap = {}
     # Base type is abstractNameString
     
     # Attribute classType uses Python identifier classType
-    __classType = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'classType'), 'classType', '__httpwww_witsml_orgschemas131_typeOptionalClassString_classType', kindString)
-    __classType._DeclarationLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 51, 4)
-    __classType._UseLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 51, 4)
+    __classType = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'classType'), 'classType', '__httpwww_witsml_orgschemas131_typeOptionalClassString_classType', _module_typeBindings.kindString)
+    __classType._DeclarationLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 51, 4)
+    __classType._UseLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 51, 4)
     
     classType = property(__classType.value, __classType.set, None, 'This identifies the classification system to \n\t\t\t\t\t\twhich the class belongs. ')
 
-
-    _ElementMap = {
+    _ElementMap.update({
         
-    }
-    _AttributeMap = {
+    })
+    _AttributeMap.update({
         __classType.name() : __classType
-    }
+    })
+_module_typeBindings.typeOptionalClassString = typeOptionalClassString
 Namespace.addCategoryObject('typeBinding', 'typeOptionalClassString', typeOptionalClassString)
 
 
@@ -6509,34 +6757,34 @@ class yAxisAzimuth (abstractMeasure):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_SIMPLE
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'yAxisAzimuth')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 106, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 106, 1)
+    _ElementMap = abstractMeasure._ElementMap.copy()
+    _AttributeMap = abstractMeasure._AttributeMap.copy()
     # Base type is abstractMeasure
     
     # Attribute uom uses Python identifier uom
-    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_yAxisAzimuth_uom', planeAngleUom, required=True)
-    __uom._DeclarationLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 114, 4)
-    __uom._UseLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 114, 4)
+    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_yAxisAzimuth_uom', _module_typeBindings.planeAngleUom, required=True)
+    __uom._DeclarationLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 114, 4)
+    __uom._UseLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 114, 4)
     
     uom = property(__uom.value, __uom.set, None, 'The unit of measure of the azimuth value.')
 
     
     # Attribute northDirection uses Python identifier northDirection
-    __northDirection = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'northDirection'), 'northDirection', '__httpwww_witsml_orgschemas131_yAxisAzimuth_northDirection', AziRef)
-    __northDirection._DeclarationLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 119, 4)
-    __northDirection._UseLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 119, 4)
+    __northDirection = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'northDirection'), 'northDirection', '__httpwww_witsml_orgschemas131_yAxisAzimuth_northDirection', _module_typeBindings.AziRef)
+    __northDirection._DeclarationLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 119, 4)
+    __northDirection._UseLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 119, 4)
     
     northDirection = property(__northDirection.value, __northDirection.set, None, 'Specifies the direction to be considered North for the y axis.')
 
-
-    _ElementMap = abstractMeasure._ElementMap.copy()
     _ElementMap.update({
         
     })
-    _AttributeMap = abstractMeasure._AttributeMap.copy()
     _AttributeMap.update({
         __uom.name() : __uom,
         __northDirection.name() : __northDirection
     })
+_module_typeBindings.yAxisAzimuth = yAxisAzimuth
 Namespace.addCategoryObject('typeBinding', 'yAxisAzimuth', yAxisAzimuth)
 
 
@@ -6547,25 +6795,25 @@ class volumePerVolumeMeasurePercent (abstractMeasure):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_SIMPLE
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'volumePerVolumeMeasurePercent')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 128, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 128, 1)
+    _ElementMap = abstractMeasure._ElementMap.copy()
+    _AttributeMap = abstractMeasure._AttributeMap.copy()
     # Base type is abstractMeasure
     
     # Attribute uom uses Python identifier uom
-    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_volumePerVolumeMeasurePercent_uom', PercentUom, required=True)
-    __uom._DeclarationLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 134, 4)
-    __uom._UseLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 134, 4)
+    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_volumePerVolumeMeasurePercent_uom', _module_typeBindings.PercentUom, required=True)
+    __uom._DeclarationLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 134, 4)
+    __uom._UseLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 134, 4)
     
     uom = property(__uom.value, __uom.set, None, None)
 
-
-    _ElementMap = abstractMeasure._ElementMap.copy()
     _ElementMap.update({
         
     })
-    _AttributeMap = abstractMeasure._AttributeMap.copy()
     _AttributeMap.update({
         __uom.name() : __uom
     })
+_module_typeBindings.volumePerVolumeMeasurePercent = volumePerVolumeMeasurePercent
 Namespace.addCategoryObject('typeBinding', 'volumePerVolumeMeasurePercent', volumePerVolumeMeasurePercent)
 
 
@@ -6578,25 +6826,25 @@ class genericMeasure (abstractMeasure):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_SIMPLE
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'genericMeasure')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 153, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 153, 1)
+    _ElementMap = abstractMeasure._ElementMap.copy()
+    _AttributeMap = abstractMeasure._AttributeMap.copy()
     # Base type is abstractMeasure
     
     # Attribute uom uses Python identifier uom
-    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_genericMeasure_uom', uomString)
-    __uom._DeclarationLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 161, 4)
-    __uom._UseLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 161, 4)
+    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_genericMeasure_uom', _module_typeBindings.uomString)
+    __uom._DeclarationLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 161, 4)
+    __uom._UseLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 161, 4)
     
     uom = property(__uom.value, __uom.set, None, 'The unit of measure for the quantity.\n\t\t\t\t\t\tThe uom is mandatory unless the value represents a unitless quantity.')
 
-
-    _ElementMap = abstractMeasure._ElementMap.copy()
     _ElementMap.update({
         
     })
-    _AttributeMap = abstractMeasure._AttributeMap.copy()
     _AttributeMap.update({
         __uom.name() : __uom
     })
+_module_typeBindings.genericMeasure = genericMeasure
 Namespace.addCategoryObject('typeBinding', 'genericMeasure', genericMeasure)
 
 
@@ -6615,43 +6863,43 @@ class ratioGenericMeasure (abstractMeasure):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_SIMPLE
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'ratioGenericMeasure')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 187, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 187, 1)
+    _ElementMap = abstractMeasure._ElementMap.copy()
+    _AttributeMap = abstractMeasure._AttributeMap.copy()
     # Base type is abstractMeasure
     
     # Attribute uom uses Python identifier uom
-    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_ratioGenericMeasure_uom', uomString, required=True)
-    __uom._DeclarationLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 201, 4)
-    __uom._UseLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 201, 4)
+    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_ratioGenericMeasure_uom', _module_typeBindings.uomString, required=True)
+    __uom._DeclarationLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 201, 4)
+    __uom._UseLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 201, 4)
     
     uom = property(__uom.value, __uom.set, None, 'The unit of measure for the quantity.\n\t\t\t\t\t\tIf for some reason a uom is not appropriate for the quantity,\n\t\t\t\t\t\ta unit of "Euc" should be used.')
 
     
     # Attribute numerator uses Python identifier numerator
-    __numerator = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'numerator'), 'numerator', '__httpwww_witsml_orgschemas131_ratioGenericMeasure_numerator', unitlessQuantity)
-    __numerator._DeclarationLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 208, 4)
-    __numerator._UseLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 208, 4)
+    __numerator = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'numerator'), 'numerator', '__httpwww_witsml_orgschemas131_ratioGenericMeasure_numerator', _module_typeBindings.unitlessQuantity)
+    __numerator._DeclarationLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 208, 4)
+    __numerator._UseLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 208, 4)
     
     numerator = property(__numerator.value, __numerator.set, None, None)
 
     
     # Attribute denominator uses Python identifier denominator
-    __denominator = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'denominator'), 'denominator', '__httpwww_witsml_orgschemas131_ratioGenericMeasure_denominator', unitlessQuantity)
-    __denominator._DeclarationLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 209, 4)
-    __denominator._UseLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 209, 4)
+    __denominator = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'denominator'), 'denominator', '__httpwww_witsml_orgschemas131_ratioGenericMeasure_denominator', _module_typeBindings.unitlessQuantity)
+    __denominator._DeclarationLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 209, 4)
+    __denominator._UseLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 209, 4)
     
     denominator = property(__denominator.value, __denominator.set, None, None)
 
-
-    _ElementMap = abstractMeasure._ElementMap.copy()
     _ElementMap.update({
         
     })
-    _AttributeMap = abstractMeasure._AttributeMap.copy()
     _AttributeMap.update({
         __uom.name() : __uom,
         __numerator.name() : __numerator,
         __denominator.name() : __denominator
     })
+_module_typeBindings.ratioGenericMeasure = ratioGenericMeasure
 Namespace.addCategoryObject('typeBinding', 'ratioGenericMeasure', ratioGenericMeasure)
 
 
@@ -6663,23 +6911,25 @@ class refNameString (pyxb.binding.basis.complexTypeDefinition):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_SIMPLE
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'refNameString')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 235, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 235, 1)
+    _ElementMap = {}
+    _AttributeMap = {}
     # Base type is abstractNameString
     
     # Attribute uidRef uses Python identifier uidRef
-    __uidRef = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uidRef'), 'uidRef', '__httpwww_witsml_orgschemas131_refNameString_uidRef', refString)
-    __uidRef._DeclarationLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 242, 4)
-    __uidRef._UseLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 242, 4)
+    __uidRef = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uidRef'), 'uidRef', '__httpwww_witsml_orgschemas131_refNameString_uidRef', _module_typeBindings.refString)
+    __uidRef._DeclarationLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 242, 4)
+    __uidRef._UseLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 242, 4)
     
     uidRef = property(__uidRef.value, __uidRef.set, None, 'A reference to the unique identifier (uid attribute) in the node\n\t\t\t\t\t\treferenced by the name value. \n\t\t\t\t\t\tThis attribute is required within the context of a WITSML server.')
 
-
-    _ElementMap = {
+    _ElementMap.update({
         
-    }
-    _AttributeMap = {
+    })
+    _AttributeMap.update({
         __uidRef.name() : __uidRef
-    }
+    })
+_module_typeBindings.refNameString = refNameString
 Namespace.addCategoryObject('typeBinding', 'refNameString', refNameString)
 
 
@@ -6692,32 +6942,34 @@ class refObjectString (pyxb.binding.basis.complexTypeDefinition):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_SIMPLE
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'refObjectString')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 253, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 253, 1)
+    _ElementMap = {}
+    _AttributeMap = {}
     # Base type is abstractNameString
     
     # Attribute object uses Python identifier object
-    __object = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'object'), 'object', '__httpwww_witsml_orgschemas131_refObjectString_object', nameString, required=True)
-    __object._DeclarationLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 261, 4)
-    __object._UseLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 261, 4)
+    __object = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'object'), 'object', '__httpwww_witsml_orgschemas131_refObjectString_object', _module_typeBindings.nameString, required=True)
+    __object._DeclarationLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 261, 4)
+    __object._UseLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 261, 4)
     
     object = property(__object.value, __object.set, None, 'The name of the singular object being referenced.')
 
     
     # Attribute uidRef uses Python identifier uidRef
-    __uidRef = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uidRef'), 'uidRef', '__httpwww_witsml_orgschemas131_refObjectString_uidRef', refString)
-    __uidRef._DeclarationLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 266, 4)
-    __uidRef._UseLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 266, 4)
+    __uidRef = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uidRef'), 'uidRef', '__httpwww_witsml_orgschemas131_refObjectString_uidRef', _module_typeBindings.refString)
+    __uidRef._DeclarationLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 266, 4)
+    __uidRef._UseLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 266, 4)
     
     uidRef = property(__uidRef.value, __uidRef.set, None, 'A reference to the unique identifier (uid attribute) in the object\n\t\t\t\t\t\treferenced by the name value. \n\t\t\t\t\t\tThis attribute is required within the context of a WITSML server.')
 
-
-    _ElementMap = {
+    _ElementMap.update({
         
-    }
-    _AttributeMap = {
+    })
+    _AttributeMap.update({
         __object.name() : __object,
         __uidRef.name() : __uidRef
-    }
+    })
+_module_typeBindings.refObjectString = refObjectString
 Namespace.addCategoryObject('typeBinding', 'refObjectString', refObjectString)
 
 
@@ -6729,23 +6981,25 @@ class refPositiveCount (pyxb.binding.basis.complexTypeDefinition):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_SIMPLE
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'refPositiveCount')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 277, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 277, 1)
+    _ElementMap = {}
+    _AttributeMap = {}
     # Base type is abstractPositiveCount
     
     # Attribute uidRef uses Python identifier uidRef
-    __uidRef = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uidRef'), 'uidRef', '__httpwww_witsml_orgschemas131_refPositiveCount_uidRef', refString)
-    __uidRef._DeclarationLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 284, 4)
-    __uidRef._UseLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 284, 4)
+    __uidRef = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uidRef'), 'uidRef', '__httpwww_witsml_orgschemas131_refPositiveCount_uidRef', _module_typeBindings.refString)
+    __uidRef._DeclarationLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 284, 4)
+    __uidRef._UseLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 284, 4)
     
     uidRef = property(__uidRef.value, __uidRef.set, None, 'A reference to the unique identifier (uid attribute) in the node\n\t\t\t\t\t\treferenced by the index value. \n\t\t\t\t\t\tThis attribute is required within the context of a WITSML server.')
 
-
-    _ElementMap = {
+    _ElementMap.update({
         
-    }
-    _AttributeMap = {
+    })
+    _AttributeMap.update({
         __uidRef.name() : __uidRef
-    }
+    })
+_module_typeBindings.refPositiveCount = refPositiveCount
 Namespace.addCategoryObject('typeBinding', 'refPositiveCount', refPositiveCount)
 
 
@@ -6760,23 +7014,25 @@ class encodedArrayString (pyxb.binding.basis.complexTypeDefinition):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_SIMPLE
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'encodedArrayString')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 349, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 349, 1)
+    _ElementMap = {}
+    _AttributeMap = {}
     # Base type is abstractMaximumLengthString
     
     # Attribute uom uses Python identifier uom
-    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_encodedArrayString_uom', uomString)
-    __uom._DeclarationLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 359, 4)
-    __uom._UseLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 359, 4)
+    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_encodedArrayString_uom', _module_typeBindings.uomString)
+    __uom._DeclarationLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 359, 4)
+    __uom._UseLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 359, 4)
     
     uom = property(__uom.value, __uom.set, None, None)
 
-
-    _ElementMap = {
+    _ElementMap.update({
         
-    }
-    _AttributeMap = {
+    })
+    _AttributeMap.update({
         __uom.name() : __uom
-    }
+    })
+_module_typeBindings.encodedArrayString = encodedArrayString
 Namespace.addCategoryObject('typeBinding', 'encodedArrayString', encodedArrayString)
 
 
@@ -6787,23 +7043,25 @@ class nameStruct (pyxb.binding.basis.complexTypeDefinition):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_SIMPLE
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'nameStruct')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 424, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 424, 1)
+    _ElementMap = {}
+    _AttributeMap = {}
     # Base type is abstractNameString
     
     # Attribute namingSystem uses Python identifier namingSystem
-    __namingSystem = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'namingSystem'), 'namingSystem', '__httpwww_witsml_orgschemas131_nameStruct_namingSystem', nameString)
-    __namingSystem._DeclarationLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 430, 4)
-    __namingSystem._UseLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 430, 4)
+    __namingSystem = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'namingSystem'), 'namingSystem', '__httpwww_witsml_orgschemas131_nameStruct_namingSystem', _module_typeBindings.nameString)
+    __namingSystem._DeclarationLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 430, 4)
+    __namingSystem._UseLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 430, 4)
     
     namingSystem = property(__namingSystem.value, __namingSystem.set, None, 'The naming system within the name is (hopefully) unique.')
 
-
-    _ElementMap = {
+    _ElementMap.update({
         
-    }
-    _AttributeMap = {
+    })
+    _AttributeMap.update({
         __namingSystem.name() : __namingSystem
-    }
+    })
+_module_typeBindings.nameStruct = nameStruct
 Namespace.addCategoryObject('typeBinding', 'nameStruct', nameStruct)
 
 
@@ -6815,32 +7073,34 @@ class wellKnownNameStruct (pyxb.binding.basis.complexTypeDefinition):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_SIMPLE
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'wellKnownNameStruct')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 439, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 439, 1)
+    _ElementMap = {}
+    _AttributeMap = {}
     # Base type is abstractNameString
     
     # Attribute namingSystem uses Python identifier namingSystem
-    __namingSystem = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'namingSystem'), 'namingSystem', '__httpwww_witsml_orgschemas131_wellKnownNameStruct_namingSystem', nameString, required=True)
-    __namingSystem._DeclarationLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 446, 4)
-    __namingSystem._UseLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 446, 4)
+    __namingSystem = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'namingSystem'), 'namingSystem', '__httpwww_witsml_orgschemas131_wellKnownNameStruct_namingSystem', _module_typeBindings.nameString, required=True)
+    __namingSystem._DeclarationLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 446, 4)
+    __namingSystem._UseLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 446, 4)
     
     namingSystem = property(__namingSystem.value, __namingSystem.set, None, 'The naming system within the name is unique.')
 
     
     # Attribute code uses Python identifier code
-    __code = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'code'), 'code', '__httpwww_witsml_orgschemas131_wellKnownNameStruct_code', kindString)
-    __code._DeclarationLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 451, 4)
-    __code._UseLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 451, 4)
+    __code = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'code'), 'code', '__httpwww_witsml_orgschemas131_wellKnownNameStruct_code', _module_typeBindings.kindString)
+    __code._DeclarationLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 451, 4)
+    __code._UseLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 451, 4)
     
     code = property(__code.value, __code.set, None, 'A unique (short) code associated with the name.')
 
-
-    _ElementMap = {
+    _ElementMap.update({
         
-    }
-    _AttributeMap = {
+    })
+    _AttributeMap.update({
         __namingSystem.name() : __namingSystem,
         __code.name() : __code
-    }
+    })
+_module_typeBindings.wellKnownNameStruct = wellKnownNameStruct
 Namespace.addCategoryObject('typeBinding', 'wellKnownNameStruct', wellKnownNameStruct)
 
 
@@ -6854,34 +7114,34 @@ class measuredDepthCoord (abstractMeasure):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_SIMPLE
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'measuredDepthCoord')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 492, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 492, 1)
+    _ElementMap = abstractMeasure._ElementMap.copy()
+    _AttributeMap = abstractMeasure._AttributeMap.copy()
     # Base type is abstractMeasure
     
     # Attribute uom uses Python identifier uom
-    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_measuredDepthCoord_uom', MeasuredDepthUom, required=True)
-    __uom._DeclarationLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 501, 4)
-    __uom._UseLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 501, 4)
+    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_measuredDepthCoord_uom', _module_typeBindings.MeasuredDepthUom, required=True)
+    __uom._DeclarationLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 501, 4)
+    __uom._UseLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 501, 4)
     
     uom = property(__uom.value, __uom.set, None, 'The unit of measure of the quantity value.')
 
     
     # Attribute datum uses Python identifier datum
-    __datum = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'datum'), 'datum', '__httpwww_witsml_orgschemas131_measuredDepthCoord_datum', refWellDatum)
-    __datum._DeclarationLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 506, 4)
-    __datum._UseLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 506, 4)
+    __datum = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'datum'), 'datum', '__httpwww_witsml_orgschemas131_measuredDepthCoord_datum', _module_typeBindings.refWellDatum)
+    __datum._DeclarationLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 506, 4)
+    __datum._UseLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 506, 4)
     
     datum = property(__datum.value, __datum.set, None, 'A pointer to the reference datum for this coordinate \n\t\t\t\t\t\tvalue as defined in WellDatum. This value is assumed to match the uid\n\t\t\t\t\t\tvalue in a WellDatum.\n\t\t\t\t\t\tIf not given then the default WellDatum must be assumed.')
 
-
-    _ElementMap = abstractMeasure._ElementMap.copy()
     _ElementMap.update({
         
     })
-    _AttributeMap = abstractMeasure._AttributeMap.copy()
     _AttributeMap.update({
         __uom.name() : __uom,
         __datum.name() : __datum
     })
+_module_typeBindings.measuredDepthCoord = measuredDepthCoord
 Namespace.addCategoryObject('typeBinding', 'measuredDepthCoord', measuredDepthCoord)
 
 
@@ -6895,34 +7155,34 @@ class wellVerticalDepthCoord (abstractMeasure):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_SIMPLE
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'wellVerticalDepthCoord')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 541, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 541, 1)
+    _ElementMap = abstractMeasure._ElementMap.copy()
+    _AttributeMap = abstractMeasure._AttributeMap.copy()
     # Base type is abstractMeasure
     
     # Attribute uom uses Python identifier uom
-    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_wellVerticalDepthCoord_uom', WellVerticalCoordinateUom, required=True)
-    __uom._DeclarationLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 550, 4)
-    __uom._UseLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 550, 4)
+    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_wellVerticalDepthCoord_uom', _module_typeBindings.WellVerticalCoordinateUom, required=True)
+    __uom._DeclarationLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 550, 4)
+    __uom._UseLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 550, 4)
     
     uom = property(__uom.value, __uom.set, None, 'The unit of measure of the quantity value.')
 
     
     # Attribute datum uses Python identifier datum
-    __datum = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'datum'), 'datum', '__httpwww_witsml_orgschemas131_wellVerticalDepthCoord_datum', refWellDatum)
-    __datum._DeclarationLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 555, 4)
-    __datum._UseLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 555, 4)
+    __datum = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'datum'), 'datum', '__httpwww_witsml_orgschemas131_wellVerticalDepthCoord_datum', _module_typeBindings.refWellDatum)
+    __datum._DeclarationLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 555, 4)
+    __datum._UseLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 555, 4)
     
     datum = property(__datum.value, __datum.set, None, 'A pointer to the reference datum for this coordinate \n\t\t\t\t\t\tvalue as defined in WellDatum. \n\t\t\t\t\t\tIf not given then the default WellDatum must be assumed.')
 
-
-    _ElementMap = abstractMeasure._ElementMap.copy()
     _ElementMap.update({
         
     })
-    _AttributeMap = abstractMeasure._AttributeMap.copy()
     _AttributeMap.update({
         __uom.name() : __uom,
         __datum.name() : __datum
     })
+_module_typeBindings.wellVerticalDepthCoord = wellVerticalDepthCoord
 Namespace.addCategoryObject('typeBinding', 'wellVerticalDepthCoord', wellVerticalDepthCoord)
 
 
@@ -6936,34 +7196,34 @@ class wellElevationCoord (abstractMeasure):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_SIMPLE
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'wellElevationCoord')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 566, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 566, 1)
+    _ElementMap = abstractMeasure._ElementMap.copy()
+    _AttributeMap = abstractMeasure._AttributeMap.copy()
     # Base type is abstractMeasure
     
     # Attribute uom uses Python identifier uom
-    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_wellElevationCoord_uom', WellVerticalCoordinateUom, required=True)
-    __uom._DeclarationLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 575, 4)
-    __uom._UseLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 575, 4)
+    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_wellElevationCoord_uom', _module_typeBindings.WellVerticalCoordinateUom, required=True)
+    __uom._DeclarationLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 575, 4)
+    __uom._UseLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 575, 4)
     
     uom = property(__uom.value, __uom.set, None, 'The unit of measure of the quantity value.\n\t\t\t\t\t\tIf not given then the default unit of measure of the explicitly\n\t\t\t\t\t\tor implicitly given datum must be assumed.')
 
     
     # Attribute datum uses Python identifier datum
-    __datum = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'datum'), 'datum', '__httpwww_witsml_orgschemas131_wellElevationCoord_datum', refWellDatum)
-    __datum._DeclarationLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 582, 4)
-    __datum._UseLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 582, 4)
+    __datum = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'datum'), 'datum', '__httpwww_witsml_orgschemas131_wellElevationCoord_datum', _module_typeBindings.refWellDatum)
+    __datum._DeclarationLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 582, 4)
+    __datum._UseLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 582, 4)
     
     datum = property(__datum.value, __datum.set, None, 'A pointer to the reference datum for this coordinate \n\t\t\t\t\t\tvalue as defined in WellDatum. \n\t\t\t\t\t\tIf not given then the default WellDatum must be assumed.')
 
-
-    _ElementMap = abstractMeasure._ElementMap.copy()
     _ElementMap.update({
         
     })
-    _AttributeMap = abstractMeasure._AttributeMap.copy()
     _AttributeMap.update({
         __uom.name() : __uom,
         __datum.name() : __datum
     })
+_module_typeBindings.wellElevationCoord = wellElevationCoord
 Namespace.addCategoryObject('typeBinding', 'wellElevationCoord', wellElevationCoord)
 
 
@@ -6974,23 +7234,25 @@ class cost (pyxb.binding.basis.complexTypeDefinition):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_SIMPLE
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'cost')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 714, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 714, 1)
+    _ElementMap = {}
+    _AttributeMap = {}
     # Base type is abstractDouble
     
     # Attribute currency uses Python identifier currency
-    __currency = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'currency'), 'currency', '__httpwww_witsml_orgschemas131_cost_currency', kindString)
-    __currency._DeclarationLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 717, 4)
-    __currency._UseLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 717, 4)
+    __currency = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'currency'), 'currency', '__httpwww_witsml_orgschemas131_cost_currency', _module_typeBindings.kindString)
+    __currency._DeclarationLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 717, 4)
+    __currency._UseLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 717, 4)
     
     currency = property(__currency.value, __currency.set, None, None)
 
-
-    _ElementMap = {
+    _ElementMap.update({
         
-    }
-    _AttributeMap = {
+    })
+    _AttributeMap.update({
         __currency.name() : __currency
-    }
+    })
+_module_typeBindings.cost = cost
 Namespace.addCategoryObject('typeBinding', 'cost', cost)
 
 
@@ -7001,50 +7263,52 @@ class indexedObject (pyxb.binding.basis.complexTypeDefinition):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_SIMPLE
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'indexedObject')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 722, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 722, 1)
+    _ElementMap = {}
+    _AttributeMap = {}
     # Base type is abstractTypeEnum
     
     # Attribute index uses Python identifier index
-    __index = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'index'), 'index', '__httpwww_witsml_orgschemas131_indexedObject_index', positiveCount, required=True)
-    __index._DeclarationLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 725, 4)
-    __index._UseLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 725, 4)
+    __index = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'index'), 'index', '__httpwww_witsml_orgschemas131_indexedObject_index', _module_typeBindings.positiveCount, required=True)
+    __index._DeclarationLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 725, 4)
+    __index._UseLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 725, 4)
     
     index = property(__index.value, __index.set, None, 'Indexes things with the same name. \n\t\t\t\t\t\tThat is the first one, the second one, etc.')
 
     
     # Attribute name uses Python identifier name
-    __name = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'name'), 'name', '__httpwww_witsml_orgschemas131_indexedObject_name', kindString)
-    __name._DeclarationLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 731, 4)
-    __name._UseLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 731, 4)
+    __name = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'name'), 'name', '__httpwww_witsml_orgschemas131_indexedObject_name', _module_typeBindings.kindString)
+    __name._DeclarationLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 731, 4)
+    __name._UseLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 731, 4)
     
     name = property(__name.value, __name.set, None, None)
 
     
     # Attribute uom uses Python identifier uom
-    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_indexedObject_uom', uomString)
-    __uom._DeclarationLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 732, 4)
-    __uom._UseLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 732, 4)
+    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_indexedObject_uom', _module_typeBindings.uomString)
+    __uom._DeclarationLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 732, 4)
+    __uom._UseLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 732, 4)
     
     uom = property(__uom.value, __uom.set, None, None)
 
     
     # Attribute description uses Python identifier description
-    __description = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'description'), 'description', '__httpwww_witsml_orgschemas131_indexedObject_description', descriptionString)
-    __description._DeclarationLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 733, 4)
-    __description._UseLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_dataTypes.xsd', 733, 4)
+    __description = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'description'), 'description', '__httpwww_witsml_orgschemas131_indexedObject_description', _module_typeBindings.descriptionString)
+    __description._DeclarationLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 733, 4)
+    __description._UseLocation = pyxb.utils.utility.Location('typ_dataTypes.xsd', 733, 4)
     
     description = property(__description.value, __description.set, None, None)
 
-
-    _ElementMap = {
+    _ElementMap.update({
         
-    }
-    _AttributeMap = {
+    })
+    _AttributeMap.update({
         __index.name() : __index,
         __name.name() : __name,
         __uom.name() : __uom,
         __description.name() : __description
-    }
+    })
+_module_typeBindings.indexedObject = indexedObject
 Namespace.addCategoryObject('typeBinding', 'indexedObject', indexedObject)
 
 
@@ -7055,25 +7319,25 @@ class accelerationLinearMeasure (abstractMeasure):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_SIMPLE
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'accelerationLinearMeasure')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 24, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 24, 1)
+    _ElementMap = abstractMeasure._ElementMap.copy()
+    _AttributeMap = abstractMeasure._AttributeMap.copy()
     # Base type is abstractMeasure
     
     # Attribute uom uses Python identifier uom
-    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_accelerationLinearMeasure_uom', accelerationLinearUom, required=True)
-    __uom._DeclarationLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 27, 4)
-    __uom._UseLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 27, 4)
+    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_accelerationLinearMeasure_uom', _module_typeBindings.accelerationLinearUom, required=True)
+    __uom._DeclarationLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 27, 4)
+    __uom._UseLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 27, 4)
     
     uom = property(__uom.value, __uom.set, None, None)
 
-
-    _ElementMap = abstractMeasure._ElementMap.copy()
     _ElementMap.update({
         
     })
-    _AttributeMap = abstractMeasure._AttributeMap.copy()
     _AttributeMap.update({
         __uom.name() : __uom
     })
+_module_typeBindings.accelerationLinearMeasure = accelerationLinearMeasure
 Namespace.addCategoryObject('typeBinding', 'accelerationLinearMeasure', accelerationLinearMeasure)
 
 
@@ -7084,25 +7348,25 @@ class anglePerLengthMeasure (abstractMeasure):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_SIMPLE
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'anglePerLengthMeasure')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 32, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 32, 1)
+    _ElementMap = abstractMeasure._ElementMap.copy()
+    _AttributeMap = abstractMeasure._AttributeMap.copy()
     # Base type is abstractMeasure
     
     # Attribute uom uses Python identifier uom
-    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_anglePerLengthMeasure_uom', anglePerLengthUom, required=True)
-    __uom._DeclarationLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 35, 4)
-    __uom._UseLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 35, 4)
+    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_anglePerLengthMeasure_uom', _module_typeBindings.anglePerLengthUom, required=True)
+    __uom._DeclarationLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 35, 4)
+    __uom._UseLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 35, 4)
     
     uom = property(__uom.value, __uom.set, None, None)
 
-
-    _ElementMap = abstractMeasure._ElementMap.copy()
     _ElementMap.update({
         
     })
-    _AttributeMap = abstractMeasure._AttributeMap.copy()
     _AttributeMap.update({
         __uom.name() : __uom
     })
+_module_typeBindings.anglePerLengthMeasure = anglePerLengthMeasure
 Namespace.addCategoryObject('typeBinding', 'anglePerLengthMeasure', anglePerLengthMeasure)
 
 
@@ -7113,25 +7377,25 @@ class anglePerTimeMeasure (abstractMeasure):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_SIMPLE
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'anglePerTimeMeasure')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 40, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 40, 1)
+    _ElementMap = abstractMeasure._ElementMap.copy()
+    _AttributeMap = abstractMeasure._AttributeMap.copy()
     # Base type is abstractMeasure
     
     # Attribute uom uses Python identifier uom
-    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_anglePerTimeMeasure_uom', anglePerTimeUom, required=True)
-    __uom._DeclarationLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 43, 4)
-    __uom._UseLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 43, 4)
+    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_anglePerTimeMeasure_uom', _module_typeBindings.anglePerTimeUom, required=True)
+    __uom._DeclarationLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 43, 4)
+    __uom._UseLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 43, 4)
     
     uom = property(__uom.value, __uom.set, None, None)
 
-
-    _ElementMap = abstractMeasure._ElementMap.copy()
     _ElementMap.update({
         
     })
-    _AttributeMap = abstractMeasure._AttributeMap.copy()
     _AttributeMap.update({
         __uom.name() : __uom
     })
+_module_typeBindings.anglePerTimeMeasure = anglePerTimeMeasure
 Namespace.addCategoryObject('typeBinding', 'anglePerTimeMeasure', anglePerTimeMeasure)
 
 
@@ -7142,25 +7406,25 @@ class areaMeasure (abstractMeasure):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_SIMPLE
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'areaMeasure')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 48, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 48, 1)
+    _ElementMap = abstractMeasure._ElementMap.copy()
+    _AttributeMap = abstractMeasure._AttributeMap.copy()
     # Base type is abstractMeasure
     
     # Attribute uom uses Python identifier uom
-    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_areaMeasure_uom', areaUom, required=True)
-    __uom._DeclarationLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 51, 4)
-    __uom._UseLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 51, 4)
+    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_areaMeasure_uom', _module_typeBindings.areaUom, required=True)
+    __uom._DeclarationLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 51, 4)
+    __uom._UseLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 51, 4)
     
     uom = property(__uom.value, __uom.set, None, None)
 
-
-    _ElementMap = abstractMeasure._ElementMap.copy()
     _ElementMap.update({
         
     })
-    _AttributeMap = abstractMeasure._AttributeMap.copy()
     _AttributeMap.update({
         __uom.name() : __uom
     })
+_module_typeBindings.areaMeasure = areaMeasure
 Namespace.addCategoryObject('typeBinding', 'areaMeasure', areaMeasure)
 
 
@@ -7171,25 +7435,25 @@ class areaPerAreaMeasure (abstractMeasure):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_SIMPLE
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'areaPerAreaMeasure')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 56, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 56, 1)
+    _ElementMap = abstractMeasure._ElementMap.copy()
+    _AttributeMap = abstractMeasure._AttributeMap.copy()
     # Base type is abstractMeasure
     
     # Attribute uom uses Python identifier uom
-    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_areaPerAreaMeasure_uom', areaPerAreaUom, required=True)
-    __uom._DeclarationLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 59, 4)
-    __uom._UseLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 59, 4)
+    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_areaPerAreaMeasure_uom', _module_typeBindings.areaPerAreaUom, required=True)
+    __uom._DeclarationLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 59, 4)
+    __uom._UseLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 59, 4)
     
     uom = property(__uom.value, __uom.set, None, None)
 
-
-    _ElementMap = abstractMeasure._ElementMap.copy()
     _ElementMap.update({
         
     })
-    _AttributeMap = abstractMeasure._AttributeMap.copy()
     _AttributeMap.update({
         __uom.name() : __uom
     })
+_module_typeBindings.areaPerAreaMeasure = areaPerAreaMeasure
 Namespace.addCategoryObject('typeBinding', 'areaPerAreaMeasure', areaPerAreaMeasure)
 
 
@@ -7200,25 +7464,25 @@ class densityMeasure (abstractMeasure):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_SIMPLE
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'densityMeasure')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 64, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 64, 1)
+    _ElementMap = abstractMeasure._ElementMap.copy()
+    _AttributeMap = abstractMeasure._AttributeMap.copy()
     # Base type is abstractMeasure
     
     # Attribute uom uses Python identifier uom
-    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_densityMeasure_uom', densityUom, required=True)
-    __uom._DeclarationLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 67, 4)
-    __uom._UseLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 67, 4)
+    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_densityMeasure_uom', _module_typeBindings.densityUom, required=True)
+    __uom._DeclarationLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 67, 4)
+    __uom._UseLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 67, 4)
     
     uom = property(__uom.value, __uom.set, None, None)
 
-
-    _ElementMap = abstractMeasure._ElementMap.copy()
     _ElementMap.update({
         
     })
-    _AttributeMap = abstractMeasure._AttributeMap.copy()
     _AttributeMap.update({
         __uom.name() : __uom
     })
+_module_typeBindings.densityMeasure = densityMeasure
 Namespace.addCategoryObject('typeBinding', 'densityMeasure', densityMeasure)
 
 
@@ -7229,25 +7493,25 @@ class dimensionlessMeasure (abstractMeasure):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_SIMPLE
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'dimensionlessMeasure')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 72, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 72, 1)
+    _ElementMap = abstractMeasure._ElementMap.copy()
+    _AttributeMap = abstractMeasure._AttributeMap.copy()
     # Base type is abstractMeasure
     
     # Attribute uom uses Python identifier uom
-    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_dimensionlessMeasure_uom', dimensionlessUom, required=True)
-    __uom._DeclarationLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 75, 4)
-    __uom._UseLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 75, 4)
+    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_dimensionlessMeasure_uom', _module_typeBindings.dimensionlessUom, required=True)
+    __uom._DeclarationLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 75, 4)
+    __uom._UseLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 75, 4)
     
     uom = property(__uom.value, __uom.set, None, None)
 
-
-    _ElementMap = abstractMeasure._ElementMap.copy()
     _ElementMap.update({
         
     })
-    _AttributeMap = abstractMeasure._AttributeMap.copy()
     _AttributeMap.update({
         __uom.name() : __uom
     })
+_module_typeBindings.dimensionlessMeasure = dimensionlessMeasure
 Namespace.addCategoryObject('typeBinding', 'dimensionlessMeasure', dimensionlessMeasure)
 
 
@@ -7258,25 +7522,25 @@ class dynamicViscosityMeasure (abstractMeasure):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_SIMPLE
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'dynamicViscosityMeasure')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 80, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 80, 1)
+    _ElementMap = abstractMeasure._ElementMap.copy()
+    _AttributeMap = abstractMeasure._AttributeMap.copy()
     # Base type is abstractMeasure
     
     # Attribute uom uses Python identifier uom
-    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_dynamicViscosityMeasure_uom', dynamicViscosityUom, required=True)
-    __uom._DeclarationLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 83, 4)
-    __uom._UseLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 83, 4)
+    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_dynamicViscosityMeasure_uom', _module_typeBindings.dynamicViscosityUom, required=True)
+    __uom._DeclarationLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 83, 4)
+    __uom._UseLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 83, 4)
     
     uom = property(__uom.value, __uom.set, None, None)
 
-
-    _ElementMap = abstractMeasure._ElementMap.copy()
     _ElementMap.update({
         
     })
-    _AttributeMap = abstractMeasure._AttributeMap.copy()
     _AttributeMap.update({
         __uom.name() : __uom
     })
+_module_typeBindings.dynamicViscosityMeasure = dynamicViscosityMeasure
 Namespace.addCategoryObject('typeBinding', 'dynamicViscosityMeasure', dynamicViscosityMeasure)
 
 
@@ -7287,25 +7551,25 @@ class electricCurrentMeasure (abstractMeasure):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_SIMPLE
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'electricCurrentMeasure')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 88, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 88, 1)
+    _ElementMap = abstractMeasure._ElementMap.copy()
+    _AttributeMap = abstractMeasure._AttributeMap.copy()
     # Base type is abstractMeasure
     
     # Attribute uom uses Python identifier uom
-    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_electricCurrentMeasure_uom', electricCurrentUom, required=True)
-    __uom._DeclarationLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 91, 4)
-    __uom._UseLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 91, 4)
+    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_electricCurrentMeasure_uom', _module_typeBindings.electricCurrentUom, required=True)
+    __uom._DeclarationLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 91, 4)
+    __uom._UseLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 91, 4)
     
     uom = property(__uom.value, __uom.set, None, None)
 
-
-    _ElementMap = abstractMeasure._ElementMap.copy()
     _ElementMap.update({
         
     })
-    _AttributeMap = abstractMeasure._AttributeMap.copy()
     _AttributeMap.update({
         __uom.name() : __uom
     })
+_module_typeBindings.electricCurrentMeasure = electricCurrentMeasure
 Namespace.addCategoryObject('typeBinding', 'electricCurrentMeasure', electricCurrentMeasure)
 
 
@@ -7316,25 +7580,25 @@ class electricPotentialMeasure (abstractMeasure):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_SIMPLE
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'electricPotentialMeasure')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 96, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 96, 1)
+    _ElementMap = abstractMeasure._ElementMap.copy()
+    _AttributeMap = abstractMeasure._AttributeMap.copy()
     # Base type is abstractMeasure
     
     # Attribute uom uses Python identifier uom
-    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_electricPotentialMeasure_uom', electricPotentialUom, required=True)
-    __uom._DeclarationLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 99, 4)
-    __uom._UseLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 99, 4)
+    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_electricPotentialMeasure_uom', _module_typeBindings.electricPotentialUom, required=True)
+    __uom._DeclarationLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 99, 4)
+    __uom._UseLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 99, 4)
     
     uom = property(__uom.value, __uom.set, None, None)
 
-
-    _ElementMap = abstractMeasure._ElementMap.copy()
     _ElementMap.update({
         
     })
-    _AttributeMap = abstractMeasure._AttributeMap.copy()
     _AttributeMap.update({
         __uom.name() : __uom
     })
+_module_typeBindings.electricPotentialMeasure = electricPotentialMeasure
 Namespace.addCategoryObject('typeBinding', 'electricPotentialMeasure', electricPotentialMeasure)
 
 
@@ -7345,25 +7609,25 @@ class energyPerAreaMeasure (abstractMeasure):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_SIMPLE
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'energyPerAreaMeasure')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 104, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 104, 1)
+    _ElementMap = abstractMeasure._ElementMap.copy()
+    _AttributeMap = abstractMeasure._AttributeMap.copy()
     # Base type is abstractMeasure
     
     # Attribute uom uses Python identifier uom
-    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_energyPerAreaMeasure_uom', energyPerAreaUom, required=True)
-    __uom._DeclarationLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 107, 4)
-    __uom._UseLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 107, 4)
+    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_energyPerAreaMeasure_uom', _module_typeBindings.energyPerAreaUom, required=True)
+    __uom._DeclarationLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 107, 4)
+    __uom._UseLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 107, 4)
     
     uom = property(__uom.value, __uom.set, None, None)
 
-
-    _ElementMap = abstractMeasure._ElementMap.copy()
     _ElementMap.update({
         
     })
-    _AttributeMap = abstractMeasure._AttributeMap.copy()
     _AttributeMap.update({
         __uom.name() : __uom
     })
+_module_typeBindings.energyPerAreaMeasure = energyPerAreaMeasure
 Namespace.addCategoryObject('typeBinding', 'energyPerAreaMeasure', energyPerAreaMeasure)
 
 
@@ -7374,25 +7638,25 @@ class equivalentPerMassMeasure (abstractMeasure):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_SIMPLE
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'equivalentPerMassMeasure')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 112, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 112, 1)
+    _ElementMap = abstractMeasure._ElementMap.copy()
+    _AttributeMap = abstractMeasure._AttributeMap.copy()
     # Base type is abstractMeasure
     
     # Attribute uom uses Python identifier uom
-    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_equivalentPerMassMeasure_uom', equivalentPerMassUom, required=True)
-    __uom._DeclarationLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 115, 4)
-    __uom._UseLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 115, 4)
+    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_equivalentPerMassMeasure_uom', _module_typeBindings.equivalentPerMassUom, required=True)
+    __uom._DeclarationLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 115, 4)
+    __uom._UseLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 115, 4)
     
     uom = property(__uom.value, __uom.set, None, None)
 
-
-    _ElementMap = abstractMeasure._ElementMap.copy()
     _ElementMap.update({
         
     })
-    _AttributeMap = abstractMeasure._AttributeMap.copy()
     _AttributeMap.update({
         __uom.name() : __uom
     })
+_module_typeBindings.equivalentPerMassMeasure = equivalentPerMassMeasure
 Namespace.addCategoryObject('typeBinding', 'equivalentPerMassMeasure', equivalentPerMassMeasure)
 
 
@@ -7403,25 +7667,25 @@ class forceMeasure (abstractMeasure):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_SIMPLE
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'forceMeasure')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 120, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 120, 1)
+    _ElementMap = abstractMeasure._ElementMap.copy()
+    _AttributeMap = abstractMeasure._AttributeMap.copy()
     # Base type is abstractMeasure
     
     # Attribute uom uses Python identifier uom
-    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_forceMeasure_uom', forceUom, required=True)
-    __uom._DeclarationLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 123, 4)
-    __uom._UseLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 123, 4)
+    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_forceMeasure_uom', _module_typeBindings.forceUom, required=True)
+    __uom._DeclarationLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 123, 4)
+    __uom._UseLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 123, 4)
     
     uom = property(__uom.value, __uom.set, None, None)
 
-
-    _ElementMap = abstractMeasure._ElementMap.copy()
     _ElementMap.update({
         
     })
-    _AttributeMap = abstractMeasure._AttributeMap.copy()
     _AttributeMap.update({
         __uom.name() : __uom
     })
+_module_typeBindings.forceMeasure = forceMeasure
 Namespace.addCategoryObject('typeBinding', 'forceMeasure', forceMeasure)
 
 
@@ -7432,25 +7696,25 @@ class forcePerLengthMeasure (abstractMeasure):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_SIMPLE
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'forcePerLengthMeasure')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 128, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 128, 1)
+    _ElementMap = abstractMeasure._ElementMap.copy()
+    _AttributeMap = abstractMeasure._AttributeMap.copy()
     # Base type is abstractMeasure
     
     # Attribute uom uses Python identifier uom
-    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_forcePerLengthMeasure_uom', forcePerLengthUom, required=True)
-    __uom._DeclarationLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 131, 4)
-    __uom._UseLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 131, 4)
+    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_forcePerLengthMeasure_uom', _module_typeBindings.forcePerLengthUom, required=True)
+    __uom._DeclarationLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 131, 4)
+    __uom._UseLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 131, 4)
     
     uom = property(__uom.value, __uom.set, None, None)
 
-
-    _ElementMap = abstractMeasure._ElementMap.copy()
     _ElementMap.update({
         
     })
-    _AttributeMap = abstractMeasure._AttributeMap.copy()
     _AttributeMap.update({
         __uom.name() : __uom
     })
+_module_typeBindings.forcePerLengthMeasure = forcePerLengthMeasure
 Namespace.addCategoryObject('typeBinding', 'forcePerLengthMeasure', forcePerLengthMeasure)
 
 
@@ -7461,25 +7725,25 @@ class forcePerVolumeMeasure (abstractMeasure):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_SIMPLE
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'forcePerVolumeMeasure')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 136, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 136, 1)
+    _ElementMap = abstractMeasure._ElementMap.copy()
+    _AttributeMap = abstractMeasure._AttributeMap.copy()
     # Base type is abstractMeasure
     
     # Attribute uom uses Python identifier uom
-    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_forcePerVolumeMeasure_uom', forcePerVolumeUom, required=True)
-    __uom._DeclarationLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 139, 4)
-    __uom._UseLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 139, 4)
+    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_forcePerVolumeMeasure_uom', _module_typeBindings.forcePerVolumeUom, required=True)
+    __uom._DeclarationLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 139, 4)
+    __uom._UseLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 139, 4)
     
     uom = property(__uom.value, __uom.set, None, None)
 
-
-    _ElementMap = abstractMeasure._ElementMap.copy()
     _ElementMap.update({
         
     })
-    _AttributeMap = abstractMeasure._AttributeMap.copy()
     _AttributeMap.update({
         __uom.name() : __uom
     })
+_module_typeBindings.forcePerVolumeMeasure = forcePerVolumeMeasure
 Namespace.addCategoryObject('typeBinding', 'forcePerVolumeMeasure', forcePerVolumeMeasure)
 
 
@@ -7490,25 +7754,25 @@ class frequencyMeasure (abstractMeasure):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_SIMPLE
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'frequencyMeasure')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 144, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 144, 1)
+    _ElementMap = abstractMeasure._ElementMap.copy()
+    _AttributeMap = abstractMeasure._AttributeMap.copy()
     # Base type is abstractMeasure
     
     # Attribute uom uses Python identifier uom
-    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_frequencyMeasure_uom', frequencyUom, required=True)
-    __uom._DeclarationLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 147, 4)
-    __uom._UseLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 147, 4)
+    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_frequencyMeasure_uom', _module_typeBindings.frequencyUom, required=True)
+    __uom._DeclarationLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 147, 4)
+    __uom._UseLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 147, 4)
     
     uom = property(__uom.value, __uom.set, None, None)
 
-
-    _ElementMap = abstractMeasure._ElementMap.copy()
     _ElementMap.update({
         
     })
-    _AttributeMap = abstractMeasure._AttributeMap.copy()
     _AttributeMap.update({
         __uom.name() : __uom
     })
+_module_typeBindings.frequencyMeasure = frequencyMeasure
 Namespace.addCategoryObject('typeBinding', 'frequencyMeasure', frequencyMeasure)
 
 
@@ -7519,25 +7783,25 @@ class illuminanceMeasure (abstractMeasure):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_SIMPLE
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'illuminanceMeasure')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 152, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 152, 1)
+    _ElementMap = abstractMeasure._ElementMap.copy()
+    _AttributeMap = abstractMeasure._AttributeMap.copy()
     # Base type is abstractMeasure
     
     # Attribute uom uses Python identifier uom
-    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_illuminanceMeasure_uom', illuminanceUom, required=True)
-    __uom._DeclarationLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 155, 4)
-    __uom._UseLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 155, 4)
+    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_illuminanceMeasure_uom', _module_typeBindings.illuminanceUom, required=True)
+    __uom._DeclarationLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 155, 4)
+    __uom._UseLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 155, 4)
     
     uom = property(__uom.value, __uom.set, None, None)
 
-
-    _ElementMap = abstractMeasure._ElementMap.copy()
     _ElementMap.update({
         
     })
-    _AttributeMap = abstractMeasure._AttributeMap.copy()
     _AttributeMap.update({
         __uom.name() : __uom
     })
+_module_typeBindings.illuminanceMeasure = illuminanceMeasure
 Namespace.addCategoryObject('typeBinding', 'illuminanceMeasure', illuminanceMeasure)
 
 
@@ -7548,25 +7812,25 @@ class lengthMeasure (abstractMeasure):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_SIMPLE
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'lengthMeasure')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 160, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 160, 1)
+    _ElementMap = abstractMeasure._ElementMap.copy()
+    _AttributeMap = abstractMeasure._AttributeMap.copy()
     # Base type is abstractMeasure
     
     # Attribute uom uses Python identifier uom
-    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_lengthMeasure_uom', lengthUom, required=True)
-    __uom._DeclarationLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 163, 4)
-    __uom._UseLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 163, 4)
+    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_lengthMeasure_uom', _module_typeBindings.lengthUom, required=True)
+    __uom._DeclarationLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 163, 4)
+    __uom._UseLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 163, 4)
     
     uom = property(__uom.value, __uom.set, None, None)
 
-
-    _ElementMap = abstractMeasure._ElementMap.copy()
     _ElementMap.update({
         
     })
-    _AttributeMap = abstractMeasure._AttributeMap.copy()
     _AttributeMap.update({
         __uom.name() : __uom
     })
+_module_typeBindings.lengthMeasure = lengthMeasure
 Namespace.addCategoryObject('typeBinding', 'lengthMeasure', lengthMeasure)
 
 
@@ -7577,25 +7841,25 @@ class lengthPerLengthMeasure (abstractMeasure):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_SIMPLE
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'lengthPerLengthMeasure')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 168, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 168, 1)
+    _ElementMap = abstractMeasure._ElementMap.copy()
+    _AttributeMap = abstractMeasure._AttributeMap.copy()
     # Base type is abstractMeasure
     
     # Attribute uom uses Python identifier uom
-    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_lengthPerLengthMeasure_uom', lengthPerLengthUom, required=True)
-    __uom._DeclarationLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 171, 4)
-    __uom._UseLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 171, 4)
+    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_lengthPerLengthMeasure_uom', _module_typeBindings.lengthPerLengthUom, required=True)
+    __uom._DeclarationLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 171, 4)
+    __uom._UseLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 171, 4)
     
     uom = property(__uom.value, __uom.set, None, None)
 
-
-    _ElementMap = abstractMeasure._ElementMap.copy()
     _ElementMap.update({
         
     })
-    _AttributeMap = abstractMeasure._AttributeMap.copy()
     _AttributeMap.update({
         __uom.name() : __uom
     })
+_module_typeBindings.lengthPerLengthMeasure = lengthPerLengthMeasure
 Namespace.addCategoryObject('typeBinding', 'lengthPerLengthMeasure', lengthPerLengthMeasure)
 
 
@@ -7606,25 +7870,25 @@ class magneticFieldStrengthMeasure (abstractMeasure):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_SIMPLE
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'magneticFieldStrengthMeasure')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 176, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 176, 1)
+    _ElementMap = abstractMeasure._ElementMap.copy()
+    _AttributeMap = abstractMeasure._AttributeMap.copy()
     # Base type is abstractMeasure
     
     # Attribute uom uses Python identifier uom
-    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_magneticFieldStrengthMeasure_uom', magneticFieldStrengthUom, required=True)
-    __uom._DeclarationLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 179, 4)
-    __uom._UseLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 179, 4)
+    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_magneticFieldStrengthMeasure_uom', _module_typeBindings.magneticFieldStrengthUom, required=True)
+    __uom._DeclarationLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 179, 4)
+    __uom._UseLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 179, 4)
     
     uom = property(__uom.value, __uom.set, None, None)
 
-
-    _ElementMap = abstractMeasure._ElementMap.copy()
     _ElementMap.update({
         
     })
-    _AttributeMap = abstractMeasure._AttributeMap.copy()
     _AttributeMap.update({
         __uom.name() : __uom
     })
+_module_typeBindings.magneticFieldStrengthMeasure = magneticFieldStrengthMeasure
 Namespace.addCategoryObject('typeBinding', 'magneticFieldStrengthMeasure', magneticFieldStrengthMeasure)
 
 
@@ -7635,25 +7899,25 @@ class magneticInductionMeasure (abstractMeasure):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_SIMPLE
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'magneticInductionMeasure')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 184, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 184, 1)
+    _ElementMap = abstractMeasure._ElementMap.copy()
+    _AttributeMap = abstractMeasure._AttributeMap.copy()
     # Base type is abstractMeasure
     
     # Attribute uom uses Python identifier uom
-    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_magneticInductionMeasure_uom', magneticInductionUom, required=True)
-    __uom._DeclarationLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 187, 4)
-    __uom._UseLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 187, 4)
+    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_magneticInductionMeasure_uom', _module_typeBindings.magneticInductionUom, required=True)
+    __uom._DeclarationLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 187, 4)
+    __uom._UseLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 187, 4)
     
     uom = property(__uom.value, __uom.set, None, None)
 
-
-    _ElementMap = abstractMeasure._ElementMap.copy()
     _ElementMap.update({
         
     })
-    _AttributeMap = abstractMeasure._AttributeMap.copy()
     _AttributeMap.update({
         __uom.name() : __uom
     })
+_module_typeBindings.magneticInductionMeasure = magneticInductionMeasure
 Namespace.addCategoryObject('typeBinding', 'magneticInductionMeasure', magneticInductionMeasure)
 
 
@@ -7664,25 +7928,25 @@ class massConcentrationMeasure (abstractMeasure):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_SIMPLE
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'massConcentrationMeasure')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 192, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 192, 1)
+    _ElementMap = abstractMeasure._ElementMap.copy()
+    _AttributeMap = abstractMeasure._AttributeMap.copy()
     # Base type is abstractMeasure
     
     # Attribute uom uses Python identifier uom
-    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_massConcentrationMeasure_uom', massConcentrationUom, required=True)
-    __uom._DeclarationLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 195, 4)
-    __uom._UseLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 195, 4)
+    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_massConcentrationMeasure_uom', _module_typeBindings.massConcentrationUom, required=True)
+    __uom._DeclarationLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 195, 4)
+    __uom._UseLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 195, 4)
     
     uom = property(__uom.value, __uom.set, None, None)
 
-
-    _ElementMap = abstractMeasure._ElementMap.copy()
     _ElementMap.update({
         
     })
-    _AttributeMap = abstractMeasure._AttributeMap.copy()
     _AttributeMap.update({
         __uom.name() : __uom
     })
+_module_typeBindings.massConcentrationMeasure = massConcentrationMeasure
 Namespace.addCategoryObject('typeBinding', 'massConcentrationMeasure', massConcentrationMeasure)
 
 
@@ -7693,25 +7957,25 @@ class massMeasure (abstractMeasure):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_SIMPLE
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'massMeasure')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 200, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 200, 1)
+    _ElementMap = abstractMeasure._ElementMap.copy()
+    _AttributeMap = abstractMeasure._AttributeMap.copy()
     # Base type is abstractMeasure
     
     # Attribute uom uses Python identifier uom
-    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_massMeasure_uom', massUom, required=True)
-    __uom._DeclarationLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 203, 4)
-    __uom._UseLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 203, 4)
+    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_massMeasure_uom', _module_typeBindings.massUom, required=True)
+    __uom._DeclarationLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 203, 4)
+    __uom._UseLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 203, 4)
     
     uom = property(__uom.value, __uom.set, None, None)
 
-
-    _ElementMap = abstractMeasure._ElementMap.copy()
     _ElementMap.update({
         
     })
-    _AttributeMap = abstractMeasure._AttributeMap.copy()
     _AttributeMap.update({
         __uom.name() : __uom
     })
+_module_typeBindings.massMeasure = massMeasure
 Namespace.addCategoryObject('typeBinding', 'massMeasure', massMeasure)
 
 
@@ -7722,25 +7986,25 @@ class massPerLengthMeasure (abstractMeasure):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_SIMPLE
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'massPerLengthMeasure')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 208, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 208, 1)
+    _ElementMap = abstractMeasure._ElementMap.copy()
+    _AttributeMap = abstractMeasure._AttributeMap.copy()
     # Base type is abstractMeasure
     
     # Attribute uom uses Python identifier uom
-    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_massPerLengthMeasure_uom', massPerLengthUom, required=True)
-    __uom._DeclarationLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 211, 4)
-    __uom._UseLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 211, 4)
+    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_massPerLengthMeasure_uom', _module_typeBindings.massPerLengthUom, required=True)
+    __uom._DeclarationLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 211, 4)
+    __uom._UseLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 211, 4)
     
     uom = property(__uom.value, __uom.set, None, None)
 
-
-    _ElementMap = abstractMeasure._ElementMap.copy()
     _ElementMap.update({
         
     })
-    _AttributeMap = abstractMeasure._AttributeMap.copy()
     _AttributeMap.update({
         __uom.name() : __uom
     })
+_module_typeBindings.massPerLengthMeasure = massPerLengthMeasure
 Namespace.addCategoryObject('typeBinding', 'massPerLengthMeasure', massPerLengthMeasure)
 
 
@@ -7751,25 +8015,25 @@ class momentOfForceMeasure (abstractMeasure):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_SIMPLE
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'momentOfForceMeasure')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 216, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 216, 1)
+    _ElementMap = abstractMeasure._ElementMap.copy()
+    _AttributeMap = abstractMeasure._AttributeMap.copy()
     # Base type is abstractMeasure
     
     # Attribute uom uses Python identifier uom
-    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_momentOfForceMeasure_uom', momentOfForceUom, required=True)
-    __uom._DeclarationLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 219, 4)
-    __uom._UseLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 219, 4)
+    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_momentOfForceMeasure_uom', _module_typeBindings.momentOfForceUom, required=True)
+    __uom._DeclarationLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 219, 4)
+    __uom._UseLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 219, 4)
     
     uom = property(__uom.value, __uom.set, None, None)
 
-
-    _ElementMap = abstractMeasure._ElementMap.copy()
     _ElementMap.update({
         
     })
-    _AttributeMap = abstractMeasure._AttributeMap.copy()
     _AttributeMap.update({
         __uom.name() : __uom
     })
+_module_typeBindings.momentOfForceMeasure = momentOfForceMeasure
 Namespace.addCategoryObject('typeBinding', 'momentOfForceMeasure', momentOfForceMeasure)
 
 
@@ -7780,25 +8044,25 @@ class perLengthMeasure (abstractMeasure):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_SIMPLE
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'perLengthMeasure')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 224, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 224, 1)
+    _ElementMap = abstractMeasure._ElementMap.copy()
+    _AttributeMap = abstractMeasure._AttributeMap.copy()
     # Base type is abstractMeasure
     
     # Attribute uom uses Python identifier uom
-    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_perLengthMeasure_uom', perLengthUom, required=True)
-    __uom._DeclarationLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 227, 4)
-    __uom._UseLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 227, 4)
+    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_perLengthMeasure_uom', _module_typeBindings.perLengthUom, required=True)
+    __uom._DeclarationLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 227, 4)
+    __uom._UseLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 227, 4)
     
     uom = property(__uom.value, __uom.set, None, None)
 
-
-    _ElementMap = abstractMeasure._ElementMap.copy()
     _ElementMap.update({
         
     })
-    _AttributeMap = abstractMeasure._AttributeMap.copy()
     _AttributeMap.update({
         __uom.name() : __uom
     })
+_module_typeBindings.perLengthMeasure = perLengthMeasure
 Namespace.addCategoryObject('typeBinding', 'perLengthMeasure', perLengthMeasure)
 
 
@@ -7809,25 +8073,25 @@ class planeAngleMeasure (abstractMeasure):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_SIMPLE
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'planeAngleMeasure')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 232, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 232, 1)
+    _ElementMap = abstractMeasure._ElementMap.copy()
+    _AttributeMap = abstractMeasure._AttributeMap.copy()
     # Base type is abstractMeasure
     
     # Attribute uom uses Python identifier uom
-    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_planeAngleMeasure_uom', planeAngleUom, required=True)
-    __uom._DeclarationLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 235, 4)
-    __uom._UseLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 235, 4)
+    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_planeAngleMeasure_uom', _module_typeBindings.planeAngleUom, required=True)
+    __uom._DeclarationLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 235, 4)
+    __uom._UseLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 235, 4)
     
     uom = property(__uom.value, __uom.set, None, None)
 
-
-    _ElementMap = abstractMeasure._ElementMap.copy()
     _ElementMap.update({
         
     })
-    _AttributeMap = abstractMeasure._AttributeMap.copy()
     _AttributeMap.update({
         __uom.name() : __uom
     })
+_module_typeBindings.planeAngleMeasure = planeAngleMeasure
 Namespace.addCategoryObject('typeBinding', 'planeAngleMeasure', planeAngleMeasure)
 
 
@@ -7838,25 +8102,25 @@ class powerMeasure (abstractMeasure):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_SIMPLE
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'powerMeasure')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 240, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 240, 1)
+    _ElementMap = abstractMeasure._ElementMap.copy()
+    _AttributeMap = abstractMeasure._AttributeMap.copy()
     # Base type is abstractMeasure
     
     # Attribute uom uses Python identifier uom
-    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_powerMeasure_uom', powerUom, required=True)
-    __uom._DeclarationLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 243, 4)
-    __uom._UseLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 243, 4)
+    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_powerMeasure_uom', _module_typeBindings.powerUom, required=True)
+    __uom._DeclarationLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 243, 4)
+    __uom._UseLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 243, 4)
     
     uom = property(__uom.value, __uom.set, None, None)
 
-
-    _ElementMap = abstractMeasure._ElementMap.copy()
     _ElementMap.update({
         
     })
-    _AttributeMap = abstractMeasure._AttributeMap.copy()
     _AttributeMap.update({
         __uom.name() : __uom
     })
+_module_typeBindings.powerMeasure = powerMeasure
 Namespace.addCategoryObject('typeBinding', 'powerMeasure', powerMeasure)
 
 
@@ -7867,25 +8131,25 @@ class pressureMeasure (abstractMeasure):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_SIMPLE
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'pressureMeasure')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 248, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 248, 1)
+    _ElementMap = abstractMeasure._ElementMap.copy()
+    _AttributeMap = abstractMeasure._AttributeMap.copy()
     # Base type is abstractMeasure
     
     # Attribute uom uses Python identifier uom
-    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_pressureMeasure_uom', pressureUom, required=True)
-    __uom._DeclarationLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 251, 4)
-    __uom._UseLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 251, 4)
+    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_pressureMeasure_uom', _module_typeBindings.pressureUom, required=True)
+    __uom._DeclarationLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 251, 4)
+    __uom._UseLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 251, 4)
     
     uom = property(__uom.value, __uom.set, None, None)
 
-
-    _ElementMap = abstractMeasure._ElementMap.copy()
     _ElementMap.update({
         
     })
-    _AttributeMap = abstractMeasure._AttributeMap.copy()
     _AttributeMap.update({
         __uom.name() : __uom
     })
+_module_typeBindings.pressureMeasure = pressureMeasure
 Namespace.addCategoryObject('typeBinding', 'pressureMeasure', pressureMeasure)
 
 
@@ -7896,25 +8160,25 @@ class relativePowerMeasure (abstractMeasure):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_SIMPLE
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'relativePowerMeasure')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 256, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 256, 1)
+    _ElementMap = abstractMeasure._ElementMap.copy()
+    _AttributeMap = abstractMeasure._AttributeMap.copy()
     # Base type is abstractMeasure
     
     # Attribute uom uses Python identifier uom
-    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_relativePowerMeasure_uom', relativePowerUom, required=True)
-    __uom._DeclarationLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 259, 4)
-    __uom._UseLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 259, 4)
+    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_relativePowerMeasure_uom', _module_typeBindings.relativePowerUom, required=True)
+    __uom._DeclarationLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 259, 4)
+    __uom._UseLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 259, 4)
     
     uom = property(__uom.value, __uom.set, None, None)
 
-
-    _ElementMap = abstractMeasure._ElementMap.copy()
     _ElementMap.update({
         
     })
-    _AttributeMap = abstractMeasure._AttributeMap.copy()
     _AttributeMap.update({
         __uom.name() : __uom
     })
+_module_typeBindings.relativePowerMeasure = relativePowerMeasure
 Namespace.addCategoryObject('typeBinding', 'relativePowerMeasure', relativePowerMeasure)
 
 
@@ -7925,25 +8189,25 @@ class specificVolumeMeasure (abstractMeasure):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_SIMPLE
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'specificVolumeMeasure')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 264, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 264, 1)
+    _ElementMap = abstractMeasure._ElementMap.copy()
+    _AttributeMap = abstractMeasure._AttributeMap.copy()
     # Base type is abstractMeasure
     
     # Attribute uom uses Python identifier uom
-    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_specificVolumeMeasure_uom', specificVolumeUom, required=True)
-    __uom._DeclarationLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 267, 4)
-    __uom._UseLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 267, 4)
+    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_specificVolumeMeasure_uom', _module_typeBindings.specificVolumeUom, required=True)
+    __uom._DeclarationLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 267, 4)
+    __uom._UseLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 267, 4)
     
     uom = property(__uom.value, __uom.set, None, None)
 
-
-    _ElementMap = abstractMeasure._ElementMap.copy()
     _ElementMap.update({
         
     })
-    _AttributeMap = abstractMeasure._AttributeMap.copy()
     _AttributeMap.update({
         __uom.name() : __uom
     })
+_module_typeBindings.specificVolumeMeasure = specificVolumeMeasure
 Namespace.addCategoryObject('typeBinding', 'specificVolumeMeasure', specificVolumeMeasure)
 
 
@@ -7954,25 +8218,25 @@ class thermodynamicTemperatureMeasure (abstractMeasure):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_SIMPLE
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'thermodynamicTemperatureMeasure')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 272, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 272, 1)
+    _ElementMap = abstractMeasure._ElementMap.copy()
+    _AttributeMap = abstractMeasure._AttributeMap.copy()
     # Base type is abstractMeasure
     
     # Attribute uom uses Python identifier uom
-    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_thermodynamicTemperatureMeasure_uom', thermodynamicTemperatureUom, required=True)
-    __uom._DeclarationLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 275, 4)
-    __uom._UseLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 275, 4)
+    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_thermodynamicTemperatureMeasure_uom', _module_typeBindings.thermodynamicTemperatureUom, required=True)
+    __uom._DeclarationLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 275, 4)
+    __uom._UseLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 275, 4)
     
     uom = property(__uom.value, __uom.set, None, None)
 
-
-    _ElementMap = abstractMeasure._ElementMap.copy()
     _ElementMap.update({
         
     })
-    _AttributeMap = abstractMeasure._AttributeMap.copy()
     _AttributeMap.update({
         __uom.name() : __uom
     })
+_module_typeBindings.thermodynamicTemperatureMeasure = thermodynamicTemperatureMeasure
 Namespace.addCategoryObject('typeBinding', 'thermodynamicTemperatureMeasure', thermodynamicTemperatureMeasure)
 
 
@@ -7983,25 +8247,25 @@ class timeMeasure (abstractMeasure):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_SIMPLE
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'timeMeasure')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 280, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 280, 1)
+    _ElementMap = abstractMeasure._ElementMap.copy()
+    _AttributeMap = abstractMeasure._AttributeMap.copy()
     # Base type is abstractMeasure
     
     # Attribute uom uses Python identifier uom
-    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_timeMeasure_uom', timeUom, required=True)
-    __uom._DeclarationLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 283, 4)
-    __uom._UseLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 283, 4)
+    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_timeMeasure_uom', _module_typeBindings.timeUom, required=True)
+    __uom._DeclarationLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 283, 4)
+    __uom._UseLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 283, 4)
     
     uom = property(__uom.value, __uom.set, None, None)
 
-
-    _ElementMap = abstractMeasure._ElementMap.copy()
     _ElementMap.update({
         
     })
-    _AttributeMap = abstractMeasure._AttributeMap.copy()
     _AttributeMap.update({
         __uom.name() : __uom
     })
+_module_typeBindings.timeMeasure = timeMeasure
 Namespace.addCategoryObject('typeBinding', 'timeMeasure', timeMeasure)
 
 
@@ -8012,25 +8276,25 @@ class velocityMeasure (abstractMeasure):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_SIMPLE
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'velocityMeasure')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 288, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 288, 1)
+    _ElementMap = abstractMeasure._ElementMap.copy()
+    _AttributeMap = abstractMeasure._AttributeMap.copy()
     # Base type is abstractMeasure
     
     # Attribute uom uses Python identifier uom
-    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_velocityMeasure_uom', velocityUom, required=True)
-    __uom._DeclarationLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 291, 4)
-    __uom._UseLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 291, 4)
+    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_velocityMeasure_uom', _module_typeBindings.velocityUom, required=True)
+    __uom._DeclarationLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 291, 4)
+    __uom._UseLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 291, 4)
     
     uom = property(__uom.value, __uom.set, None, None)
 
-
-    _ElementMap = abstractMeasure._ElementMap.copy()
     _ElementMap.update({
         
     })
-    _AttributeMap = abstractMeasure._AttributeMap.copy()
     _AttributeMap.update({
         __uom.name() : __uom
     })
+_module_typeBindings.velocityMeasure = velocityMeasure
 Namespace.addCategoryObject('typeBinding', 'velocityMeasure', velocityMeasure)
 
 
@@ -8041,25 +8305,25 @@ class volumeMeasure (abstractMeasure):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_SIMPLE
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'volumeMeasure')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 296, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 296, 1)
+    _ElementMap = abstractMeasure._ElementMap.copy()
+    _AttributeMap = abstractMeasure._AttributeMap.copy()
     # Base type is abstractMeasure
     
     # Attribute uom uses Python identifier uom
-    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_volumeMeasure_uom', volumeUom, required=True)
-    __uom._DeclarationLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 299, 4)
-    __uom._UseLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 299, 4)
+    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_volumeMeasure_uom', _module_typeBindings.volumeUom, required=True)
+    __uom._DeclarationLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 299, 4)
+    __uom._UseLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 299, 4)
     
     uom = property(__uom.value, __uom.set, None, None)
 
-
-    _ElementMap = abstractMeasure._ElementMap.copy()
     _ElementMap.update({
         
     })
-    _AttributeMap = abstractMeasure._AttributeMap.copy()
     _AttributeMap.update({
         __uom.name() : __uom
     })
+_module_typeBindings.volumeMeasure = volumeMeasure
 Namespace.addCategoryObject('typeBinding', 'volumeMeasure', volumeMeasure)
 
 
@@ -8070,25 +8334,25 @@ class volumeFlowRateMeasure (abstractMeasure):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_SIMPLE
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'volumeFlowRateMeasure')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 304, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 304, 1)
+    _ElementMap = abstractMeasure._ElementMap.copy()
+    _AttributeMap = abstractMeasure._AttributeMap.copy()
     # Base type is abstractMeasure
     
     # Attribute uom uses Python identifier uom
-    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_volumeFlowRateMeasure_uom', volumeFlowRateUom, required=True)
-    __uom._DeclarationLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 307, 4)
-    __uom._UseLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 307, 4)
+    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_volumeFlowRateMeasure_uom', _module_typeBindings.volumeFlowRateUom, required=True)
+    __uom._DeclarationLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 307, 4)
+    __uom._UseLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 307, 4)
     
     uom = property(__uom.value, __uom.set, None, None)
 
-
-    _ElementMap = abstractMeasure._ElementMap.copy()
     _ElementMap.update({
         
     })
-    _AttributeMap = abstractMeasure._AttributeMap.copy()
     _AttributeMap.update({
         __uom.name() : __uom
     })
+_module_typeBindings.volumeFlowRateMeasure = volumeFlowRateMeasure
 Namespace.addCategoryObject('typeBinding', 'volumeFlowRateMeasure', volumeFlowRateMeasure)
 
 
@@ -8099,278 +8363,278 @@ class volumePerVolumeMeasure (abstractMeasure):
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_SIMPLE
     _Abstract = False
     _ExpandedName = pyxb.namespace.ExpandedName(Namespace, 'volumePerVolumeMeasure')
-    _XSDLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 312, 1)
+    _XSDLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 312, 1)
+    _ElementMap = abstractMeasure._ElementMap.copy()
+    _AttributeMap = abstractMeasure._AttributeMap.copy()
     # Base type is abstractMeasure
     
     # Attribute uom uses Python identifier uom
-    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_volumePerVolumeMeasure_uom', volumePerVolumeUom, required=True)
-    __uom._DeclarationLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 315, 4)
-    __uom._UseLocation = pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\typ_measureType.xsd', 315, 4)
+    __uom = pyxb.binding.content.AttributeUse(pyxb.namespace.ExpandedName(None, 'uom'), 'uom', '__httpwww_witsml_orgschemas131_volumePerVolumeMeasure_uom', _module_typeBindings.volumePerVolumeUom, required=True)
+    __uom._DeclarationLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 315, 4)
+    __uom._UseLocation = pyxb.utils.utility.Location('typ_measureType.xsd', 315, 4)
     
     uom = property(__uom.value, __uom.set, None, None)
 
-
-    _ElementMap = abstractMeasure._ElementMap.copy()
     _ElementMap.update({
         
     })
-    _AttributeMap = abstractMeasure._AttributeMap.copy()
     _AttributeMap.update({
         __uom.name() : __uom
     })
+_module_typeBindings.volumePerVolumeMeasure = volumePerVolumeMeasure
 Namespace.addCategoryObject('typeBinding', 'volumePerVolumeMeasure', volumePerVolumeMeasure)
 
 
-tubulars = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'tubulars'), obj_tubulars, documentation='The WITSML API mandated plural root element which allows \n\t\t\tmultiple singular objects to be sent. The plural name is formed by adding\n\t\t\tan "s" to the singular name.', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\obj_tubular.xsd', 25, 1))
+tubulars = pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'tubulars'), obj_tubulars, documentation='The WITSML API mandated plural root element which allows \n\t\t\tmultiple singular objects to be sent. The plural name is formed by adding\n\t\t\tan "s" to the singular name.', location=pyxb.utils.utility.Location('obj_tubular.xsd', 25, 1))
 Namespace.addCategoryObject('elementBinding', tubulars.name().localName(), tubulars)
 
 
 
-cs_bitRecord._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'numBit'), str32, scope=cs_bitRecord, documentation='Bit number and rerun number e.g. "4.1" for the first rerun of bit 4.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 24, 3)))
+cs_bitRecord._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'numBit'), str32, scope=cs_bitRecord, documentation='Bit number and rerun number e.g. "4.1" for the first rerun of bit 4.  ', location=pyxb.utils.utility.Location('cs_bitRecord.xsd', 24, 3)))
 
-cs_bitRecord._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'diaBit'), lengthMeasure, scope=cs_bitRecord, documentation='Diameter of drilled hole.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 29, 3)))
+cs_bitRecord._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'diaBit'), lengthMeasure, scope=cs_bitRecord, documentation='Diameter of drilled hole.  ', location=pyxb.utils.utility.Location('cs_bitRecord.xsd', 29, 3)))
 
-cs_bitRecord._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'diaPassThru'), lengthMeasure, scope=cs_bitRecord, documentation='Minimum hole or tubing which bit will pass through (for bi-center bits).  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 34, 3)))
+cs_bitRecord._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'diaPassThru'), lengthMeasure, scope=cs_bitRecord, documentation='Minimum hole or tubing which bit will pass through (for bi-center bits).  ', location=pyxb.utils.utility.Location('cs_bitRecord.xsd', 34, 3)))
 
-cs_bitRecord._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'diaPilot'), lengthMeasure, scope=cs_bitRecord, documentation='Diameter of pilot bit (for bi-center bits).  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 39, 3)))
+cs_bitRecord._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'diaPilot'), lengthMeasure, scope=cs_bitRecord, documentation='Diameter of pilot bit (for bi-center bits).  ', location=pyxb.utils.utility.Location('cs_bitRecord.xsd', 39, 3)))
 
-cs_bitRecord._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'manufacturer'), nameString, scope=cs_bitRecord, documentation='Manufacturer / supplier of the item.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 44, 3)))
+cs_bitRecord._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'manufacturer'), nameString, scope=cs_bitRecord, documentation='Manufacturer / supplier of the item.  ', location=pyxb.utils.utility.Location('cs_bitRecord.xsd', 44, 3)))
 
-cs_bitRecord._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'typeBit'), BitType, scope=cs_bitRecord, documentation='Type of bit.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 49, 3)))
+cs_bitRecord._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'typeBit'), BitType, scope=cs_bitRecord, documentation='Type of bit.  ', location=pyxb.utils.utility.Location('cs_bitRecord.xsd', 49, 3)))
 
-cs_bitRecord._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'cost'), cost, scope=cs_bitRecord, documentation='Bit cost in local currency.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 54, 3)))
+cs_bitRecord._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'cost'), cost, scope=cs_bitRecord, documentation='Bit cost in local currency.  ', location=pyxb.utils.utility.Location('cs_bitRecord.xsd', 54, 3)))
 
-cs_bitRecord._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'codeIADC'), str32, scope=cs_bitRecord, documentation='IADC bit code.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 59, 3)))
+cs_bitRecord._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'codeIADC'), str32, scope=cs_bitRecord, documentation='IADC bit code.  ', location=pyxb.utils.utility.Location('cs_bitRecord.xsd', 59, 3)))
 
-cs_bitRecord._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'condInitInner'), iadcIntegerCode, scope=cs_bitRecord, documentation='Condition of inner tooth rows (inner 2/3 of bit) (0-8).  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 64, 3)))
+cs_bitRecord._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'condInitInner'), iadcIntegerCode, scope=cs_bitRecord, documentation='Condition of inner tooth rows (inner 2/3 of bit) (0-8).  ', location=pyxb.utils.utility.Location('cs_bitRecord.xsd', 64, 3)))
 
-cs_bitRecord._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'condInitOuter'), iadcIntegerCode, scope=cs_bitRecord, documentation='Condition of outer tooth rows (outer 1/3 of bit) (0-8).  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 69, 3)))
+cs_bitRecord._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'condInitOuter'), iadcIntegerCode, scope=cs_bitRecord, documentation='Condition of outer tooth rows (outer 1/3 of bit) (0-8).  ', location=pyxb.utils.utility.Location('cs_bitRecord.xsd', 69, 3)))
 
-cs_bitRecord._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'condInitDull'), BitDullCode, scope=cs_bitRecord, documentation='Overall dull condition from IADC bit wear 2 character codes.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 74, 3)))
+cs_bitRecord._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'condInitDull'), BitDullCode, scope=cs_bitRecord, documentation='Overall dull condition from IADC bit wear 2 character codes.  ', location=pyxb.utils.utility.Location('cs_bitRecord.xsd', 74, 3)))
 
-cs_bitRecord._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'condInitLocation'), str32, scope=cs_bitRecord, documentation='Row and cone numbers for items which need location information (e.g. Cracked Cone, Lost Cone etc).  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 79, 3)))
+cs_bitRecord._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'condInitLocation'), str32, scope=cs_bitRecord, documentation='Row and cone numbers for items which need location information (e.g. Cracked Cone, Lost Cone etc).  ', location=pyxb.utils.utility.Location('cs_bitRecord.xsd', 79, 3)))
 
-cs_bitRecord._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'condInitBearing'), iadcBearingWearCode, scope=cs_bitRecord, documentation='Condition of bit bearings (integer 0-8 or E, F, N or X)).  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 84, 3)))
+cs_bitRecord._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'condInitBearing'), iadcBearingWearCode, scope=cs_bitRecord, documentation='Condition of bit bearings (integer 0-8 or E, F, N or X)).  ', location=pyxb.utils.utility.Location('cs_bitRecord.xsd', 84, 3)))
 
-cs_bitRecord._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'condInitGauge'), str32, scope=cs_bitRecord, documentation='Condition of bit gauge in 1/16 of an inch. I = in gauge, else number of 16ths out of gauge.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 89, 3)))
+cs_bitRecord._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'condInitGauge'), str32, scope=cs_bitRecord, documentation='Condition of bit gauge in 1/16 of an inch. I = in gauge, else number of 16ths out of gauge.  ', location=pyxb.utils.utility.Location('cs_bitRecord.xsd', 89, 3)))
 
-cs_bitRecord._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'condInitOther'), str32, scope=cs_bitRecord, documentation='Other comments on bit condition from IADC list (BitDullCode in standard list).  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 94, 3)))
+cs_bitRecord._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'condInitOther'), str32, scope=cs_bitRecord, documentation='Other comments on bit condition from IADC list (BitDullCode in standard list).  ', location=pyxb.utils.utility.Location('cs_bitRecord.xsd', 94, 3)))
 
-cs_bitRecord._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'condInitReason'), BitReasonPulled, scope=cs_bitRecord, documentation='Reason bit was pulled from IADC codes.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 99, 3)))
+cs_bitRecord._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'condInitReason'), BitReasonPulled, scope=cs_bitRecord, documentation='Reason bit was pulled from IADC codes.  ', location=pyxb.utils.utility.Location('cs_bitRecord.xsd', 99, 3)))
 
-cs_bitRecord._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'condFinalInner'), iadcIntegerCode, scope=cs_bitRecord, documentation='Condition of inner tooth rows (inner 2/3 of bit) (0-8).  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 104, 3)))
+cs_bitRecord._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'condFinalInner'), iadcIntegerCode, scope=cs_bitRecord, documentation='Condition of inner tooth rows (inner 2/3 of bit) (0-8).  ', location=pyxb.utils.utility.Location('cs_bitRecord.xsd', 104, 3)))
 
-cs_bitRecord._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'condFinalOuter'), iadcIntegerCode, scope=cs_bitRecord, documentation='Condition of outer tooth rows (outer 1/3 of bit) (0-8).  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 109, 3)))
+cs_bitRecord._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'condFinalOuter'), iadcIntegerCode, scope=cs_bitRecord, documentation='Condition of outer tooth rows (outer 1/3 of bit) (0-8).  ', location=pyxb.utils.utility.Location('cs_bitRecord.xsd', 109, 3)))
 
-cs_bitRecord._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'condFinalDull'), BitDullCode, scope=cs_bitRecord, documentation='Overall dull condition from IADC bit wear 2 character codes.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 114, 3)))
+cs_bitRecord._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'condFinalDull'), BitDullCode, scope=cs_bitRecord, documentation='Overall dull condition from IADC bit wear 2 character codes.  ', location=pyxb.utils.utility.Location('cs_bitRecord.xsd', 114, 3)))
 
-cs_bitRecord._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'condFinalLocation'), str32, scope=cs_bitRecord, documentation='Row and cone numbers for items which need location information (e.g. Cracked Cone, Lost Cone etc).  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 119, 3)))
+cs_bitRecord._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'condFinalLocation'), str32, scope=cs_bitRecord, documentation='Row and cone numbers for items which need location information (e.g. Cracked Cone, Lost Cone etc).  ', location=pyxb.utils.utility.Location('cs_bitRecord.xsd', 119, 3)))
 
-cs_bitRecord._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'condFinalBearing'), iadcBearingWearCode, scope=cs_bitRecord, documentation='Condition of bit bearings (integer 0-8 or E, F, N or X).  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 124, 3)))
+cs_bitRecord._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'condFinalBearing'), iadcBearingWearCode, scope=cs_bitRecord, documentation='Condition of bit bearings (integer 0-8 or E, F, N or X).  ', location=pyxb.utils.utility.Location('cs_bitRecord.xsd', 124, 3)))
 
-cs_bitRecord._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'condFinalGauge'), str32, scope=cs_bitRecord, documentation='Condition of bit gauge in 1/16 of a inch. I = in gauge, else number of 16ths out of gauge.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 129, 3)))
+cs_bitRecord._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'condFinalGauge'), str32, scope=cs_bitRecord, documentation='Condition of bit gauge in 1/16 of a inch. I = in gauge, else number of 16ths out of gauge.  ', location=pyxb.utils.utility.Location('cs_bitRecord.xsd', 129, 3)))
 
-cs_bitRecord._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'condFinalOther'), str32, scope=cs_bitRecord, documentation='Other comments on bit condition from IADC list (BitDullCode in Standard LISTS).  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 134, 3)))
+cs_bitRecord._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'condFinalOther'), str32, scope=cs_bitRecord, documentation='Other comments on bit condition from IADC list (BitDullCode in Standard LISTS).  ', location=pyxb.utils.utility.Location('cs_bitRecord.xsd', 134, 3)))
 
-cs_bitRecord._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'condFinalReason'), BitReasonPulled, scope=cs_bitRecord, documentation='Reason bit was pulled from IADC codes.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 139, 3)))
+cs_bitRecord._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'condFinalReason'), BitReasonPulled, scope=cs_bitRecord, documentation='Reason bit was pulled from IADC codes.  ', location=pyxb.utils.utility.Location('cs_bitRecord.xsd', 139, 3)))
 
-cs_bitRecord._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'drive'), str32, scope=cs_bitRecord, documentation='Bit drive type (Motor, rotary table etc).  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 144, 3)))
+cs_bitRecord._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'drive'), str32, scope=cs_bitRecord, documentation='Bit drive type (Motor, rotary table etc).  ', location=pyxb.utils.utility.Location('cs_bitRecord.xsd', 144, 3)))
 
-cs_bitRecord._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'bitClass'), str2, scope=cs_bitRecord, documentation='N = new, U = used.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 149, 3)))
+cs_bitRecord._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'bitClass'), str2, scope=cs_bitRecord, documentation='N = new, U = used.  ', location=pyxb.utils.utility.Location('cs_bitRecord.xsd', 149, 3)))
 
-cs_bitRecord._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'customData'), cs_customData, scope=cs_bitRecord, documentation='A container element that can contain custom or user defined \n\t\t\t\t\tdata elements.', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 154, 3)))
+cs_bitRecord._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'customData'), cs_customData, scope=cs_bitRecord, documentation='A container element that can contain custom or user defined \n\t\t\t\t\tdata elements.', location=pyxb.utils.utility.Location('cs_bitRecord.xsd', 154, 3)))
 
 def _BuildAutomaton ():
-    # Remove this helper function from the namespace after it's invoked
+    # Remove this helper function from the namespace after it is invoked
     global _BuildAutomaton
     del _BuildAutomaton
     import pyxb.utils.fac as fac
 
     counters = set()
-    cc_0 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 24, 3))
+    cc_0 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_bitRecord.xsd', 24, 3))
     counters.add(cc_0)
-    cc_1 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 34, 3))
+    cc_1 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_bitRecord.xsd', 34, 3))
     counters.add(cc_1)
-    cc_2 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 39, 3))
+    cc_2 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_bitRecord.xsd', 39, 3))
     counters.add(cc_2)
-    cc_3 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 44, 3))
+    cc_3 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_bitRecord.xsd', 44, 3))
     counters.add(cc_3)
-    cc_4 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 49, 3))
+    cc_4 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_bitRecord.xsd', 49, 3))
     counters.add(cc_4)
-    cc_5 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 54, 3))
+    cc_5 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_bitRecord.xsd', 54, 3))
     counters.add(cc_5)
-    cc_6 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 59, 3))
+    cc_6 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_bitRecord.xsd', 59, 3))
     counters.add(cc_6)
-    cc_7 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 64, 3))
+    cc_7 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_bitRecord.xsd', 64, 3))
     counters.add(cc_7)
-    cc_8 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 69, 3))
+    cc_8 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_bitRecord.xsd', 69, 3))
     counters.add(cc_8)
-    cc_9 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 74, 3))
+    cc_9 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_bitRecord.xsd', 74, 3))
     counters.add(cc_9)
-    cc_10 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 79, 3))
+    cc_10 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_bitRecord.xsd', 79, 3))
     counters.add(cc_10)
-    cc_11 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 84, 3))
+    cc_11 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_bitRecord.xsd', 84, 3))
     counters.add(cc_11)
-    cc_12 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 89, 3))
+    cc_12 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_bitRecord.xsd', 89, 3))
     counters.add(cc_12)
-    cc_13 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 94, 3))
+    cc_13 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_bitRecord.xsd', 94, 3))
     counters.add(cc_13)
-    cc_14 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 99, 3))
+    cc_14 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_bitRecord.xsd', 99, 3))
     counters.add(cc_14)
-    cc_15 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 104, 3))
+    cc_15 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_bitRecord.xsd', 104, 3))
     counters.add(cc_15)
-    cc_16 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 109, 3))
+    cc_16 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_bitRecord.xsd', 109, 3))
     counters.add(cc_16)
-    cc_17 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 114, 3))
+    cc_17 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_bitRecord.xsd', 114, 3))
     counters.add(cc_17)
-    cc_18 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 119, 3))
+    cc_18 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_bitRecord.xsd', 119, 3))
     counters.add(cc_18)
-    cc_19 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 124, 3))
+    cc_19 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_bitRecord.xsd', 124, 3))
     counters.add(cc_19)
-    cc_20 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 129, 3))
+    cc_20 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_bitRecord.xsd', 129, 3))
     counters.add(cc_20)
-    cc_21 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 134, 3))
+    cc_21 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_bitRecord.xsd', 134, 3))
     counters.add(cc_21)
-    cc_22 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 139, 3))
+    cc_22 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_bitRecord.xsd', 139, 3))
     counters.add(cc_22)
-    cc_23 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 144, 3))
+    cc_23 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_bitRecord.xsd', 144, 3))
     counters.add(cc_23)
-    cc_24 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 149, 3))
+    cc_24 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_bitRecord.xsd', 149, 3))
     counters.add(cc_24)
-    cc_25 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 154, 3))
+    cc_25 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_bitRecord.xsd', 154, 3))
     counters.add(cc_25)
     states = []
     final_update = None
-    symbol = pyxb.binding.content.ElementUse(cs_bitRecord._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'numBit')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 24, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_bitRecord._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'numBit')), pyxb.utils.utility.Location('cs_bitRecord.xsd', 24, 3))
     st_0 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_0)
     final_update = set()
-    symbol = pyxb.binding.content.ElementUse(cs_bitRecord._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'diaBit')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 29, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_bitRecord._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'diaBit')), pyxb.utils.utility.Location('cs_bitRecord.xsd', 29, 3))
     st_1 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_1)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_1, False))
-    symbol = pyxb.binding.content.ElementUse(cs_bitRecord._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'diaPassThru')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 34, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_bitRecord._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'diaPassThru')), pyxb.utils.utility.Location('cs_bitRecord.xsd', 34, 3))
     st_2 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_2)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_2, False))
-    symbol = pyxb.binding.content.ElementUse(cs_bitRecord._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'diaPilot')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 39, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_bitRecord._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'diaPilot')), pyxb.utils.utility.Location('cs_bitRecord.xsd', 39, 3))
     st_3 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_3)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_3, False))
-    symbol = pyxb.binding.content.ElementUse(cs_bitRecord._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'manufacturer')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 44, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_bitRecord._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'manufacturer')), pyxb.utils.utility.Location('cs_bitRecord.xsd', 44, 3))
     st_4 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_4)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_4, False))
-    symbol = pyxb.binding.content.ElementUse(cs_bitRecord._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'typeBit')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 49, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_bitRecord._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'typeBit')), pyxb.utils.utility.Location('cs_bitRecord.xsd', 49, 3))
     st_5 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_5)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_5, False))
-    symbol = pyxb.binding.content.ElementUse(cs_bitRecord._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'cost')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 54, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_bitRecord._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'cost')), pyxb.utils.utility.Location('cs_bitRecord.xsd', 54, 3))
     st_6 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_6)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_6, False))
-    symbol = pyxb.binding.content.ElementUse(cs_bitRecord._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'codeIADC')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 59, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_bitRecord._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'codeIADC')), pyxb.utils.utility.Location('cs_bitRecord.xsd', 59, 3))
     st_7 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_7)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_7, False))
-    symbol = pyxb.binding.content.ElementUse(cs_bitRecord._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'condInitInner')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 64, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_bitRecord._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'condInitInner')), pyxb.utils.utility.Location('cs_bitRecord.xsd', 64, 3))
     st_8 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_8)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_8, False))
-    symbol = pyxb.binding.content.ElementUse(cs_bitRecord._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'condInitOuter')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 69, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_bitRecord._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'condInitOuter')), pyxb.utils.utility.Location('cs_bitRecord.xsd', 69, 3))
     st_9 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_9)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_9, False))
-    symbol = pyxb.binding.content.ElementUse(cs_bitRecord._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'condInitDull')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 74, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_bitRecord._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'condInitDull')), pyxb.utils.utility.Location('cs_bitRecord.xsd', 74, 3))
     st_10 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_10)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_10, False))
-    symbol = pyxb.binding.content.ElementUse(cs_bitRecord._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'condInitLocation')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 79, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_bitRecord._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'condInitLocation')), pyxb.utils.utility.Location('cs_bitRecord.xsd', 79, 3))
     st_11 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_11)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_11, False))
-    symbol = pyxb.binding.content.ElementUse(cs_bitRecord._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'condInitBearing')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 84, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_bitRecord._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'condInitBearing')), pyxb.utils.utility.Location('cs_bitRecord.xsd', 84, 3))
     st_12 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_12)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_12, False))
-    symbol = pyxb.binding.content.ElementUse(cs_bitRecord._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'condInitGauge')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 89, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_bitRecord._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'condInitGauge')), pyxb.utils.utility.Location('cs_bitRecord.xsd', 89, 3))
     st_13 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_13)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_13, False))
-    symbol = pyxb.binding.content.ElementUse(cs_bitRecord._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'condInitOther')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 94, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_bitRecord._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'condInitOther')), pyxb.utils.utility.Location('cs_bitRecord.xsd', 94, 3))
     st_14 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_14)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_14, False))
-    symbol = pyxb.binding.content.ElementUse(cs_bitRecord._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'condInitReason')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 99, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_bitRecord._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'condInitReason')), pyxb.utils.utility.Location('cs_bitRecord.xsd', 99, 3))
     st_15 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_15)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_15, False))
-    symbol = pyxb.binding.content.ElementUse(cs_bitRecord._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'condFinalInner')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 104, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_bitRecord._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'condFinalInner')), pyxb.utils.utility.Location('cs_bitRecord.xsd', 104, 3))
     st_16 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_16)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_16, False))
-    symbol = pyxb.binding.content.ElementUse(cs_bitRecord._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'condFinalOuter')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 109, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_bitRecord._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'condFinalOuter')), pyxb.utils.utility.Location('cs_bitRecord.xsd', 109, 3))
     st_17 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_17)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_17, False))
-    symbol = pyxb.binding.content.ElementUse(cs_bitRecord._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'condFinalDull')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 114, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_bitRecord._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'condFinalDull')), pyxb.utils.utility.Location('cs_bitRecord.xsd', 114, 3))
     st_18 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_18)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_18, False))
-    symbol = pyxb.binding.content.ElementUse(cs_bitRecord._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'condFinalLocation')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 119, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_bitRecord._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'condFinalLocation')), pyxb.utils.utility.Location('cs_bitRecord.xsd', 119, 3))
     st_19 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_19)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_19, False))
-    symbol = pyxb.binding.content.ElementUse(cs_bitRecord._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'condFinalBearing')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 124, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_bitRecord._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'condFinalBearing')), pyxb.utils.utility.Location('cs_bitRecord.xsd', 124, 3))
     st_20 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_20)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_20, False))
-    symbol = pyxb.binding.content.ElementUse(cs_bitRecord._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'condFinalGauge')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 129, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_bitRecord._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'condFinalGauge')), pyxb.utils.utility.Location('cs_bitRecord.xsd', 129, 3))
     st_21 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_21)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_21, False))
-    symbol = pyxb.binding.content.ElementUse(cs_bitRecord._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'condFinalOther')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 134, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_bitRecord._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'condFinalOther')), pyxb.utils.utility.Location('cs_bitRecord.xsd', 134, 3))
     st_22 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_22)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_22, False))
-    symbol = pyxb.binding.content.ElementUse(cs_bitRecord._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'condFinalReason')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 139, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_bitRecord._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'condFinalReason')), pyxb.utils.utility.Location('cs_bitRecord.xsd', 139, 3))
     st_23 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_23)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_23, False))
-    symbol = pyxb.binding.content.ElementUse(cs_bitRecord._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'drive')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 144, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_bitRecord._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'drive')), pyxb.utils.utility.Location('cs_bitRecord.xsd', 144, 3))
     st_24 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_24)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_24, False))
-    symbol = pyxb.binding.content.ElementUse(cs_bitRecord._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'bitClass')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 149, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_bitRecord._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'bitClass')), pyxb.utils.utility.Location('cs_bitRecord.xsd', 149, 3))
     st_25 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_25)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_25, False))
-    symbol = pyxb.binding.content.ElementUse(cs_bitRecord._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'customData')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bitRecord.xsd', 154, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_bitRecord._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'customData')), pyxb.utils.utility.Location('cs_bitRecord.xsd', 154, 3))
     st_26 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_26)
     transitions = []
@@ -9137,57 +9401,57 @@ cs_bitRecord._Automaton = _BuildAutomaton()
 
 
 
-cs_commonData._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'sourceName'), nameString, scope=cs_commonData, documentation='An identifier to indicate the data originator.\n\t\t\t\t\tThis identifies the server that originally created \n\t\t\t\t\tthe object and thus most of the uids in the object (but not \n\t\t\t\t\tnecessarily the uids of the parents). This is typically a url. ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_commonData.xsd', 23, 3)))
+cs_commonData._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'sourceName'), nameString, scope=cs_commonData, documentation='An identifier to indicate the data originator.\n\t\t\t\t\tThis identifies the server that originally created \n\t\t\t\t\tthe object and thus most of the uids in the object (but not \n\t\t\t\t\tnecessarily the uids of the parents). This is typically a url. ', location=pyxb.utils.utility.Location('cs_commonData.xsd', 23, 3)))
 
-cs_commonData._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'dTimCreation'), timestamp, scope=cs_commonData, documentation='When the data was created at the persistent data store.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_commonData.xsd', 31, 3)))
+cs_commonData._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'dTimCreation'), timestamp, scope=cs_commonData, documentation='When the data was created at the persistent data store.  ', location=pyxb.utils.utility.Location('cs_commonData.xsd', 31, 3)))
 
-cs_commonData._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'dTimLastChange'), timestamp, scope=cs_commonData, documentation='Last change of any element of the data at the persistent data store.\n\t\t\t\t\tThe change time is not updated for a growing object while it is growing.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_commonData.xsd', 36, 3)))
+cs_commonData._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'dTimLastChange'), timestamp, scope=cs_commonData, documentation='Last change of any element of the data at the persistent data store.\n\t\t\t\t\tThe change time is not updated for a growing object while it is growing.  ', location=pyxb.utils.utility.Location('cs_commonData.xsd', 36, 3)))
 
-cs_commonData._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'itemState'), ItemState, scope=cs_commonData, documentation='The item state for the data object.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_commonData.xsd', 42, 3)))
+cs_commonData._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'itemState'), ItemState, scope=cs_commonData, documentation='The item state for the data object.  ', location=pyxb.utils.utility.Location('cs_commonData.xsd', 42, 3)))
 
-cs_commonData._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'comments'), commentString, scope=cs_commonData, documentation='Comments and remarks.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_commonData.xsd', 47, 3)))
+cs_commonData._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'comments'), commentString, scope=cs_commonData, documentation='Comments and remarks.  ', location=pyxb.utils.utility.Location('cs_commonData.xsd', 47, 3)))
 
 def _BuildAutomaton_ ():
-    # Remove this helper function from the namespace after it's invoked
+    # Remove this helper function from the namespace after it is invoked
     global _BuildAutomaton_
     del _BuildAutomaton_
     import pyxb.utils.fac as fac
 
     counters = set()
-    cc_0 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_commonData.xsd', 23, 3))
+    cc_0 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_commonData.xsd', 23, 3))
     counters.add(cc_0)
-    cc_1 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_commonData.xsd', 31, 3))
+    cc_1 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_commonData.xsd', 31, 3))
     counters.add(cc_1)
-    cc_2 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_commonData.xsd', 36, 3))
+    cc_2 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_commonData.xsd', 36, 3))
     counters.add(cc_2)
-    cc_3 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_commonData.xsd', 42, 3))
+    cc_3 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_commonData.xsd', 42, 3))
     counters.add(cc_3)
-    cc_4 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_commonData.xsd', 47, 3))
+    cc_4 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_commonData.xsd', 47, 3))
     counters.add(cc_4)
     states = []
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_0, False))
-    symbol = pyxb.binding.content.ElementUse(cs_commonData._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'sourceName')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_commonData.xsd', 23, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_commonData._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'sourceName')), pyxb.utils.utility.Location('cs_commonData.xsd', 23, 3))
     st_0 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_0)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_1, False))
-    symbol = pyxb.binding.content.ElementUse(cs_commonData._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'dTimCreation')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_commonData.xsd', 31, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_commonData._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'dTimCreation')), pyxb.utils.utility.Location('cs_commonData.xsd', 31, 3))
     st_1 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_1)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_2, False))
-    symbol = pyxb.binding.content.ElementUse(cs_commonData._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'dTimLastChange')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_commonData.xsd', 36, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_commonData._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'dTimLastChange')), pyxb.utils.utility.Location('cs_commonData.xsd', 36, 3))
     st_2 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_2)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_3, False))
-    symbol = pyxb.binding.content.ElementUse(cs_commonData._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'itemState')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_commonData.xsd', 42, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_commonData._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'itemState')), pyxb.utils.utility.Location('cs_commonData.xsd', 42, 3))
     st_3 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_3)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_4, False))
-    symbol = pyxb.binding.content.ElementUse(cs_commonData._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'comments')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_commonData.xsd', 47, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_commonData._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'comments')), pyxb.utils.utility.Location('cs_commonData.xsd', 47, 3))
     st_4 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_4)
     transitions = []
@@ -9237,18 +9501,18 @@ cs_commonData._Automaton = _BuildAutomaton_()
 
 
 def _BuildAutomaton_2 ():
-    # Remove this helper function from the namespace after it's invoked
+    # Remove this helper function from the namespace after it is invoked
     global _BuildAutomaton_2
     del _BuildAutomaton_2
     import pyxb.utils.fac as fac
 
     counters = set()
-    cc_0 = fac.CounterCondition(min=0, max=None, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_customData.xsd', 22, 3))
+    cc_0 = fac.CounterCondition(min=0, max=None, metadata=pyxb.utils.utility.Location('cs_customData.xsd', 22, 3))
     counters.add(cc_0)
     states = []
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_0, False))
-    symbol = pyxb.binding.content.WildcardUse(pyxb.binding.content.Wildcard(process_contents=pyxb.binding.content.Wildcard.PC_lax, namespace_constraint=pyxb.binding.content.Wildcard.NC_any), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_customData.xsd', 22, 3))
+    symbol = pyxb.binding.content.WildcardUse(pyxb.binding.content.Wildcard(process_contents=pyxb.binding.content.Wildcard.PC_lax, namespace_constraint=pyxb.binding.content.Wildcard.NC_any), pyxb.utils.utility.Location('cs_customData.xsd', 22, 3))
     st_0 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_0)
     transitions = []
@@ -9261,99 +9525,99 @@ cs_customData._Automaton = _BuildAutomaton_2()
 
 
 
-cs_documentInfo._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'DocumentName'), nameStruct, scope=cs_documentInfo, documentation='An identifier for the document. This is \n\t\t\t\t\tintended to be unique within the context of the NamingSystem.', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 26, 3)))
+cs_documentInfo._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'DocumentName'), nameStruct, scope=cs_documentInfo, documentation='An identifier for the document. This is \n\t\t\t\t\tintended to be unique within the context of the NamingSystem.', location=pyxb.utils.utility.Location('cs_documentInfo.xsd', 26, 3)))
 
-cs_documentInfo._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'DocumentAlias'), nameStruct, scope=cs_documentInfo, documentation='Zero or more alternate names for the document. \n\t\t\t\t\tThese names do not need to be unique within the naming system.', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 32, 3)))
+cs_documentInfo._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'DocumentAlias'), nameStruct, scope=cs_documentInfo, documentation='Zero or more alternate names for the document. \n\t\t\t\t\tThese names do not need to be unique within the naming system.', location=pyxb.utils.utility.Location('cs_documentInfo.xsd', 32, 3)))
 
-cs_documentInfo._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'DocumentDate'), timestamp, scope=cs_documentInfo, documentation='The date of the creation of the document. \n\t\t\t\t\tThis is not the same as the date that the file was created. \n\t\t\t\t\tFor this date, the document is considered to be the set of \n\t\t\t\t\tinformation associated with this document information. \n\t\t\t\t\tFor example, the document may be a seismic binset. \n\t\t\t\t\tThis represents the date that the binset was created. \n\t\t\t\t\tThe FileCreation information would capture the date that \n\t\t\t\t\tthe XML file was created to send or exchange the binset.', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 38, 3)))
+cs_documentInfo._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'DocumentDate'), timestamp, scope=cs_documentInfo, documentation='The date of the creation of the document. \n\t\t\t\t\tThis is not the same as the date that the file was created. \n\t\t\t\t\tFor this date, the document is considered to be the set of \n\t\t\t\t\tinformation associated with this document information. \n\t\t\t\t\tFor example, the document may be a seismic binset. \n\t\t\t\t\tThis represents the date that the binset was created. \n\t\t\t\t\tThe FileCreation information would capture the date that \n\t\t\t\t\tthe XML file was created to send or exchange the binset.', location=pyxb.utils.utility.Location('cs_documentInfo.xsd', 38, 3)))
 
-cs_documentInfo._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'documentClass'), nameStruct, scope=cs_documentInfo, documentation='A document class. Examples of classes would be a \n\t\t\t\t\tmetadata classification or a set of keywords. ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 50, 3)))
+cs_documentInfo._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'documentClass'), nameStruct, scope=cs_documentInfo, documentation='A document class. Examples of classes would be a \n\t\t\t\t\tmetadata classification or a set of keywords. ', location=pyxb.utils.utility.Location('cs_documentInfo.xsd', 50, 3)))
 
-cs_documentInfo._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'FileCreationInformation'), fileCreationType, scope=cs_documentInfo, documentation='The information about the creation of the \n\t\t\t\t\texchange file. This is not about the creation of the data within \n\t\t\t\t\tthe file, but the creation of the file itself.', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 56, 3)))
+cs_documentInfo._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'FileCreationInformation'), fileCreationType, scope=cs_documentInfo, documentation='The information about the creation of the \n\t\t\t\t\texchange file. This is not about the creation of the data within \n\t\t\t\t\tthe file, but the creation of the file itself.', location=pyxb.utils.utility.Location('cs_documentInfo.xsd', 56, 3)))
 
-cs_documentInfo._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'SecurityInformation'), securityInfoType, scope=cs_documentInfo, documentation='Information about the security to be applied to \n\t\t\t\t\tthis file. More than one classification can be given.', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 63, 3)))
+cs_documentInfo._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'SecurityInformation'), securityInfoType, scope=cs_documentInfo, documentation='Information about the security to be applied to \n\t\t\t\t\tthis file. More than one classification can be given.', location=pyxb.utils.utility.Location('cs_documentInfo.xsd', 63, 3)))
 
-cs_documentInfo._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Disclaimer'), commentString, scope=cs_documentInfo, documentation='A free-form string that allows a disclaimer to \n\t\t\t\t\taccompany the information.', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 69, 3)))
+cs_documentInfo._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Disclaimer'), commentString, scope=cs_documentInfo, documentation='A free-form string that allows a disclaimer to \n\t\t\t\t\taccompany the information.', location=pyxb.utils.utility.Location('cs_documentInfo.xsd', 69, 3)))
 
-cs_documentInfo._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'AuditTrail'), auditType, scope=cs_documentInfo, documentation='A collection of events that can document the \n\t\t\t\t\thistory of the data.', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 75, 3)))
+cs_documentInfo._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'AuditTrail'), auditType, scope=cs_documentInfo, documentation='A collection of events that can document the \n\t\t\t\t\thistory of the data.', location=pyxb.utils.utility.Location('cs_documentInfo.xsd', 75, 3)))
 
-cs_documentInfo._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Owner'), nameString, scope=cs_documentInfo, documentation='The owner of the data.', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 81, 3)))
+cs_documentInfo._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Owner'), nameString, scope=cs_documentInfo, documentation='The owner of the data.', location=pyxb.utils.utility.Location('cs_documentInfo.xsd', 81, 3)))
 
-cs_documentInfo._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Comment'), commentString, scope=cs_documentInfo, documentation='An optional comment about the document.', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 86, 3)))
+cs_documentInfo._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Comment'), commentString, scope=cs_documentInfo, documentation='An optional comment about the document.', location=pyxb.utils.utility.Location('cs_documentInfo.xsd', 86, 3)))
 
 def _BuildAutomaton_3 ():
-    # Remove this helper function from the namespace after it's invoked
+    # Remove this helper function from the namespace after it is invoked
     global _BuildAutomaton_3
     del _BuildAutomaton_3
     import pyxb.utils.fac as fac
 
     counters = set()
-    cc_0 = fac.CounterCondition(min=0, max=None, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 32, 3))
+    cc_0 = fac.CounterCondition(min=0, max=None, metadata=pyxb.utils.utility.Location('cs_documentInfo.xsd', 32, 3))
     counters.add(cc_0)
-    cc_1 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 38, 3))
+    cc_1 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_documentInfo.xsd', 38, 3))
     counters.add(cc_1)
-    cc_2 = fac.CounterCondition(min=0, max=None, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 50, 3))
+    cc_2 = fac.CounterCondition(min=0, max=None, metadata=pyxb.utils.utility.Location('cs_documentInfo.xsd', 50, 3))
     counters.add(cc_2)
-    cc_3 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 56, 3))
+    cc_3 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_documentInfo.xsd', 56, 3))
     counters.add(cc_3)
-    cc_4 = fac.CounterCondition(min=0, max=5, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 63, 3))
+    cc_4 = fac.CounterCondition(min=0, max=5, metadata=pyxb.utils.utility.Location('cs_documentInfo.xsd', 63, 3))
     counters.add(cc_4)
-    cc_5 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 69, 3))
+    cc_5 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_documentInfo.xsd', 69, 3))
     counters.add(cc_5)
-    cc_6 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 75, 3))
+    cc_6 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_documentInfo.xsd', 75, 3))
     counters.add(cc_6)
-    cc_7 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 81, 3))
+    cc_7 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_documentInfo.xsd', 81, 3))
     counters.add(cc_7)
-    cc_8 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 86, 3))
+    cc_8 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_documentInfo.xsd', 86, 3))
     counters.add(cc_8)
     states = []
     final_update = set()
-    symbol = pyxb.binding.content.ElementUse(cs_documentInfo._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'DocumentName')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 26, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_documentInfo._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'DocumentName')), pyxb.utils.utility.Location('cs_documentInfo.xsd', 26, 3))
     st_0 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_0)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_0, False))
-    symbol = pyxb.binding.content.ElementUse(cs_documentInfo._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'DocumentAlias')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 32, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_documentInfo._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'DocumentAlias')), pyxb.utils.utility.Location('cs_documentInfo.xsd', 32, 3))
     st_1 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_1)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_1, False))
-    symbol = pyxb.binding.content.ElementUse(cs_documentInfo._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'DocumentDate')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 38, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_documentInfo._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'DocumentDate')), pyxb.utils.utility.Location('cs_documentInfo.xsd', 38, 3))
     st_2 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_2)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_2, False))
-    symbol = pyxb.binding.content.ElementUse(cs_documentInfo._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'documentClass')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 50, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_documentInfo._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'documentClass')), pyxb.utils.utility.Location('cs_documentInfo.xsd', 50, 3))
     st_3 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_3)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_3, False))
-    symbol = pyxb.binding.content.ElementUse(cs_documentInfo._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'FileCreationInformation')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 56, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_documentInfo._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'FileCreationInformation')), pyxb.utils.utility.Location('cs_documentInfo.xsd', 56, 3))
     st_4 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_4)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_4, False))
-    symbol = pyxb.binding.content.ElementUse(cs_documentInfo._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'SecurityInformation')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 63, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_documentInfo._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'SecurityInformation')), pyxb.utils.utility.Location('cs_documentInfo.xsd', 63, 3))
     st_5 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_5)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_5, False))
-    symbol = pyxb.binding.content.ElementUse(cs_documentInfo._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'Disclaimer')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 69, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_documentInfo._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'Disclaimer')), pyxb.utils.utility.Location('cs_documentInfo.xsd', 69, 3))
     st_6 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_6)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_6, False))
-    symbol = pyxb.binding.content.ElementUse(cs_documentInfo._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'AuditTrail')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 75, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_documentInfo._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'AuditTrail')), pyxb.utils.utility.Location('cs_documentInfo.xsd', 75, 3))
     st_7 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_7)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_7, False))
-    symbol = pyxb.binding.content.ElementUse(cs_documentInfo._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'Owner')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 81, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_documentInfo._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'Owner')), pyxb.utils.utility.Location('cs_documentInfo.xsd', 81, 3))
     st_8 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_8)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_8, False))
-    symbol = pyxb.binding.content.ElementUse(cs_documentInfo._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'Comment')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 86, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_documentInfo._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'Comment')), pyxb.utils.utility.Location('cs_documentInfo.xsd', 86, 3))
     st_9 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_9)
     transitions = []
@@ -9490,45 +9754,45 @@ cs_documentInfo._Automaton = _BuildAutomaton_3()
 
 
 
-fileCreationType._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'FileCreationDate'), timestamp, scope=fileCreationType, documentation='The date and time that the file was created.', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 100, 3)))
+fileCreationType._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'FileCreationDate'), timestamp, scope=fileCreationType, documentation='The date and time that the file was created.', location=pyxb.utils.utility.Location('cs_documentInfo.xsd', 100, 3)))
 
-fileCreationType._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'SoftwareName'), nameString, scope=fileCreationType, documentation='If appropriate, the software that created the file. \n\t\t\t\t\tThis is a free form string, and may include whatever information \n\t\t\t\t\tis deemed relevant.', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 105, 3)))
+fileCreationType._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'SoftwareName'), nameString, scope=fileCreationType, documentation='If appropriate, the software that created the file. \n\t\t\t\t\tThis is a free form string, and may include whatever information \n\t\t\t\t\tis deemed relevant.', location=pyxb.utils.utility.Location('cs_documentInfo.xsd', 105, 3)))
 
-fileCreationType._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'FileCreator'), nameString, scope=fileCreationType, documentation='The person or business associate that created \n\t\t\t\t\tthe file.', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 112, 3)))
+fileCreationType._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'FileCreator'), nameString, scope=fileCreationType, documentation='The person or business associate that created \n\t\t\t\t\tthe file.', location=pyxb.utils.utility.Location('cs_documentInfo.xsd', 112, 3)))
 
-fileCreationType._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Comment'), commentString, scope=fileCreationType, documentation='Any comment that would be useful to further \n\t\t\t\t\texplain the creation of this instance document.', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 118, 3)))
+fileCreationType._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Comment'), commentString, scope=fileCreationType, documentation='Any comment that would be useful to further \n\t\t\t\t\texplain the creation of this instance document.', location=pyxb.utils.utility.Location('cs_documentInfo.xsd', 118, 3)))
 
 def _BuildAutomaton_4 ():
-    # Remove this helper function from the namespace after it's invoked
+    # Remove this helper function from the namespace after it is invoked
     global _BuildAutomaton_4
     del _BuildAutomaton_4
     import pyxb.utils.fac as fac
 
     counters = set()
-    cc_0 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 105, 3))
+    cc_0 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_documentInfo.xsd', 105, 3))
     counters.add(cc_0)
-    cc_1 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 112, 3))
+    cc_1 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_documentInfo.xsd', 112, 3))
     counters.add(cc_1)
-    cc_2 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 118, 3))
+    cc_2 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_documentInfo.xsd', 118, 3))
     counters.add(cc_2)
     states = []
     final_update = set()
-    symbol = pyxb.binding.content.ElementUse(fileCreationType._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'FileCreationDate')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 100, 3))
+    symbol = pyxb.binding.content.ElementUse(fileCreationType._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'FileCreationDate')), pyxb.utils.utility.Location('cs_documentInfo.xsd', 100, 3))
     st_0 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_0)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_0, False))
-    symbol = pyxb.binding.content.ElementUse(fileCreationType._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'SoftwareName')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 105, 3))
+    symbol = pyxb.binding.content.ElementUse(fileCreationType._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'SoftwareName')), pyxb.utils.utility.Location('cs_documentInfo.xsd', 105, 3))
     st_1 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_1)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_1, False))
-    symbol = pyxb.binding.content.ElementUse(fileCreationType._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'FileCreator')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 112, 3))
+    symbol = pyxb.binding.content.ElementUse(fileCreationType._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'FileCreator')), pyxb.utils.utility.Location('cs_documentInfo.xsd', 112, 3))
     st_2 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_2)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_2, False))
-    symbol = pyxb.binding.content.ElementUse(fileCreationType._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'Comment')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 118, 3))
+    symbol = pyxb.binding.content.ElementUse(fileCreationType._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'Comment')), pyxb.utils.utility.Location('cs_documentInfo.xsd', 118, 3))
     st_3 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_3)
     transitions = []
@@ -9563,48 +9827,48 @@ fileCreationType._Automaton = _BuildAutomaton_4()
 
 
 
-securityInfoType._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Class'), kindString, scope=securityInfoType, documentation='The security class in which this document is \n\t\t\t\t\tclassified. Examples would be confidential, partner confidential, \n\t\t\t\t\ttight. The meaning of the class is determined by the System in which \n\t\t\t\t\tit is defined.', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 138, 3)))
+securityInfoType._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Class'), kindString, scope=securityInfoType, documentation='The security class in which this document is \n\t\t\t\t\tclassified. Examples would be confidential, partner confidential, \n\t\t\t\t\ttight. The meaning of the class is determined by the System in which \n\t\t\t\t\tit is defined.', location=pyxb.utils.utility.Location('cs_documentInfo.xsd', 138, 3)))
 
-securityInfoType._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'System'), kindString, scope=securityInfoType, documentation='The security classification system. \n\t\t\t\t\tThis gives context to the meaning of the Class value.', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 146, 3)))
+securityInfoType._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'System'), kindString, scope=securityInfoType, documentation='The security classification system. \n\t\t\t\t\tThis gives context to the meaning of the Class value.', location=pyxb.utils.utility.Location('cs_documentInfo.xsd', 146, 3)))
 
-securityInfoType._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'EndDate'), timestamp, scope=securityInfoType, documentation='The date on which this security class is no \n\t\t\t\t\tlonger applicable.', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 152, 3)))
+securityInfoType._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'EndDate'), timestamp, scope=securityInfoType, documentation='The date on which this security class is no \n\t\t\t\t\tlonger applicable.', location=pyxb.utils.utility.Location('cs_documentInfo.xsd', 152, 3)))
 
-securityInfoType._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Comment'), commentString, scope=securityInfoType, documentation='A general comment to further define the security \n\t\t\t\t\tclass.', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 158, 3)))
+securityInfoType._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Comment'), commentString, scope=securityInfoType, documentation='A general comment to further define the security \n\t\t\t\t\tclass.', location=pyxb.utils.utility.Location('cs_documentInfo.xsd', 158, 3)))
 
 def _BuildAutomaton_5 ():
-    # Remove this helper function from the namespace after it's invoked
+    # Remove this helper function from the namespace after it is invoked
     global _BuildAutomaton_5
     del _BuildAutomaton_5
     import pyxb.utils.fac as fac
 
     counters = set()
-    cc_0 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 138, 3))
+    cc_0 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_documentInfo.xsd', 138, 3))
     counters.add(cc_0)
-    cc_1 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 146, 3))
+    cc_1 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_documentInfo.xsd', 146, 3))
     counters.add(cc_1)
-    cc_2 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 152, 3))
+    cc_2 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_documentInfo.xsd', 152, 3))
     counters.add(cc_2)
-    cc_3 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 158, 3))
+    cc_3 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_documentInfo.xsd', 158, 3))
     counters.add(cc_3)
     states = []
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_0, False))
-    symbol = pyxb.binding.content.ElementUse(securityInfoType._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'Class')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 138, 3))
+    symbol = pyxb.binding.content.ElementUse(securityInfoType._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'Class')), pyxb.utils.utility.Location('cs_documentInfo.xsd', 138, 3))
     st_0 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_0)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_1, False))
-    symbol = pyxb.binding.content.ElementUse(securityInfoType._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'System')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 146, 3))
+    symbol = pyxb.binding.content.ElementUse(securityInfoType._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'System')), pyxb.utils.utility.Location('cs_documentInfo.xsd', 146, 3))
     st_1 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_1)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_2, False))
-    symbol = pyxb.binding.content.ElementUse(securityInfoType._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'EndDate')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 152, 3))
+    symbol = pyxb.binding.content.ElementUse(securityInfoType._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'EndDate')), pyxb.utils.utility.Location('cs_documentInfo.xsd', 152, 3))
     st_2 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_2)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_3, False))
-    symbol = pyxb.binding.content.ElementUse(securityInfoType._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'Comment')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 158, 3))
+    symbol = pyxb.binding.content.ElementUse(securityInfoType._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'Comment')), pyxb.utils.utility.Location('cs_documentInfo.xsd', 158, 3))
     st_3 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_3)
     transitions = []
@@ -9641,10 +9905,10 @@ securityInfoType._Automaton = _BuildAutomaton_5()
 
 
 
-auditType._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Event'), eventType, scope=auditType, location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 173, 3)))
+auditType._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Event'), eventType, scope=auditType, location=pyxb.utils.utility.Location('cs_documentInfo.xsd', 173, 3)))
 
 def _BuildAutomaton_6 ():
-    # Remove this helper function from the namespace after it's invoked
+    # Remove this helper function from the namespace after it is invoked
     global _BuildAutomaton_6
     del _BuildAutomaton_6
     import pyxb.utils.fac as fac
@@ -9652,7 +9916,7 @@ def _BuildAutomaton_6 ():
     counters = set()
     states = []
     final_update = set()
-    symbol = pyxb.binding.content.ElementUse(auditType._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'Event')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 173, 3))
+    symbol = pyxb.binding.content.ElementUse(auditType._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'Event')), pyxb.utils.utility.Location('cs_documentInfo.xsd', 173, 3))
     st_0 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_0)
     transitions = []
@@ -9665,36 +9929,36 @@ auditType._Automaton = _BuildAutomaton_6()
 
 
 
-eventType._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'EventDate'), timestamp, scope=eventType, documentation='The date on which the event took place.', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 183, 3)))
+eventType._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'EventDate'), timestamp, scope=eventType, documentation='The date on which the event took place.', location=pyxb.utils.utility.Location('cs_documentInfo.xsd', 183, 3)))
 
-eventType._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'ResponsibleParty'), nameString, scope=eventType, documentation='The party responsible for the event.', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 188, 3)))
+eventType._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'ResponsibleParty'), nameString, scope=eventType, documentation='The party responsible for the event.', location=pyxb.utils.utility.Location('cs_documentInfo.xsd', 188, 3)))
 
-eventType._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Comment'), commentString, scope=eventType, documentation='A free form comment that can further \n\t\t\t\t\tdefine the event that occurred.', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 193, 3)))
+eventType._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'Comment'), commentString, scope=eventType, documentation='A free form comment that can further \n\t\t\t\t\tdefine the event that occurred.', location=pyxb.utils.utility.Location('cs_documentInfo.xsd', 193, 3)))
 
 def _BuildAutomaton_7 ():
-    # Remove this helper function from the namespace after it's invoked
+    # Remove this helper function from the namespace after it is invoked
     global _BuildAutomaton_7
     del _BuildAutomaton_7
     import pyxb.utils.fac as fac
 
     counters = set()
-    cc_0 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 188, 3))
+    cc_0 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_documentInfo.xsd', 188, 3))
     counters.add(cc_0)
-    cc_1 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 193, 3))
+    cc_1 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_documentInfo.xsd', 193, 3))
     counters.add(cc_1)
     states = []
     final_update = set()
-    symbol = pyxb.binding.content.ElementUse(eventType._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'EventDate')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 183, 3))
+    symbol = pyxb.binding.content.ElementUse(eventType._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'EventDate')), pyxb.utils.utility.Location('cs_documentInfo.xsd', 183, 3))
     st_0 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_0)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_0, False))
-    symbol = pyxb.binding.content.ElementUse(eventType._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'ResponsibleParty')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 188, 3))
+    symbol = pyxb.binding.content.ElementUse(eventType._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'ResponsibleParty')), pyxb.utils.utility.Location('cs_documentInfo.xsd', 188, 3))
     st_1 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_1)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_1, False))
-    symbol = pyxb.binding.content.ElementUse(eventType._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'Comment')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_documentInfo.xsd', 193, 3))
+    symbol = pyxb.binding.content.ElementUse(eventType._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'Comment')), pyxb.utils.utility.Location('cs_documentInfo.xsd', 193, 3))
     st_2 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_2)
     transitions = []
@@ -9719,57 +9983,57 @@ eventType._Automaton = _BuildAutomaton_7()
 
 
 
-cs_holeOpener._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'typeHoleOpener'), HoleOpenerType, scope=cs_holeOpener, documentation='Under reamer or fixed blade.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_holeOpener.xsd', 24, 3)))
+cs_holeOpener._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'typeHoleOpener'), HoleOpenerType, scope=cs_holeOpener, documentation='Under reamer or fixed blade.  ', location=pyxb.utils.utility.Location('cs_holeOpener.xsd', 24, 3)))
 
-cs_holeOpener._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'numCutter'), nonNegativeCount, scope=cs_holeOpener, documentation='Number of cutters.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_holeOpener.xsd', 29, 3)))
+cs_holeOpener._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'numCutter'), nonNegativeCount, scope=cs_holeOpener, documentation='Number of cutters.  ', location=pyxb.utils.utility.Location('cs_holeOpener.xsd', 29, 3)))
 
-cs_holeOpener._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'manufacturer'), nameString, scope=cs_holeOpener, documentation='Manufacturer / supplier of the item.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_holeOpener.xsd', 34, 3)))
+cs_holeOpener._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'manufacturer'), nameString, scope=cs_holeOpener, documentation='Manufacturer / supplier of the item.  ', location=pyxb.utils.utility.Location('cs_holeOpener.xsd', 34, 3)))
 
-cs_holeOpener._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'diaHoleOpener'), lengthMeasure, scope=cs_holeOpener, documentation='Diameter of the reamer.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_holeOpener.xsd', 39, 3)))
+cs_holeOpener._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'diaHoleOpener'), lengthMeasure, scope=cs_holeOpener, documentation='Diameter of the reamer.  ', location=pyxb.utils.utility.Location('cs_holeOpener.xsd', 39, 3)))
 
-cs_holeOpener._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'customData'), cs_customData, scope=cs_holeOpener, documentation='A container element that can contain custom or user defined \n\t\t\t\t\tdata elements.', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_holeOpener.xsd', 44, 3)))
+cs_holeOpener._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'customData'), cs_customData, scope=cs_holeOpener, documentation='A container element that can contain custom or user defined \n\t\t\t\t\tdata elements.', location=pyxb.utils.utility.Location('cs_holeOpener.xsd', 44, 3)))
 
 def _BuildAutomaton_8 ():
-    # Remove this helper function from the namespace after it's invoked
+    # Remove this helper function from the namespace after it is invoked
     global _BuildAutomaton_8
     del _BuildAutomaton_8
     import pyxb.utils.fac as fac
 
     counters = set()
-    cc_0 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_holeOpener.xsd', 24, 3))
+    cc_0 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_holeOpener.xsd', 24, 3))
     counters.add(cc_0)
-    cc_1 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_holeOpener.xsd', 29, 3))
+    cc_1 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_holeOpener.xsd', 29, 3))
     counters.add(cc_1)
-    cc_2 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_holeOpener.xsd', 34, 3))
+    cc_2 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_holeOpener.xsd', 34, 3))
     counters.add(cc_2)
-    cc_3 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_holeOpener.xsd', 39, 3))
+    cc_3 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_holeOpener.xsd', 39, 3))
     counters.add(cc_3)
-    cc_4 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_holeOpener.xsd', 44, 3))
+    cc_4 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_holeOpener.xsd', 44, 3))
     counters.add(cc_4)
     states = []
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_0, False))
-    symbol = pyxb.binding.content.ElementUse(cs_holeOpener._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'typeHoleOpener')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_holeOpener.xsd', 24, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_holeOpener._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'typeHoleOpener')), pyxb.utils.utility.Location('cs_holeOpener.xsd', 24, 3))
     st_0 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_0)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_1, False))
-    symbol = pyxb.binding.content.ElementUse(cs_holeOpener._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'numCutter')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_holeOpener.xsd', 29, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_holeOpener._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'numCutter')), pyxb.utils.utility.Location('cs_holeOpener.xsd', 29, 3))
     st_1 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_1)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_2, False))
-    symbol = pyxb.binding.content.ElementUse(cs_holeOpener._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'manufacturer')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_holeOpener.xsd', 34, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_holeOpener._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'manufacturer')), pyxb.utils.utility.Location('cs_holeOpener.xsd', 34, 3))
     st_2 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_2)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_3, False))
-    symbol = pyxb.binding.content.ElementUse(cs_holeOpener._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'diaHoleOpener')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_holeOpener.xsd', 39, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_holeOpener._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'diaHoleOpener')), pyxb.utils.utility.Location('cs_holeOpener.xsd', 39, 3))
     st_3 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_3)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_4, False))
-    symbol = pyxb.binding.content.ElementUse(cs_holeOpener._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'customData')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_holeOpener.xsd', 44, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_holeOpener._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'customData')), pyxb.utils.utility.Location('cs_holeOpener.xsd', 44, 3))
     st_4 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_4)
     transitions = []
@@ -9818,93 +10082,93 @@ cs_holeOpener._Automaton = _BuildAutomaton_8()
 
 
 
-cs_jar._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'forUpSet'), forceMeasure, scope=cs_jar, documentation='Up set force.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_jar.xsd', 24, 3)))
+cs_jar._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'forUpSet'), forceMeasure, scope=cs_jar, documentation='Up set force.  ', location=pyxb.utils.utility.Location('cs_jar.xsd', 24, 3)))
 
-cs_jar._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'forDownSet'), forceMeasure, scope=cs_jar, documentation='Down set force.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_jar.xsd', 29, 3)))
+cs_jar._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'forDownSet'), forceMeasure, scope=cs_jar, documentation='Down set force.  ', location=pyxb.utils.utility.Location('cs_jar.xsd', 29, 3)))
 
-cs_jar._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'forUpTrip'), forceMeasure, scope=cs_jar, documentation='Up trip force.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_jar.xsd', 34, 3)))
+cs_jar._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'forUpTrip'), forceMeasure, scope=cs_jar, documentation='Up trip force.  ', location=pyxb.utils.utility.Location('cs_jar.xsd', 34, 3)))
 
-cs_jar._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'forDownTrip'), forceMeasure, scope=cs_jar, documentation='Down trip force.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_jar.xsd', 39, 3)))
+cs_jar._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'forDownTrip'), forceMeasure, scope=cs_jar, documentation='Down trip force.  ', location=pyxb.utils.utility.Location('cs_jar.xsd', 39, 3)))
 
-cs_jar._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'forPmpOpen'), forceMeasure, scope=cs_jar, documentation='Pump open force.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_jar.xsd', 44, 3)))
+cs_jar._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'forPmpOpen'), forceMeasure, scope=cs_jar, documentation='Pump open force.  ', location=pyxb.utils.utility.Location('cs_jar.xsd', 44, 3)))
 
-cs_jar._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'forSealFric'), forceMeasure, scope=cs_jar, documentation='Seal friction force.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_jar.xsd', 49, 3)))
+cs_jar._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'forSealFric'), forceMeasure, scope=cs_jar, documentation='Seal friction force.  ', location=pyxb.utils.utility.Location('cs_jar.xsd', 49, 3)))
 
-cs_jar._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'typeJar'), JarType, scope=cs_jar, documentation='The kind of jar.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_jar.xsd', 54, 3)))
+cs_jar._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'typeJar'), JarType, scope=cs_jar, documentation='The kind of jar.  ', location=pyxb.utils.utility.Location('cs_jar.xsd', 54, 3)))
 
-cs_jar._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'jarAction'), JarAction, scope=cs_jar, documentation='The jar action.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_jar.xsd', 59, 3)))
+cs_jar._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'jarAction'), JarAction, scope=cs_jar, documentation='The jar action.  ', location=pyxb.utils.utility.Location('cs_jar.xsd', 59, 3)))
 
-cs_jar._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'customData'), cs_customData, scope=cs_jar, documentation='A container element that can contain custom or user defined \n\t\t\t\t\tdata elements.', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_jar.xsd', 64, 3)))
+cs_jar._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'customData'), cs_customData, scope=cs_jar, documentation='A container element that can contain custom or user defined \n\t\t\t\t\tdata elements.', location=pyxb.utils.utility.Location('cs_jar.xsd', 64, 3)))
 
 def _BuildAutomaton_9 ():
-    # Remove this helper function from the namespace after it's invoked
+    # Remove this helper function from the namespace after it is invoked
     global _BuildAutomaton_9
     del _BuildAutomaton_9
     import pyxb.utils.fac as fac
 
     counters = set()
-    cc_0 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_jar.xsd', 24, 3))
+    cc_0 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_jar.xsd', 24, 3))
     counters.add(cc_0)
-    cc_1 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_jar.xsd', 29, 3))
+    cc_1 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_jar.xsd', 29, 3))
     counters.add(cc_1)
-    cc_2 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_jar.xsd', 34, 3))
+    cc_2 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_jar.xsd', 34, 3))
     counters.add(cc_2)
-    cc_3 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_jar.xsd', 39, 3))
+    cc_3 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_jar.xsd', 39, 3))
     counters.add(cc_3)
-    cc_4 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_jar.xsd', 44, 3))
+    cc_4 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_jar.xsd', 44, 3))
     counters.add(cc_4)
-    cc_5 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_jar.xsd', 49, 3))
+    cc_5 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_jar.xsd', 49, 3))
     counters.add(cc_5)
-    cc_6 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_jar.xsd', 54, 3))
+    cc_6 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_jar.xsd', 54, 3))
     counters.add(cc_6)
-    cc_7 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_jar.xsd', 59, 3))
+    cc_7 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_jar.xsd', 59, 3))
     counters.add(cc_7)
-    cc_8 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_jar.xsd', 64, 3))
+    cc_8 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_jar.xsd', 64, 3))
     counters.add(cc_8)
     states = []
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_0, False))
-    symbol = pyxb.binding.content.ElementUse(cs_jar._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'forUpSet')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_jar.xsd', 24, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_jar._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'forUpSet')), pyxb.utils.utility.Location('cs_jar.xsd', 24, 3))
     st_0 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_0)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_1, False))
-    symbol = pyxb.binding.content.ElementUse(cs_jar._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'forDownSet')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_jar.xsd', 29, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_jar._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'forDownSet')), pyxb.utils.utility.Location('cs_jar.xsd', 29, 3))
     st_1 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_1)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_2, False))
-    symbol = pyxb.binding.content.ElementUse(cs_jar._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'forUpTrip')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_jar.xsd', 34, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_jar._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'forUpTrip')), pyxb.utils.utility.Location('cs_jar.xsd', 34, 3))
     st_2 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_2)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_3, False))
-    symbol = pyxb.binding.content.ElementUse(cs_jar._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'forDownTrip')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_jar.xsd', 39, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_jar._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'forDownTrip')), pyxb.utils.utility.Location('cs_jar.xsd', 39, 3))
     st_3 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_3)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_4, False))
-    symbol = pyxb.binding.content.ElementUse(cs_jar._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'forPmpOpen')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_jar.xsd', 44, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_jar._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'forPmpOpen')), pyxb.utils.utility.Location('cs_jar.xsd', 44, 3))
     st_4 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_4)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_5, False))
-    symbol = pyxb.binding.content.ElementUse(cs_jar._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'forSealFric')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_jar.xsd', 49, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_jar._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'forSealFric')), pyxb.utils.utility.Location('cs_jar.xsd', 49, 3))
     st_5 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_5)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_6, False))
-    symbol = pyxb.binding.content.ElementUse(cs_jar._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'typeJar')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_jar.xsd', 54, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_jar._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'typeJar')), pyxb.utils.utility.Location('cs_jar.xsd', 54, 3))
     st_6 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_6)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_7, False))
-    symbol = pyxb.binding.content.ElementUse(cs_jar._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'jarAction')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_jar.xsd', 59, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_jar._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'jarAction')), pyxb.utils.utility.Location('cs_jar.xsd', 59, 3))
     st_7 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_7)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_8, False))
-    symbol = pyxb.binding.content.ElementUse(cs_jar._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'customData')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_jar.xsd', 64, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_jar._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'customData')), pyxb.utils.utility.Location('cs_jar.xsd', 64, 3))
     st_8 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_8)
     transitions = []
@@ -10021,165 +10285,165 @@ cs_jar._Automaton = _BuildAutomaton_9()
 
 
 
-cs_motor._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'offsetTool'), lengthMeasure, scope=cs_motor, documentation='Tool offset from bottom.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_motor.xsd', 24, 3)))
+cs_motor._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'offsetTool'), lengthMeasure, scope=cs_motor, documentation='Tool offset from bottom.  ', location=pyxb.utils.utility.Location('cs_motor.xsd', 24, 3)))
 
-cs_motor._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'presLossFact'), unitlessQuantity, scope=cs_motor, documentation='Pressure loss factor.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_motor.xsd', 29, 3)))
+cs_motor._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'presLossFact'), unitlessQuantity, scope=cs_motor, documentation='Pressure loss factor.  ', location=pyxb.utils.utility.Location('cs_motor.xsd', 29, 3)))
 
-cs_motor._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'flowrateMn'), volumeFlowRateMeasure, scope=cs_motor, documentation='Minimum flow rate.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_motor.xsd', 34, 3)))
+cs_motor._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'flowrateMn'), volumeFlowRateMeasure, scope=cs_motor, documentation='Minimum flow rate.  ', location=pyxb.utils.utility.Location('cs_motor.xsd', 34, 3)))
 
-cs_motor._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'flowrateMx'), volumeFlowRateMeasure, scope=cs_motor, documentation='Maximum flow rate.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_motor.xsd', 39, 3)))
+cs_motor._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'flowrateMx'), volumeFlowRateMeasure, scope=cs_motor, documentation='Maximum flow rate.  ', location=pyxb.utils.utility.Location('cs_motor.xsd', 39, 3)))
 
-cs_motor._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'diaRotorNozzle'), lengthMeasure, scope=cs_motor, documentation='Diameter of rotor at nozzle.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_motor.xsd', 44, 3)))
+cs_motor._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'diaRotorNozzle'), lengthMeasure, scope=cs_motor, documentation='Diameter of rotor at nozzle.  ', location=pyxb.utils.utility.Location('cs_motor.xsd', 44, 3)))
 
-cs_motor._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'clearanceBearBox'), lengthMeasure, scope=cs_motor, documentation='Clearance inside bearing box.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_motor.xsd', 49, 3)))
+cs_motor._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'clearanceBearBox'), lengthMeasure, scope=cs_motor, documentation='Clearance inside bearing box.  ', location=pyxb.utils.utility.Location('cs_motor.xsd', 49, 3)))
 
-cs_motor._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'lobesRotor'), nonNegativeCount, scope=cs_motor, documentation='Number of rotor lobes.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_motor.xsd', 54, 3)))
+cs_motor._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'lobesRotor'), nonNegativeCount, scope=cs_motor, documentation='Number of rotor lobes.  ', location=pyxb.utils.utility.Location('cs_motor.xsd', 54, 3)))
 
-cs_motor._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'lobesStator'), nonNegativeCount, scope=cs_motor, documentation='Number of stator lobes.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_motor.xsd', 59, 3)))
+cs_motor._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'lobesStator'), nonNegativeCount, scope=cs_motor, documentation='Number of stator lobes.  ', location=pyxb.utils.utility.Location('cs_motor.xsd', 59, 3)))
 
-cs_motor._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'typeBearing'), BearingType, scope=cs_motor, documentation='Type of bearing. ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_motor.xsd', 64, 3)))
+cs_motor._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'typeBearing'), BearingType, scope=cs_motor, documentation='Type of bearing. ', location=pyxb.utils.utility.Location('cs_motor.xsd', 64, 3)))
 
-cs_motor._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'tempOpMx'), thermodynamicTemperatureMeasure, scope=cs_motor, documentation='Maximum operating temperature.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_motor.xsd', 69, 3)))
+cs_motor._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'tempOpMx'), thermodynamicTemperatureMeasure, scope=cs_motor, documentation='Maximum operating temperature.  ', location=pyxb.utils.utility.Location('cs_motor.xsd', 69, 3)))
 
-cs_motor._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'rotorCatcher'), logicalBoolean, scope=cs_motor, documentation='Is rotor catcher present?  \n\t\t\t\t\tValues are "true" (or "1") and "false" (or "0").', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_motor.xsd', 74, 3)))
+cs_motor._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'rotorCatcher'), logicalBoolean, scope=cs_motor, documentation='Is rotor catcher present?  \n\t\t\t\t\tValues are "true" (or "1") and "false" (or "0").', location=pyxb.utils.utility.Location('cs_motor.xsd', 74, 3)))
 
-cs_motor._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'dumpValve'), logicalBoolean, scope=cs_motor, documentation='Is dump valve present?  \n\t\t\t\t\tValues are "true" (or "1") and "false" (or "0").', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_motor.xsd', 80, 3)))
+cs_motor._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'dumpValve'), logicalBoolean, scope=cs_motor, documentation='Is dump valve present?  \n\t\t\t\t\tValues are "true" (or "1") and "false" (or "0").', location=pyxb.utils.utility.Location('cs_motor.xsd', 80, 3)))
 
-cs_motor._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'diaNozzle'), lengthMeasure, scope=cs_motor, documentation='Nozzle diameter.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_motor.xsd', 86, 3)))
+cs_motor._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'diaNozzle'), lengthMeasure, scope=cs_motor, documentation='Nozzle diameter.  ', location=pyxb.utils.utility.Location('cs_motor.xsd', 86, 3)))
 
-cs_motor._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'rotatable'), logicalBoolean, scope=cs_motor, documentation='Is motor rotatable?  \n\t\t\t\t\tValues are "true" (or "1") and "false" (or "0").', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_motor.xsd', 91, 3)))
+cs_motor._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'rotatable'), logicalBoolean, scope=cs_motor, documentation='Is motor rotatable?  \n\t\t\t\t\tValues are "true" (or "1") and "false" (or "0").', location=pyxb.utils.utility.Location('cs_motor.xsd', 91, 3)))
 
-cs_motor._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'bendSettingsMn'), planeAngleMeasure, scope=cs_motor, documentation='Minimum bend angle setting.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_motor.xsd', 97, 3)))
+cs_motor._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'bendSettingsMn'), planeAngleMeasure, scope=cs_motor, documentation='Minimum bend angle setting.  ', location=pyxb.utils.utility.Location('cs_motor.xsd', 97, 3)))
 
-cs_motor._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'bendSettingsMx'), planeAngleMeasure, scope=cs_motor, documentation='Maximum bend angle setting.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_motor.xsd', 102, 3)))
+cs_motor._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'bendSettingsMx'), planeAngleMeasure, scope=cs_motor, documentation='Maximum bend angle setting.  ', location=pyxb.utils.utility.Location('cs_motor.xsd', 102, 3)))
 
-cs_motor._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'customData'), cs_customData, scope=cs_motor, documentation='A container element that can contain custom or user defined \n\t\t\t\t\tdata elements.', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_motor.xsd', 107, 3)))
+cs_motor._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'customData'), cs_customData, scope=cs_motor, documentation='A container element that can contain custom or user defined \n\t\t\t\t\tdata elements.', location=pyxb.utils.utility.Location('cs_motor.xsd', 107, 3)))
 
 def _BuildAutomaton_10 ():
-    # Remove this helper function from the namespace after it's invoked
+    # Remove this helper function from the namespace after it is invoked
     global _BuildAutomaton_10
     del _BuildAutomaton_10
     import pyxb.utils.fac as fac
 
     counters = set()
-    cc_0 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_motor.xsd', 24, 3))
+    cc_0 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_motor.xsd', 24, 3))
     counters.add(cc_0)
-    cc_1 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_motor.xsd', 29, 3))
+    cc_1 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_motor.xsd', 29, 3))
     counters.add(cc_1)
-    cc_2 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_motor.xsd', 34, 3))
+    cc_2 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_motor.xsd', 34, 3))
     counters.add(cc_2)
-    cc_3 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_motor.xsd', 39, 3))
+    cc_3 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_motor.xsd', 39, 3))
     counters.add(cc_3)
-    cc_4 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_motor.xsd', 44, 3))
+    cc_4 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_motor.xsd', 44, 3))
     counters.add(cc_4)
-    cc_5 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_motor.xsd', 49, 3))
+    cc_5 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_motor.xsd', 49, 3))
     counters.add(cc_5)
-    cc_6 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_motor.xsd', 54, 3))
+    cc_6 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_motor.xsd', 54, 3))
     counters.add(cc_6)
-    cc_7 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_motor.xsd', 59, 3))
+    cc_7 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_motor.xsd', 59, 3))
     counters.add(cc_7)
-    cc_8 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_motor.xsd', 64, 3))
+    cc_8 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_motor.xsd', 64, 3))
     counters.add(cc_8)
-    cc_9 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_motor.xsd', 69, 3))
+    cc_9 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_motor.xsd', 69, 3))
     counters.add(cc_9)
-    cc_10 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_motor.xsd', 74, 3))
+    cc_10 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_motor.xsd', 74, 3))
     counters.add(cc_10)
-    cc_11 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_motor.xsd', 80, 3))
+    cc_11 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_motor.xsd', 80, 3))
     counters.add(cc_11)
-    cc_12 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_motor.xsd', 86, 3))
+    cc_12 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_motor.xsd', 86, 3))
     counters.add(cc_12)
-    cc_13 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_motor.xsd', 91, 3))
+    cc_13 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_motor.xsd', 91, 3))
     counters.add(cc_13)
-    cc_14 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_motor.xsd', 97, 3))
+    cc_14 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_motor.xsd', 97, 3))
     counters.add(cc_14)
-    cc_15 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_motor.xsd', 102, 3))
+    cc_15 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_motor.xsd', 102, 3))
     counters.add(cc_15)
-    cc_16 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_motor.xsd', 107, 3))
+    cc_16 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_motor.xsd', 107, 3))
     counters.add(cc_16)
     states = []
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_0, False))
-    symbol = pyxb.binding.content.ElementUse(cs_motor._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'offsetTool')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_motor.xsd', 24, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_motor._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'offsetTool')), pyxb.utils.utility.Location('cs_motor.xsd', 24, 3))
     st_0 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_0)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_1, False))
-    symbol = pyxb.binding.content.ElementUse(cs_motor._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'presLossFact')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_motor.xsd', 29, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_motor._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'presLossFact')), pyxb.utils.utility.Location('cs_motor.xsd', 29, 3))
     st_1 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_1)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_2, False))
-    symbol = pyxb.binding.content.ElementUse(cs_motor._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'flowrateMn')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_motor.xsd', 34, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_motor._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'flowrateMn')), pyxb.utils.utility.Location('cs_motor.xsd', 34, 3))
     st_2 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_2)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_3, False))
-    symbol = pyxb.binding.content.ElementUse(cs_motor._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'flowrateMx')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_motor.xsd', 39, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_motor._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'flowrateMx')), pyxb.utils.utility.Location('cs_motor.xsd', 39, 3))
     st_3 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_3)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_4, False))
-    symbol = pyxb.binding.content.ElementUse(cs_motor._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'diaRotorNozzle')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_motor.xsd', 44, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_motor._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'diaRotorNozzle')), pyxb.utils.utility.Location('cs_motor.xsd', 44, 3))
     st_4 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_4)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_5, False))
-    symbol = pyxb.binding.content.ElementUse(cs_motor._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'clearanceBearBox')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_motor.xsd', 49, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_motor._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'clearanceBearBox')), pyxb.utils.utility.Location('cs_motor.xsd', 49, 3))
     st_5 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_5)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_6, False))
-    symbol = pyxb.binding.content.ElementUse(cs_motor._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'lobesRotor')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_motor.xsd', 54, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_motor._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'lobesRotor')), pyxb.utils.utility.Location('cs_motor.xsd', 54, 3))
     st_6 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_6)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_7, False))
-    symbol = pyxb.binding.content.ElementUse(cs_motor._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'lobesStator')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_motor.xsd', 59, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_motor._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'lobesStator')), pyxb.utils.utility.Location('cs_motor.xsd', 59, 3))
     st_7 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_7)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_8, False))
-    symbol = pyxb.binding.content.ElementUse(cs_motor._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'typeBearing')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_motor.xsd', 64, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_motor._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'typeBearing')), pyxb.utils.utility.Location('cs_motor.xsd', 64, 3))
     st_8 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_8)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_9, False))
-    symbol = pyxb.binding.content.ElementUse(cs_motor._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'tempOpMx')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_motor.xsd', 69, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_motor._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'tempOpMx')), pyxb.utils.utility.Location('cs_motor.xsd', 69, 3))
     st_9 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_9)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_10, False))
-    symbol = pyxb.binding.content.ElementUse(cs_motor._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'rotorCatcher')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_motor.xsd', 74, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_motor._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'rotorCatcher')), pyxb.utils.utility.Location('cs_motor.xsd', 74, 3))
     st_10 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_10)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_11, False))
-    symbol = pyxb.binding.content.ElementUse(cs_motor._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'dumpValve')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_motor.xsd', 80, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_motor._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'dumpValve')), pyxb.utils.utility.Location('cs_motor.xsd', 80, 3))
     st_11 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_11)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_12, False))
-    symbol = pyxb.binding.content.ElementUse(cs_motor._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'diaNozzle')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_motor.xsd', 86, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_motor._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'diaNozzle')), pyxb.utils.utility.Location('cs_motor.xsd', 86, 3))
     st_12 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_12)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_13, False))
-    symbol = pyxb.binding.content.ElementUse(cs_motor._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'rotatable')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_motor.xsd', 91, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_motor._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'rotatable')), pyxb.utils.utility.Location('cs_motor.xsd', 91, 3))
     st_13 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_13)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_14, False))
-    symbol = pyxb.binding.content.ElementUse(cs_motor._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'bendSettingsMn')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_motor.xsd', 97, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_motor._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'bendSettingsMn')), pyxb.utils.utility.Location('cs_motor.xsd', 97, 3))
     st_14 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_14)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_15, False))
-    symbol = pyxb.binding.content.ElementUse(cs_motor._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'bendSettingsMx')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_motor.xsd', 102, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_motor._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'bendSettingsMx')), pyxb.utils.utility.Location('cs_motor.xsd', 102, 3))
     st_15 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_15)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_16, False))
-    symbol = pyxb.binding.content.ElementUse(cs_motor._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'customData')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_motor.xsd', 107, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_motor._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'customData')), pyxb.utils.utility.Location('cs_motor.xsd', 107, 3))
     st_16 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_16)
     transitions = []
@@ -10528,66 +10792,66 @@ cs_motor._Automaton = _BuildAutomaton_10()
 
 
 
-cs_mwdTool._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'flowrateMn'), volumeFlowRateMeasure, scope=cs_mwdTool, documentation='Minimum flow rate.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_mwdTool.xsd', 24, 3)))
+cs_mwdTool._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'flowrateMn'), volumeFlowRateMeasure, scope=cs_mwdTool, documentation='Minimum flow rate.  ', location=pyxb.utils.utility.Location('cs_mwdTool.xsd', 24, 3)))
 
-cs_mwdTool._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'flowrateMx'), volumeFlowRateMeasure, scope=cs_mwdTool, documentation='Maximum flow rate.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_mwdTool.xsd', 29, 3)))
+cs_mwdTool._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'flowrateMx'), volumeFlowRateMeasure, scope=cs_mwdTool, documentation='Maximum flow rate.  ', location=pyxb.utils.utility.Location('cs_mwdTool.xsd', 29, 3)))
 
-cs_mwdTool._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'tempMx'), thermodynamicTemperatureMeasure, scope=cs_mwdTool, documentation='Maximum Temperature.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_mwdTool.xsd', 34, 3)))
+cs_mwdTool._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'tempMx'), thermodynamicTemperatureMeasure, scope=cs_mwdTool, documentation='Maximum Temperature.  ', location=pyxb.utils.utility.Location('cs_mwdTool.xsd', 34, 3)))
 
-cs_mwdTool._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'idEquv'), lengthMeasure, scope=cs_mwdTool, documentation='Equivalent inner diameter.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_mwdTool.xsd', 39, 3)))
+cs_mwdTool._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'idEquv'), lengthMeasure, scope=cs_mwdTool, documentation='Equivalent inner diameter.  ', location=pyxb.utils.utility.Location('cs_mwdTool.xsd', 39, 3)))
 
-cs_mwdTool._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'sensor'), cs_sensor, scope=cs_mwdTool, documentation='Sensor object.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_mwdTool.xsd', 44, 3)))
+cs_mwdTool._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'sensor'), cs_sensor, scope=cs_mwdTool, documentation='Sensor object.  ', location=pyxb.utils.utility.Location('cs_mwdTool.xsd', 44, 3)))
 
-cs_mwdTool._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'customData'), cs_customData, scope=cs_mwdTool, documentation='A container element that can contain custom or user defined \n\t\t\t\t\tdata elements.', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_mwdTool.xsd', 49, 3)))
+cs_mwdTool._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'customData'), cs_customData, scope=cs_mwdTool, documentation='A container element that can contain custom or user defined \n\t\t\t\t\tdata elements.', location=pyxb.utils.utility.Location('cs_mwdTool.xsd', 49, 3)))
 
 def _BuildAutomaton_11 ():
-    # Remove this helper function from the namespace after it's invoked
+    # Remove this helper function from the namespace after it is invoked
     global _BuildAutomaton_11
     del _BuildAutomaton_11
     import pyxb.utils.fac as fac
 
     counters = set()
-    cc_0 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_mwdTool.xsd', 24, 3))
+    cc_0 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_mwdTool.xsd', 24, 3))
     counters.add(cc_0)
-    cc_1 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_mwdTool.xsd', 29, 3))
+    cc_1 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_mwdTool.xsd', 29, 3))
     counters.add(cc_1)
-    cc_2 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_mwdTool.xsd', 34, 3))
+    cc_2 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_mwdTool.xsd', 34, 3))
     counters.add(cc_2)
-    cc_3 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_mwdTool.xsd', 39, 3))
+    cc_3 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_mwdTool.xsd', 39, 3))
     counters.add(cc_3)
-    cc_4 = fac.CounterCondition(min=0, max=None, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_mwdTool.xsd', 44, 3))
+    cc_4 = fac.CounterCondition(min=0, max=None, metadata=pyxb.utils.utility.Location('cs_mwdTool.xsd', 44, 3))
     counters.add(cc_4)
-    cc_5 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_mwdTool.xsd', 49, 3))
+    cc_5 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_mwdTool.xsd', 49, 3))
     counters.add(cc_5)
     states = []
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_0, False))
-    symbol = pyxb.binding.content.ElementUse(cs_mwdTool._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'flowrateMn')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_mwdTool.xsd', 24, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_mwdTool._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'flowrateMn')), pyxb.utils.utility.Location('cs_mwdTool.xsd', 24, 3))
     st_0 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_0)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_1, False))
-    symbol = pyxb.binding.content.ElementUse(cs_mwdTool._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'flowrateMx')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_mwdTool.xsd', 29, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_mwdTool._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'flowrateMx')), pyxb.utils.utility.Location('cs_mwdTool.xsd', 29, 3))
     st_1 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_1)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_2, False))
-    symbol = pyxb.binding.content.ElementUse(cs_mwdTool._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'tempMx')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_mwdTool.xsd', 34, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_mwdTool._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'tempMx')), pyxb.utils.utility.Location('cs_mwdTool.xsd', 34, 3))
     st_2 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_2)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_3, False))
-    symbol = pyxb.binding.content.ElementUse(cs_mwdTool._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'idEquv')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_mwdTool.xsd', 39, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_mwdTool._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'idEquv')), pyxb.utils.utility.Location('cs_mwdTool.xsd', 39, 3))
     st_3 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_3)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_4, False))
-    symbol = pyxb.binding.content.ElementUse(cs_mwdTool._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'sensor')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_mwdTool.xsd', 44, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_mwdTool._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'sensor')), pyxb.utils.utility.Location('cs_mwdTool.xsd', 44, 3))
     st_4 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_4)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_5, False))
-    symbol = pyxb.binding.content.ElementUse(cs_mwdTool._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'customData')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_mwdTool.xsd', 49, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_mwdTool._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'customData')), pyxb.utils.utility.Location('cs_mwdTool.xsd', 49, 3))
     st_5 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_5)
     transitions = []
@@ -10650,198 +10914,198 @@ cs_mwdTool._Automaton = _BuildAutomaton_11()
 
 
 
-cs_rotarySteerableTool._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'deflectionMethod'), DeflectionMethod, scope=cs_rotarySteerableTool, documentation='Method used to direct the deviation of the trajectory:\n\t\t\t\t\tPointBit or PushBit.', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 24, 3)))
+cs_rotarySteerableTool._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'deflectionMethod'), DeflectionMethod, scope=cs_rotarySteerableTool, documentation='Method used to direct the deviation of the trajectory:\n\t\t\t\t\tPointBit or PushBit.', location=pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 24, 3)))
 
-cs_rotarySteerableTool._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'bendAngle'), planeAngleMeasure, scope=cs_rotarySteerableTool, documentation='Used with PointTheBit type RSS tools, describes the \n\t\t\t\t\t\tangle of the bit.', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 31, 4)))
+cs_rotarySteerableTool._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'bendAngle'), planeAngleMeasure, scope=cs_rotarySteerableTool, documentation='Used with PointTheBit type RSS tools, describes the \n\t\t\t\t\t\tangle of the bit.', location=pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 31, 4)))
 
-cs_rotarySteerableTool._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'bendOffset'), lengthMeasure, scope=cs_rotarySteerableTool, documentation='Offset from bottom connection to bend.', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 37, 4)))
+cs_rotarySteerableTool._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'bendOffset'), lengthMeasure, scope=cs_rotarySteerableTool, documentation='Offset from bottom connection to bend.', location=pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 37, 4)))
 
-cs_rotarySteerableTool._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'holeSizeMn'), lengthMeasure, scope=cs_rotarySteerableTool, documentation='Minimum size of hole in which the tool can operate.', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 43, 3)))
+cs_rotarySteerableTool._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'holeSizeMn'), lengthMeasure, scope=cs_rotarySteerableTool, documentation='Minimum size of hole in which the tool can operate.', location=pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 43, 3)))
 
-cs_rotarySteerableTool._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'holeSizeMx'), lengthMeasure, scope=cs_rotarySteerableTool, documentation='Maximum size of hole in which the tool can operate.', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 48, 3)))
+cs_rotarySteerableTool._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'holeSizeMx'), lengthMeasure, scope=cs_rotarySteerableTool, documentation='Maximum size of hole in which the tool can operate.', location=pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 48, 3)))
 
-cs_rotarySteerableTool._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'wobMx'), forceMeasure, scope=cs_rotarySteerableTool, documentation='Maximum weight on the bit.', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 53, 3)))
+cs_rotarySteerableTool._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'wobMx'), forceMeasure, scope=cs_rotarySteerableTool, documentation='Maximum weight on the bit.', location=pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 53, 3)))
 
-cs_rotarySteerableTool._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'operatingSpeed'), anglePerTimeMeasure, scope=cs_rotarySteerableTool, documentation='Suggested operating speed.', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 58, 3)))
+cs_rotarySteerableTool._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'operatingSpeed'), anglePerTimeMeasure, scope=cs_rotarySteerableTool, documentation='Suggested operating speed.', location=pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 58, 3)))
 
-cs_rotarySteerableTool._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'speedMx'), anglePerTimeMeasure, scope=cs_rotarySteerableTool, documentation='Maximum rotation speed.', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 63, 3)))
+cs_rotarySteerableTool._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'speedMx'), anglePerTimeMeasure, scope=cs_rotarySteerableTool, documentation='Maximum rotation speed.', location=pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 63, 3)))
 
-cs_rotarySteerableTool._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'flowRateMn'), volumeFlowRateMeasure, scope=cs_rotarySteerableTool, documentation='Minimum flow rate for tool operation.', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 68, 3)))
+cs_rotarySteerableTool._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'flowRateMn'), volumeFlowRateMeasure, scope=cs_rotarySteerableTool, documentation='Minimum flow rate for tool operation.', location=pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 68, 3)))
 
-cs_rotarySteerableTool._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'flowRateMx'), volumeFlowRateMeasure, scope=cs_rotarySteerableTool, documentation='Maximum flow rate for tool operation.', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 73, 3)))
+cs_rotarySteerableTool._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'flowRateMx'), volumeFlowRateMeasure, scope=cs_rotarySteerableTool, documentation='Maximum flow rate for tool operation.', location=pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 73, 3)))
 
-cs_rotarySteerableTool._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'downLinkFlowRateMn'), volumeFlowRateMeasure, scope=cs_rotarySteerableTool, documentation='Minimum flow rate for programming tool.', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 78, 3)))
+cs_rotarySteerableTool._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'downLinkFlowRateMn'), volumeFlowRateMeasure, scope=cs_rotarySteerableTool, documentation='Minimum flow rate for programming tool.', location=pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 78, 3)))
 
-cs_rotarySteerableTool._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'downLinkFlowRateMx'), volumeFlowRateMeasure, scope=cs_rotarySteerableTool, documentation='Maximum flow rate for programming tool.', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 83, 3)))
+cs_rotarySteerableTool._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'downLinkFlowRateMx'), volumeFlowRateMeasure, scope=cs_rotarySteerableTool, documentation='Maximum flow rate for programming tool.', location=pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 83, 3)))
 
-cs_rotarySteerableTool._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'pressLossFact'), unitlessQuantity, scope=cs_rotarySteerableTool, documentation='Pressure drop across tool.', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 88, 3)))
+cs_rotarySteerableTool._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'pressLossFact'), unitlessQuantity, scope=cs_rotarySteerableTool, documentation='Pressure drop across tool.', location=pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 88, 3)))
 
-cs_rotarySteerableTool._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'padCount'), nonNegativeCount, scope=cs_rotarySteerableTool, documentation='The number of contact pads.', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 93, 3)))
+cs_rotarySteerableTool._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'padCount'), nonNegativeCount, scope=cs_rotarySteerableTool, documentation='The number of contact pads.', location=pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 93, 3)))
 
-cs_rotarySteerableTool._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'padLen'), lengthMeasure, scope=cs_rotarySteerableTool, documentation='Length of contact pad.', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 98, 3)))
+cs_rotarySteerableTool._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'padLen'), lengthMeasure, scope=cs_rotarySteerableTool, documentation='Length of contact pad.', location=pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 98, 3)))
 
-cs_rotarySteerableTool._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'padWidth'), lengthMeasure, scope=cs_rotarySteerableTool, documentation='Width of contact pad.', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 103, 3)))
+cs_rotarySteerableTool._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'padWidth'), lengthMeasure, scope=cs_rotarySteerableTool, documentation='Width of contact pad.', location=pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 103, 3)))
 
-cs_rotarySteerableTool._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'padOffset'), lengthMeasure, scope=cs_rotarySteerableTool, documentation='Offset from bottom of pad to bottom connector.', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 108, 3)))
+cs_rotarySteerableTool._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'padOffset'), lengthMeasure, scope=cs_rotarySteerableTool, documentation='Offset from bottom of pad to bottom connector.', location=pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 108, 3)))
 
-cs_rotarySteerableTool._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'openPadOd'), lengthMeasure, scope=cs_rotarySteerableTool, documentation='Outside diameter of tool when pads are activated.', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 113, 3)))
+cs_rotarySteerableTool._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'openPadOd'), lengthMeasure, scope=cs_rotarySteerableTool, documentation='Outside diameter of tool when pads are activated.', location=pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 113, 3)))
 
-cs_rotarySteerableTool._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'closePadOd'), lengthMeasure, scope=cs_rotarySteerableTool, documentation='Outiside diameter of tool when pads are closed.', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 118, 3)))
+cs_rotarySteerableTool._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'closePadOd'), lengthMeasure, scope=cs_rotarySteerableTool, documentation='Outiside diameter of tool when pads are closed.', location=pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 118, 3)))
 
-cs_rotarySteerableTool._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'sensor'), cs_sensor, scope=cs_rotarySteerableTool, documentation='A sensor.', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 123, 3)))
+cs_rotarySteerableTool._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'sensor'), cs_sensor, scope=cs_rotarySteerableTool, documentation='A sensor.', location=pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 123, 3)))
 
-cs_rotarySteerableTool._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'customData'), cs_customData, scope=cs_rotarySteerableTool, documentation='A container element that can contain custom or user defined \n\t\t\t\t\tdata elements.', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 128, 3)))
+cs_rotarySteerableTool._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'customData'), cs_customData, scope=cs_rotarySteerableTool, documentation='A container element that can contain custom or user defined \n\t\t\t\t\tdata elements.', location=pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 128, 3)))
 
 def _BuildAutomaton_12 ():
-    # Remove this helper function from the namespace after it's invoked
+    # Remove this helper function from the namespace after it is invoked
     global _BuildAutomaton_12
     del _BuildAutomaton_12
     import pyxb.utils.fac as fac
 
     counters = set()
-    cc_0 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 31, 4))
+    cc_0 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 31, 4))
     counters.add(cc_0)
-    cc_1 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 37, 4))
+    cc_1 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 37, 4))
     counters.add(cc_1)
-    cc_2 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 43, 3))
+    cc_2 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 43, 3))
     counters.add(cc_2)
-    cc_3 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 48, 3))
+    cc_3 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 48, 3))
     counters.add(cc_3)
-    cc_4 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 53, 3))
+    cc_4 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 53, 3))
     counters.add(cc_4)
-    cc_5 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 58, 3))
+    cc_5 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 58, 3))
     counters.add(cc_5)
-    cc_6 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 63, 3))
+    cc_6 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 63, 3))
     counters.add(cc_6)
-    cc_7 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 68, 3))
+    cc_7 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 68, 3))
     counters.add(cc_7)
-    cc_8 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 73, 3))
+    cc_8 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 73, 3))
     counters.add(cc_8)
-    cc_9 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 78, 3))
+    cc_9 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 78, 3))
     counters.add(cc_9)
-    cc_10 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 83, 3))
+    cc_10 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 83, 3))
     counters.add(cc_10)
-    cc_11 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 88, 3))
+    cc_11 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 88, 3))
     counters.add(cc_11)
-    cc_12 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 93, 3))
+    cc_12 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 93, 3))
     counters.add(cc_12)
-    cc_13 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 98, 3))
+    cc_13 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 98, 3))
     counters.add(cc_13)
-    cc_14 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 103, 3))
+    cc_14 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 103, 3))
     counters.add(cc_14)
-    cc_15 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 108, 3))
+    cc_15 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 108, 3))
     counters.add(cc_15)
-    cc_16 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 113, 3))
+    cc_16 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 113, 3))
     counters.add(cc_16)
-    cc_17 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 118, 3))
+    cc_17 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 118, 3))
     counters.add(cc_17)
-    cc_18 = fac.CounterCondition(min=0, max=None, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 123, 3))
+    cc_18 = fac.CounterCondition(min=0, max=None, metadata=pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 123, 3))
     counters.add(cc_18)
-    cc_19 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 128, 3))
+    cc_19 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 128, 3))
     counters.add(cc_19)
     states = []
     final_update = set()
-    symbol = pyxb.binding.content.ElementUse(cs_rotarySteerableTool._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'deflectionMethod')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 24, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_rotarySteerableTool._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'deflectionMethod')), pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 24, 3))
     st_0 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_0)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_0, False))
-    symbol = pyxb.binding.content.ElementUse(cs_rotarySteerableTool._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'bendAngle')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 31, 4))
+    symbol = pyxb.binding.content.ElementUse(cs_rotarySteerableTool._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'bendAngle')), pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 31, 4))
     st_1 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_1)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_1, False))
-    symbol = pyxb.binding.content.ElementUse(cs_rotarySteerableTool._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'bendOffset')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 37, 4))
+    symbol = pyxb.binding.content.ElementUse(cs_rotarySteerableTool._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'bendOffset')), pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 37, 4))
     st_2 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_2)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_2, False))
-    symbol = pyxb.binding.content.ElementUse(cs_rotarySteerableTool._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'holeSizeMn')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 43, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_rotarySteerableTool._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'holeSizeMn')), pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 43, 3))
     st_3 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_3)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_3, False))
-    symbol = pyxb.binding.content.ElementUse(cs_rotarySteerableTool._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'holeSizeMx')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 48, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_rotarySteerableTool._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'holeSizeMx')), pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 48, 3))
     st_4 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_4)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_4, False))
-    symbol = pyxb.binding.content.ElementUse(cs_rotarySteerableTool._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'wobMx')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 53, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_rotarySteerableTool._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'wobMx')), pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 53, 3))
     st_5 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_5)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_5, False))
-    symbol = pyxb.binding.content.ElementUse(cs_rotarySteerableTool._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'operatingSpeed')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 58, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_rotarySteerableTool._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'operatingSpeed')), pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 58, 3))
     st_6 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_6)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_6, False))
-    symbol = pyxb.binding.content.ElementUse(cs_rotarySteerableTool._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'speedMx')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 63, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_rotarySteerableTool._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'speedMx')), pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 63, 3))
     st_7 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_7)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_7, False))
-    symbol = pyxb.binding.content.ElementUse(cs_rotarySteerableTool._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'flowRateMn')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 68, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_rotarySteerableTool._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'flowRateMn')), pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 68, 3))
     st_8 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_8)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_8, False))
-    symbol = pyxb.binding.content.ElementUse(cs_rotarySteerableTool._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'flowRateMx')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 73, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_rotarySteerableTool._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'flowRateMx')), pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 73, 3))
     st_9 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_9)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_9, False))
-    symbol = pyxb.binding.content.ElementUse(cs_rotarySteerableTool._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'downLinkFlowRateMn')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 78, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_rotarySteerableTool._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'downLinkFlowRateMn')), pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 78, 3))
     st_10 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_10)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_10, False))
-    symbol = pyxb.binding.content.ElementUse(cs_rotarySteerableTool._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'downLinkFlowRateMx')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 83, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_rotarySteerableTool._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'downLinkFlowRateMx')), pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 83, 3))
     st_11 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_11)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_11, False))
-    symbol = pyxb.binding.content.ElementUse(cs_rotarySteerableTool._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'pressLossFact')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 88, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_rotarySteerableTool._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'pressLossFact')), pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 88, 3))
     st_12 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_12)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_12, False))
-    symbol = pyxb.binding.content.ElementUse(cs_rotarySteerableTool._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'padCount')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 93, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_rotarySteerableTool._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'padCount')), pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 93, 3))
     st_13 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_13)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_13, False))
-    symbol = pyxb.binding.content.ElementUse(cs_rotarySteerableTool._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'padLen')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 98, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_rotarySteerableTool._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'padLen')), pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 98, 3))
     st_14 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_14)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_14, False))
-    symbol = pyxb.binding.content.ElementUse(cs_rotarySteerableTool._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'padWidth')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 103, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_rotarySteerableTool._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'padWidth')), pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 103, 3))
     st_15 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_15)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_15, False))
-    symbol = pyxb.binding.content.ElementUse(cs_rotarySteerableTool._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'padOffset')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 108, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_rotarySteerableTool._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'padOffset')), pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 108, 3))
     st_16 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_16)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_16, False))
-    symbol = pyxb.binding.content.ElementUse(cs_rotarySteerableTool._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'openPadOd')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 113, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_rotarySteerableTool._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'openPadOd')), pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 113, 3))
     st_17 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_17)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_17, False))
-    symbol = pyxb.binding.content.ElementUse(cs_rotarySteerableTool._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'closePadOd')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 118, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_rotarySteerableTool._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'closePadOd')), pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 118, 3))
     st_18 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_18)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_18, False))
-    symbol = pyxb.binding.content.ElementUse(cs_rotarySteerableTool._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'sensor')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 123, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_rotarySteerableTool._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'sensor')), pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 123, 3))
     st_19 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_19)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_19, False))
-    symbol = pyxb.binding.content.ElementUse(cs_rotarySteerableTool._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'customData')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_rotarySteerableTool.xsd', 128, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_rotarySteerableTool._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'customData')), pyxb.utils.utility.Location('cs_rotarySteerableTool.xsd', 128, 3))
     st_20 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_20)
     transitions = []
@@ -11350,26 +11614,26 @@ cs_rotarySteerableTool._Automaton = _BuildAutomaton_12()
 
 
 
-obj_tubulars._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'documentInfo'), cs_documentInfo, scope=obj_tubulars, documentation='Information about the XML message instance.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\obj_tubular.xsd', 35, 3)))
+obj_tubulars._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'documentInfo'), cs_documentInfo, scope=obj_tubulars, documentation='Information about the XML message instance.  ', location=pyxb.utils.utility.Location('obj_tubular.xsd', 35, 3)))
 
-obj_tubulars._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'tubular'), obj_tubular, scope=obj_tubulars, documentation='A single tubular (assembly). \n\t\t\t\t\tThis represents the "transient" assemblies used in drilling a well as opposed\n\t\t\t\t\tto the "fixed" assemblies (see wbGeometry).', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\obj_tubular.xsd', 40, 3)))
+obj_tubulars._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'tubular'), obj_tubular, scope=obj_tubulars, documentation='A single tubular (assembly). \n\t\t\t\t\tThis represents the "transient" assemblies used in drilling a well as opposed\n\t\t\t\t\tto the "fixed" assemblies (see wbGeometry).', location=pyxb.utils.utility.Location('obj_tubular.xsd', 40, 3)))
 
 def _BuildAutomaton_13 ():
-    # Remove this helper function from the namespace after it's invoked
+    # Remove this helper function from the namespace after it is invoked
     global _BuildAutomaton_13
     del _BuildAutomaton_13
     import pyxb.utils.fac as fac
 
     counters = set()
-    cc_0 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\obj_tubular.xsd', 35, 3))
+    cc_0 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('obj_tubular.xsd', 35, 3))
     counters.add(cc_0)
     states = []
     final_update = None
-    symbol = pyxb.binding.content.ElementUse(obj_tubulars._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'documentInfo')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\obj_tubular.xsd', 35, 3))
+    symbol = pyxb.binding.content.ElementUse(obj_tubulars._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'documentInfo')), pyxb.utils.utility.Location('obj_tubular.xsd', 35, 3))
     st_0 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_0)
     final_update = set()
-    symbol = pyxb.binding.content.ElementUse(obj_tubulars._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'tubular')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\obj_tubular.xsd', 40, 3))
+    symbol = pyxb.binding.content.ElementUse(obj_tubulars._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'tubular')), pyxb.utils.utility.Location('obj_tubular.xsd', 40, 3))
     st_1 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_1)
     transitions = []
@@ -11388,39 +11652,39 @@ obj_tubulars._Automaton = _BuildAutomaton_13()
 
 
 
-cs_bend._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'angle'), planeAngleMeasure, scope=cs_bend, documentation='Angle of the bend.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bend.xsd', 25, 3)))
+cs_bend._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'angle'), planeAngleMeasure, scope=cs_bend, documentation='Angle of the bend.  ', location=pyxb.utils.utility.Location('cs_bend.xsd', 25, 3)))
 
-cs_bend._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'distBendBot'), lengthMeasure, scope=cs_bend, documentation='Distance of bend from bottom of component.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bend.xsd', 30, 3)))
+cs_bend._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'distBendBot'), lengthMeasure, scope=cs_bend, documentation='Distance of bend from bottom of component.  ', location=pyxb.utils.utility.Location('cs_bend.xsd', 30, 3)))
 
-cs_bend._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'customData'), cs_customData, scope=cs_bend, documentation='A container element that can contain custom or user defined \n\t\t\t\t\tdata elements.', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bend.xsd', 35, 3)))
+cs_bend._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'customData'), cs_customData, scope=cs_bend, documentation='A container element that can contain custom or user defined \n\t\t\t\t\tdata elements.', location=pyxb.utils.utility.Location('cs_bend.xsd', 35, 3)))
 
 def _BuildAutomaton_14 ():
-    # Remove this helper function from the namespace after it's invoked
+    # Remove this helper function from the namespace after it is invoked
     global _BuildAutomaton_14
     del _BuildAutomaton_14
     import pyxb.utils.fac as fac
 
     counters = set()
-    cc_0 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bend.xsd', 25, 3))
+    cc_0 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_bend.xsd', 25, 3))
     counters.add(cc_0)
-    cc_1 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bend.xsd', 30, 3))
+    cc_1 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_bend.xsd', 30, 3))
     counters.add(cc_1)
-    cc_2 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bend.xsd', 35, 3))
+    cc_2 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_bend.xsd', 35, 3))
     counters.add(cc_2)
     states = []
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_0, False))
-    symbol = pyxb.binding.content.ElementUse(cs_bend._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'angle')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bend.xsd', 25, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_bend._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'angle')), pyxb.utils.utility.Location('cs_bend.xsd', 25, 3))
     st_0 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_0)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_1, False))
-    symbol = pyxb.binding.content.ElementUse(cs_bend._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'distBendBot')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bend.xsd', 30, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_bend._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'distBendBot')), pyxb.utils.utility.Location('cs_bend.xsd', 30, 3))
     st_1 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_1)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_2, False))
-    symbol = pyxb.binding.content.ElementUse(cs_bend._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'customData')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_bend.xsd', 35, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_bend._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'customData')), pyxb.utils.utility.Location('cs_bend.xsd', 35, 3))
     st_2 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_2)
     transitions = []
@@ -11447,120 +11711,120 @@ cs_bend._Automaton = _BuildAutomaton_14()
 
 
 
-cs_connection._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'id'), lengthMeasure, scope=cs_connection, documentation='Internal diameter of object.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_connection.xsd', 25, 3)))
+cs_connection._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'id'), lengthMeasure, scope=cs_connection, documentation='Internal diameter of object.  ', location=pyxb.utils.utility.Location('cs_connection.xsd', 25, 3)))
 
-cs_connection._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'od'), lengthMeasure, scope=cs_connection, documentation='Outside diameter of the body of the item.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_connection.xsd', 30, 3)))
+cs_connection._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'od'), lengthMeasure, scope=cs_connection, documentation='Outside diameter of the body of the item.  ', location=pyxb.utils.utility.Location('cs_connection.xsd', 30, 3)))
 
-cs_connection._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'len'), lengthMeasure, scope=cs_connection, documentation='Length of the item.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_connection.xsd', 35, 3)))
+cs_connection._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'len'), lengthMeasure, scope=cs_connection, documentation='Length of the item.  ', location=pyxb.utils.utility.Location('cs_connection.xsd', 35, 3)))
 
-cs_connection._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'typeThread'), str32, scope=cs_connection, documentation='Thread type from API RP7G, 5CT.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_connection.xsd', 40, 3)))
+cs_connection._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'typeThread'), str32, scope=cs_connection, documentation='Thread type from API RP7G, 5CT.  ', location=pyxb.utils.utility.Location('cs_connection.xsd', 40, 3)))
 
-cs_connection._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'sizeThread'), lengthMeasure, scope=cs_connection, documentation='Thread size.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_connection.xsd', 45, 3)))
+cs_connection._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'sizeThread'), lengthMeasure, scope=cs_connection, documentation='Thread size.  ', location=pyxb.utils.utility.Location('cs_connection.xsd', 45, 3)))
 
-cs_connection._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'tensYield'), pressureMeasure, scope=cs_connection, documentation='Yield stress of steel - worn stress.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_connection.xsd', 50, 3)))
+cs_connection._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'tensYield'), pressureMeasure, scope=cs_connection, documentation='Yield stress of steel - worn stress.  ', location=pyxb.utils.utility.Location('cs_connection.xsd', 50, 3)))
 
-cs_connection._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'tqYield'), pressureMeasure, scope=cs_connection, documentation='Torque yield stress.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_connection.xsd', 55, 3)))
+cs_connection._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'tqYield'), pressureMeasure, scope=cs_connection, documentation='Torque yield stress.  ', location=pyxb.utils.utility.Location('cs_connection.xsd', 55, 3)))
 
-cs_connection._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'position'), ConnectionPosition, scope=cs_connection, documentation='Where connected.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_connection.xsd', 60, 3)))
+cs_connection._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'position'), ConnectionPosition, scope=cs_connection, documentation='Where connected.  ', location=pyxb.utils.utility.Location('cs_connection.xsd', 60, 3)))
 
-cs_connection._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'criticalCrossSection'), areaMeasure, scope=cs_connection, documentation='For bending stiffness ratio.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_connection.xsd', 65, 3)))
+cs_connection._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'criticalCrossSection'), areaMeasure, scope=cs_connection, documentation='For bending stiffness ratio.  ', location=pyxb.utils.utility.Location('cs_connection.xsd', 65, 3)))
 
-cs_connection._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'presLeak'), pressureMeasure, scope=cs_connection, documentation='Leak pressure rating.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_connection.xsd', 70, 3)))
+cs_connection._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'presLeak'), pressureMeasure, scope=cs_connection, documentation='Leak pressure rating.  ', location=pyxb.utils.utility.Location('cs_connection.xsd', 70, 3)))
 
-cs_connection._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'tqMakeup'), momentOfForceMeasure, scope=cs_connection, documentation='Make up torque.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_connection.xsd', 75, 3)))
+cs_connection._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'tqMakeup'), momentOfForceMeasure, scope=cs_connection, documentation='Make up torque.  ', location=pyxb.utils.utility.Location('cs_connection.xsd', 75, 3)))
 
-cs_connection._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'customData'), cs_customData, scope=cs_connection, documentation='A container element that can contain custom or user defined \n\t\t\t\t\tdata elements.', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_connection.xsd', 80, 3)))
+cs_connection._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'customData'), cs_customData, scope=cs_connection, documentation='A container element that can contain custom or user defined \n\t\t\t\t\tdata elements.', location=pyxb.utils.utility.Location('cs_connection.xsd', 80, 3)))
 
 def _BuildAutomaton_15 ():
-    # Remove this helper function from the namespace after it's invoked
+    # Remove this helper function from the namespace after it is invoked
     global _BuildAutomaton_15
     del _BuildAutomaton_15
     import pyxb.utils.fac as fac
 
     counters = set()
-    cc_0 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_connection.xsd', 25, 3))
+    cc_0 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_connection.xsd', 25, 3))
     counters.add(cc_0)
-    cc_1 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_connection.xsd', 30, 3))
+    cc_1 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_connection.xsd', 30, 3))
     counters.add(cc_1)
-    cc_2 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_connection.xsd', 35, 3))
+    cc_2 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_connection.xsd', 35, 3))
     counters.add(cc_2)
-    cc_3 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_connection.xsd', 40, 3))
+    cc_3 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_connection.xsd', 40, 3))
     counters.add(cc_3)
-    cc_4 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_connection.xsd', 45, 3))
+    cc_4 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_connection.xsd', 45, 3))
     counters.add(cc_4)
-    cc_5 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_connection.xsd', 50, 3))
+    cc_5 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_connection.xsd', 50, 3))
     counters.add(cc_5)
-    cc_6 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_connection.xsd', 55, 3))
+    cc_6 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_connection.xsd', 55, 3))
     counters.add(cc_6)
-    cc_7 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_connection.xsd', 60, 3))
+    cc_7 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_connection.xsd', 60, 3))
     counters.add(cc_7)
-    cc_8 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_connection.xsd', 65, 3))
+    cc_8 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_connection.xsd', 65, 3))
     counters.add(cc_8)
-    cc_9 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_connection.xsd', 70, 3))
+    cc_9 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_connection.xsd', 70, 3))
     counters.add(cc_9)
-    cc_10 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_connection.xsd', 75, 3))
+    cc_10 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_connection.xsd', 75, 3))
     counters.add(cc_10)
-    cc_11 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_connection.xsd', 80, 3))
+    cc_11 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_connection.xsd', 80, 3))
     counters.add(cc_11)
     states = []
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_0, False))
-    symbol = pyxb.binding.content.ElementUse(cs_connection._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'id')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_connection.xsd', 25, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_connection._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'id')), pyxb.utils.utility.Location('cs_connection.xsd', 25, 3))
     st_0 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_0)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_1, False))
-    symbol = pyxb.binding.content.ElementUse(cs_connection._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'od')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_connection.xsd', 30, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_connection._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'od')), pyxb.utils.utility.Location('cs_connection.xsd', 30, 3))
     st_1 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_1)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_2, False))
-    symbol = pyxb.binding.content.ElementUse(cs_connection._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'len')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_connection.xsd', 35, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_connection._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'len')), pyxb.utils.utility.Location('cs_connection.xsd', 35, 3))
     st_2 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_2)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_3, False))
-    symbol = pyxb.binding.content.ElementUse(cs_connection._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'typeThread')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_connection.xsd', 40, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_connection._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'typeThread')), pyxb.utils.utility.Location('cs_connection.xsd', 40, 3))
     st_3 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_3)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_4, False))
-    symbol = pyxb.binding.content.ElementUse(cs_connection._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'sizeThread')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_connection.xsd', 45, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_connection._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'sizeThread')), pyxb.utils.utility.Location('cs_connection.xsd', 45, 3))
     st_4 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_4)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_5, False))
-    symbol = pyxb.binding.content.ElementUse(cs_connection._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'tensYield')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_connection.xsd', 50, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_connection._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'tensYield')), pyxb.utils.utility.Location('cs_connection.xsd', 50, 3))
     st_5 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_5)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_6, False))
-    symbol = pyxb.binding.content.ElementUse(cs_connection._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'tqYield')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_connection.xsd', 55, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_connection._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'tqYield')), pyxb.utils.utility.Location('cs_connection.xsd', 55, 3))
     st_6 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_6)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_7, False))
-    symbol = pyxb.binding.content.ElementUse(cs_connection._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'position')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_connection.xsd', 60, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_connection._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'position')), pyxb.utils.utility.Location('cs_connection.xsd', 60, 3))
     st_7 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_7)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_8, False))
-    symbol = pyxb.binding.content.ElementUse(cs_connection._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'criticalCrossSection')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_connection.xsd', 65, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_connection._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'criticalCrossSection')), pyxb.utils.utility.Location('cs_connection.xsd', 65, 3))
     st_8 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_8)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_9, False))
-    symbol = pyxb.binding.content.ElementUse(cs_connection._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'presLeak')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_connection.xsd', 70, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_connection._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'presLeak')), pyxb.utils.utility.Location('cs_connection.xsd', 70, 3))
     st_9 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_9)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_10, False))
-    symbol = pyxb.binding.content.ElementUse(cs_connection._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'tqMakeup')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_connection.xsd', 75, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_connection._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'tqMakeup')), pyxb.utils.utility.Location('cs_connection.xsd', 75, 3))
     st_10 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_10)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_11, False))
-    symbol = pyxb.binding.content.ElementUse(cs_connection._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'customData')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_connection.xsd', 80, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_connection._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'customData')), pyxb.utils.utility.Location('cs_connection.xsd', 80, 3))
     st_11 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_11)
     transitions = []
@@ -11749,78 +12013,78 @@ cs_connection._Automaton = _BuildAutomaton_15()
 
 
 
-cs_nameTag._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'name'), kindString, scope=cs_nameTag, documentation='The physical identification string of the equipment tag.', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_nameTag.xsd', 24, 3)))
+cs_nameTag._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'name'), kindString, scope=cs_nameTag, documentation='The physical identification string of the equipment tag.', location=pyxb.utils.utility.Location('cs_nameTag.xsd', 24, 3)))
 
-cs_nameTag._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'numberingScheme'), NameTagNumberingScheme, scope=cs_nameTag, documentation='The format or encoding specification of the equipment tag. \n\t\t\t\t\tThe tag may contain may different pieces of information and knowledge of that \n\t\t\t\t\tinformation is inherent in the specification. \n\t\t\t\t\tThe "identification string" is a mandatory part of the information in a tag.', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_nameTag.xsd', 29, 3)))
+cs_nameTag._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'numberingScheme'), NameTagNumberingScheme, scope=cs_nameTag, documentation='The format or encoding specification of the equipment tag. \n\t\t\t\t\tThe tag may contain may different pieces of information and knowledge of that \n\t\t\t\t\tinformation is inherent in the specification. \n\t\t\t\t\tThe "identification string" is a mandatory part of the information in a tag.', location=pyxb.utils.utility.Location('cs_nameTag.xsd', 29, 3)))
 
-cs_nameTag._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'technology'), NameTagTechnology, scope=cs_nameTag, documentation="Identifies the general type of identifier on an\n\t\t\t\t\titem.  If multiple identifiers exist on an item, a separate\n\t\t\t\t\tdescription set for each identifier should be created.  \n\t\t\t\t\tFor example, a joint of casing may have a barcode label on it along with a\n\t\t\t\t\tpainted-on code and an RFID tag attached or embedded into the coupling.  The\n\t\t\t\t\tbarcode label may in turn be an RFID equipped label. This particular\n\t\t\t\t\tscenario would require populating five nameTags to fully describe\n\t\t\t\t\tand decode all the possible identifiers as follows:\n\t\t\t\t\t'tagged' - RFID tag embedded in the coupling,\n\t\t\t\t\t'label'  - Serial number printed on the label,\n\t\t\t\t\t'tagged' - RFID tag embedded into the label,\n\t\t\t\t\t'label'  - Barcode printed on the label,\n\t\t\t\t\t'painted'- Mill number painted on the pipe body.", location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_nameTag.xsd', 37, 3)))
+cs_nameTag._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'technology'), NameTagTechnology, scope=cs_nameTag, documentation="Identifies the general type of identifier on an\n\t\t\t\t\titem.  If multiple identifiers exist on an item, a separate\n\t\t\t\t\tdescription set for each identifier should be created.  \n\t\t\t\t\tFor example, a joint of casing may have a barcode label on it along with a\n\t\t\t\t\tpainted-on code and an RFID tag attached or embedded into the coupling.  The\n\t\t\t\t\tbarcode label may in turn be an RFID equipped label. This particular\n\t\t\t\t\tscenario would require populating five nameTags to fully describe\n\t\t\t\t\tand decode all the possible identifiers as follows:\n\t\t\t\t\t'tagged' - RFID tag embedded in the coupling,\n\t\t\t\t\t'label'  - Serial number printed on the label,\n\t\t\t\t\t'tagged' - RFID tag embedded into the label,\n\t\t\t\t\t'label'  - Barcode printed on the label,\n\t\t\t\t\t'painted'- Mill number painted on the pipe body.", location=pyxb.utils.utility.Location('cs_nameTag.xsd', 37, 3)))
 
-cs_nameTag._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'location'), NameTagLocation, scope=cs_nameTag, documentation="An indicator of where the tag is attached to the item.\n\t\t\t\t\tThis is used to assist the user in finding where an identifier is\n\t\t\t\t\tlocated on an item.  This optional field also helps to differentiate\n\t\t\t\t\twhere an identifier is located when multiple identifiers exist on an\n\t\t\t\t\titem. Most downhole components have a box (female thread) and pin (male\n\t\t\t\t\tthread) end as well as a pipe body in between the ends.\n\t\t\t\t\tWhere multiple identifiers are used on an item, it is convenient to have\n\t\t\t\t\ta reference as to which end, or somewhere in the middle, an identifier may\n\t\t\t\t\tbe closer to. Some items may have an identifier on a non-standard location,\n\t\t\t\t\tsuch as on the arm of a hole opener.  'other', by exclusion, tells a user to\n\t\t\t\t\tlook elsewhere than on the body or near the ends of an item.  Most\n\t\t\t\t\tnon-downhole tools will use either 'body', 'other' or not specified\n\t\t\t\t\tas the location tends to lose value with smaller or non threaded items.", location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_nameTag.xsd', 54, 3)))
+cs_nameTag._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'location'), NameTagLocation, scope=cs_nameTag, documentation="An indicator of where the tag is attached to the item.\n\t\t\t\t\tThis is used to assist the user in finding where an identifier is\n\t\t\t\t\tlocated on an item.  This optional field also helps to differentiate\n\t\t\t\t\twhere an identifier is located when multiple identifiers exist on an\n\t\t\t\t\titem. Most downhole components have a box (female thread) and pin (male\n\t\t\t\t\tthread) end as well as a pipe body in between the ends.\n\t\t\t\t\tWhere multiple identifiers are used on an item, it is convenient to have\n\t\t\t\t\ta reference as to which end, or somewhere in the middle, an identifier may\n\t\t\t\t\tbe closer to. Some items may have an identifier on a non-standard location,\n\t\t\t\t\tsuch as on the arm of a hole opener.  'other', by exclusion, tells a user to\n\t\t\t\t\tlook elsewhere than on the body or near the ends of an item.  Most\n\t\t\t\t\tnon-downhole tools will use either 'body', 'other' or not specified\n\t\t\t\t\tas the location tends to lose value with smaller or non threaded items.", location=pyxb.utils.utility.Location('cs_nameTag.xsd', 54, 3)))
 
-cs_nameTag._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'installationDate'), timestamp, scope=cs_nameTag, documentation='When the tag was installed in or on the item.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_nameTag.xsd', 71, 3)))
+cs_nameTag._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'installationDate'), timestamp, scope=cs_nameTag, documentation='When the tag was installed in or on the item.  ', location=pyxb.utils.utility.Location('cs_nameTag.xsd', 71, 3)))
 
-cs_nameTag._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'installationCompany'), nameString, scope=cs_nameTag, documentation='The name of the company that installed the tag.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_nameTag.xsd', 76, 3)))
+cs_nameTag._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'installationCompany'), nameString, scope=cs_nameTag, documentation='The name of the company that installed the tag.  ', location=pyxb.utils.utility.Location('cs_nameTag.xsd', 76, 3)))
 
-cs_nameTag._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'mountingCode'), kindString, scope=cs_nameTag, documentation='Reference to a manufacturers or installers installation \n\t\t\t\t\tdescription, code, or method.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_nameTag.xsd', 81, 3)))
+cs_nameTag._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'mountingCode'), kindString, scope=cs_nameTag, documentation='Reference to a manufacturers or installers installation \n\t\t\t\t\tdescription, code, or method.  ', location=pyxb.utils.utility.Location('cs_nameTag.xsd', 81, 3)))
 
-cs_nameTag._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'comment'), commentString, scope=cs_nameTag, documentation='A comment or remark about the tag.', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_nameTag.xsd', 87, 3)))
+cs_nameTag._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'comment'), commentString, scope=cs_nameTag, documentation='A comment or remark about the tag.', location=pyxb.utils.utility.Location('cs_nameTag.xsd', 87, 3)))
 
 def _BuildAutomaton_16 ():
-    # Remove this helper function from the namespace after it's invoked
+    # Remove this helper function from the namespace after it is invoked
     global _BuildAutomaton_16
     del _BuildAutomaton_16
     import pyxb.utils.fac as fac
 
     counters = set()
-    cc_0 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_nameTag.xsd', 37, 3))
+    cc_0 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_nameTag.xsd', 37, 3))
     counters.add(cc_0)
-    cc_1 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_nameTag.xsd', 54, 3))
+    cc_1 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_nameTag.xsd', 54, 3))
     counters.add(cc_1)
-    cc_2 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_nameTag.xsd', 71, 3))
+    cc_2 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_nameTag.xsd', 71, 3))
     counters.add(cc_2)
-    cc_3 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_nameTag.xsd', 76, 3))
+    cc_3 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_nameTag.xsd', 76, 3))
     counters.add(cc_3)
-    cc_4 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_nameTag.xsd', 81, 3))
+    cc_4 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_nameTag.xsd', 81, 3))
     counters.add(cc_4)
-    cc_5 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_nameTag.xsd', 87, 3))
+    cc_5 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_nameTag.xsd', 87, 3))
     counters.add(cc_5)
     states = []
     final_update = None
-    symbol = pyxb.binding.content.ElementUse(cs_nameTag._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'name')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_nameTag.xsd', 24, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_nameTag._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'name')), pyxb.utils.utility.Location('cs_nameTag.xsd', 24, 3))
     st_0 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_0)
     final_update = set()
-    symbol = pyxb.binding.content.ElementUse(cs_nameTag._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'numberingScheme')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_nameTag.xsd', 29, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_nameTag._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'numberingScheme')), pyxb.utils.utility.Location('cs_nameTag.xsd', 29, 3))
     st_1 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_1)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_0, False))
-    symbol = pyxb.binding.content.ElementUse(cs_nameTag._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'technology')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_nameTag.xsd', 37, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_nameTag._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'technology')), pyxb.utils.utility.Location('cs_nameTag.xsd', 37, 3))
     st_2 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_2)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_1, False))
-    symbol = pyxb.binding.content.ElementUse(cs_nameTag._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'location')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_nameTag.xsd', 54, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_nameTag._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'location')), pyxb.utils.utility.Location('cs_nameTag.xsd', 54, 3))
     st_3 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_3)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_2, False))
-    symbol = pyxb.binding.content.ElementUse(cs_nameTag._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'installationDate')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_nameTag.xsd', 71, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_nameTag._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'installationDate')), pyxb.utils.utility.Location('cs_nameTag.xsd', 71, 3))
     st_4 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_4)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_3, False))
-    symbol = pyxb.binding.content.ElementUse(cs_nameTag._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'installationCompany')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_nameTag.xsd', 76, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_nameTag._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'installationCompany')), pyxb.utils.utility.Location('cs_nameTag.xsd', 76, 3))
     st_5 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_5)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_4, False))
-    symbol = pyxb.binding.content.ElementUse(cs_nameTag._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'mountingCode')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_nameTag.xsd', 81, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_nameTag._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'mountingCode')), pyxb.utils.utility.Location('cs_nameTag.xsd', 81, 3))
     st_6 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_6)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_5, False))
-    symbol = pyxb.binding.content.ElementUse(cs_nameTag._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'comment')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_nameTag.xsd', 87, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_nameTag._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'comment')), pyxb.utils.utility.Location('cs_nameTag.xsd', 87, 3))
     st_7 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_7)
     transitions = []
@@ -11901,66 +12165,66 @@ cs_nameTag._Automaton = _BuildAutomaton_16()
 
 
 
-cs_nozzle._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'index'), positiveCount, scope=cs_nozzle, documentation='Index if this is an indexed object.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_nozzle.xsd', 25, 3)))
+cs_nozzle._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'index'), positiveCount, scope=cs_nozzle, documentation='Index if this is an indexed object.  ', location=pyxb.utils.utility.Location('cs_nozzle.xsd', 25, 3)))
 
-cs_nozzle._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'diaNozzle'), lengthMeasure, scope=cs_nozzle, documentation='Nozzle diameter.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_nozzle.xsd', 30, 3)))
+cs_nozzle._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'diaNozzle'), lengthMeasure, scope=cs_nozzle, documentation='Nozzle diameter.  ', location=pyxb.utils.utility.Location('cs_nozzle.xsd', 30, 3)))
 
-cs_nozzle._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'typeNozzle'), NozzleType, scope=cs_nozzle, documentation='Nozzle type.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_nozzle.xsd', 35, 3)))
+cs_nozzle._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'typeNozzle'), NozzleType, scope=cs_nozzle, documentation='Nozzle type.  ', location=pyxb.utils.utility.Location('cs_nozzle.xsd', 35, 3)))
 
-cs_nozzle._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'len'), lengthMeasure, scope=cs_nozzle, documentation='Length of the nozzle.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_nozzle.xsd', 40, 3)))
+cs_nozzle._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'len'), lengthMeasure, scope=cs_nozzle, documentation='Length of the nozzle.  ', location=pyxb.utils.utility.Location('cs_nozzle.xsd', 40, 3)))
 
-cs_nozzle._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'orientation'), str32, scope=cs_nozzle, documentation='Nozzle orientation.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_nozzle.xsd', 45, 3)))
+cs_nozzle._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'orientation'), str32, scope=cs_nozzle, documentation='Nozzle orientation.  ', location=pyxb.utils.utility.Location('cs_nozzle.xsd', 45, 3)))
 
-cs_nozzle._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'customData'), cs_customData, scope=cs_nozzle, documentation='A container element that can contain custom or user defined \n\t\t\t\t\tdata elements.', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_nozzle.xsd', 50, 3)))
+cs_nozzle._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'customData'), cs_customData, scope=cs_nozzle, documentation='A container element that can contain custom or user defined \n\t\t\t\t\tdata elements.', location=pyxb.utils.utility.Location('cs_nozzle.xsd', 50, 3)))
 
 def _BuildAutomaton_17 ():
-    # Remove this helper function from the namespace after it's invoked
+    # Remove this helper function from the namespace after it is invoked
     global _BuildAutomaton_17
     del _BuildAutomaton_17
     import pyxb.utils.fac as fac
 
     counters = set()
-    cc_0 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_nozzle.xsd', 25, 3))
+    cc_0 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_nozzle.xsd', 25, 3))
     counters.add(cc_0)
-    cc_1 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_nozzle.xsd', 30, 3))
+    cc_1 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_nozzle.xsd', 30, 3))
     counters.add(cc_1)
-    cc_2 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_nozzle.xsd', 35, 3))
+    cc_2 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_nozzle.xsd', 35, 3))
     counters.add(cc_2)
-    cc_3 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_nozzle.xsd', 40, 3))
+    cc_3 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_nozzle.xsd', 40, 3))
     counters.add(cc_3)
-    cc_4 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_nozzle.xsd', 45, 3))
+    cc_4 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_nozzle.xsd', 45, 3))
     counters.add(cc_4)
-    cc_5 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_nozzle.xsd', 50, 3))
+    cc_5 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_nozzle.xsd', 50, 3))
     counters.add(cc_5)
     states = []
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_0, False))
-    symbol = pyxb.binding.content.ElementUse(cs_nozzle._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'index')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_nozzle.xsd', 25, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_nozzle._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'index')), pyxb.utils.utility.Location('cs_nozzle.xsd', 25, 3))
     st_0 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_0)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_1, False))
-    symbol = pyxb.binding.content.ElementUse(cs_nozzle._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'diaNozzle')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_nozzle.xsd', 30, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_nozzle._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'diaNozzle')), pyxb.utils.utility.Location('cs_nozzle.xsd', 30, 3))
     st_1 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_1)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_2, False))
-    symbol = pyxb.binding.content.ElementUse(cs_nozzle._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'typeNozzle')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_nozzle.xsd', 35, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_nozzle._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'typeNozzle')), pyxb.utils.utility.Location('cs_nozzle.xsd', 35, 3))
     st_2 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_2)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_3, False))
-    symbol = pyxb.binding.content.ElementUse(cs_nozzle._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'len')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_nozzle.xsd', 40, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_nozzle._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'len')), pyxb.utils.utility.Location('cs_nozzle.xsd', 40, 3))
     st_3 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_3)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_4, False))
-    symbol = pyxb.binding.content.ElementUse(cs_nozzle._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'orientation')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_nozzle.xsd', 45, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_nozzle._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'orientation')), pyxb.utils.utility.Location('cs_nozzle.xsd', 45, 3))
     st_4 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_4)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_5, False))
-    symbol = pyxb.binding.content.ElementUse(cs_nozzle._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'customData')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_nozzle.xsd', 50, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_nozzle._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'customData')), pyxb.utils.utility.Location('cs_nozzle.xsd', 50, 3))
     st_5 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_5)
     transitions = []
@@ -12023,48 +12287,48 @@ cs_nozzle._Automaton = _BuildAutomaton_17()
 
 
 
-cs_sensor._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'typeMeasurement'), MeasurementType, scope=cs_sensor, documentation='Type from POSC.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_sensor.xsd', 25, 3)))
+cs_sensor._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'typeMeasurement'), MeasurementType, scope=cs_sensor, documentation='Type from POSC.  ', location=pyxb.utils.utility.Location('cs_sensor.xsd', 25, 3)))
 
-cs_sensor._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'offsetBot'), lengthMeasure, scope=cs_sensor, documentation='Offset from bottom of measurement while drilling tool.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_sensor.xsd', 30, 3)))
+cs_sensor._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'offsetBot'), lengthMeasure, scope=cs_sensor, documentation='Offset from bottom of measurement while drilling tool.  ', location=pyxb.utils.utility.Location('cs_sensor.xsd', 30, 3)))
 
-cs_sensor._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'comments'), commentString, scope=cs_sensor, documentation='Comments and remarks.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_sensor.xsd', 35, 3)))
+cs_sensor._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'comments'), commentString, scope=cs_sensor, documentation='Comments and remarks.  ', location=pyxb.utils.utility.Location('cs_sensor.xsd', 35, 3)))
 
-cs_sensor._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'customData'), cs_customData, scope=cs_sensor, documentation='A container element that can contain custom or user defined \n\t\t\t\t\tdata elements.', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_sensor.xsd', 40, 3)))
+cs_sensor._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'customData'), cs_customData, scope=cs_sensor, documentation='A container element that can contain custom or user defined \n\t\t\t\t\tdata elements.', location=pyxb.utils.utility.Location('cs_sensor.xsd', 40, 3)))
 
 def _BuildAutomaton_18 ():
-    # Remove this helper function from the namespace after it's invoked
+    # Remove this helper function from the namespace after it is invoked
     global _BuildAutomaton_18
     del _BuildAutomaton_18
     import pyxb.utils.fac as fac
 
     counters = set()
-    cc_0 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_sensor.xsd', 25, 3))
+    cc_0 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_sensor.xsd', 25, 3))
     counters.add(cc_0)
-    cc_1 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_sensor.xsd', 30, 3))
+    cc_1 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_sensor.xsd', 30, 3))
     counters.add(cc_1)
-    cc_2 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_sensor.xsd', 35, 3))
+    cc_2 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_sensor.xsd', 35, 3))
     counters.add(cc_2)
-    cc_3 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_sensor.xsd', 40, 3))
+    cc_3 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_sensor.xsd', 40, 3))
     counters.add(cc_3)
     states = []
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_0, False))
-    symbol = pyxb.binding.content.ElementUse(cs_sensor._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'typeMeasurement')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_sensor.xsd', 25, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_sensor._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'typeMeasurement')), pyxb.utils.utility.Location('cs_sensor.xsd', 25, 3))
     st_0 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_0)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_1, False))
-    symbol = pyxb.binding.content.ElementUse(cs_sensor._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'offsetBot')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_sensor.xsd', 30, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_sensor._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'offsetBot')), pyxb.utils.utility.Location('cs_sensor.xsd', 30, 3))
     st_1 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_1)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_2, False))
-    symbol = pyxb.binding.content.ElementUse(cs_sensor._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'comments')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_sensor.xsd', 35, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_sensor._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'comments')), pyxb.utils.utility.Location('cs_sensor.xsd', 35, 3))
     st_2 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_2)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_3, False))
-    symbol = pyxb.binding.content.ElementUse(cs_sensor._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'customData')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_sensor.xsd', 40, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_sensor._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'customData')), pyxb.utils.utility.Location('cs_sensor.xsd', 40, 3))
     st_3 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_3)
     transitions = []
@@ -12101,93 +12365,93 @@ cs_sensor._Automaton = _BuildAutomaton_18()
 
 
 
-cs_stabilizer._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'lenBlade'), lengthMeasure, scope=cs_stabilizer, documentation='Length of blade.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_stabilizer.xsd', 25, 3)))
+cs_stabilizer._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'lenBlade'), lengthMeasure, scope=cs_stabilizer, documentation='Length of blade.  ', location=pyxb.utils.utility.Location('cs_stabilizer.xsd', 25, 3)))
 
-cs_stabilizer._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'lenBladeGauge'), lengthMeasure, scope=cs_stabilizer, documentation='Gauge Length of blade. That is, the length of the\n\t\t\t\t\tblade which measures at the odBladeMx.', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_stabilizer.xsd', 30, 3)))
+cs_stabilizer._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'lenBladeGauge'), lengthMeasure, scope=cs_stabilizer, documentation='Gauge Length of blade. That is, the length of the\n\t\t\t\t\tblade which measures at the odBladeMx.', location=pyxb.utils.utility.Location('cs_stabilizer.xsd', 30, 3)))
 
-cs_stabilizer._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'odBladeMx'), lengthMeasure, scope=cs_stabilizer, documentation='Maximum outer diameter of blade.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_stabilizer.xsd', 36, 3)))
+cs_stabilizer._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'odBladeMx'), lengthMeasure, scope=cs_stabilizer, documentation='Maximum outer diameter of blade.  ', location=pyxb.utils.utility.Location('cs_stabilizer.xsd', 36, 3)))
 
-cs_stabilizer._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'odBladeMn'), lengthMeasure, scope=cs_stabilizer, documentation='Minimum outer diameter of blade.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_stabilizer.xsd', 41, 3)))
+cs_stabilizer._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'odBladeMn'), lengthMeasure, scope=cs_stabilizer, documentation='Minimum outer diameter of blade.  ', location=pyxb.utils.utility.Location('cs_stabilizer.xsd', 41, 3)))
 
-cs_stabilizer._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'distBladeBot'), lengthMeasure, scope=cs_stabilizer, documentation='Distance of blade bottom from bottom of component.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_stabilizer.xsd', 46, 3)))
+cs_stabilizer._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'distBladeBot'), lengthMeasure, scope=cs_stabilizer, documentation='Distance of blade bottom from bottom of component.  ', location=pyxb.utils.utility.Location('cs_stabilizer.xsd', 46, 3)))
 
-cs_stabilizer._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'shapeBlade'), BladeShapeType, scope=cs_stabilizer, documentation='Blade shape. ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_stabilizer.xsd', 51, 3)))
+cs_stabilizer._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'shapeBlade'), BladeShapeType, scope=cs_stabilizer, documentation='Blade shape. ', location=pyxb.utils.utility.Location('cs_stabilizer.xsd', 51, 3)))
 
-cs_stabilizer._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'factFric'), unitlessQuantity, scope=cs_stabilizer, documentation='Friction factor.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_stabilizer.xsd', 56, 3)))
+cs_stabilizer._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'factFric'), unitlessQuantity, scope=cs_stabilizer, documentation='Friction factor.  ', location=pyxb.utils.utility.Location('cs_stabilizer.xsd', 56, 3)))
 
-cs_stabilizer._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'typeBlade'), BladeType, scope=cs_stabilizer, documentation='Blade type.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_stabilizer.xsd', 61, 3)))
+cs_stabilizer._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'typeBlade'), BladeType, scope=cs_stabilizer, documentation='Blade type.  ', location=pyxb.utils.utility.Location('cs_stabilizer.xsd', 61, 3)))
 
-cs_stabilizer._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'customData'), cs_customData, scope=cs_stabilizer, documentation='A container element that can contain custom or user defined \n\t\t\t\t\tdata elements.', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_stabilizer.xsd', 66, 3)))
+cs_stabilizer._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'customData'), cs_customData, scope=cs_stabilizer, documentation='A container element that can contain custom or user defined \n\t\t\t\t\tdata elements.', location=pyxb.utils.utility.Location('cs_stabilizer.xsd', 66, 3)))
 
 def _BuildAutomaton_19 ():
-    # Remove this helper function from the namespace after it's invoked
+    # Remove this helper function from the namespace after it is invoked
     global _BuildAutomaton_19
     del _BuildAutomaton_19
     import pyxb.utils.fac as fac
 
     counters = set()
-    cc_0 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_stabilizer.xsd', 25, 3))
+    cc_0 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_stabilizer.xsd', 25, 3))
     counters.add(cc_0)
-    cc_1 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_stabilizer.xsd', 30, 3))
+    cc_1 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_stabilizer.xsd', 30, 3))
     counters.add(cc_1)
-    cc_2 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_stabilizer.xsd', 36, 3))
+    cc_2 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_stabilizer.xsd', 36, 3))
     counters.add(cc_2)
-    cc_3 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_stabilizer.xsd', 41, 3))
+    cc_3 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_stabilizer.xsd', 41, 3))
     counters.add(cc_3)
-    cc_4 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_stabilizer.xsd', 46, 3))
+    cc_4 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_stabilizer.xsd', 46, 3))
     counters.add(cc_4)
-    cc_5 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_stabilizer.xsd', 51, 3))
+    cc_5 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_stabilizer.xsd', 51, 3))
     counters.add(cc_5)
-    cc_6 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_stabilizer.xsd', 56, 3))
+    cc_6 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_stabilizer.xsd', 56, 3))
     counters.add(cc_6)
-    cc_7 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_stabilizer.xsd', 61, 3))
+    cc_7 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_stabilizer.xsd', 61, 3))
     counters.add(cc_7)
-    cc_8 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_stabilizer.xsd', 66, 3))
+    cc_8 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_stabilizer.xsd', 66, 3))
     counters.add(cc_8)
     states = []
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_0, False))
-    symbol = pyxb.binding.content.ElementUse(cs_stabilizer._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'lenBlade')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_stabilizer.xsd', 25, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_stabilizer._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'lenBlade')), pyxb.utils.utility.Location('cs_stabilizer.xsd', 25, 3))
     st_0 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_0)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_1, False))
-    symbol = pyxb.binding.content.ElementUse(cs_stabilizer._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'lenBladeGauge')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_stabilizer.xsd', 30, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_stabilizer._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'lenBladeGauge')), pyxb.utils.utility.Location('cs_stabilizer.xsd', 30, 3))
     st_1 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_1)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_2, False))
-    symbol = pyxb.binding.content.ElementUse(cs_stabilizer._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'odBladeMx')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_stabilizer.xsd', 36, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_stabilizer._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'odBladeMx')), pyxb.utils.utility.Location('cs_stabilizer.xsd', 36, 3))
     st_2 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_2)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_3, False))
-    symbol = pyxb.binding.content.ElementUse(cs_stabilizer._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'odBladeMn')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_stabilizer.xsd', 41, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_stabilizer._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'odBladeMn')), pyxb.utils.utility.Location('cs_stabilizer.xsd', 41, 3))
     st_3 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_3)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_4, False))
-    symbol = pyxb.binding.content.ElementUse(cs_stabilizer._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'distBladeBot')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_stabilizer.xsd', 46, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_stabilizer._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'distBladeBot')), pyxb.utils.utility.Location('cs_stabilizer.xsd', 46, 3))
     st_4 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_4)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_5, False))
-    symbol = pyxb.binding.content.ElementUse(cs_stabilizer._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'shapeBlade')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_stabilizer.xsd', 51, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_stabilizer._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'shapeBlade')), pyxb.utils.utility.Location('cs_stabilizer.xsd', 51, 3))
     st_5 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_5)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_6, False))
-    symbol = pyxb.binding.content.ElementUse(cs_stabilizer._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'factFric')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_stabilizer.xsd', 56, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_stabilizer._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'factFric')), pyxb.utils.utility.Location('cs_stabilizer.xsd', 56, 3))
     st_6 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_6)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_7, False))
-    symbol = pyxb.binding.content.ElementUse(cs_stabilizer._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'typeBlade')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_stabilizer.xsd', 61, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_stabilizer._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'typeBlade')), pyxb.utils.utility.Location('cs_stabilizer.xsd', 61, 3))
     st_7 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_7)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_8, False))
-    symbol = pyxb.binding.content.ElementUse(cs_stabilizer._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'customData')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_stabilizer.xsd', 66, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_stabilizer._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'customData')), pyxb.utils.utility.Location('cs_stabilizer.xsd', 66, 3))
     st_8 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_8)
     transitions = []
@@ -12304,400 +12568,400 @@ cs_stabilizer._Automaton = _BuildAutomaton_19()
 
 
 
-cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'typeTubularComp'), TubularComponent, scope=cs_tubularComponent, documentation='Type of component.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 38, 3)))
+cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'typeTubularComp'), TubularComponent, scope=cs_tubularComponent, documentation='Type of component.  ', location=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 38, 3)))
 
-cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'sequence'), positiveCount, scope=cs_tubularComponent, documentation='The sequence within which the components entered the hole.\n\t\t\t\t\tThat is, a sequence number of 1 entered first, 2 entered next, etc.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 43, 3)))
+cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'sequence'), positiveCount, scope=cs_tubularComponent, documentation='The sequence within which the components entered the hole.\n\t\t\t\t\tThat is, a sequence number of 1 entered first, 2 entered next, etc.  ', location=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 43, 3)))
 
-cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'description'), commentString, scope=cs_tubularComponent, documentation='Description of item and details.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 49, 3)))
+cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'description'), commentString, scope=cs_tubularComponent, documentation='Description of item and details.  ', location=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 49, 3)))
 
-cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'id'), lengthMeasure, scope=cs_tubularComponent, documentation='Internal diameter of object.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 54, 3)))
+cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'id'), lengthMeasure, scope=cs_tubularComponent, documentation='Internal diameter of object.  ', location=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 54, 3)))
 
-cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'od'), lengthMeasure, scope=cs_tubularComponent, documentation='Outside diameter of the body of the item.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 59, 3)))
+cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'od'), lengthMeasure, scope=cs_tubularComponent, documentation='Outside diameter of the body of the item.  ', location=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 59, 3)))
 
-cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'odMx'), lengthMeasure, scope=cs_tubularComponent, documentation='Maximum outside diameter.', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 64, 3)))
+cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'odMx'), lengthMeasure, scope=cs_tubularComponent, documentation='Maximum outside diameter.', location=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 64, 3)))
 
-cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'len'), lengthMeasure, scope=cs_tubularComponent, documentation='Length of the item.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 69, 3)))
+cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'len'), lengthMeasure, scope=cs_tubularComponent, documentation='Length of the item.  ', location=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 69, 3)))
 
-cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'lenJointAv'), lengthMeasure, scope=cs_tubularComponent, documentation='Average length of joint for tubulars.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 74, 3)))
+cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'lenJointAv'), lengthMeasure, scope=cs_tubularComponent, documentation='Average length of joint for tubulars.  ', location=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 74, 3)))
 
-cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'numJointStand'), nonNegativeCount, scope=cs_tubularComponent, documentation='Number of joints per stand of tubular.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 79, 3)))
+cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'numJointStand'), nonNegativeCount, scope=cs_tubularComponent, documentation='Number of joints per stand of tubular.  ', location=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 79, 3)))
 
-cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'wtPerLen'), massPerLengthMeasure, scope=cs_tubularComponent, documentation='Weight per unit length.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 84, 3)))
+cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'wtPerLen'), massPerLengthMeasure, scope=cs_tubularComponent, documentation='Weight per unit length.  ', location=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 84, 3)))
 
-cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'grade'), str32, scope=cs_tubularComponent, documentation='Material grade for the tubular section.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 89, 3)))
+cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'grade'), str32, scope=cs_tubularComponent, documentation='Material grade for the tubular section.  ', location=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 89, 3)))
 
-cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'odDrift'), lengthMeasure, scope=cs_tubularComponent, documentation='Minimum pass through diameter.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 94, 3)))
+cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'odDrift'), lengthMeasure, scope=cs_tubularComponent, documentation='Minimum pass through diameter.  ', location=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 94, 3)))
 
-cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'tensYield'), pressureMeasure, scope=cs_tubularComponent, documentation='Yield stress of steel - worn stress.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 99, 3)))
+cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'tensYield'), pressureMeasure, scope=cs_tubularComponent, documentation='Yield stress of steel - worn stress.  ', location=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 99, 3)))
 
-cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'tqYield'), pressureMeasure, scope=cs_tubularComponent, documentation='Torque yield stress - worn stress.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 104, 3)))
+cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'tqYield'), pressureMeasure, scope=cs_tubularComponent, documentation='Torque yield stress - worn stress.  ', location=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 104, 3)))
 
-cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'stressFatig'), pressureMeasure, scope=cs_tubularComponent, documentation='Fatigue endurance limit.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 109, 3)))
+cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'stressFatig'), pressureMeasure, scope=cs_tubularComponent, documentation='Fatigue endurance limit.  ', location=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 109, 3)))
 
-cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'lenFishneck'), lengthMeasure, scope=cs_tubularComponent, documentation='Fish neck length.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 114, 3)))
+cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'lenFishneck'), lengthMeasure, scope=cs_tubularComponent, documentation='Fish neck length.  ', location=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 114, 3)))
 
-cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'idFishneck'), lengthMeasure, scope=cs_tubularComponent, documentation='Fish neck inside diameter.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 119, 3)))
+cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'idFishneck'), lengthMeasure, scope=cs_tubularComponent, documentation='Fish neck inside diameter.  ', location=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 119, 3)))
 
-cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'odFishneck'), lengthMeasure, scope=cs_tubularComponent, documentation='Fish neck outside diameter.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 124, 3)))
+cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'odFishneck'), lengthMeasure, scope=cs_tubularComponent, documentation='Fish neck outside diameter.  ', location=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 124, 3)))
 
-cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'disp'), volumeMeasure, scope=cs_tubularComponent, documentation='Closed end displacement.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 129, 3)))
+cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'disp'), volumeMeasure, scope=cs_tubularComponent, documentation='Closed end displacement.  ', location=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 129, 3)))
 
-cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'presBurst'), pressureMeasure, scope=cs_tubularComponent, documentation='Burst pressure.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 134, 3)))
+cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'presBurst'), pressureMeasure, scope=cs_tubularComponent, documentation='Burst pressure.  ', location=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 134, 3)))
 
-cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'presCollapse'), pressureMeasure, scope=cs_tubularComponent, documentation='Collapse pressure.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 139, 3)))
+cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'presCollapse'), pressureMeasure, scope=cs_tubularComponent, documentation='Collapse pressure.  ', location=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 139, 3)))
 
-cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'classService'), str32, scope=cs_tubularComponent, documentation='Service class.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 144, 3)))
+cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'classService'), str32, scope=cs_tubularComponent, documentation='Service class.  ', location=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 144, 3)))
 
-cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'wearWall'), lengthPerLengthMeasure, scope=cs_tubularComponent, documentation='Wall thickness wear (commonly in percent).  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 149, 3)))
+cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'wearWall'), lengthPerLengthMeasure, scope=cs_tubularComponent, documentation='Wall thickness wear (commonly in percent).  ', location=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 149, 3)))
 
-cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'thickWall'), lengthMeasure, scope=cs_tubularComponent, documentation='Wall thickness.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 154, 3)))
+cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'thickWall'), lengthMeasure, scope=cs_tubularComponent, documentation='Wall thickness.  ', location=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 154, 3)))
 
-cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'configCon'), BoxPinConfig, scope=cs_tubularComponent, documentation='Box/Pin configuration.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 159, 3)))
+cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'configCon'), BoxPinConfig, scope=cs_tubularComponent, documentation='Box/Pin configuration.  ', location=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 159, 3)))
 
-cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'bendStiffness'), forcePerLengthMeasure, scope=cs_tubularComponent, documentation='Bending stiffness of tubular.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 164, 3)))
+cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'bendStiffness'), forcePerLengthMeasure, scope=cs_tubularComponent, documentation='Bending stiffness of tubular.  ', location=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 164, 3)))
 
-cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'axialStiffness'), forcePerLengthMeasure, scope=cs_tubularComponent, documentation='Axial stiffness of tubular.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 169, 3)))
+cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'axialStiffness'), forcePerLengthMeasure, scope=cs_tubularComponent, documentation='Axial stiffness of tubular.  ', location=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 169, 3)))
 
-cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'torsionalStiffness'), forcePerLengthMeasure, scope=cs_tubularComponent, documentation='Torsional stiffness of tubular.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 174, 3)))
+cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'torsionalStiffness'), forcePerLengthMeasure, scope=cs_tubularComponent, documentation='Torsional stiffness of tubular.  ', location=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 174, 3)))
 
-cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'typeMaterial'), MaterialType, scope=cs_tubularComponent, documentation='Type of material.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 179, 3)))
+cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'typeMaterial'), MaterialType, scope=cs_tubularComponent, documentation='Type of material.  ', location=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 179, 3)))
 
-cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'doglegMx'), anglePerLengthMeasure, scope=cs_tubularComponent, documentation='Maximum dogleg severity.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 184, 3)))
+cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'doglegMx'), anglePerLengthMeasure, scope=cs_tubularComponent, documentation='Maximum dogleg severity.  ', location=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 184, 3)))
 
-cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'vendor'), nameString, scope=cs_tubularComponent, documentation='Name of vendor.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 189, 3)))
+cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'vendor'), nameString, scope=cs_tubularComponent, documentation='Name of vendor.  ', location=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 189, 3)))
 
-cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'model'), nameString, scope=cs_tubularComponent, documentation='Component name from manufacturer.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 194, 3)))
+cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'model'), nameString, scope=cs_tubularComponent, documentation='Component name from manufacturer.  ', location=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 194, 3)))
 
-cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'nameTag'), cs_nameTag, scope=cs_tubularComponent, documentation='An identification tag for the component tool.\n\t\t\t\t\tA serial number is a type of identification tag however\n\t\t\t\t\tsome tags contain many pieces of information.\n\t\t\t\t\tThis structure just identifies the tag and does not describe the contents.', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 199, 3)))
+cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'nameTag'), cs_nameTag, scope=cs_tubularComponent, documentation='An identification tag for the component tool.\n\t\t\t\t\tA serial number is a type of identification tag however\n\t\t\t\t\tsome tags contain many pieces of information.\n\t\t\t\t\tThis structure just identifies the tag and does not describe the contents.', location=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 199, 3)))
 
-cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'bitRecord'), cs_bitRecord, scope=cs_tubularComponent, documentation='Bit object.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 207, 3)))
+cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'bitRecord'), cs_bitRecord, scope=cs_tubularComponent, documentation='Bit object.  ', location=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 207, 3)))
 
-cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'areaNozzleFlow'), areaMeasure, scope=cs_tubularComponent, documentation='Total area of nozzles.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 212, 3)))
+cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'areaNozzleFlow'), areaMeasure, scope=cs_tubularComponent, documentation='Total area of nozzles.  ', location=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 212, 3)))
 
-cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'nozzle'), cs_nozzle, scope=cs_tubularComponent, documentation='Set of nozzle objects.  Examples of items that have nozzles\n\t\t\t\t\tare bit, hole opener, circulation sub, jetting sub, pressure relief sub. ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 217, 3)))
+cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'nozzle'), cs_nozzle, scope=cs_tubularComponent, documentation='Set of nozzle objects.  Examples of items that have nozzles\n\t\t\t\t\tare bit, hole opener, circulation sub, jetting sub, pressure relief sub. ', location=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 217, 3)))
 
-cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'connection'), cs_connection, scope=cs_tubularComponent, documentation='Connection object.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 223, 3)))
+cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'connection'), cs_connection, scope=cs_tubularComponent, documentation='Connection object.  ', location=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 223, 3)))
 
-cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'jar'), cs_jar, scope=cs_tubularComponent, documentation='Jar object.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 228, 3)))
+cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'jar'), cs_jar, scope=cs_tubularComponent, documentation='Jar object.  ', location=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 228, 3)))
 
-cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'mwdTool'), cs_mwdTool, scope=cs_tubularComponent, documentation='MWD (measurement while drilling) tool object.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 233, 3)))
+cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'mwdTool'), cs_mwdTool, scope=cs_tubularComponent, documentation='MWD (measurement while drilling) tool object.  ', location=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 233, 3)))
 
-cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'motor'), cs_motor, scope=cs_tubularComponent, documentation='Motor object.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 238, 3)))
+cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'motor'), cs_motor, scope=cs_tubularComponent, documentation='Motor object.  ', location=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 238, 3)))
 
-cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'stabilizer'), cs_stabilizer, scope=cs_tubularComponent, documentation='Stabilizer object.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 243, 3)))
+cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'stabilizer'), cs_stabilizer, scope=cs_tubularComponent, documentation='Stabilizer object.  ', location=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 243, 3)))
 
-cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'bend'), cs_bend, scope=cs_tubularComponent, documentation='Bend object.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 248, 3)))
+cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'bend'), cs_bend, scope=cs_tubularComponent, documentation='Bend object.  ', location=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 248, 3)))
 
-cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'holeOpener'), cs_holeOpener, scope=cs_tubularComponent, documentation='Hole opener object.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 253, 3)))
+cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'holeOpener'), cs_holeOpener, scope=cs_tubularComponent, documentation='Hole opener object.  ', location=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 253, 3)))
 
-cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'rotarySteerableTool'), cs_rotarySteerableTool, scope=cs_tubularComponent, documentation='Rotary Steerable Tool.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 258, 3)))
+cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'rotarySteerableTool'), cs_rotarySteerableTool, scope=cs_tubularComponent, documentation='Rotary Steerable Tool.  ', location=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 258, 3)))
 
-cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'customData'), cs_customData, scope=cs_tubularComponent, documentation='A container element that can contain custom or user defined \n\t\t\t\t\tdata elements.', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 263, 3)))
+cs_tubularComponent._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'customData'), cs_customData, scope=cs_tubularComponent, documentation='A container element that can contain custom or user defined \n\t\t\t\t\tdata elements.', location=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 263, 3)))
 
 def _BuildAutomaton_20 ():
-    # Remove this helper function from the namespace after it's invoked
+    # Remove this helper function from the namespace after it is invoked
     global _BuildAutomaton_20
     del _BuildAutomaton_20
     import pyxb.utils.fac as fac
 
     counters = set()
-    cc_0 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 49, 3))
+    cc_0 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 49, 3))
     counters.add(cc_0)
-    cc_1 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 64, 3))
+    cc_1 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 64, 3))
     counters.add(cc_1)
-    cc_2 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 74, 3))
+    cc_2 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 74, 3))
     counters.add(cc_2)
-    cc_3 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 79, 3))
+    cc_3 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 79, 3))
     counters.add(cc_3)
-    cc_4 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 84, 3))
+    cc_4 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 84, 3))
     counters.add(cc_4)
-    cc_5 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 89, 3))
+    cc_5 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 89, 3))
     counters.add(cc_5)
-    cc_6 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 94, 3))
+    cc_6 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 94, 3))
     counters.add(cc_6)
-    cc_7 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 99, 3))
+    cc_7 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 99, 3))
     counters.add(cc_7)
-    cc_8 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 104, 3))
+    cc_8 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 104, 3))
     counters.add(cc_8)
-    cc_9 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 109, 3))
+    cc_9 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 109, 3))
     counters.add(cc_9)
-    cc_10 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 114, 3))
+    cc_10 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 114, 3))
     counters.add(cc_10)
-    cc_11 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 119, 3))
+    cc_11 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 119, 3))
     counters.add(cc_11)
-    cc_12 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 124, 3))
+    cc_12 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 124, 3))
     counters.add(cc_12)
-    cc_13 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 129, 3))
+    cc_13 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 129, 3))
     counters.add(cc_13)
-    cc_14 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 134, 3))
+    cc_14 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 134, 3))
     counters.add(cc_14)
-    cc_15 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 139, 3))
+    cc_15 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 139, 3))
     counters.add(cc_15)
-    cc_16 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 144, 3))
+    cc_16 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 144, 3))
     counters.add(cc_16)
-    cc_17 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 149, 3))
+    cc_17 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 149, 3))
     counters.add(cc_17)
-    cc_18 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 154, 3))
+    cc_18 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 154, 3))
     counters.add(cc_18)
-    cc_19 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 159, 3))
+    cc_19 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 159, 3))
     counters.add(cc_19)
-    cc_20 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 164, 3))
+    cc_20 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 164, 3))
     counters.add(cc_20)
-    cc_21 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 169, 3))
+    cc_21 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 169, 3))
     counters.add(cc_21)
-    cc_22 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 174, 3))
+    cc_22 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 174, 3))
     counters.add(cc_22)
-    cc_23 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 179, 3))
+    cc_23 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 179, 3))
     counters.add(cc_23)
-    cc_24 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 184, 3))
+    cc_24 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 184, 3))
     counters.add(cc_24)
-    cc_25 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 189, 3))
+    cc_25 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 189, 3))
     counters.add(cc_25)
-    cc_26 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 194, 3))
+    cc_26 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 194, 3))
     counters.add(cc_26)
-    cc_27 = fac.CounterCondition(min=0, max=None, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 199, 3))
+    cc_27 = fac.CounterCondition(min=0, max=None, metadata=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 199, 3))
     counters.add(cc_27)
-    cc_28 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 207, 3))
+    cc_28 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 207, 3))
     counters.add(cc_28)
-    cc_29 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 212, 3))
+    cc_29 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 212, 3))
     counters.add(cc_29)
-    cc_30 = fac.CounterCondition(min=0, max=None, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 217, 3))
+    cc_30 = fac.CounterCondition(min=0, max=None, metadata=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 217, 3))
     counters.add(cc_30)
-    cc_31 = fac.CounterCondition(min=0, max=None, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 223, 3))
+    cc_31 = fac.CounterCondition(min=0, max=None, metadata=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 223, 3))
     counters.add(cc_31)
-    cc_32 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 228, 3))
+    cc_32 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 228, 3))
     counters.add(cc_32)
-    cc_33 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 233, 3))
+    cc_33 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 233, 3))
     counters.add(cc_33)
-    cc_34 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 238, 3))
+    cc_34 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 238, 3))
     counters.add(cc_34)
-    cc_35 = fac.CounterCondition(min=0, max=None, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 243, 3))
+    cc_35 = fac.CounterCondition(min=0, max=None, metadata=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 243, 3))
     counters.add(cc_35)
-    cc_36 = fac.CounterCondition(min=0, max=None, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 248, 3))
+    cc_36 = fac.CounterCondition(min=0, max=None, metadata=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 248, 3))
     counters.add(cc_36)
-    cc_37 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 253, 3))
+    cc_37 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 253, 3))
     counters.add(cc_37)
-    cc_38 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 258, 3))
+    cc_38 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 258, 3))
     counters.add(cc_38)
-    cc_39 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 263, 3))
+    cc_39 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('cs_tubularComponent.xsd', 263, 3))
     counters.add(cc_39)
     states = []
     final_update = None
-    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'typeTubularComp')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 38, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'typeTubularComp')), pyxb.utils.utility.Location('cs_tubularComponent.xsd', 38, 3))
     st_0 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_0)
     final_update = None
-    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'sequence')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 43, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'sequence')), pyxb.utils.utility.Location('cs_tubularComponent.xsd', 43, 3))
     st_1 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_1)
     final_update = None
-    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'description')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 49, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'description')), pyxb.utils.utility.Location('cs_tubularComponent.xsd', 49, 3))
     st_2 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_2)
     final_update = None
-    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'id')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 54, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'id')), pyxb.utils.utility.Location('cs_tubularComponent.xsd', 54, 3))
     st_3 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_3)
     final_update = None
-    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'od')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 59, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'od')), pyxb.utils.utility.Location('cs_tubularComponent.xsd', 59, 3))
     st_4 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_4)
     final_update = None
-    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'odMx')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 64, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'odMx')), pyxb.utils.utility.Location('cs_tubularComponent.xsd', 64, 3))
     st_5 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_5)
     final_update = set()
-    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'len')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 69, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'len')), pyxb.utils.utility.Location('cs_tubularComponent.xsd', 69, 3))
     st_6 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_6)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_2, False))
-    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'lenJointAv')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 74, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'lenJointAv')), pyxb.utils.utility.Location('cs_tubularComponent.xsd', 74, 3))
     st_7 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_7)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_3, False))
-    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'numJointStand')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 79, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'numJointStand')), pyxb.utils.utility.Location('cs_tubularComponent.xsd', 79, 3))
     st_8 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_8)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_4, False))
-    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'wtPerLen')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 84, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'wtPerLen')), pyxb.utils.utility.Location('cs_tubularComponent.xsd', 84, 3))
     st_9 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_9)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_5, False))
-    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'grade')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 89, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'grade')), pyxb.utils.utility.Location('cs_tubularComponent.xsd', 89, 3))
     st_10 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_10)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_6, False))
-    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'odDrift')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 94, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'odDrift')), pyxb.utils.utility.Location('cs_tubularComponent.xsd', 94, 3))
     st_11 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_11)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_7, False))
-    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'tensYield')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 99, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'tensYield')), pyxb.utils.utility.Location('cs_tubularComponent.xsd', 99, 3))
     st_12 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_12)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_8, False))
-    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'tqYield')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 104, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'tqYield')), pyxb.utils.utility.Location('cs_tubularComponent.xsd', 104, 3))
     st_13 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_13)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_9, False))
-    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'stressFatig')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 109, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'stressFatig')), pyxb.utils.utility.Location('cs_tubularComponent.xsd', 109, 3))
     st_14 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_14)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_10, False))
-    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'lenFishneck')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 114, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'lenFishneck')), pyxb.utils.utility.Location('cs_tubularComponent.xsd', 114, 3))
     st_15 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_15)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_11, False))
-    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'idFishneck')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 119, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'idFishneck')), pyxb.utils.utility.Location('cs_tubularComponent.xsd', 119, 3))
     st_16 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_16)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_12, False))
-    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'odFishneck')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 124, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'odFishneck')), pyxb.utils.utility.Location('cs_tubularComponent.xsd', 124, 3))
     st_17 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_17)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_13, False))
-    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'disp')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 129, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'disp')), pyxb.utils.utility.Location('cs_tubularComponent.xsd', 129, 3))
     st_18 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_18)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_14, False))
-    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'presBurst')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 134, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'presBurst')), pyxb.utils.utility.Location('cs_tubularComponent.xsd', 134, 3))
     st_19 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_19)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_15, False))
-    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'presCollapse')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 139, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'presCollapse')), pyxb.utils.utility.Location('cs_tubularComponent.xsd', 139, 3))
     st_20 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_20)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_16, False))
-    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'classService')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 144, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'classService')), pyxb.utils.utility.Location('cs_tubularComponent.xsd', 144, 3))
     st_21 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_21)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_17, False))
-    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'wearWall')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 149, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'wearWall')), pyxb.utils.utility.Location('cs_tubularComponent.xsd', 149, 3))
     st_22 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_22)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_18, False))
-    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'thickWall')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 154, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'thickWall')), pyxb.utils.utility.Location('cs_tubularComponent.xsd', 154, 3))
     st_23 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_23)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_19, False))
-    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'configCon')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 159, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'configCon')), pyxb.utils.utility.Location('cs_tubularComponent.xsd', 159, 3))
     st_24 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_24)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_20, False))
-    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'bendStiffness')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 164, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'bendStiffness')), pyxb.utils.utility.Location('cs_tubularComponent.xsd', 164, 3))
     st_25 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_25)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_21, False))
-    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'axialStiffness')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 169, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'axialStiffness')), pyxb.utils.utility.Location('cs_tubularComponent.xsd', 169, 3))
     st_26 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_26)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_22, False))
-    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'torsionalStiffness')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 174, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'torsionalStiffness')), pyxb.utils.utility.Location('cs_tubularComponent.xsd', 174, 3))
     st_27 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_27)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_23, False))
-    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'typeMaterial')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 179, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'typeMaterial')), pyxb.utils.utility.Location('cs_tubularComponent.xsd', 179, 3))
     st_28 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_28)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_24, False))
-    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'doglegMx')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 184, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'doglegMx')), pyxb.utils.utility.Location('cs_tubularComponent.xsd', 184, 3))
     st_29 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_29)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_25, False))
-    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'vendor')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 189, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'vendor')), pyxb.utils.utility.Location('cs_tubularComponent.xsd', 189, 3))
     st_30 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_30)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_26, False))
-    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'model')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 194, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'model')), pyxb.utils.utility.Location('cs_tubularComponent.xsd', 194, 3))
     st_31 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_31)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_27, False))
-    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'nameTag')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 199, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'nameTag')), pyxb.utils.utility.Location('cs_tubularComponent.xsd', 199, 3))
     st_32 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_32)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_28, False))
-    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'bitRecord')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 207, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'bitRecord')), pyxb.utils.utility.Location('cs_tubularComponent.xsd', 207, 3))
     st_33 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_33)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_29, False))
-    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'areaNozzleFlow')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 212, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'areaNozzleFlow')), pyxb.utils.utility.Location('cs_tubularComponent.xsd', 212, 3))
     st_34 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_34)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_30, False))
-    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'nozzle')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 217, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'nozzle')), pyxb.utils.utility.Location('cs_tubularComponent.xsd', 217, 3))
     st_35 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_35)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_31, False))
-    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'connection')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 223, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'connection')), pyxb.utils.utility.Location('cs_tubularComponent.xsd', 223, 3))
     st_36 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_36)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_32, False))
-    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'jar')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 228, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'jar')), pyxb.utils.utility.Location('cs_tubularComponent.xsd', 228, 3))
     st_37 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_37)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_33, False))
-    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'mwdTool')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 233, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'mwdTool')), pyxb.utils.utility.Location('cs_tubularComponent.xsd', 233, 3))
     st_38 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_38)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_34, False))
-    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'motor')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 238, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'motor')), pyxb.utils.utility.Location('cs_tubularComponent.xsd', 238, 3))
     st_39 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_39)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_35, False))
-    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'stabilizer')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 243, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'stabilizer')), pyxb.utils.utility.Location('cs_tubularComponent.xsd', 243, 3))
     st_40 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_40)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_36, False))
-    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'bend')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 248, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'bend')), pyxb.utils.utility.Location('cs_tubularComponent.xsd', 248, 3))
     st_41 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_41)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_37, False))
-    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'holeOpener')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 253, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'holeOpener')), pyxb.utils.utility.Location('cs_tubularComponent.xsd', 253, 3))
     st_42 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_42)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_38, False))
-    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'rotarySteerableTool')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 258, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'rotarySteerableTool')), pyxb.utils.utility.Location('cs_tubularComponent.xsd', 258, 3))
     st_43 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_43)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_39, False))
-    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'customData')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\cs_tubularComponent.xsd', 263, 3))
+    symbol = pyxb.binding.content.ElementUse(cs_tubularComponent._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'customData')), pyxb.utils.utility.Location('cs_tubularComponent.xsd', 263, 3))
     st_44 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_44)
     transitions = []
@@ -14374,194 +14638,194 @@ cs_tubularComponent._Automaton = _BuildAutomaton_20()
 
 
 
-obj_tubular._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'typeTubularAssy'), TubularAssembly, scope=obj_tubular, documentation='Type of tubular assembly.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\grp_tubular.xsd', 23, 3)))
+obj_tubular._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'typeTubularAssy'), TubularAssembly, scope=obj_tubular, documentation='Type of tubular assembly.  ', location=pyxb.utils.utility.Location('grp_tubular.xsd', 23, 3)))
 
-obj_tubular._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'valveFloat'), logicalBoolean, scope=obj_tubular, documentation='Is float valve present?  Values are "true" (or "1") and "false" (or "0").', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\grp_tubular.xsd', 28, 3)))
+obj_tubular._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'valveFloat'), logicalBoolean, scope=obj_tubular, documentation='Is float valve present?  Values are "true" (or "1") and "false" (or "0").', location=pyxb.utils.utility.Location('grp_tubular.xsd', 28, 3)))
 
-obj_tubular._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'sourceNuclear'), logicalBoolean, scope=obj_tubular, documentation='Is nuclear tool present?  Values are "true" (or "1") and "false" (or "0").', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\grp_tubular.xsd', 33, 3)))
+obj_tubular._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'sourceNuclear'), logicalBoolean, scope=obj_tubular, documentation='Is nuclear tool present?  Values are "true" (or "1") and "false" (or "0").', location=pyxb.utils.utility.Location('grp_tubular.xsd', 33, 3)))
 
-obj_tubular._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'diaHoleAssy'), lengthMeasure, scope=obj_tubular, documentation='Maximum hole size generated by assembly.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\grp_tubular.xsd', 38, 3)))
+obj_tubular._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'diaHoleAssy'), lengthMeasure, scope=obj_tubular, documentation='Maximum hole size generated by assembly.  ', location=pyxb.utils.utility.Location('grp_tubular.xsd', 38, 3)))
 
-obj_tubular._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'tubularComponent'), cs_tubularComponent, scope=obj_tubular, documentation='Container element for the tubular component elements.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\grp_tubular.xsd', 43, 3)))
+obj_tubular._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'tubularComponent'), cs_tubularComponent, scope=obj_tubular, documentation='Container element for the tubular component elements.  ', location=pyxb.utils.utility.Location('grp_tubular.xsd', 43, 3)))
 
-obj_tubular._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'nameWell'), nameString, scope=obj_tubular, documentation='Human recognizable context for the well that contains the wellbore.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\obj_tubular.xsd', 59, 3)))
+obj_tubular._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'nameWell'), nameString, scope=obj_tubular, documentation='Human recognizable context for the well that contains the wellbore.  ', location=pyxb.utils.utility.Location('obj_tubular.xsd', 59, 3)))
 
-obj_tubular._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'nameWellbore'), nameString, scope=obj_tubular, documentation='Human recognizable context for the wellbore that contains the tubular.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\obj_tubular.xsd', 64, 3)))
+obj_tubular._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'nameWellbore'), nameString, scope=obj_tubular, documentation='Human recognizable context for the wellbore that contains the tubular.  ', location=pyxb.utils.utility.Location('obj_tubular.xsd', 64, 3)))
 
-obj_tubular._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'name'), nameString, scope=obj_tubular, documentation='Human recognizable context for the tubular (assembly).  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\obj_tubular.xsd', 69, 3)))
+obj_tubular._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'name'), nameString, scope=obj_tubular, documentation='Human recognizable context for the tubular (assembly).  ', location=pyxb.utils.utility.Location('obj_tubular.xsd', 69, 3)))
 
-obj_tubular._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'commonData'), cs_commonData, scope=obj_tubular, documentation='A container element that contains elements that are common to all data \n\t\t\t\t\tobjects.  ', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\obj_tubular.xsd', 79, 3)))
+obj_tubular._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'commonData'), cs_commonData, scope=obj_tubular, documentation='A container element that contains elements that are common to all data \n\t\t\t\t\tobjects.  ', location=pyxb.utils.utility.Location('obj_tubular.xsd', 79, 3)))
 
-obj_tubular._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'customData'), cs_customData, scope=obj_tubular, documentation='A container element that can contain custom or user defined \n\t\t\t\t\tdata elements.', location=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\obj_tubular.xsd', 85, 3)))
+obj_tubular._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, 'customData'), cs_customData, scope=obj_tubular, documentation='A container element that can contain custom or user defined \n\t\t\t\t\tdata elements.', location=pyxb.utils.utility.Location('obj_tubular.xsd', 85, 3)))
 
 def _BuildAutomaton_21 ():
-    # Remove this helper function from the namespace after it's invoked
+    # Remove this helper function from the namespace after it is invoked
     global _BuildAutomaton_21
     del _BuildAutomaton_21
     import pyxb.utils.fac as fac
 
     counters = set()
-    cc_0 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\grp_tubular.xsd', 28, 3))
+    cc_0 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('obj_tubular.xsd', 74, 3))
     counters.add(cc_0)
-    cc_1 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\grp_tubular.xsd', 33, 3))
+    cc_1 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('grp_tubular.xsd', 28, 3))
     counters.add(cc_1)
-    cc_2 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\grp_tubular.xsd', 38, 3))
+    cc_2 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('grp_tubular.xsd', 33, 3))
     counters.add(cc_2)
-    cc_3 = fac.CounterCondition(min=0, max=None, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\grp_tubular.xsd', 43, 3))
+    cc_3 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('grp_tubular.xsd', 38, 3))
     counters.add(cc_3)
-    cc_4 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\obj_tubular.xsd', 74, 3))
+    cc_4 = fac.CounterCondition(min=0, max=None, metadata=pyxb.utils.utility.Location('grp_tubular.xsd', 43, 3))
     counters.add(cc_4)
-    cc_5 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\obj_tubular.xsd', 79, 3))
+    cc_5 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('obj_tubular.xsd', 79, 3))
     counters.add(cc_5)
-    cc_6 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\obj_tubular.xsd', 85, 3))
+    cc_6 = fac.CounterCondition(min=0, max=1, metadata=pyxb.utils.utility.Location('obj_tubular.xsd', 85, 3))
     counters.add(cc_6)
     states = []
-    final_update = set()
-    final_update.add(fac.UpdateInstruction(cc_4, False))
-    symbol = pyxb.binding.content.ElementUse(obj_tubular._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'typeTubularAssy')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\grp_tubular.xsd', 23, 3))
-    st_0 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
+    final_update = None
+    symbol = pyxb.binding.content.ElementUse(obj_tubular._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'nameWell')), pyxb.utils.utility.Location('obj_tubular.xsd', 59, 3))
+    st_0 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
     states.append(st_0)
-    final_update = set()
-    final_update.add(fac.UpdateInstruction(cc_0, False))
-    final_update.add(fac.UpdateInstruction(cc_4, False))
-    symbol = pyxb.binding.content.ElementUse(obj_tubular._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'valveFloat')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\grp_tubular.xsd', 28, 3))
+    final_update = None
+    symbol = pyxb.binding.content.ElementUse(obj_tubular._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'nameWellbore')), pyxb.utils.utility.Location('obj_tubular.xsd', 64, 3))
     st_1 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_1)
     final_update = set()
-    final_update.add(fac.UpdateInstruction(cc_1, False))
-    final_update.add(fac.UpdateInstruction(cc_4, False))
-    symbol = pyxb.binding.content.ElementUse(obj_tubular._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'sourceNuclear')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\grp_tubular.xsd', 33, 3))
+    symbol = pyxb.binding.content.ElementUse(obj_tubular._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'name')), pyxb.utils.utility.Location('obj_tubular.xsd', 69, 3))
     st_2 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_2)
     final_update = set()
-    final_update.add(fac.UpdateInstruction(cc_2, False))
-    final_update.add(fac.UpdateInstruction(cc_4, False))
-    symbol = pyxb.binding.content.ElementUse(obj_tubular._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'diaHoleAssy')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\grp_tubular.xsd', 38, 3))
+    final_update.add(fac.UpdateInstruction(cc_0, False))
+    symbol = pyxb.binding.content.ElementUse(obj_tubular._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'typeTubularAssy')), pyxb.utils.utility.Location('grp_tubular.xsd', 23, 3))
     st_3 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_3)
     final_update = set()
-    final_update.add(fac.UpdateInstruction(cc_3, False))
-    final_update.add(fac.UpdateInstruction(cc_4, False))
-    symbol = pyxb.binding.content.ElementUse(obj_tubular._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'tubularComponent')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\grp_tubular.xsd', 43, 3))
+    final_update.add(fac.UpdateInstruction(cc_0, False))
+    final_update.add(fac.UpdateInstruction(cc_1, False))
+    symbol = pyxb.binding.content.ElementUse(obj_tubular._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'valveFloat')), pyxb.utils.utility.Location('grp_tubular.xsd', 28, 3))
     st_4 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_4)
-    final_update = None
-    symbol = pyxb.binding.content.ElementUse(obj_tubular._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'nameWell')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\obj_tubular.xsd', 59, 3))
-    st_5 = fac.State(symbol, is_initial=True, final_update=final_update, is_unordered_catenation=False)
+    final_update = set()
+    final_update.add(fac.UpdateInstruction(cc_0, False))
+    final_update.add(fac.UpdateInstruction(cc_2, False))
+    symbol = pyxb.binding.content.ElementUse(obj_tubular._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'sourceNuclear')), pyxb.utils.utility.Location('grp_tubular.xsd', 33, 3))
+    st_5 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_5)
-    final_update = None
-    symbol = pyxb.binding.content.ElementUse(obj_tubular._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'nameWellbore')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\obj_tubular.xsd', 64, 3))
+    final_update = set()
+    final_update.add(fac.UpdateInstruction(cc_0, False))
+    final_update.add(fac.UpdateInstruction(cc_3, False))
+    symbol = pyxb.binding.content.ElementUse(obj_tubular._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'diaHoleAssy')), pyxb.utils.utility.Location('grp_tubular.xsd', 38, 3))
     st_6 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_6)
     final_update = set()
-    symbol = pyxb.binding.content.ElementUse(obj_tubular._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'name')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\obj_tubular.xsd', 69, 3))
+    final_update.add(fac.UpdateInstruction(cc_0, False))
+    final_update.add(fac.UpdateInstruction(cc_4, False))
+    symbol = pyxb.binding.content.ElementUse(obj_tubular._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'tubularComponent')), pyxb.utils.utility.Location('grp_tubular.xsd', 43, 3))
     st_7 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_7)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_5, False))
-    symbol = pyxb.binding.content.ElementUse(obj_tubular._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'commonData')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\obj_tubular.xsd', 79, 3))
+    symbol = pyxb.binding.content.ElementUse(obj_tubular._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'commonData')), pyxb.utils.utility.Location('obj_tubular.xsd', 79, 3))
     st_8 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_8)
     final_update = set()
     final_update.add(fac.UpdateInstruction(cc_6, False))
-    symbol = pyxb.binding.content.ElementUse(obj_tubular._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'customData')), pyxb.utils.utility.Location('o:\\1\\witsml_certification\\trunk\\src\\wsvt\\schemas\\WITSML_v1.3.1.1_Data_Schema\\obj_tubular.xsd', 85, 3))
+    symbol = pyxb.binding.content.ElementUse(obj_tubular._UseForTag(pyxb.namespace.ExpandedName(Namespace, 'customData')), pyxb.utils.utility.Location('obj_tubular.xsd', 85, 3))
     st_9 = fac.State(symbol, is_initial=False, final_update=final_update, is_unordered_catenation=False)
     states.append(st_9)
     transitions = []
-    transitions.append(fac.Transition(st_0, [
-        fac.UpdateInstruction(cc_4, True) ]))
     transitions.append(fac.Transition(st_1, [
          ]))
-    transitions.append(fac.Transition(st_2, [
-         ]))
-    transitions.append(fac.Transition(st_3, [
-         ]))
-    transitions.append(fac.Transition(st_4, [
-         ]))
-    transitions.append(fac.Transition(st_8, [
-        fac.UpdateInstruction(cc_4, False) ]))
-    transitions.append(fac.Transition(st_9, [
-        fac.UpdateInstruction(cc_4, False) ]))
     st_0._set_transitionSet(transitions)
     transitions = []
-    transitions.append(fac.Transition(st_0, [
-        fac.UpdateInstruction(cc_0, False),
-        fac.UpdateInstruction(cc_4, True) ]))
-    transitions.append(fac.Transition(st_1, [
-        fac.UpdateInstruction(cc_0, True) ]))
     transitions.append(fac.Transition(st_2, [
-        fac.UpdateInstruction(cc_0, False) ]))
-    transitions.append(fac.Transition(st_3, [
-        fac.UpdateInstruction(cc_0, False) ]))
-    transitions.append(fac.Transition(st_4, [
-        fac.UpdateInstruction(cc_0, False) ]))
-    transitions.append(fac.Transition(st_8, [
-        fac.UpdateInstruction(cc_0, False),
-        fac.UpdateInstruction(cc_4, False) ]))
-    transitions.append(fac.Transition(st_9, [
-        fac.UpdateInstruction(cc_0, False),
-        fac.UpdateInstruction(cc_4, False) ]))
+         ]))
     st_1._set_transitionSet(transitions)
     transitions = []
-    transitions.append(fac.Transition(st_0, [
-        fac.UpdateInstruction(cc_1, False),
-        fac.UpdateInstruction(cc_4, True) ]))
-    transitions.append(fac.Transition(st_2, [
-        fac.UpdateInstruction(cc_1, True) ]))
     transitions.append(fac.Transition(st_3, [
-        fac.UpdateInstruction(cc_1, False) ]))
-    transitions.append(fac.Transition(st_4, [
-        fac.UpdateInstruction(cc_1, False) ]))
+         ]))
     transitions.append(fac.Transition(st_8, [
-        fac.UpdateInstruction(cc_1, False),
-        fac.UpdateInstruction(cc_4, False) ]))
+         ]))
     transitions.append(fac.Transition(st_9, [
-        fac.UpdateInstruction(cc_1, False),
-        fac.UpdateInstruction(cc_4, False) ]))
+         ]))
     st_2._set_transitionSet(transitions)
     transitions = []
-    transitions.append(fac.Transition(st_0, [
-        fac.UpdateInstruction(cc_2, False),
-        fac.UpdateInstruction(cc_4, True) ]))
     transitions.append(fac.Transition(st_3, [
-        fac.UpdateInstruction(cc_2, True) ]))
+        fac.UpdateInstruction(cc_0, True) ]))
     transitions.append(fac.Transition(st_4, [
-        fac.UpdateInstruction(cc_2, False) ]))
-    transitions.append(fac.Transition(st_8, [
-        fac.UpdateInstruction(cc_2, False),
-        fac.UpdateInstruction(cc_4, False) ]))
-    transitions.append(fac.Transition(st_9, [
-        fac.UpdateInstruction(cc_2, False),
-        fac.UpdateInstruction(cc_4, False) ]))
-    st_3._set_transitionSet(transitions)
-    transitions = []
-    transitions.append(fac.Transition(st_0, [
-        fac.UpdateInstruction(cc_3, False),
-        fac.UpdateInstruction(cc_4, True) ]))
-    transitions.append(fac.Transition(st_4, [
-        fac.UpdateInstruction(cc_3, True) ]))
-    transitions.append(fac.Transition(st_8, [
-        fac.UpdateInstruction(cc_3, False),
-        fac.UpdateInstruction(cc_4, False) ]))
-    transitions.append(fac.Transition(st_9, [
-        fac.UpdateInstruction(cc_3, False),
-        fac.UpdateInstruction(cc_4, False) ]))
-    st_4._set_transitionSet(transitions)
-    transitions = []
+         ]))
+    transitions.append(fac.Transition(st_5, [
+         ]))
     transitions.append(fac.Transition(st_6, [
          ]))
-    st_5._set_transitionSet(transitions)
-    transitions = []
     transitions.append(fac.Transition(st_7, [
          ]))
+    transitions.append(fac.Transition(st_8, [
+        fac.UpdateInstruction(cc_0, False) ]))
+    transitions.append(fac.Transition(st_9, [
+        fac.UpdateInstruction(cc_0, False) ]))
+    st_3._set_transitionSet(transitions)
+    transitions = []
+    transitions.append(fac.Transition(st_3, [
+        fac.UpdateInstruction(cc_0, True),
+        fac.UpdateInstruction(cc_1, False) ]))
+    transitions.append(fac.Transition(st_4, [
+        fac.UpdateInstruction(cc_1, True) ]))
+    transitions.append(fac.Transition(st_5, [
+        fac.UpdateInstruction(cc_1, False) ]))
+    transitions.append(fac.Transition(st_6, [
+        fac.UpdateInstruction(cc_1, False) ]))
+    transitions.append(fac.Transition(st_7, [
+        fac.UpdateInstruction(cc_1, False) ]))
+    transitions.append(fac.Transition(st_8, [
+        fac.UpdateInstruction(cc_0, False),
+        fac.UpdateInstruction(cc_1, False) ]))
+    transitions.append(fac.Transition(st_9, [
+        fac.UpdateInstruction(cc_0, False),
+        fac.UpdateInstruction(cc_1, False) ]))
+    st_4._set_transitionSet(transitions)
+    transitions = []
+    transitions.append(fac.Transition(st_3, [
+        fac.UpdateInstruction(cc_0, True),
+        fac.UpdateInstruction(cc_2, False) ]))
+    transitions.append(fac.Transition(st_5, [
+        fac.UpdateInstruction(cc_2, True) ]))
+    transitions.append(fac.Transition(st_6, [
+        fac.UpdateInstruction(cc_2, False) ]))
+    transitions.append(fac.Transition(st_7, [
+        fac.UpdateInstruction(cc_2, False) ]))
+    transitions.append(fac.Transition(st_8, [
+        fac.UpdateInstruction(cc_0, False),
+        fac.UpdateInstruction(cc_2, False) ]))
+    transitions.append(fac.Transition(st_9, [
+        fac.UpdateInstruction(cc_0, False),
+        fac.UpdateInstruction(cc_2, False) ]))
+    st_5._set_transitionSet(transitions)
+    transitions = []
+    transitions.append(fac.Transition(st_3, [
+        fac.UpdateInstruction(cc_0, True),
+        fac.UpdateInstruction(cc_3, False) ]))
+    transitions.append(fac.Transition(st_6, [
+        fac.UpdateInstruction(cc_3, True) ]))
+    transitions.append(fac.Transition(st_7, [
+        fac.UpdateInstruction(cc_3, False) ]))
+    transitions.append(fac.Transition(st_8, [
+        fac.UpdateInstruction(cc_0, False),
+        fac.UpdateInstruction(cc_3, False) ]))
+    transitions.append(fac.Transition(st_9, [
+        fac.UpdateInstruction(cc_0, False),
+        fac.UpdateInstruction(cc_3, False) ]))
     st_6._set_transitionSet(transitions)
     transitions = []
-    transitions.append(fac.Transition(st_0, [
-         ]))
+    transitions.append(fac.Transition(st_3, [
+        fac.UpdateInstruction(cc_0, True),
+        fac.UpdateInstruction(cc_4, False) ]))
+    transitions.append(fac.Transition(st_7, [
+        fac.UpdateInstruction(cc_4, True) ]))
     transitions.append(fac.Transition(st_8, [
-         ]))
+        fac.UpdateInstruction(cc_0, False),
+        fac.UpdateInstruction(cc_4, False) ]))
     transitions.append(fac.Transition(st_9, [
-         ]))
+        fac.UpdateInstruction(cc_0, False),
+        fac.UpdateInstruction(cc_4, False) ]))
     st_7._set_transitionSet(transitions)
     transitions = []
     transitions.append(fac.Transition(st_8, [
