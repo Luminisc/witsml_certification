@@ -1,3 +1,13 @@
 /.venv
 /.venv_wsl
 *.bak
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+
+# Results
+results/
+

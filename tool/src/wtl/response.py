@@ -31,7 +31,6 @@ import wtl.testlog
 import wtl.control_prim
 import wtl.utils
 import wtl.config
-from sets import Set 
 from functools import wraps
 from wsvt.SchemaValidator import WITSMLSchemaValidator;
 import wcmp.witsml_obj_compare

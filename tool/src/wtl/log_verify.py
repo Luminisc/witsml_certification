@@ -25,7 +25,6 @@ import os
 import sys
 
 import wtl.utils
-from sets import Set 
 import wtl.control_prim
 import wtl.testlog as testlog
 
@@ -1104,7 +1103,7 @@ class LogVerify:
                              return False  
                          
                 if ( len(orderList) ):
-                    uniqueOrderList = Set(orderList)
+                    uniqueOrderList = set(orderList)
                     if ( len(uniqueOrderList) != len(orderList) ):
                         self._Fail(test,"Duplicate order in axisDefinition %s"%(str(orderList)))
                         return False                                       
@@ -1378,7 +1377,7 @@ class LogVerify:
             _log('doing ' + test )       
         
         mnList = _get('mnenmonicList').split(",")
-        uniqueMnList = Set(mnList)
+        uniqueMnList = set(mnList)
         if len(mnList) != len(uniqueMnList ):
              self._Fail(test,"Mnemonics are not unique " + ','.join(mnList) )
              return False   
