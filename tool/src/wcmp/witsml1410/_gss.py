@@ -16,7 +16,7 @@ import sys
 _GenerationUID = pyxb.utils.utility.UniqueIdentifier('urn:uuid:9ff8bbae-daaa-11e2-b2e7-08002718187b')
 
 # Import bindings for namespaces imported into schema
-import _nsgroup
+from . import _nsgroup
 
 Namespace = pyxb.namespace.NamespaceForURI('http://www.isotc211.org/2005/gss', create_if_missing=True)
 Namespace.configureCategories(['typeBinding', 'elementBinding'])

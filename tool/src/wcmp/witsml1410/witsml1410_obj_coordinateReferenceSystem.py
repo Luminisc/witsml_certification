@@ -17,8 +17,8 @@ _GenerationUID = pyxb.utils.utility.UniqueIdentifier('urn:uuid:9ff8bbae-daaa-11e
 
 # Import bindings for namespaces imported into schema
 import pyxb.binding.datatypes
-import _nsgroup
-import _abs
+from . import _nsgroup
+from . import _abs
 
 Namespace = pyxb.namespace.NamespaceForURI('http://www.witsml.org/schemas/1series', create_if_missing=True)
 Namespace.configureCategories(['typeBinding', 'elementBinding'])
