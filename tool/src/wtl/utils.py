@@ -83,8 +83,7 @@ def get_variable_value(variable_name):
 
     # Look at the server variables first
     try:
-        exec('value=sys.modules["%s"].%s' %(wtl.config.server_file_name,
-                                            variable_name))
+        value = getattr(sys.modules[wtl.config.server_file_name], variable_name, None)
     except:
         pass
     if (value != None):
