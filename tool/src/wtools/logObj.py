@@ -428,7 +428,7 @@ class LogDataObject:
         """
         
         EF = objectify.ElementMaker(annotate=False, namespace=ns, nsmap={None : ns})
-        onheader = objectify.fromstring(  etree.tostring(onheader_smpl)  )
+        onheader = objectify.fromstring(  etree.tostring(onheader_smpl, encoding='unicode')  )
         
         self.sortCurvesIntoAlphabeticOrder(onheader);
         self.sortDataAlphabetic();
@@ -503,7 +503,7 @@ class LogDataObject:
         return (onheader, row_i);
     
     def serialize(self, ooo):
-        return etree.tostring( self.backToXMLObject(ooo) , pretty_print=True) ;
+        return etree.tostring( self.backToXMLObject(ooo) , pretty_print=True, encoding='unicode') ;
 
 
 
@@ -605,7 +605,7 @@ class LogObject:
             try:
                 self.logDataObject.parseLogObjectData(object_from_store)
             except:
-                print("\n FYI: Original Header was :\n"+etree.tostring( self.objectified_native_header , pretty_print=True))
+                print("\n FYI: Original Header was :\n"+etree.tostring( self.objectified_native_header , pretty_print=True, encoding='unicode'))
                 raise ;            
             print("XML parsed")
             if (response.Result == 1):
@@ -709,7 +709,7 @@ class LogObject:
         """
         rez, next_row = self.logDataObject.backToXMLObject( self.objectified_native_header , True, False );
         target = open(filename, "w");
-        xml_str = etree.tostring( rez , pretty_print=True);
+        xml_str = etree.tostring( rez , pretty_print=True, encoding='unicode');
         target.write( xml_str );
         target.close();
 
@@ -736,7 +736,7 @@ class LogObject:
             returns:
                 nothing
         """
-        rez = objectify.fromstring(  etree.tostring(self.objectified_native_header)  )
+        rez = objectify.fromstring(  etree.tostring(self.objectified_native_header, encoding='unicode')  )
         ns = "http://www.witsml.org/schemas/1series";
         EF = objectify.ElementMaker(annotate=False, namespace=ns, nsmap={None : ns})
         if ("nameWell" in rez.log[0].__dict__):
@@ -826,7 +826,7 @@ class LogObject:
                         if ( 'endIndex' in  rezi.log[0].__dict__ ):
                                 rezi.log[0].endIndex._setText ( str( self.logDataObject.lastIndexValue()) );
             
-            xml_query = etree.tostring( rezi , pretty_print=True)
+            xml_query = etree.tostring( rezi , pretty_print=True, encoding='unicode')
             
             if (not log_exists):
                 sys.stdout.write("adding to store log with data range ["+str(start_row)+".."+str(next_row-1)+"] ...");                
@@ -857,7 +857,7 @@ class LogObject:
                         element._setText( common.datetime_to_xsd_dateTime( as_datetime ) );
                 except:
                     pass
-        return etree.tostring( rezi , pretty_print=True)
+        return etree.tostring( rezi , pretty_print=True, encoding='unicode')
     
     def getReadSchemaParser(self):
         return None;

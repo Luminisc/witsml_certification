@@ -73,7 +73,7 @@ def wipeComments(xml):
     """
     xtree = etree.fromstring(xml)
     wipeCommentsNode(xtree);
-    return etree.tostring( xtree , pretty_print=True)
+    return etree.tostring( xtree , pretty_print=True, encoding='unicode')
             
 
 def tag_without_namespace(element):
@@ -170,7 +170,7 @@ def isXMLEncapsulateAnotherXML( inspected_tree , original_tree , inspected_xml ,
                 break;
         """if we did not found element we just return false"""
         if not found:
-            print(" Matching element is not found, attempted to find something similar to :\n "+  etree.tostring( element , pretty_print=True)) 
+            print(" Matching element is not found, attempted to find something similar to :\n "+  etree.tostring( element , pretty_print=True, encoding='unicode')) 
             return False;
         else:
             pass;

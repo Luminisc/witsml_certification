@@ -188,7 +188,7 @@ class WITSMLStoreCapabilities:
          """
          capabilities = "Server capabilities for schema version %s:\n\n" %(self.schema_version)
          if (self.tree is not None):
-              capabilities += etree.tostring(self.tree, pretty_print=True)
+              capabilities += etree.tostring(self.tree, pretty_print=True, encoding='unicode')
          capabilities += "\n\n"
          
          return capabilities         

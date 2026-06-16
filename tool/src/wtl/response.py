@@ -52,7 +52,7 @@ def remove_spaces_from_xml_string(s):
 
     parser = etree.XMLParser(remove_blank_text=True)
     root = etree.XML(s, parser)
-    return etree.tostring(root)
+    return etree.tostring(root, encoding='unicode')
 
 def response_fail(fail_message):
     """
@@ -429,7 +429,7 @@ class XMLValue:
             try:
                 parser = etree.XMLParser(remove_blank_text=True)
                 self.root = etree.XML(co, parser)
-                co =  etree.tostring(self.root)
+                co =  etree.tostring(self.root, encoding='unicode')
             except:
                 # Something wrong with XML
                 log_response_message("XML value is incorrect")
@@ -443,7 +443,7 @@ class XMLValue:
         
         # Output responses to log
         if ((log is not None) and co):
-            wtl.testlog.wtl_log_server_response(log, etree.tostring(self.root, pretty_print=True))
+            wtl.testlog.wtl_log_server_response(log, etree.tostring(self.root, pretty_print=True, encoding='unicode'))
         
         # Set the log data if applicable
         if self.get_element("logData"):
