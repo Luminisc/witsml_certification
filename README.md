@@ -43,6 +43,8 @@ server_schema_version = '1.4.1.1'  # or '1.4.1.0' / '1.3.1.1'
 
 ```python
 server_file_name = 'my_server'
+
+4. Run `./scripts/datamodel/load_data_set.py` to generate testing data in WITSML server
 ```
 
 ### PyXB Bindings (WSL only)

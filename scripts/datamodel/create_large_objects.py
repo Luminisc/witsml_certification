@@ -42,7 +42,7 @@ def create_log_maxDataNodes(uidWell, uidWellbore, uidLog, nameWell, nameWellbore
     else:
         return False
     
-    empty_data_template_xml = string.Template("""<?xml version="1.0" encoding="utf-8"?>
+    empty_data_template_xml = string.Template("""
                                        <logs xmlns="http://www.witsml.org/schemas/1series" version="$ver">
                                           <log uidWell="$uidWell" uidWellbore="$uidWellbore" uid="$uid">
                                              <nameWell>$nameWell</nameWell>
@@ -133,7 +133,7 @@ def create_log_maxDataNodes(uidWell, uidWellbore, uidLog, nameWell, nameWellbore
             else:
                 curr_index = timestamp_add_seconds(curr_index,1)
             ###
-        update_query = etree.tostring( new_logs_xml , pretty_print = True );
+        update_query = etree.tostring( new_logs_xml , pretty_print = True, encoding='unicode' );
         if (first_query_flag):
             print("Adding to store new log...")
             #print update_query;
@@ -200,7 +200,7 @@ def create_log_maxDataPoints(uidWell, uidWellbore, uidLog, nameWell, nameWellbor
     row_count = maxPointsToExceed / curve_count;
     curves = [];
     depth_index_curve_name = indexMnemonic
-    rows_per_request = row_count / 10
+    rows_per_request = int(row_count // 10)
     uploaded_points = 0;
         
     ### generating curve names

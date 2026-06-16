@@ -291,7 +291,7 @@ class Script:
         self.test_result = SCRIPT_RESULT_PASS
         self.log_script_result("SUCCESS")
         if (self.name == INITIAL_SCRIPT):
-            sys.exit(1)
+            sys.exit(0)
         else:
             raise ScriptEvent(ScriptEvent.SCRIPT_SUCCESS, "Success")
 

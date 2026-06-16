@@ -4,7 +4,8 @@
 #
 #
 server_name = 'my_server'
-server_URL = 'http://127.0.0.1/witsml/server/Service.svc'
+# server_URL = 'http://127.0.0.1/witsml/server/Service.svc'
+server_URL = 'http://127.0.0.1:5172/Service.svc'
 server_username = 'witsml'
 server_password = 'qwerty123'
 # server_proxy_URL format is 'http://USERNAME:PASSWORD@URL:PORTNUMBER'
@@ -19,7 +20,7 @@ server_proxy_URL = ''
 #
 
 # Data Schema Version to test
-server_schema_version = '1.3.1.1'
+server_schema_version = '1.4.1.1'
 
 # Server Capabilities
 
