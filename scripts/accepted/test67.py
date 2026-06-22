@@ -30,7 +30,8 @@ set ("tml", timestamp_subtract_seconds(now(),600))
 WMLS_AddToStore(WMLTYPEIN_WELL, """<?xml version="1.0" encoding="utf-8"?>
                                    <wells xmlns="http://www.witsml.org/schemas/1series" version="$server_schema_version$">
                                       <well>
-                                         <name>Energistics Certification Well Test67</name>
+                                        <timeZone>Z</timeZone>
+                                        <name>Energistics Certification Well Test67</name>
                                       </well>
                                    </wells>""")
 check_ReturnValue_Success()

@@ -65,6 +65,7 @@ log('Script procedure start')
 WMLS_AddToStore(WMLTYPEIN_WELL, """<?xml version="1.0" encoding="utf-8"?>
                                     <wells xmlns="http://www.witsml.org/schemas/1series" version="$server_schema_version$">
                                       <well uid="$uidWell$">
+                                        <timeZone>Z</timeZone>
                                         <name>$nameWell$</name>
                                       </well>
                                     </wells>""" )  

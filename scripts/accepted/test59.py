@@ -31,7 +31,8 @@ log('Script procedure start')
 WMLS_AddToStore(WMLTYPEIN_WELL, """<?xml version="1.0" encoding="UTF-8"?>
                                    <wells xmlns="http://www.witsml.org/schemas/1series" version="$server_schema_version$">
                                       <well>
-                                         <name>Energistics Certification Well Test59</name>
+                                        <timeZone>Z</timeZone>
+                                        <name>Energistics Certification Well Test59</name>
                                       </well>
                                    </wells>""")
 check_ReturnValue_Success()
