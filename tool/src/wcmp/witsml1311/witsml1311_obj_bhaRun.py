@@ -1,7 +1,7 @@
 # /mnt/c/_Work/_Tools/witsml_v1.4.1.1_certification/tool/src/wcmp/witsml1311/witsml1311_obj_bhaRun.py
 # -*- coding: utf-8 -*-
 # PyXB bindings for NM:aca2769132b0274e00b9254c973534926b1b1a29
-# Generated 2026-06-09 17:52:13.181914 by PyXB version 1.2.6 using Python 3.11.2.final.0
+# Generated 2026-06-22 15:32:11.880898 by PyXB version 1.2.6 using Python 3.11.2.final.0
 # Namespace http://www.witsml.org/schemas/131
 
 from __future__ import unicode_literals
@@ -14,7 +14,7 @@ import pyxb.utils.domutils
 import sys
 import pyxb.utils.six as _six
 # Unique identifier for bindings created at the same time
-_GenerationUID = pyxb.utils.utility.UniqueIdentifier('urn:uuid:c0ea17da-6a65-474b-ba7f-3bb3a7748cef')
+_GenerationUID = pyxb.utils.utility.UniqueIdentifier('urn:uuid:619caae2-f1b3-43d0-9b26-31037a47d39a')
 
 # Version of PyXB used to generate the bindings
 _PyXBVersion = '1.2.6'

@@ -1,7 +1,7 @@
 # /mnt/c/_Work/_Tools/witsml_v1.4.1.1_certification/tool/src/wcmp/witsml1411/_nsgroup.py
 # -*- coding: utf-8 -*-
 # PyXB bindings for NGM:31dc9d33ae09dae9cd9938ac948b7eee03f73812
-# Generated 2026-06-09 18:16:02.909799 by PyXB version 1.2.6 using Python 3.11.2.final.0
+# Generated 2026-06-22 15:18:17.702701 by PyXB version 1.2.6 using Python 3.11.2.final.0
 # Group contents:
 # Namespace http://www.isotc211.org/2005/gco [xmlns:gco]
 # Namespace http://www.isotc211.org/2005/gmd [xmlns:gmd]
@@ -17,7 +17,7 @@ import pyxb.binding
 import pyxb.utils.utility
 import pyxb.utils.six as _six
 # Unique identifier for bindings created at the same time
-_GenerationUID = pyxb.utils.utility.UniqueIdentifier('urn:uuid:1c1907ae-b313-4be3-9ded-13a0a1028ae9')
+_GenerationUID = pyxb.utils.utility.UniqueIdentifier('urn:uuid:ef20893e-bde0-4508-b326-db6451aa19f0')
 
 # Version of PyXB used to generate the bindings
 _PyXBVersion = '1.2.6'
@@ -27,7 +27,7 @@ _PyXBVersion = '1.2.6'
 _module_typeBindings = pyxb.utils.utility.Object()
 
 # Import bindings for namespaces imported into schema
-import _xlink as _ImportedBinding__xlink
+from . import _xlink as _ImportedBinding__xlink
 import pyxb.binding.datatypes
 
 # NOTE: All namespace declarations are reserved within the binding

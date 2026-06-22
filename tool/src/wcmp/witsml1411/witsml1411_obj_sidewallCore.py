@@ -1,7 +1,7 @@
 # /mnt/c/_Work/_Tools/witsml_v1.4.1.1_certification/tool/src/wcmp/witsml1411/witsml1411_obj_sidewallCore.py
 # -*- coding: utf-8 -*-
 # PyXB bindings for NM:bff9e1cadb696f69d77e8e135b7b2cb67426d3a5
-# Generated 2026-06-09 18:17:05.188482 by PyXB version 1.2.6 using Python 3.11.2.final.0
+# Generated 2026-06-22 15:19:02.219376 by PyXB version 1.2.6 using Python 3.11.2.final.0
 # Namespace http://www.witsml.org/schemas/1series
 
 from __future__ import unicode_literals
@@ -14,7 +14,7 @@ import pyxb.utils.domutils
 import sys
 import pyxb.utils.six as _six
 # Unique identifier for bindings created at the same time
-_GenerationUID = pyxb.utils.utility.UniqueIdentifier('urn:uuid:ce43e3cf-fc66-4557-83bc-c04cf9f4c13b')
+_GenerationUID = pyxb.utils.utility.UniqueIdentifier('urn:uuid:3a10c2c5-cf3e-48e0-a8ec-fa9bd1aaa17a')
 
 # Version of PyXB used to generate the bindings
 _PyXBVersion = '1.2.6'
@@ -24,7 +24,7 @@ _PyXBVersion = '1.2.6'
 _module_typeBindings = pyxb.utils.utility.Object()
 
 # Import bindings for namespaces imported into schema
-import _abs as _ImportedBinding__abs
+from . import _abs as _ImportedBinding__abs
 import pyxb.binding.datatypes
 
 # NOTE: All namespace declarations are reserved within the binding

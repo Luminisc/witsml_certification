@@ -1,7 +1,7 @@
 # /mnt/c/_Work/_Tools/witsml_v1.4.1.1_certification/tool/src/wcmp/witsml1410/_xlink.py
 # -*- coding: utf-8 -*-
 # PyXB bindings for NM:b43cd366527ddb6a0e58594876e07421e0148f30
-# Generated 2026-06-09 18:08:17.669858 by PyXB version 1.2.6 using Python 3.11.2.final.0
+# Generated 2026-06-22 15:29:32.690102 by PyXB version 1.2.6 using Python 3.11.2.final.0
 # Namespace http://www.w3.org/1999/xlink [xmlns:xlink]
 
 from __future__ import unicode_literals
@@ -14,7 +14,7 @@ import pyxb.utils.domutils
 import sys
 import pyxb.utils.six as _six
 # Unique identifier for bindings created at the same time
-_GenerationUID = pyxb.utils.utility.UniqueIdentifier('urn:uuid:0fe87515-9f8f-46f6-ab96-f3edf1e3dc46')
+_GenerationUID = pyxb.utils.utility.UniqueIdentifier('urn:uuid:b61c6389-0227-43d0-a768-6552a44c7c24')
 
 # Version of PyXB used to generate the bindings
 _PyXBVersion = '1.2.6'

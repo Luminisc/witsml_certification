@@ -1,7 +1,7 @@
 # /mnt/c/_Work/_Tools/witsml_v1.4.1.1_certification/tool/src/wcmp/witsml1311/witsml1311_obj_wellbore.py
 # -*- coding: utf-8 -*-
 # PyXB bindings for NM:aca2769132b0274e00b9254c973534926b1b1a29
-# Generated 2026-06-09 17:53:10.676245 by PyXB version 1.2.6 using Python 3.11.2.final.0
+# Generated 2026-06-22 15:32:57.299675 by PyXB version 1.2.6 using Python 3.11.2.final.0
 # Namespace http://www.witsml.org/schemas/131
 
 from __future__ import unicode_literals
@@ -14,7 +14,7 @@ import pyxb.utils.domutils
 import sys
 import pyxb.utils.six as _six
 # Unique identifier for bindings created at the same time
-_GenerationUID = pyxb.utils.utility.UniqueIdentifier('urn:uuid:7b9392cb-6723-4b96-893a-6448b8cebb34')
+_GenerationUID = pyxb.utils.utility.UniqueIdentifier('urn:uuid:5f12a9e9-8919-474c-af0d-27f78c2b1054')
 
 # Version of PyXB used to generate the bindings
 _PyXBVersion = '1.2.6'

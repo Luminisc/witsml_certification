@@ -1,7 +1,7 @@
 # /mnt/c/_Work/_Tools/witsml_v1.4.1.1_certification/tool/src/wcmp/witsml1411/_gts.py
 # -*- coding: utf-8 -*-
 # PyXB bindings for NM:853c7e2b5bc81e86aae121084ce0e91fa021588e
-# Generated 2026-06-09 18:16:02.862639 by PyXB version 1.2.6 using Python 3.11.2.final.0
+# Generated 2026-06-22 15:18:17.671428 by PyXB version 1.2.6 using Python 3.11.2.final.0
 # Namespace http://www.isotc211.org/2005/gts [xmlns:gts]
 
 from __future__ import unicode_literals
@@ -14,7 +14,7 @@ import pyxb.utils.domutils
 import sys
 import pyxb.utils.six as _six
 # Unique identifier for bindings created at the same time
-_GenerationUID = pyxb.utils.utility.UniqueIdentifier('urn:uuid:1c1907ae-b313-4be3-9ded-13a0a1028ae9')
+_GenerationUID = pyxb.utils.utility.UniqueIdentifier('urn:uuid:ef20893e-bde0-4508-b326-db6451aa19f0')
 
 # Version of PyXB used to generate the bindings
 _PyXBVersion = '1.2.6'
@@ -24,7 +24,7 @@ _PyXBVersion = '1.2.6'
 _module_typeBindings = pyxb.utils.utility.Object()
 
 # Import bindings for namespaces imported into schema
-import _nsgroup as _ImportedBinding__nsgroup
+from . import _nsgroup as _ImportedBinding__nsgroup
 
 # NOTE: All namespace declarations are reserved within the binding
 Namespace = pyxb.namespace.NamespaceForURI('http://www.isotc211.org/2005/gts', create_if_missing=True)

@@ -1,7 +1,7 @@
 # /mnt/c/_Work/_Tools/witsml_v1.4.1.1_certification/tool/src/wcmp/witsml1411/_abs.py
 # -*- coding: utf-8 -*-
 # PyXB bindings for NM:8303e32165e8ecb1e71ee1daf2c80a31c9900992
-# Generated 2026-06-09 18:17:55.748419 by PyXB version 1.2.6 using Python 3.11.2.final.0
+# Generated 2026-06-22 15:19:40.342442 by PyXB version 1.2.6 using Python 3.11.2.final.0
 # Namespace http://www.energistics.org/schemas/abstract [xmlns:abs]
 
 from __future__ import unicode_literals
@@ -14,7 +14,7 @@ import pyxb.utils.domutils
 import sys
 import pyxb.utils.six as _six
 # Unique identifier for bindings created at the same time
-_GenerationUID = pyxb.utils.utility.UniqueIdentifier('urn:uuid:aa96966d-3391-456d-9c44-657cb43941a8')
+_GenerationUID = pyxb.utils.utility.UniqueIdentifier('urn:uuid:41a25358-569c-41a0-9a3f-7a4446ef5fed')
 
 # Version of PyXB used to generate the bindings
 _PyXBVersion = '1.2.6'

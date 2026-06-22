@@ -195,6 +195,26 @@ witsml_v1.4.1.1_certification/
 
 The `--strip-file-paths` flag ensures `_XSDLocation` entries use only filenames (e.g., `'obj_well.xsd'`) instead of full absolute paths. This is already configured in all `gen*.sh` scripts.
 
+### ⚠️ pyxb-x generates absolute imports for namespace bindings
+
+**Problem**: `pyxbgen` (from `pyxb-x`) generates bare absolute imports for cross-namespace bindings, e.g.:
+```python
+import _abs as _ImportedBinding__abs       # Python 3: looks in sys.path, fails
+```
+
+This worked in Python 2 (implicit relative imports) but fails in Python 3.
+
+**Fix**: A one-line change was applied to the `pyxb-x` source in both `.venv` and `.venv_wsl`:
+- File: `pyxb/binding/generate.py`, line 1405
+- Changed: `'import %s as %s'` → `'from . import %s as %s'`
+
+After the fix, generated files use proper relative imports:
+```python
+from . import _abs as _ImportedBinding__abs  # Python 3: relative import within package
+```
+
+**Note**: This fix is applied to the installed `pyxb-x` package in the virtual environment. If you reinstall `pyxb-x` (e.g., `pip install --force-reinstall PyXB-X`), you must reapply this change.
+
 ### Virtual environment not found
 
 ```bash

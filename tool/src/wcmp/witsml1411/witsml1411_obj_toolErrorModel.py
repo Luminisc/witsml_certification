@@ -1,7 +1,7 @@
 # /mnt/c/_Work/_Tools/witsml_v1.4.1.1_certification/tool/src/wcmp/witsml1411/witsml1411_obj_toolErrorModel.py
 # -*- coding: utf-8 -*-
 # PyXB bindings for NM:bff9e1cadb696f69d77e8e135b7b2cb67426d3a5
-# Generated 2026-06-09 18:17:26.464251 by PyXB version 1.2.6 using Python 3.11.2.final.0
+# Generated 2026-06-22 15:19:17.696604 by PyXB version 1.2.6 using Python 3.11.2.final.0
 # Namespace http://www.witsml.org/schemas/1series
 
 from __future__ import unicode_literals
@@ -14,7 +14,7 @@ import pyxb.utils.domutils
 import sys
 import pyxb.utils.six as _six
 # Unique identifier for bindings created at the same time
-_GenerationUID = pyxb.utils.utility.UniqueIdentifier('urn:uuid:02f32dab-6c4d-472b-85d1-77b1f9d77788')
+_GenerationUID = pyxb.utils.utility.UniqueIdentifier('urn:uuid:0f450d62-b913-490a-9c7c-c6c837f00e62')
 
 # Version of PyXB used to generate the bindings
 _PyXBVersion = '1.2.6'
@@ -24,7 +24,7 @@ _PyXBVersion = '1.2.6'
 _module_typeBindings = pyxb.utils.utility.Object()
 
 # Import bindings for namespaces imported into schema
-import _abs as _ImportedBinding__abs
+from . import _abs as _ImportedBinding__abs
 import pyxb.binding.datatypes
 
 # NOTE: All namespace declarations are reserved within the binding
