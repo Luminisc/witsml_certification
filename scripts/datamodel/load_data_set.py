@@ -9,9 +9,9 @@ test(
      reference_text = "",
     )
 
-##########################################################################
-# This script lads the certification data set to the server to be tested #
-##########################################################################
+###########################################################################
+# This script loads the certification data set to the server to be tested #
+###########################################################################
 
 # server_w1_uid
 WMLS_GetFromStore(WMLTYPEIN_WELL, """<?xml version="1.0" encoding="UTF-8"?>

@@ -56,7 +56,7 @@ ret_endIdx = get_XMLout_Element_String('endDateTimeIndex')
 check_timestamp_Lessthan(ret_endIdx, get('end_index'))
 partial_success('endDateTimeIndex in second query is earlier than endDateIndex in first query')
                 
-if (get_capability(CAP_GET_LOG_maxDataNodes) < get_logData_NumberOfNodes_Int()):
+if (int(get_capability(CAP_GET_LOG_maxDataNodes)) < get_logData_NumberOfNodes_Int()):
     fail("Server returned more nodes than maxDataNodes")
 partial_success("Server did not return more nodes than maxDataNodes")
 

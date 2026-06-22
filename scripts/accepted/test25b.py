@@ -55,7 +55,7 @@ if (float(get_XMLout_Element_String('endIndex')) >= float(get('end_index'))):
     fail('endIndex in second query is not smaller that endIndex in first query')
 partial_success('endIndex in second query is smaller that endIndex in first query')
                 
-if (get_capability(CAP_GET_LOG_maxDataNodes) < get_logData_NumberOfNodes_Int()):
+if (int(get_capability(CAP_GET_LOG_maxDataNodes)) < get_logData_NumberOfNodes_Int()):
     fail("Server returned more nodes than maxDataNodes")
 partial_success("Server did not return more nodes than maxDataNodes")
 

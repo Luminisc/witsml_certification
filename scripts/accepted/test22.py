@@ -35,7 +35,8 @@ if (get_XMLout_NumberOfObjects_Int() == 0):
     WMLS_AddToStore(WMLTYPEIN_WELL, """<?xml version="1.0" encoding="utf-8"?>
                                        <wells xmlns="http://www.witsml.org/schemas/1series" version="$server_schema_version$">
                                           <well uid="$wellUid$">
-                                             <name>Certification-Test-Well-22 name</name>
+                                            <timeZone>Z</timeZone>
+                                            <name>Certification-Test-Well-22 name</name>
                                           </well>
                                        </wells>""")
     check_ReturnValue_Success()
